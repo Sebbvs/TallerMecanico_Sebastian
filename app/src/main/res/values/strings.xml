@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">TallerMecanico_Sebastian</string>
+
+    <!--    PANTALLAS-->
+    <string name="pantalla_login">Login</string>
+    <string name="pantalla_averias">Averias</string>
+    <string name="pantalla_coches">Coches</string>
+    <string name="pantalla_clientes">Clientes</string>
+    <string name="pantalla_facturas">Facturas</string>
+
+    <!--BOTON ATRAS-->
+    <string name="atras">Atrás</string>
 </resources>

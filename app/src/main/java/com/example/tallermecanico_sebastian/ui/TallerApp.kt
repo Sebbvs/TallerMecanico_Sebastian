@@ -1,0 +1,188 @@
+package com.example.tallermecanico_sebastian.ui
+
+import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.AddCircle
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
+import androidx.compose.material3.rememberTopAppBarState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import com.example.tallermecanico_sebastian.R
+import com.example.tallermecanico_sebastian.modelo.Ruta
+import com.example.tallermecanico_sebastian.ui.pantallas.PantallaLogin
+import kotlinx.coroutines.CoroutineScope
+
+enum class Pantallas(@StringRes val titulo: Int) {
+    Login(titulo = R.string.pantalla_login),
+    Averias(titulo = R.string.pantalla_averias),
+    Coches(titulo = R.string.pantalla_coches),
+    Clientes(titulo = R.string.pantalla_clientes),
+    Facturas(titulo = R.string.pantalla_facturas)
+}
+
+val listaRutas = listOf(
+    Ruta(
+        Pantallas.Login.titulo,
+        Pantallas.Login.name,
+        Icons.Default.AddCircle,
+        Icons.Default.AddCircle
+    ),
+    Ruta(
+        Pantallas.Averias.titulo,
+        Pantallas.Averias.name,
+        Icons.Default.AddCircle,
+        Icons.Default.AddCircle
+    ),
+    Ruta(
+        Pantallas.Coches.titulo,
+        Pantallas.Coches.name,
+        Icons.Default.AddCircle,
+        Icons.Default.AddCircle
+    ),
+    Ruta(
+        Pantallas.Clientes.titulo,
+        Pantallas.Clientes.name,
+        Icons.Default.AddCircle,
+        Icons.Default.AddCircle
+    ),
+    Ruta(
+        Pantallas.Facturas.titulo,
+        Pantallas.Facturas.name,
+        Icons.Default.AddCircle,
+        Icons.Default.AddCircle
+    ),
+)
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TallerApp(
+    navController: NavHostController = rememberNavController(),
+    coroutineScope: CoroutineScope = rememberCoroutineScope(),
+) {
+    val pilaRetroceso by navController.currentBackStackEntryAsState()
+
+    val pantallaActual = Pantallas.valueOf(
+        pilaRetroceso?.destination?.route ?: Pantallas.Login.name
+    )
+
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
+
+    var selectedItem by remember { mutableIntStateOf(0) }
+
+//    TODO("Hacer UI State de cada modelo")
+
+    Scaffold(
+        topBar = {
+            AppTopBar(
+                pantallaActual = pantallaActual,
+                puedeNavegarAtras = navController.previousBackStackEntry != null,
+                onNavegarAtras = { navController.navigateUp() },
+                navController = navController,
+                scrollBehavior = scrollBehavior,
+            )
+        },
+        bottomBar = {
+            NavigationBar {
+                listaRutas.forEachIndexed { index, ruta ->
+                    NavigationBarItem(
+                        icon = {
+                            if (selectedItem == index)
+                                Icon(
+                                    imageVector = ruta.iconoLleno,
+                                    contentDescription = stringResource(id = ruta.nombre)
+                                )
+                            else
+                                Icon(
+                                    imageVector = ruta.iconoVacio,
+                                    contentDescription = stringResource(id = ruta.nombre)
+                                )
+                        },
+                        label = { Text(text = stringResource(id = ruta.nombre)) },
+                        selected = selectedItem == index,
+                        onClick = {
+                            selectedItem = index
+                            navController.navigate(ruta.ruta)
+                        }
+                    )
+                }
+            }
+        },
+//        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+        modifier = Modifier.fillMaxSize()
+    ) { innerPadding ->
+        NavHost(
+            navController = navController,
+            startDestination = Pantallas.Login.name,
+            modifier = Modifier.padding(innerPadding)
+        ) {
+//            GRAFO DE LAS RUTAS
+            composable(route = Pantallas.Login.name) {
+                PantallaLogin(
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
+        }
+    }
+}
+
+//APP TOP BAR
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AppTopBar(
+    pantallaActual: Pantallas,
+    puedeNavegarAtras: Boolean,
+    onNavegarAtras: () -> Unit,
+    navController: NavHostController,
+    scrollBehavior: TopAppBarScrollBehavior,
+    modifier: Modifier = Modifier
+) {
+    val coroutineScoupe = rememberCoroutineScope()
+    val mostrarMenu by remember { mutableStateOf(false) }
+
+    TopAppBar(
+        title = { Text(text = stringResource(id = pantallaActual.titulo)) },
+        colors = TopAppBarDefaults.mediumTopAppBarColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer
+        ),
+        navigationIcon = {
+            if (puedeNavegarAtras) {
+                IconButton(
+                    onClick = onNavegarAtras
+                ) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = stringResource(id = R.string.atras)
+                    )
+                }
+            }
+        },
+        scrollBehavior = scrollBehavior,
+        modifier = modifier
+    )
+}
+
