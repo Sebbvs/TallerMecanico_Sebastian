@@ -1,9 +1,5 @@
 package com.example.tallermecanico_sebastian.conexion
 
-import com.example.tallermecanico_sebastian.modelo.Averia
-import com.example.tallermecanico_sebastian.modelo.Cliente
-import com.example.tallermecanico_sebastian.modelo.Coche
-import com.example.tallermecanico_sebastian.modelo.Pago
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET

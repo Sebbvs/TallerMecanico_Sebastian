@@ -10,4 +10,7 @@
 
     <!--BOTON ATRAS-->
     <string name="atras">Atrás</string>
+
+    <!--    PantallaLogin-->
+    <string name="acceso">Acceso</string>
 </resources>

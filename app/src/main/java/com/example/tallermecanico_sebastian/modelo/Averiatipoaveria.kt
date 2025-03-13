@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Pago(
+data class Averiatipoaveria(
     @SerialName(value = "id")
-    val id: String = ""
+    val id: String = "",
 )

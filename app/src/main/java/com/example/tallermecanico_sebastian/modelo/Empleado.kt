@@ -4,9 +4,9 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Cliente(
-    @SerialName(value = "cod_cliente")
-    val cod_cliente: String = "",
+data class Empleado(
+    @SerialName(value = "cod_empleado")
+    val cod_empleado: Int = 0,
     @SerialName(value = "nombre")
     val nombre: String = "",
     @SerialName(value = "apellido1")
@@ -17,4 +17,8 @@ data class Cliente(
     val email: String = "",
     @SerialName(value = "direccion")
     val direccion: String = "",
+    @SerialName(value = "cod_rol")
+    val cod_rol: Int = 0,
+    @SerialName(value = "rol")
+    val rol: Rol,
 )
