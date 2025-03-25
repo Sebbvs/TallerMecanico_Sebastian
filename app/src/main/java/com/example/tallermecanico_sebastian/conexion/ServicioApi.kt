@@ -1,5 +1,7 @@
 package com.example.tallermecanico_sebastian.conexion
 
+import com.example.tallermecanico_sebastian.modelo.Empleado
+import com.example.tallermecanico_sebastian.modelo.Acceso
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -8,83 +10,37 @@ import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface ServicioApi {
-    //    AVERIA
-    @GET("averias")
-    suspend fun obtenerAverias(): List<Averia>
+    //LOGIN
+    @POST("autenticar")
+    suspend fun autenticarUsuario(
+        @Body acceso: Acceso,
+    ): Empleado
 
-    @POST("averia")
-    suspend fun insertarAveria(
-        @Body averia: Averia
-    ): Averia
+    //EMPLEADO
+    @GET("empleados")
+    suspend fun obtenerEmpleados(): List<Empleado>
 
-    @PUT("averia/{id}")
-    suspend fun actualizarAveria(
+    @POST("empleado")
+    suspend fun insertarEmpleado(
+        @Body empleado: Empleado
+    ): Empleado
+
+    @PUT("empleado/{id}")
+    suspend fun actualizarEmpleado(
         @Path("id") id: String,
-        @Body averia: Averia
-    ): Averia
+        @Body empleado: Empleado
+    ): Empleado
 
-    @DELETE("profesor/{id}")
-    suspend fun eliminarAveria(
+    @DELETE("empleado/{id}")
+    suspend fun eliminarEmpleado(
         @Path("id") id: String
-    ): Averia
+    ): Empleado
 
-    //    COCHE
-    @GET("coches")
-    suspend fun obtenerCoches(): List<Coche>
+    //AVERIA
 
-    @POST("coche")
-    suspend fun insertarAveria(
-        @Body coche: Coche
-    ): Coche
+    //CLIENTE
 
-    @PUT("coche/{id}")
-    suspend fun actualizarCoche(
-        @Path("id") id: String,
-        @Body coche: Coche
-    ): Coche
+    //ROL
 
-    @DELETE("coche/{id}")
-    suspend fun eliminarCoche(
-        @Path("id") id: String
-    ): Coche
-
-    //    CLIENTE
-    @GET("clientes")
-    suspend fun obtenerClientes(): List<Cliente>
-
-    @POST("cliente")
-    suspend fun insertarCliente(
-        @Body cliente: Cliente
-    ): Cliente
-
-    @PUT("cliente/{id}")
-    suspend fun actualizarCliente(
-        @Path("id") id: String,
-        @Body cliente: Cliente
-    ): Cliente
-
-    @DELETE("cliente/{id}")
-    suspend fun eliminarCliente(
-        @Path("id") id: String
-    ): Cliente
-
-    //    PAGOS
-    @GET("pagos")
-    suspend fun obtenerPagos(): List<Pago>
-
-    @POST("pago")
-    suspend fun insertarPago(
-        @Body pago: Pago
-    ): Pago
-
-    @PUT("averia/{id}")
-    suspend fun actualizarPago(
-        @Path("id") id: String,
-        @Body pago: Pago
-    ): Pago
-
-    @DELETE("profesor/{id}")
-    suspend fun eliminarPago(
-        @Path("id") id: String
-    ): Pago
+    //VEHICULO
 }

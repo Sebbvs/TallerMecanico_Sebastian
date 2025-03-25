@@ -27,6 +27,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -34,11 +35,14 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.tallermecanico_sebastian.R
 import com.example.tallermecanico_sebastian.modelo.Ruta
+import com.example.tallermecanico_sebastian.ui.pantallas.PantallaInicio
 import com.example.tallermecanico_sebastian.ui.pantallas.PantallaLogin
+import com.example.tallermecanico_sebastian.ui.viewmodel.EmpleadoViewModel
 import kotlinx.coroutines.CoroutineScope
 
 enum class Pantallas(@StringRes val titulo: Int) {
     Login(titulo = R.string.pantalla_login),
+    Inicio(titulo = R.string.pantalla_inicio),
     Averias(titulo = R.string.pantalla_averias),
     Coches(titulo = R.string.pantalla_coches),
     Clientes(titulo = R.string.pantalla_clientes),
@@ -83,6 +87,7 @@ val listaRutas = listOf(
 fun TallerApp(
     navController: NavHostController = rememberNavController(),
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
+    viewModelEmpleado: EmpleadoViewModel = viewModel(factory = EmpleadoViewModel.Factory),
 ) {
     val pilaRetroceso by navController.currentBackStackEntryAsState()
 
@@ -91,6 +96,9 @@ fun TallerApp(
     )
 
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
+
+    //ESTADOS
+    val empleadoUIState = viewModelEmpleado.empleadoUIState
 
     var selectedItem by remember { mutableIntStateOf(0) }
 
@@ -107,28 +115,30 @@ fun TallerApp(
             )
         },
         bottomBar = {
-            NavigationBar {
-                listaRutas.forEachIndexed { index, ruta ->
-                    NavigationBarItem(
-                        icon = {
-                            if (selectedItem == index)
-                                Icon(
-                                    imageVector = ruta.iconoLleno,
-                                    contentDescription = stringResource(id = ruta.nombre)
-                                )
-                            else
-                                Icon(
-                                    imageVector = ruta.iconoVacio,
-                                    contentDescription = stringResource(id = ruta.nombre)
-                                )
-                        },
-                        label = { Text(text = stringResource(id = ruta.nombre)) },
-                        selected = selectedItem == index,
-                        onClick = {
-                            selectedItem = index
-                            navController.navigate(ruta.ruta)
-                        }
-                    )
+            if (pantallaActual != Pantallas.Login) {
+                NavigationBar {
+                    listaRutas.forEachIndexed { index, ruta ->
+                        NavigationBarItem(
+                            icon = {
+                                if (selectedItem == index)
+                                    Icon(
+                                        imageVector = ruta.iconoLleno,
+                                        contentDescription = stringResource(id = ruta.nombre)
+                                    )
+                                else
+                                    Icon(
+                                        imageVector = ruta.iconoVacio,
+                                        contentDescription = stringResource(id = ruta.nombre)
+                                    )
+                            },
+                            label = { Text(text = stringResource(id = ruta.nombre)) },
+                            selected = selectedItem == index,
+                            onClick = {
+                                selectedItem = index
+                                navController.navigate(ruta.ruta)
+                            }
+                        )
+                    }
                 }
             }
         },
@@ -143,8 +153,16 @@ fun TallerApp(
 //            GRAFO DE LAS RUTAS
             composable(route = Pantallas.Login.name) {
                 PantallaLogin(
+                    onAutenticar = { usuario, contrasenya ->
+                        viewModelEmpleado.autenticarUsuario(usuario, contrasenya)
+                    },
+                    empleadoUIState = empleadoUIState,
+                    navController = navController,
                     modifier = Modifier.fillMaxSize()
                 )
+            }
+            composable(route = Pantallas.Inicio.name) {
+                PantallaInicio(modifier = Modifier)
             }
         }
     }

@@ -3,6 +3,7 @@
 
     <!--    PANTALLAS-->
     <string name="pantalla_login">Login</string>
+    <string name="pantalla_inicio">Inicio</string>
     <string name="pantalla_averias">Averias</string>
     <string name="pantalla_coches">Coches</string>
     <string name="pantalla_clientes">Clientes</string>
@@ -13,4 +14,6 @@
 
     <!--    PantallaLogin-->
     <string name="acceso">Acceso</string>
+    <string name="boton_login">Acceder</string>
+
 </resources>

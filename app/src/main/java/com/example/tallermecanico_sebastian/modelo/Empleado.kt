@@ -17,8 +17,12 @@ data class Empleado(
     val email: String = "",
     @SerialName(value = "direccion")
     val direccion: String = "",
+    @SerialName(value = "usuario")
+    val usuario: String = "",
+    @SerialName(value = "contraseña")
+    val contrasenya: String = "",
     @SerialName(value = "cod_rol")
     val cod_rol: Int = 0,
     @SerialName(value = "rol")
-    val rol: Rol,
+    val rol: Rol? = null,
 )
