@@ -2,8 +2,16 @@ package com.example.tallermecanico_sebastian.datos
 
 import android.content.Context
 import com.example.tallermecanico_sebastian.conexion.ServicioApi
+import com.example.tallermecanico_sebastian.datos.repos.AveriaRepositorio
+import com.example.tallermecanico_sebastian.datos.repos.ClienteRepositorio
+import com.example.tallermecanico_sebastian.datos.repos.ConexionAveriaRepositorio
+import com.example.tallermecanico_sebastian.datos.repos.ConexionClienteRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.ConexionEmpleadoRepositorio
+import com.example.tallermecanico_sebastian.datos.repos.ConexionRolRepositorio
+import com.example.tallermecanico_sebastian.datos.repos.ConexionVehiculoRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.EmpleadoRepositorio
+import com.example.tallermecanico_sebastian.datos.repos.RolRepositorio
+import com.example.tallermecanico_sebastian.datos.repos.VehiculoRepositorio
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
@@ -11,7 +19,11 @@ import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
 
 interface ContenedorApp {
+    val averiaRepositorio: AveriaRepositorio
+    val clienteRepositorio: ClienteRepositorio
     val empleadoRepositorio: EmpleadoRepositorio
+    val rolRepositorio: RolRepositorio
+    val vehiculoRepositorio: VehiculoRepositorio
 }
 
 class TallerContenedorApp(private val context: Context) : ContenedorApp {
@@ -32,7 +44,23 @@ class TallerContenedorApp(private val context: Context) : ContenedorApp {
         retrofit.create(ServicioApi::class.java)
     }
 
+    override val averiaRepositorio: AveriaRepositorio by lazy {
+        ConexionAveriaRepositorio(servicioRetrofit)
+    }
+
+    override val clienteRepositorio: ClienteRepositorio by lazy {
+        ConexionClienteRepositorio(servicioRetrofit)
+    }
+
     override val empleadoRepositorio: EmpleadoRepositorio by lazy {
         ConexionEmpleadoRepositorio(servicioRetrofit)
+    }
+
+    override val rolRepositorio: RolRepositorio by lazy {
+        ConexionRolRepositorio(servicioRetrofit)
+    }
+
+    override val vehiculoRepositorio: VehiculoRepositorio by lazy {
+        ConexionVehiculoRepositorio(servicioRetrofit)
     }
 }

@@ -45,7 +45,7 @@ fun PantallaLogin(
             Toast.makeText(
                 navController.context,
                 empleadoUIState.mensaje,
-                Toast.LENGTH_LONG
+                Toast.LENGTH_SHORT
             ).show()
         }
     }

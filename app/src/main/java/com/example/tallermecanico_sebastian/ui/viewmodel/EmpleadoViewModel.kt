@@ -1,13 +1,9 @@
 package com.example.tallermecanico_sebastian.ui.viewmodel
 
-import android.content.Context
 import android.util.Log
-import android.widget.Toast
-import androidx.compose.material3.Snackbar
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
@@ -19,8 +15,6 @@ import com.example.tallermecanico_sebastian.TallerAplicacion
 import com.example.tallermecanico_sebastian.datos.repos.EmpleadoRepositorio
 import com.example.tallermecanico_sebastian.modelo.Empleado
 import com.example.tallermecanico_sebastian.modelo.Rol
-import com.example.tallermecanico_sebastian.ui.Pantallas
-import com.example.tallermecanico_sebastian.ui.pantallas.PantallaLogin
 import kotlinx.coroutines.launch
 import java.io.IOException
 

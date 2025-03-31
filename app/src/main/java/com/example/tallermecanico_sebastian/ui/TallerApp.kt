@@ -37,7 +37,11 @@ import com.example.tallermecanico_sebastian.R
 import com.example.tallermecanico_sebastian.modelo.Ruta
 import com.example.tallermecanico_sebastian.ui.pantallas.PantallaInicio
 import com.example.tallermecanico_sebastian.ui.pantallas.PantallaLogin
+import com.example.tallermecanico_sebastian.ui.viewmodel.AveriaViewModel
+import com.example.tallermecanico_sebastian.ui.viewmodel.ClienteViewModel
 import com.example.tallermecanico_sebastian.ui.viewmodel.EmpleadoViewModel
+import com.example.tallermecanico_sebastian.ui.viewmodel.RolViewModel
+import com.example.tallermecanico_sebastian.ui.viewmodel.VehiculoViewModel
 import kotlinx.coroutines.CoroutineScope
 
 enum class Pantallas(@StringRes val titulo: Int) {
@@ -50,12 +54,12 @@ enum class Pantallas(@StringRes val titulo: Int) {
 }
 
 val listaRutas = listOf(
-    Ruta(
+    /*Ruta(
         Pantallas.Login.titulo,
         Pantallas.Login.name,
         Icons.Default.AddCircle,
         Icons.Default.AddCircle
-    ),
+    ),*/
     Ruta(
         Pantallas.Averias.titulo,
         Pantallas.Averias.name,
@@ -87,7 +91,11 @@ val listaRutas = listOf(
 fun TallerApp(
     navController: NavHostController = rememberNavController(),
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
+    viewModelAveria: AveriaViewModel = viewModel(factory = AveriaViewModel.Factory),
+    viewModelCliente: ClienteViewModel = viewModel(factory = ClienteViewModel.Factory),
     viewModelEmpleado: EmpleadoViewModel = viewModel(factory = EmpleadoViewModel.Factory),
+    viewModelRol: RolViewModel = viewModel(factory = RolViewModel.Factory),
+    viewModelVehiculo: VehiculoViewModel = viewModel(factory = VehiculoViewModel.Factory),
 ) {
     val pilaRetroceso by navController.currentBackStackEntryAsState()
 

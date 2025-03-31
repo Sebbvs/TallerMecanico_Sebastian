@@ -20,5 +20,5 @@ data class Vehiculo(
     @SerialName(value = "cod_cliente")
     val cod_cliente: Int = 0,
     @SerialName(value = "cliente")
-    val cliente: Cliente,
+    val cliente: Cliente? = null,
 )
