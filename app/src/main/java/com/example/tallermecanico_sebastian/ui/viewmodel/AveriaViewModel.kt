@@ -29,7 +29,7 @@ sealed interface AveriaUIState {
 
     object Error : AveriaUIState
     object Cargando : AveriaUIState
-    data class ErrorMensaje(val mensaje: String) : AveriaUIState
+//    data class ErrorMensaje(val mensaje: String) : AveriaUIState
 }
 
 class AveriaViewModel(private val averiaRepositorio: AveriaRepositorio) : ViewModel() {

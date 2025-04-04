@@ -26,7 +26,7 @@ sealed interface ClienteUIState {
 
     object Error : ClienteUIState
     object Cargando : ClienteUIState
-    data class ErrorMensaje(val mensaje: String) : ClienteUIState
+//    data class ErrorMensaje(val mensaje: String) : ClienteUIState
 }
 
 class ClienteViewModel(private val clienteRepositorio: ClienteRepositorio) : ViewModel() {

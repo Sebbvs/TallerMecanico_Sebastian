@@ -1,8 +1,10 @@
 package com.example.tallermecanico_sebastian.ui
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.AddCircle
@@ -26,7 +28,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -63,26 +67,34 @@ val listaRutas = listOf(
     Ruta(
         Pantallas.Averias.titulo,
         Pantallas.Averias.name,
-        Icons.Default.AddCircle,
-        Icons.Default.AddCircle
+        R.drawable.averia,
+        R.drawable.averia,
+        /*Icons.Default.AddCircle,
+        Icons.Default.AddCircle*/
     ),
     Ruta(
         Pantallas.Coches.titulo,
         Pantallas.Coches.name,
-        Icons.Default.AddCircle,
-        Icons.Default.AddCircle
+        R.drawable.vehiculo,
+        R.drawable.vehiculo,
+        /*Icons.Default.AddCircle,
+        Icons.Default.AddCircle*/
     ),
     Ruta(
         Pantallas.Clientes.titulo,
         Pantallas.Clientes.name,
-        Icons.Default.AddCircle,
-        Icons.Default.AddCircle
+        R.drawable.cliente,
+        R.drawable.cliente,
+        /*Icons.Default.AddCircle,
+        Icons.Default.AddCircle*/
     ),
     Ruta(
         Pantallas.Facturas.titulo,
         Pantallas.Facturas.name,
-        Icons.Default.AddCircle,
-        Icons.Default.AddCircle
+        R.drawable.error,
+        R.drawable.error,
+        /*Icons.Default.AddCircle,
+        Icons.Default.AddCircle*/
     ),
 )
 
@@ -106,11 +118,13 @@ fun TallerApp(
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
 
     //ESTADOS
+    val averiaUIState = viewModelEmpleado.empleadoUIState
+    val clienteUIState = viewModelEmpleado.empleadoUIState
     val empleadoUIState = viewModelEmpleado.empleadoUIState
+    val rolUIState = viewModelEmpleado.empleadoUIState
+    val vehiculoUIState = viewModelEmpleado.empleadoUIState
 
     var selectedItem by remember { mutableIntStateOf(0) }
-
-//    TODO("Hacer UI State de cada modelo")
 
     Scaffold(
         topBar = {
@@ -129,14 +143,24 @@ fun TallerApp(
                         NavigationBarItem(
                             icon = {
                                 if (selectedItem == index)
-                                    Icon(
-                                        imageVector = ruta.iconoLleno,
-                                        contentDescription = stringResource(id = ruta.nombre)
+                                    Image(
+                                        painter = painterResource(id = ruta.iconoLleno),
+                                        contentDescription = stringResource(id = ruta.nombre),
+                                        modifier = Modifier.size(18.dp)
                                     )
+                                /*Icon(
+                                    imageVector = ruta.iconoLleno,
+                                    contentDescription = stringResource(id = ruta.nombre)
+                                )*/
                                 else
-                                    Icon(
-                                        imageVector = ruta.iconoVacio,
-                                        contentDescription = stringResource(id = ruta.nombre)
+                                /*Icon(
+                                    imageVector = ruta.iconoVacio,
+                                    contentDescription = stringResource(id = ruta.nombre)
+                                )*/
+                                    Image(
+                                        painter = painterResource(id = ruta.iconoVacio),
+                                        contentDescription = stringResource(id = ruta.nombre),
+                                        modifier = Modifier.size(18.dp)
                                     )
                             },
                             label = { Text(text = stringResource(id = ruta.nombre)) },
@@ -170,7 +194,10 @@ fun TallerApp(
                 )
             }
             composable(route = Pantallas.Inicio.name) {
-                PantallaInicio(modifier = Modifier)
+                PantallaInicio(
+                    empleadoUIState = empleadoUIState,
+                    modifier = Modifier
+                )
             }
         }
     }

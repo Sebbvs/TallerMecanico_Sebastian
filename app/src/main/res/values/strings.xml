@@ -16,4 +16,34 @@
     <string name="acceso">Acceso</string>
     <string name="boton_login">Acceder</string>
 
+    <!--    PANTALLA INICIO-->
+    <string name="error_de_conexion">ERROR DE CONEXIÓN</string>
+    <string name="cargando">CARGANDO...</string>
+
+    <!--    PANTALLA AVERIAS-->
+    <string name="averia_titulo">Averías</string>
+    <string name="averia_descripcion">Descripción</string>
+    <string name="averia_precio">Precio</string>
+    <string name="averia_estado">Estado</string>
+    <string name="averia_fecha_recepcion">Fecha de recepción</string>
+    <string name="averia_fecha_resolucion">Fecha de resolución</string>
+    <string name="averia_observaciones">Observaciones</string>
+    <string name="averia_empleado">Empleado</string>
+    <string name="averia_cliente">Cliente</string>
+    <string name="averia_vehiculo">Vechiulo</string>
+
+    <!--    PANTALLA CLIENTES-->
+    <string name="cliente_titulo">Clientes</string>
+    <string name="cliente_nombre">Clientes</string>
+    <string name="cliente_email">Clientes</string>
+    <string name="cliente_direccion">Clientes</string>
+
+    <!--    PANTALLA VEHICULO-->
+    <string name="vehiculo_titulo">Vehiculos</string>
+    <string name="vehiculo_marca">Marca</string>
+    <string name="vehiculo_especificaciones">Detalle</string>
+    <string name="vehiculo_matricula">Matricula</string>
+    <string name="vehiculo_vin">Bastidor</string>
+    <string name="vehiculo_cliente">Cliente</string>
+
 </resources>

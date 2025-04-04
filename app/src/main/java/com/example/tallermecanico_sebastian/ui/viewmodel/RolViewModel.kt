@@ -25,7 +25,7 @@ sealed interface RolUIState {
 
     object Error : RolUIState
     object Cargando : RolUIState
-    data class ErrorMensaje(val mensaje: String) : RolUIState
+//    data class ErrorMensaje(val mensaje: String) : RolUIState
 }
 
 class RolViewModel(private val rolRepositorio: RolRepositorio) : ViewModel() {

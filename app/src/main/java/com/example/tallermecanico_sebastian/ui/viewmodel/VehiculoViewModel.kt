@@ -26,7 +26,7 @@ sealed interface VehiculoUIState {
 
     object Error : VehiculoUIState
     object Cargando : VehiculoUIState
-    data class ErrorMensaje(val mensaje: String) : VehiculoUIState
+//    data class ErrorMensaje(val mensaje: String) : VehiculoUIState
 }
 
 class VehiculoViewModel(private val vehiculoRepositorio: VehiculoRepositorio) : ViewModel() {
