@@ -4,9 +4,11 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -53,8 +55,8 @@ fun PantallaExitoVehiculos(
         style = MaterialTheme.typography.headlineMedium,
         fontWeight = FontWeight.Bold
     )
-    LazyRow(
-        verticalAlignment = Alignment.CenterVertically,
+    LazyColumn(
+        horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
     ) {
         items(lista) { vehiculo ->
@@ -85,6 +87,7 @@ fun PantallaExitoVehiculos(
                         text = "${stringResource(R.string.vehiculo_cliente)}: ${vehiculo.cliente}",
                         style = MaterialTheme.typography.titleMedium
                     )
+                    HorizontalDivider()
                 }
             }
         }

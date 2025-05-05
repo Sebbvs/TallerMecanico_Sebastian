@@ -35,7 +35,7 @@ class ClienteViewModel(private val clienteRepositorio: ClienteRepositorio) : Vie
 
     var clientePulsado: Cliente by mutableStateOf(
         Cliente(
-            "",
+            0,
             "",
             "",
             "",

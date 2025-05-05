@@ -16,9 +16,9 @@ data class Averia(
     @SerialName(value = "cod_empleado")
     val cod_empleado: Int = 0,
     @SerialName(value = "fecha_recepcion")
-    val fecha_recepcion: String = "",
+    val fecha_recepcion: String? = null,
     @SerialName(value = "fecha_resolucion")
-    val fecha_resolucion: String = "",
+    val fecha_resolucion: String? = null,
     @SerialName(value = "cod_cliente")
     val cod_cliente: Int = 0,
     @SerialName(value = "observaciones")

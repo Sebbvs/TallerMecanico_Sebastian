@@ -9,10 +9,15 @@
     <string name="pantalla_clientes">Clientes</string>
     <string name="pantalla_facturas">Facturas</string>
 
+    <string name="pantalla_editar_averias">Editar Averías</string>
+    <string name="pantalla_editar_coches">Editar Coches</string>
+    <string name="pantalla_editar_clientes">Editar Clientes</string>
+    <string name="pantalla_editar_facturas">Editar Facturas</string>
+
     <!--BOTON ATRAS-->
     <string name="atras">Atrás</string>
 
-    <!--    PantallaLogin-->
+    <!--    Pantalla LOGIN-->
     <string name="acceso">Acceso</string>
     <string name="boton_login">Acceder</string>
 
@@ -32,11 +37,21 @@
     <string name="averia_cliente">Cliente</string>
     <string name="averia_vehiculo">Vechiulo</string>
 
+    <!--    PANTALLA EDITAR AVERIAS-->
+    <string name="tituloEditarAverias">Editar Avería</string>
+    <string name="dialogoAveriaTitulo">Cuídado! Estás a punto de borrar la avería seleccionado</string>
+    <string name="dialogoAveriaTexto">Esta es una acción permanente y no se puede deshacer. Si deseas borrar esta avería, pulsa \"Confirmar\".</string>
+
     <!--    PANTALLA CLIENTES-->
     <string name="cliente_titulo">Clientes</string>
     <string name="cliente_nombre">Clientes</string>
     <string name="cliente_email">Clientes</string>
     <string name="cliente_direccion">Clientes</string>
+
+    <!--    PANTALLA EDITAR CLIENTES-->
+    <string name="tituloEditarClientes">Editar Cliente</string>
+    <string name="dialogoClienteTitulo">Cuídado! Estás a punto de borrar el cliente seleccionado</string>
+    <string name="dialogoClienteTexto">Esta es una acción permanente y no se puede deshacer. Si deseas borrar este cliente, pulsa \"Confirmar\".</string>
 
     <!--    PANTALLA VEHICULO-->
     <string name="vehiculo_titulo">Vehiculos</string>
@@ -45,5 +60,16 @@
     <string name="vehiculo_matricula">Matricula</string>
     <string name="vehiculo_vin">Bastidor</string>
     <string name="vehiculo_cliente">Cliente</string>
+
+    <!--    PANTALLA EDITAR VEHICULOS-->
+    <string name="tituloEditarVehiculos">Editar Vehículo</string>
+    <string name="dialogoVehiculoTitulo">Cuídado! Estás a punto de borrar el vehículo seleccionado</string>
+    <string name="dialogoVehiculoTexto">Esta es una acción permanente y no se puede deshacer. Si deseas borrar este vehículo, pulsa \"Confirmar\".</string>
+
+    <!--    BOTONES Y DIALOGOS-->
+    <string name="dialogoBtnConfirmar">Confirmar</string>
+    <string name="dialogoBtnCancelar">Cancelar</string>
+    <string name="btnGuardar">Guardar</string>
+    <string name="btnBorrar">Borrar</string>
 
 </resources>

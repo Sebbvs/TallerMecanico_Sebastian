@@ -16,6 +16,7 @@ fun PantallaInicio(
     modifier: Modifier,
     empleadoUIState: EmpleadoUIState
 ) {
+    // TODO: "Añadir String de usuario que ha iniciado sesión"
     Text(text = "Bienvenido Usuario")
 }
 

@@ -39,6 +39,10 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.tallermecanico_sebastian.R
 import com.example.tallermecanico_sebastian.modelo.Ruta
+import com.example.tallermecanico_sebastian.ui.pantallas.PantallaAverias
+import com.example.tallermecanico_sebastian.ui.pantallas.PantallaClientes
+import com.example.tallermecanico_sebastian.ui.pantallas.PantallaCoches
+import com.example.tallermecanico_sebastian.ui.pantallas.PantallaEditarCoches
 import com.example.tallermecanico_sebastian.ui.pantallas.PantallaInicio
 import com.example.tallermecanico_sebastian.ui.pantallas.PantallaLogin
 import com.example.tallermecanico_sebastian.ui.viewmodel.AveriaViewModel
@@ -54,7 +58,14 @@ enum class Pantallas(@StringRes val titulo: Int) {
     Averias(titulo = R.string.pantalla_averias),
     Coches(titulo = R.string.pantalla_coches),
     Clientes(titulo = R.string.pantalla_clientes),
-    Facturas(titulo = R.string.pantalla_facturas)
+    Facturas(titulo = R.string.pantalla_facturas),
+
+    EditarAverias(titulo = R.string.pantalla_editar_averias),
+    EditarCoches(titulo = R.string.pantalla_editar_coches),
+    EditarClientes(titulo = R.string.pantalla_editar_clientes),
+//    EditarFacturas(titulo = R.string.pantalla_editar_facturas),
+
+//    TODO: HACER PANTALLA PARA EDITAR TRABAJADORES
 }
 
 val listaRutas = listOf(
@@ -118,11 +129,10 @@ fun TallerApp(
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
 
     //ESTADOS
-    val averiaUIState = viewModelEmpleado.empleadoUIState
-    val clienteUIState = viewModelEmpleado.empleadoUIState
+    val averiaUIState = viewModelAveria.averiaUIState
+    val clienteUIState = viewModelCliente.clienteUIState
     val empleadoUIState = viewModelEmpleado.empleadoUIState
-    val rolUIState = viewModelEmpleado.empleadoUIState
-    val vehiculoUIState = viewModelEmpleado.empleadoUIState
+    val vehiculoUIState = viewModelVehiculo.vehiculoUIState
 
     var selectedItem by remember { mutableIntStateOf(0) }
 
@@ -199,6 +209,46 @@ fun TallerApp(
                     modifier = Modifier
                 )
             }
+            composable(route = Pantallas.Averias.name) {
+                PantallaAverias(
+                    averiaUIState = averiaUIState,
+                    onAveriasObtenidos = { viewModelAveria.obtenerAverias() },
+                    onAveriaClick = {
+                        viewModelAveria.actualizarAveriaPulsado(it)
+                        navController.navigate(Pantallas.EditarAverias)
+                    },
+                    modifier = Modifier
+                )
+            }
+            composable(route = Pantallas.Coches.name) {
+                PantallaCoches(
+                    vehiculoUIState = vehiculoUIState,
+                    onVehiculosObtenidos = { viewModelVehiculo.obtenerVehiculos() },
+                    onVehiculoClick = {
+                        viewModelVehiculo.actualizarVehiculoPulsado(it)
+                        navController.navigate(Pantallas.EditarCoches)
+                    },
+                    modifier = Modifier
+                )
+            }
+            composable(route = Pantallas.Clientes.name) {
+                PantallaClientes(
+                    clienteUIState = clienteUIState,
+                    onClientesObtenidos = { viewModelCliente.obtenerClientes() },
+                    onClienteClick = {
+                        viewModelCliente.actualizarClientePulsado(it)
+                        navController.navigate(Pantallas.EditarClientes)
+                    },
+                    modifier = Modifier
+                )
+            }
+//            TODO: PANTALLA FACTURAS.
+//            composable(route = Pantallas.Facturas.name) {
+//                PantallaInicio(
+//                    empleadoUIState = empleadoUIState,
+//                    modifier = Modifier
+//                )
+//            }
         }
     }
 }

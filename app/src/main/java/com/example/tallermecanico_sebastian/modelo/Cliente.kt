@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Cliente(
     @SerialName(value = "cod_cliente")
-    val cod_cliente: String = "",
+    val cod_cliente: Int = 0,
     @SerialName(value = "nombre")
     val nombre: String = "",
     @SerialName(value = "apellido1")

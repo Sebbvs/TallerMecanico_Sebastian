@@ -6,10 +6,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -56,8 +58,8 @@ fun PantallaExitoAverias(
         style = MaterialTheme.typography.headlineMedium,
         fontWeight = FontWeight.Bold
     )
-    LazyRow(
-        verticalAlignment = Alignment.CenterVertically,
+    LazyColumn(
+        horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
     ) {
         items(lista) { averia ->
@@ -104,6 +106,7 @@ fun PantallaExitoAverias(
                         text = "${stringResource(R.string.averia_vehiculo)}: ${averia.vehiculo.modelo}",
                         style = MaterialTheme.typography.titleMedium
                     )
+                    HorizontalDivider()
                 }
             }
         }

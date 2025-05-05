@@ -105,7 +105,7 @@ interface ServicioApi {
 
 
     //VEHICULO
-    @GET("vehiculo")
+    @GET("vehiculos")
     suspend fun obtenerVehiculos(): List<Vehiculo>
 
     @POST("vehiculo")
