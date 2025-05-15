@@ -42,6 +42,9 @@
     <string name="dialogoAveriaTitulo">Cuídado! Estás a punto de borrar la avería seleccionado</string>
     <string name="dialogoAveriaTexto">Esta es una acción permanente y no se puede deshacer. Si deseas borrar esta avería, pulsa \"Confirmar\".</string>
 
+<!--    PANTALLA INSERTAR AVERIA-->
+    <string name="warningFormulario">¡Cuídado! \nFaltan campos por completar.</string>
+
     <!--    PANTALLA CLIENTES-->
     <string name="cliente_titulo">Clientes</string>
     <string name="cliente_nombre">Clientes</string>

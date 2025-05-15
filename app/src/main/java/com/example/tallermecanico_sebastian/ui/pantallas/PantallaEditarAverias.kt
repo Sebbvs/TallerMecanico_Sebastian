@@ -54,8 +54,8 @@ fun PantallaEditarAverias(
     var precio by remember { mutableStateOf(averia.precio) }
     var estado by remember { mutableStateOf(averia.estado) }
 //    var cod_empleado by remember { mutableStateOf(averia.cod_empleado) }
-    var fecha_recepcion by remember { mutableStateOf(averia.fecha_recepcion) }
-    var fecha_resolucion by remember { mutableStateOf(averia.fecha_resolucion) }
+    var fechaRecepcion by remember { mutableStateOf(averia.fecha_recepcion) }
+    var fechaResolucion by remember { mutableStateOf(averia.fecha_resolucion) }
 //    var cod_cliente by remember { mutableStateOf(averia.cod_cliente) }
     var observaciones by remember { mutableStateOf(averia.observaciones) }
 //    var cod_vehiculo by remember { mutableStateOf(averia.cod_vehiculo) }
@@ -114,16 +114,16 @@ fun PantallaEditarAverias(
     Spacer(modifier = Modifier.height(16.dp))
 
     TextField(
-        value = fecha_recepcion!!,
-        onValueChange = { fecha_recepcion = it },
+        value = fechaRecepcion!!,
+        onValueChange = { fechaRecepcion = it },
         label = { Text(text = "Organismo Responsable") },
     )
 
     Spacer(modifier = Modifier.height(16.dp))
 
     TextField(
-        value = fecha_resolucion!!,
-        onValueChange = { fecha_resolucion = it },
+        value = fechaResolucion!!,
+        onValueChange = { fechaResolucion = it },
         label = { Text(text = "Organismo Responsable") },
     )
 
@@ -144,9 +144,9 @@ fun PantallaEditarAverias(
                     descripcion = descripcion ?: "",
                     precio = precio ?: "",
                     estado = estado ?: "",
-                    fecha_recepcion = fecha_recepcion ?: LocalDate.now()
+                    fecha_recepcion = fechaRecepcion ?: LocalDate.now()
                         .format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString(),
-                    fecha_resolucion = fecha_resolucion ?: ""
+                    fecha_resolucion = fechaResolucion ?: ""
                 )
                 onGuardar(averiaEditado)
             }
@@ -177,9 +177,9 @@ fun PantallaEditarAverias(
                     descripcion = descripcion ?: "",
                     precio = precio ?: "",
                     estado = estado ?: "",
-                    fecha_recepcion = fecha_recepcion ?: LocalDate.now()
+                    fecha_recepcion = fechaRecepcion ?: LocalDate.now()
                         .format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString(),
-                    fecha_resolucion = fecha_resolucion ?: ""
+                    fecha_resolucion = fechaResolucion ?: ""
                 )
                 onBorrar(averiaEditado.cod_averia.toString())
                 Toast.makeText(context, "Avería borrada correctamente", Toast.LENGTH_SHORT)
