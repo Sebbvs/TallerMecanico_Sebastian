@@ -20,6 +20,8 @@
     <!--    Pantalla LOGIN-->
     <string name="acceso">Acceso</string>
     <string name="boton_login">Acceder</string>
+    <string name="contrasenya_oculta">Acceder</string>
+    <string name="contrasenya_visible">Acceder</string>
 
     <!--    PANTALLA INICIO-->
     <string name="error_de_conexion">ERROR DE CONEXIÓN</string>
@@ -42,7 +44,7 @@
     <string name="dialogoAveriaTitulo">Cuídado! Estás a punto de borrar la avería seleccionado</string>
     <string name="dialogoAveriaTexto">Esta es una acción permanente y no se puede deshacer. Si deseas borrar esta avería, pulsa \"Confirmar\".</string>
 
-<!--    PANTALLA INSERTAR AVERIA-->
+    <!--    PANTALLA INSERTAR AVERIA-->
     <string name="warningFormulario">¡Cuídado! \nFaltan campos por completar.</string>
 
     <!--    PANTALLA CLIENTES-->
