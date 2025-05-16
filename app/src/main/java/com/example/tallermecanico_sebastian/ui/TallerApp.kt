@@ -2,12 +2,20 @@ package com.example.tallermecanico_sebastian.ui
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.AddCircle
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.outlined.MoreVert
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -27,9 +35,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -45,6 +56,7 @@ import com.example.tallermecanico_sebastian.ui.pantallas.PantallaCoches
 import com.example.tallermecanico_sebastian.ui.pantallas.PantallaEditarCoches
 import com.example.tallermecanico_sebastian.ui.pantallas.PantallaInicio
 import com.example.tallermecanico_sebastian.ui.pantallas.PantallaLogin
+import com.example.tallermecanico_sebastian.ui.theme.Blanco
 import com.example.tallermecanico_sebastian.ui.viewmodel.AveriaViewModel
 import com.example.tallermecanico_sebastian.ui.viewmodel.ClienteViewModel
 import com.example.tallermecanico_sebastian.ui.viewmodel.EmpleadoViewModel
@@ -63,9 +75,13 @@ enum class Pantallas(@StringRes val titulo: Int) {
     EditarAverias(titulo = R.string.pantalla_editar_averias),
     EditarCoches(titulo = R.string.pantalla_editar_coches),
     EditarClientes(titulo = R.string.pantalla_editar_clientes),
+
+    AnyadirAveria(titulo = R.string.pantalla_anyadir_averia),
+    AnyadirCliente(titulo = R.string.pantalla_anyadir_cliente),
+    AnyadirCoche(titulo = R.string.pantalla_anyadir_coche),
 //    EditarFacturas(titulo = R.string.pantalla_editar_facturas),
 
-//    TODO: HACER PANTALLA PARA EDITAR TRABAJADORES
+//    TODO: HACER PANTALLA PARA CRUD EMPLEADOS
 }
 
 val listaRutas = listOf(
@@ -148,7 +164,7 @@ fun TallerApp(
         },
         bottomBar = {
             if (pantallaActual != Pantallas.Login) {
-                NavigationBar {
+                NavigationBar(containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.9F)) {
                     listaRutas.forEachIndexed { index, ruta ->
                         NavigationBarItem(
                             icon = {
@@ -158,15 +174,7 @@ fun TallerApp(
                                         contentDescription = stringResource(id = ruta.nombre),
                                         modifier = Modifier.size(18.dp)
                                     )
-                                /*Icon(
-                                    imageVector = ruta.iconoLleno,
-                                    contentDescription = stringResource(id = ruta.nombre)
-                                )*/
                                 else
-                                /*Icon(
-                                    imageVector = ruta.iconoVacio,
-                                    contentDescription = stringResource(id = ruta.nombre)
-                                )*/
                                     Image(
                                         painter = painterResource(id = ruta.iconoVacio),
                                         contentDescription = stringResource(id = ruta.nombre),
@@ -205,7 +213,7 @@ fun TallerApp(
             }
             composable(route = Pantallas.Inicio.name) {
                 PantallaInicio(
-                    empleadoUIState = empleadoUIState,
+                    empleadoViewModel = viewModelEmpleado,
                     modifier = Modifier
                 )
             }
@@ -215,7 +223,7 @@ fun TallerApp(
                     onAveriasObtenidos = { viewModelAveria.obtenerAverias() },
                     onAveriaClick = {
                         viewModelAveria.actualizarAveriaPulsado(it)
-                        navController.navigate(Pantallas.EditarAverias)
+                        navController.navigate(Pantallas.EditarAverias.name)
                     },
                     modifier = Modifier
                 )
@@ -226,7 +234,7 @@ fun TallerApp(
                     onVehiculosObtenidos = { viewModelVehiculo.obtenerVehiculos() },
                     onVehiculoClick = {
                         viewModelVehiculo.actualizarVehiculoPulsado(it)
-                        navController.navigate(Pantallas.EditarCoches)
+                        navController.navigate(Pantallas.EditarCoches.name)
                     },
                     modifier = Modifier
                 )
@@ -237,7 +245,7 @@ fun TallerApp(
                     onClientesObtenidos = { viewModelCliente.obtenerClientes() },
                     onClienteClick = {
                         viewModelCliente.actualizarClientePulsado(it)
-                        navController.navigate(Pantallas.EditarClientes)
+                        navController.navigate(Pantallas.EditarClientes.name)
                     },
                     modifier = Modifier
                 )
@@ -265,21 +273,69 @@ fun AppTopBar(
     modifier: Modifier = Modifier
 ) {
     val coroutineScoupe = rememberCoroutineScope()
-    val mostrarMenu by remember { mutableStateOf(false) }
+    var mostrarMenu by remember { mutableStateOf(false) }
+    var viewModelEmpleado: EmpleadoViewModel = viewModel(factory = EmpleadoViewModel.Factory)
 
     TopAppBar(
-        title = { Text(text = stringResource(id = pantallaActual.titulo)) },
+        title = {
+            Text(
+                text = stringResource(id = pantallaActual.titulo),
+                color = Blanco,
+                fontWeight = FontWeight.Bold
+            )
+        },
         colors = TopAppBarDefaults.mediumTopAppBarColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer
         ),
         navigationIcon = {
+
             if (puedeNavegarAtras) {
-                IconButton(
-                    onClick = onNavegarAtras
-                ) {
+                if (pantallaActual != Pantallas.Login && pantallaActual != Pantallas.Averias && pantallaActual != Pantallas.Coches && pantallaActual != Pantallas.Clientes && pantallaActual != Pantallas.Inicio) {
+                    IconButton(
+                        onClick = onNavegarAtras
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = stringResource(id = R.string.atras),
+                            tint = Blanco
+                        )
+                    }
+
+                } else if (pantallaActual != Pantallas.Login && pantallaActual != Pantallas.Inicio) {
+                    IconButton(
+                        onClick = { navController.navigate(Pantallas.Inicio.name) }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Home,
+                            contentDescription = stringResource(id = R.string.home),
+                            tint = Blanco
+                        )
+                    }
+                }
+            }
+        },
+        actions = {
+            if (pantallaActual != Pantallas.Login) {
+                IconButton(onClick = { mostrarMenu = true }) {
                     Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = stringResource(id = R.string.atras)
+                        imageVector = Icons.Outlined.MoreVert,
+                        tint = Blanco,
+                        contentDescription = stringResource(R.string.abrir_menu)
+                    )
+                }
+                DropdownMenu(
+                    expanded = mostrarMenu,
+                    onDismissRequest = { mostrarMenu = false }
+                ) {
+                    DropdownMenuItem(
+                        text = {
+                            Text(text = stringResource(id = R.string.log_out))
+                        },
+                        onClick = {
+                            mostrarMenu = false
+                            viewModelEmpleado.cerrarSesion()
+                            navController.navigate(Pantallas.Login.name)
+                        }
                     )
                 }
             }

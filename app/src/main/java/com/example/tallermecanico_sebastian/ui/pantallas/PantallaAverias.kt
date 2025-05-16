@@ -58,12 +58,12 @@ fun PantallaExitoAverias(
     modifier: Modifier,
     onAveriaClick: (Averia) -> Unit,
 ) {
-    Text(
-        text = stringResource(R.string.averia_titulo),
-        style = MaterialTheme.typography.headlineMedium,
-        fontWeight = FontWeight.ExtraBold,
-        modifier = Modifier.padding(bottom = 16.dp)
-    )
+    /*    Text(
+            text = stringResource(R.string.averia_titulo),
+            style = MaterialTheme.typography.headlineMedium,
+            fontWeight = FontWeight.ExtraBold,
+            modifier = Modifier.padding(bottom = 16.dp)
+        )*/
     LazyColumn(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -73,6 +73,7 @@ fun PantallaExitoAverias(
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .padding(5.dp)
                     .clickable {
                         onAveriaClick(averia)
                     },
@@ -80,11 +81,17 @@ fun PantallaExitoAverias(
                 elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
 //                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
             ) {
-                Column {
+                Column(
+                    modifier = Modifier.padding(5.dp)
+                ) {
                     Text(
                         text = "${stringResource(R.string.averia_descripcion)}: ${averia.descripcion}",
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = "${stringResource(R.string.averia_vehiculo)}: ${averia.vehiculo.marca} ${averia.vehiculo.modelo} [${averia.vehiculo.matricula}]",
+                        style = MaterialTheme.typography.titleSmall
                     )
                     /*Text(
                         text = "${stringResource(R.string.averia_precio)}: ${averia.precio}",
@@ -92,29 +99,24 @@ fun PantallaExitoAverias(
                     )*/
                     Text(
                         text = "${stringResource(R.string.averia_fecha_recepcion)}: ${averia.fecha_recepcion}",
-                        style = MaterialTheme.typography.titleMedium
+                        style = MaterialTheme.typography.titleSmall
                     )
                     /*Text(
                         text = "${stringResource(R.string.averia_fecha_resolucion)}: ${averia.fecha_resolucion}",
                         style = MaterialTheme.typography.titleMedium
                     )*/
-                    Text(
-                        text = "${stringResource(R.string.averia_observaciones)}: ${averia.observaciones}",
-                        style = MaterialTheme.typography.titleMedium
-                    )
+                    /*                    Text(
+                                            text = "${stringResource(R.string.averia_observaciones)}: ${averia.observaciones}",
+                                            style = MaterialTheme.typography.titleSmall
+                                        )*/
                     /*Text(
                         text = "${stringResource(R.string.averia_empleado)}: ${averia.empleado.nombre}",
                         style = MaterialTheme.typography.titleMedium
                     )*/
                     Text(
                         text = "${stringResource(R.string.averia_cliente)}: ${averia.cliente.nombre} ${averia.cliente.apellido1}",
-                        style = MaterialTheme.typography.titleMedium
+                        style = MaterialTheme.typography.titleSmall
                     )
-                    Text(
-                        text = "${stringResource(R.string.averia_vehiculo)}: ${averia.vehiculo.marca} ${averia.vehiculo.modelo}",
-                        style = MaterialTheme.typography.titleMedium
-                    )
-
                     Text(
                         text = "${stringResource(R.string.averia_estado)}: ${averia.estado}",
                         style = MaterialTheme.typography.titleMedium,

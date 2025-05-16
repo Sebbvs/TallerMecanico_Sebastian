@@ -1,23 +1,49 @@
 package com.example.tallermecanico_sebastian.ui.pantallas
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.tallermecanico_sebastian.R
+import com.example.tallermecanico_sebastian.modelo.Empleado
 import com.example.tallermecanico_sebastian.ui.viewmodel.EmpleadoUIState
+import com.example.tallermecanico_sebastian.ui.viewmodel.EmpleadoViewModel
 
 @Composable
 fun PantallaInicio(
     modifier: Modifier,
-    empleadoUIState: EmpleadoUIState
+    empleadoViewModel: EmpleadoViewModel = viewModel()
 ) {
-    // TODO: "Añadir String de usuario que ha iniciado sesión"
-    Text(text = "Bienvenido Usuario")
+    val empleado = empleadoViewModel.empleadoLogin
+
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        Text(
+            text = "Bienvenido ${empleado?.nombre ?: Empleado}!",
+            fontWeight = FontWeight.Bold
+        )
+
+        Image(
+            painter = painterResource(id = R.drawable.lift_logo),
+            contentDescription = stringResource(id = R.string.lift_logo),
+            modifier = Modifier.size(300.dp),
+            alpha = 0.5F
+        )
+    }
 }
 
 @Composable

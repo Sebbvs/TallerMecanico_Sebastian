@@ -4,6 +4,8 @@ import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
@@ -33,6 +35,7 @@ class EmpleadoViewModel(private val empleadoRepositorio: EmpleadoRepositorio) : 
     var empleadoUIState: EmpleadoUIState by mutableStateOf(EmpleadoUIState.Cargando)
         private set
 
+    // AUTENTICAR USUARIO
     fun autenticarUsuario(usuario: String, contrasenya: String) {
         empleadoUIState = EmpleadoUIState.Cargando
         viewModelScope.launch {
@@ -41,6 +44,7 @@ class EmpleadoViewModel(private val empleadoRepositorio: EmpleadoRepositorio) : 
 
                 if (empleado.cod_empleado != 0) {
                     empleadoUIState = EmpleadoUIState.CrearExito(empleado)
+                    iniciarSesion(empleado) //Añadido
                 } else {
                     empleadoUIState =
                         EmpleadoUIState.ErrorMensaje("Error al introducir usuario y/o contraseña")
@@ -56,6 +60,20 @@ class EmpleadoViewModel(private val empleadoRepositorio: EmpleadoRepositorio) : 
                 EmpleadoUIState.Error
             }
         }
+    }
+
+    // CERRAR SESION
+    fun cerrarSesion() {
+        empleadoLogin = null
+        empleadoUIState = EmpleadoUIState.Cargando
+    }
+
+    // PASO DE EMPLADO PARA PANTALLA DE INICIO
+    var empleadoLogin by mutableStateOf<Empleado?>(null)
+        private set
+
+    fun iniciarSesion(empleado: Empleado) {
+        empleadoLogin = empleado
     }
 
     var empleadoPulsado: Empleado by mutableStateOf(
