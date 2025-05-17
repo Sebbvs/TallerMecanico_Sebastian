@@ -126,7 +126,7 @@ fun PantallaAnyadirCliente(
                         onInsertar(cliente)
                         Toast.makeText(
                             context,
-                            "Avería guardada correctamente.",
+                            "Cliente guardada correctamente.",
                             Toast.LENGTH_SHORT
                         ).show()
                     }

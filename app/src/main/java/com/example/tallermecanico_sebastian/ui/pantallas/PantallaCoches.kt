@@ -86,19 +86,15 @@ fun PantallaExitoVehiculos(
                     )
                     Text(
                         text = "${stringResource(R.string.vehiculo_especificaciones)}: ${vehiculo.especificaciones}",
-                        style = MaterialTheme.typography.titleMedium
+                        style = MaterialTheme.typography.titleSmall
                     )
                     Text(
                         text = "${stringResource(R.string.vehiculo_matricula)}: ${vehiculo.matricula}",
-                        style = MaterialTheme.typography.titleMedium
+                        style = MaterialTheme.typography.titleSmall
                     )
                     Text(
-                        text = "${stringResource(R.string.vehiculo_vin)}: ${vehiculo.vin}",
-                        style = MaterialTheme.typography.titleMedium
-                    )
-                    Text(
-                        text = "${stringResource(R.string.vehiculo_cliente)}: ${vehiculo.cliente}",
-                        style = MaterialTheme.typography.titleMedium
+                        text = "${stringResource(R.string.vehiculo_cliente)}: ${vehiculo.cliente?.nombre} ${vehiculo.cliente?.apellido1}",
+                        style = MaterialTheme.typography.titleSmall
                     )
                 }
             }

@@ -92,11 +92,11 @@ fun PantallaExitoClientes(
                     )
                     Text(
                         text = "${stringResource(R.string.cliente_email)}: ${cliente.email}",
-                        style = MaterialTheme.typography.titleMedium
+                        style = MaterialTheme.typography.titleSmall
                     )
                     Text(
                         text = "${stringResource(R.string.cliente_direccion)}: ${cliente.direccion}",
-                        style = MaterialTheme.typography.titleMedium
+                        style = MaterialTheme.typography.titleSmall
                     )
                 }
             }
