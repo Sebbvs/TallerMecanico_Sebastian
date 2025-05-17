@@ -32,10 +32,12 @@ import com.example.tallermecanico_sebastian.modelo.Averia
 import com.example.tallermecanico_sebastian.modelo.Cliente
 import com.example.tallermecanico_sebastian.modelo.Empleado
 import com.example.tallermecanico_sebastian.modelo.Vehiculo
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @Composable
-fun PantallaAnyadirCliente(
-    onInsertar: (Cliente) -> Unit,
+fun PantallaAnyadirEmpleado(
+    onInsertar: (Empleado) -> Unit,
     onCancelar: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -44,8 +46,10 @@ fun PantallaAnyadirCliente(
     var apellido2 by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var direccion by remember { mutableStateOf("") }
+    var usuario by remember { mutableStateOf("") }
+    var contrasenya by remember { mutableStateOf("") }
     var context = LocalContext.current
-    var abrirAlertDialog by remember { mutableStateOf(false) }
+    var abrirAlertDialog by remember { mutableStateOf("") }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -66,7 +70,6 @@ fun PantallaAnyadirCliente(
             value = apellido1,
             onValueChange = { apellido1 = it },
             label = { Text(text = "Primer apellido") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal)
         )
 
         Spacer(Modifier.height(16.dp))
@@ -109,24 +112,26 @@ fun PantallaAnyadirCliente(
             val context = LocalContext.current
             Button(
                 onClick = {
-                    if (nombre.isEmpty() || apellido1.isEmpty() || email.isEmpty() || direccion.isEmpty()) {
+                    if (nombre.isEmpty() || usuario.isEmpty() || contrasenya.isEmpty()) {
                         Toast.makeText(
                             context,
                             context.getString(R.string.warningFormulario),
                             Toast.LENGTH_SHORT
                         ).show()
                     } else {
-                        val cliente = Cliente(
+                        val empleado = Empleado(
                             nombre = nombre,
                             apellido1 = apellido1,
                             apellido2 = apellido2,
                             email = email,
                             direccion = direccion,
+                            usuario = usuario,
+                            contrasenya = contrasenya,
                         )
-                        onInsertar(cliente)
+                        onInsertar(empleado)
                         Toast.makeText(
                             context,
-                            "Avería guardada correctamente.",
+                            "Empleado guardado correctamente.",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -141,8 +146,8 @@ fun PantallaAnyadirCliente(
 
 @Preview(showBackground = true)
 @Composable
-fun PantallaAnyadirClientePreview() {
-    PantallaAnyadirCliente(
+fun PantallaAnyadirEmpeladoPreview() {
+    PantallaAnyadirAveria(
         onInsertar = {},
         onCancelar = {},
         modifier = Modifier

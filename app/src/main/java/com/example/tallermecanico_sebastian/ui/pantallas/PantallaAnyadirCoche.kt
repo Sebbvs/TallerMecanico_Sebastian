@@ -48,11 +48,6 @@ fun PantallaAnyadirCoche(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
     ) {
-        Text(
-            text = "Nuevo Vehículo",
-            style = MaterialTheme.typography.headlineMedium,
-            fontWeight = FontWeight.Bold
-        )
         Spacer(Modifier.height(16.dp))
 
         TextField(

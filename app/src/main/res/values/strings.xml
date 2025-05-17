@@ -7,16 +7,19 @@
     <string name="pantalla_averias">Averias</string>
     <string name="pantalla_coches">Coches</string>
     <string name="pantalla_clientes">Clientes</string>
+    <string name="pantalla_empleados">Empleados</string>
     <string name="pantalla_facturas">Facturas</string>
 
     <string name="pantalla_editar_averias">Editar Averías</string>
     <string name="pantalla_editar_coches">Editar Coches</string>
     <string name="pantalla_editar_clientes">Editar Clientes</string>
+    <string name="pantalla_editar_empleados">Editar Empleados</string>
     <string name="pantalla_editar_facturas">Editar Facturas</string>
 
     <string name="pantalla_anyadir_averia">Nuevo Avería</string>
     <string name="pantalla_anyadir_cliente">Nuevo Cliente</string>
     <string name="pantalla_anyadir_coche">Nuevo Vehículo</string>
+    <string name="pantalla_anyadir_empleado">Nuevo Empleado</string>
 
     <!--BOTON ATRAS-->
     <string name="atras">Atrás</string>
@@ -25,14 +28,14 @@
     <!--    PANTALLA LOGIN-->
     <string name="acceso">Acceso</string>
     <string name="boton_login">Acceder</string>
-    <string name="contrasenya_oculta">Acceder</string>
-    <string name="contrasenya_visible">Acceder</string>
+    <string name="contrasenya_oculta">Oculta</string>
+    <string name="contrasenya_visible">Visible</string>
     <string name="lift_logo">App Logo</string>
     <string name="abrir_menu">Abrir menú</string>
     <string name="log_out">Cerrar sesión</string>
 
     <!--    PANTALLA INICIO-->
-    <string name="error_de_conexion">ERROR DE CONEXIÓN</string>
+    <string name="error_de_conexion">ERROR DE CONEXIÓN!</string>
     <string name="cargando">CARGANDO...</string>
 
     <!--    PANTALLA AVERIAS-->
@@ -57,9 +60,9 @@
 
     <!--    PANTALLA CLIENTES-->
     <string name="cliente_titulo">Clientes</string>
-    <string name="cliente_nombre">Clientes</string>
-    <string name="cliente_email">Clientes</string>
-    <string name="cliente_direccion">Clientes</string>
+    <string name="cliente_nombre">Nombre</string>
+    <string name="cliente_email">Email</string>
+    <string name="cliente_direccion">Dirección</string>
 
     <!--    PANTALLA EDITAR CLIENTES-->
     <string name="tituloEditarClientes">Editar Cliente</string>
@@ -78,6 +81,14 @@
     <string name="tituloEditarVehiculos">Editar Vehículo</string>
     <string name="dialogoVehiculoTitulo">Cuídado! Estás a punto de borrar el vehículo seleccionado</string>
     <string name="dialogoVehiculoTexto">Esta es una acción permanente y no se puede deshacer. Si deseas borrar este vehículo, pulsa \"Confirmar\".</string>
+
+    <!--    PANTALLA EMPLEADOS-->
+    <string name="empleado_nombre">Nombre</string>
+    <string name="empleado_email">Email</string>
+    <string name="empleado_direccion">Dirección</string>
+
+    <!--    PANTALLA EDITAR EMPLEADOS-->
+    <string name="tituloEditarEmpleados">Editar Empleado</string>
 
     <!--    BOTONES Y DIALOGOS-->
     <string name="dialogoBtnConfirmar">Confirmar</string>

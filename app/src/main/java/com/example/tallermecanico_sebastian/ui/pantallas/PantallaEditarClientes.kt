@@ -58,11 +58,6 @@ fun PantallaEditarClientes(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
     ) {
-        Text(
-            text = stringResource(R.string.tituloEditarClientes),
-            style = MaterialTheme.typography.headlineMedium,
-            fontWeight = FontWeight.Bold
-        )
         Spacer(Modifier.height(16.dp))
     }
 

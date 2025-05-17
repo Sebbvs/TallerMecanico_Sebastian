@@ -64,11 +64,11 @@ fun PantallaAnyadirAveria(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
     ) {
-        Text(
+/*        Text(
             text = "Nueva Avería",
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold
-        )
+        )*/
         Spacer(Modifier.height(16.dp))
 
         TextField(

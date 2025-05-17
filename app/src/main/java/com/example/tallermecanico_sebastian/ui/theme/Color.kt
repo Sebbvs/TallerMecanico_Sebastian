@@ -13,5 +13,6 @@ val GrisOscuro = Color(0xFF424242)
 val NegroCarbon = Color(0xFF121212)
 val Blanco = Color(0xFFFFFFFF)
 val Negro = Color(0xFF000000)
+val VerdeClaro = Color(0xFFBDECB6)
 
 

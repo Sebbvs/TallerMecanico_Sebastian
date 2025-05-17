@@ -2,6 +2,7 @@ package com.example.tallermecanico_sebastian.ui.pantallas
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,10 +13,14 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -34,6 +39,7 @@ fun PantallaAverias(
     averiaUIState: AveriaUIState,
     onAveriasObtenidos: () -> Unit,
     onAveriaClick: (Averia) -> Unit,
+    onAveriaInsertar: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     when (averiaUIState) {
@@ -42,7 +48,8 @@ fun PantallaAverias(
         is AveriaUIState.ObtenerExito -> PantallaExitoAverias(
             lista = averiaUIState.averias,
             modifier = modifier.fillMaxWidth(),
-            onAveriaClick = onAveriaClick
+            onAveriaClick = onAveriaClick,
+            onAveriaInsertar = onAveriaInsertar
         )
 
 
@@ -57,13 +64,13 @@ fun PantallaExitoAverias(
     lista: List<Averia>,
     modifier: Modifier,
     onAveriaClick: (Averia) -> Unit,
+    onAveriaInsertar: () -> Unit
 ) {
-    /*    Text(
-            text = stringResource(R.string.averia_titulo),
-            style = MaterialTheme.typography.headlineMedium,
-            fontWeight = FontWeight.ExtraBold,
-            modifier = Modifier.padding(bottom = 16.dp)
-        )*/
+/*    Text(
+        text = "Averías",
+        style = MaterialTheme.typography.headlineLarge,
+        fontWeight = FontWeight.Bold
+    )*/
     LazyColumn(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -93,26 +100,10 @@ fun PantallaExitoAverias(
                         text = "${stringResource(R.string.averia_vehiculo)}: ${averia.vehiculo.marca} ${averia.vehiculo.modelo} [${averia.vehiculo.matricula}]",
                         style = MaterialTheme.typography.titleSmall
                     )
-                    /*Text(
-                        text = "${stringResource(R.string.averia_precio)}: ${averia.precio}",
-                        style = MaterialTheme.typography.titleMedium
-                    )*/
                     Text(
                         text = "${stringResource(R.string.averia_fecha_recepcion)}: ${averia.fecha_recepcion}",
                         style = MaterialTheme.typography.titleSmall
                     )
-                    /*Text(
-                        text = "${stringResource(R.string.averia_fecha_resolucion)}: ${averia.fecha_resolucion}",
-                        style = MaterialTheme.typography.titleMedium
-                    )*/
-                    /*                    Text(
-                                            text = "${stringResource(R.string.averia_observaciones)}: ${averia.observaciones}",
-                                            style = MaterialTheme.typography.titleSmall
-                                        )*/
-                    /*Text(
-                        text = "${stringResource(R.string.averia_empleado)}: ${averia.empleado.nombre}",
-                        style = MaterialTheme.typography.titleMedium
-                    )*/
                     Text(
                         text = "${stringResource(R.string.averia_cliente)}: ${averia.cliente.nombre} ${averia.cliente.apellido1}",
                         style = MaterialTheme.typography.titleSmall
@@ -126,8 +117,21 @@ fun PantallaExitoAverias(
                         ) Color(0xFF388E3C) else Color(0xFFD32F2F)
                     )
                 }
-//                HorizontalDivider()
             }
         }
     }
+
+    Box(
+        modifier.fillMaxSize()
+    ) {
+        SmallFloatingActionButton(
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(16.dp),
+            onClick = { onAveriaInsertar() },
+        ) {
+            Icon(Icons.Filled.Add, "Insertar")
+        }
+    }
+
 }

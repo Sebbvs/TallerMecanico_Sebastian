@@ -34,24 +34,28 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.tallermecanico_sebastian.R
-import com.example.tallermecanico_sebastian.modelo.Cliente
-import com.example.tallermecanico_sebastian.modelo.Vehiculo
+import com.example.tallermecanico_sebastian.modelo.Averia
+import com.example.tallermecanico_sebastian.modelo.Empleado
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @Composable
-fun PantallaEditarCoches(
-    vehiculo: Vehiculo,
-    onAceptar: (Vehiculo) -> Unit,
+fun PantallaEditarEmpleados(
+    empleado: Empleado,
+    onAceptar: (Empleado) -> Unit,
     onCancelar: () -> Unit,
     onBorrar: (String) -> Unit,
-    onGuardar: (Vehiculo) -> Unit,
+    onGuardar: (Empleado) -> Unit,
     modifier: Modifier = Modifier
 ) {
 
-    var marca by remember { mutableStateOf(vehiculo.marca) }
-    var modelo by remember { mutableStateOf(vehiculo.modelo) }
-    var especificaciones by remember { mutableStateOf(vehiculo.especificaciones) }
-    var matricula by remember { mutableStateOf(vehiculo.matricula) }
-    var vin by remember { mutableStateOf(vehiculo.vin) }
+    var nombre by remember { mutableStateOf(empleado.nombre) }
+    var apellido1 by remember { mutableStateOf(empleado.apellido1) }
+    var apellido2 by remember { mutableStateOf(empleado.apellido2) }
+    var email by remember { mutableStateOf(empleado.email) }
+    var direccion by remember { mutableStateOf(empleado.direccion) }
+    var user by remember { mutableStateOf(empleado.usuario) }
+    var pass by remember { mutableStateOf(empleado.contrasenya) }
     var context = LocalContext.current
     var abrirAlertDialog by remember { mutableStateOf(false) }
 
@@ -63,7 +67,7 @@ fun PantallaEditarCoches(
     }
 
     TextField(
-        value = vehiculo.cod_vehiculo.toString(),
+        value = empleado.cod_empleado.toString(),
         label = { Text(text = "Código") },
         onValueChange = {},
         enabled = false
@@ -72,45 +76,59 @@ fun PantallaEditarCoches(
     Spacer(Modifier.height(16.dp))
 
     TextField(
-        value = marca,
-        onValueChange = { marca = it },
+        value = nombre,
+        onValueChange = { nombre = it },
         label = { Text(text = "Nombre") },
     )
 
     Spacer(Modifier.height(16.dp))
 
     TextField(
-        value = modelo,
-        onValueChange = { modelo = it },
-        label = { Text(text = "Localización") },
+        value = apellido1,
+        onValueChange = { apellido1 = it },
+        label = { Text(text = "Primer apellido") },
     )
 
     Spacer(Modifier.height(16.dp))
 
     TextField(
-        value = especificaciones,
-        onValueChange = { especificaciones = it },
-        label = { Text(text = "Extensión (km²)") },
+        value = apellido2,
+        onValueChange = { apellido2 = it },
+        label = { Text(text = "Segundo apellido") },
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
     )
 
     Spacer(modifier = Modifier.height(16.dp))
 
     TextField(
-        value = matricula,
-        onValueChange = { matricula = it },
-        label = { Text(text = "Organismo Responsable") },
+        value = direccion,
+        onValueChange = { direccion = it },
+        label = { Text(text = "Dirección") },
     )
 
     Spacer(modifier = Modifier.height(16.dp))
 
     TextField(
-        value = vin,
-        onValueChange = { vin = it },
-        label = { Text(text = "Organismo Responsable") },
+        value = email,
+        onValueChange = { email = it },
+        label = { Text(text = "Email") },
     )
 
     Spacer(modifier = Modifier.height(16.dp))
+
+    TextField(
+        value = user,
+        onValueChange = { user = it },
+        label = { Text(text = "Email") },
+    )
+
+    Spacer(modifier = Modifier.height(16.dp))
+
+    TextField(
+        value = pass,
+        onValueChange = { pass = it },
+        label = { Text(text = "Contraseña") },
+    )
 
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -122,15 +140,17 @@ fun PantallaEditarCoches(
 
         Button(
             onClick = {
-                val vehiculoEditado = vehiculo.copy(
-                    cod_vehiculo = vehiculo.cod_vehiculo,
-                    marca = marca ?: "",
-                    modelo = modelo ?: "",
-                    especificaciones = especificaciones ?: "",
-                    matricula = matricula ?: "",
-                    vin = vin ?: ""
+                val empleadoEditado = empleado.copy(
+                    cod_empleado = empleado.cod_empleado,
+                    nombre = nombre ?: "",
+                    apellido1 = apellido1 ?: "",
+                    apellido2 = apellido2 ?: "",
+                    email = email ?: "",
+                    direccion = direccion ?: "",
+                    usuario = user ?: "",
+                    contrasenya = pass ?: "",
                 )
-                onGuardar(vehiculoEditado)
+                onGuardar(empleadoEditado)
             }
         ) {
             Text(text = stringResource(R.string.btnGuardar))
@@ -150,31 +170,33 @@ fun PantallaEditarCoches(
     }
 
     if (abrirAlertDialog) {
-        AlertDialogVehiculoConfirmar(
+        AlertDialogEmpleadoConfirmar(
             onDismissRequest = { abrirAlertDialog = false },
             onConfirmation = {
                 abrirAlertDialog = false
-                val vehiculoEditado = vehiculo.copy(
-                    cod_vehiculo = vehiculo.cod_vehiculo,
-                    marca = marca ?: "",
-                    modelo = modelo ?: "",
-                    especificaciones = especificaciones ?: "",
-                    matricula = matricula ?: "",
-                    vin = vin ?: ""
+                val empleadoEditado = empleado.copy(
+                    cod_empleado = empleado.cod_empleado,
+                    nombre = nombre ?: "",
+                    apellido1 = apellido1 ?: "",
+                    apellido2 = apellido2 ?: "",
+                    email = email ?: "",
+                    direccion = direccion ?: "",
+                    usuario = user ?: "",
+                    contrasenya = pass ?: "",
                 )
-                onBorrar(vehiculoEditado.cod_vehiculo.toString())
-                Toast.makeText(context, "Cliente borrada correctamente", Toast.LENGTH_SHORT)
+                onBorrar(empleadoEditado.cod_empleado.toString())
+                Toast.makeText(context, "Avería borrada correctamente", Toast.LENGTH_SHORT)
                     .show()
             },
-            dialogTitle = stringResource(R.string.dialogoClienteTitulo),
-            dialogText = stringResource(R.string.dialogoClienteTexto),
+            dialogTitle = stringResource(R.string.dialogoAveriaTitulo),
+            dialogText = stringResource(R.string.dialogoAveriaTexto),
             icon = Icons.Default.Warning
         )
     }
 }
 
 @Composable
-fun AlertDialogVehiculoConfirmar(
+fun AlertDialogEmpleadoConfirmar(
     onDismissRequest: () -> Unit,
     onConfirmation: () -> Unit,
     dialogTitle: String,
