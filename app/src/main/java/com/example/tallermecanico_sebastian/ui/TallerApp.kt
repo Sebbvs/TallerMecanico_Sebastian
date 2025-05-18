@@ -2,17 +2,12 @@ package com.example.tallermecanico_sebastian.ui
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -59,7 +54,14 @@ import com.example.tallermecanico_sebastian.ui.pantallas.PantallaAnyadirEmpleado
 import com.example.tallermecanico_sebastian.ui.pantallas.PantallaAverias
 import com.example.tallermecanico_sebastian.ui.pantallas.PantallaClientes
 import com.example.tallermecanico_sebastian.ui.pantallas.PantallaCoches
+import com.example.tallermecanico_sebastian.ui.pantallas.PantallaDetalleAveria
+import com.example.tallermecanico_sebastian.ui.pantallas.PantallaDetalleCliente
+import com.example.tallermecanico_sebastian.ui.pantallas.PantallaDetalleCoche
+import com.example.tallermecanico_sebastian.ui.pantallas.PantallaDetalleEmpleado
+import com.example.tallermecanico_sebastian.ui.pantallas.PantallaEditarAverias
+import com.example.tallermecanico_sebastian.ui.pantallas.PantallaEditarClientes
 import com.example.tallermecanico_sebastian.ui.pantallas.PantallaEditarCoches
+import com.example.tallermecanico_sebastian.ui.pantallas.PantallaEditarEmpleados
 import com.example.tallermecanico_sebastian.ui.pantallas.PantallaEmpleados
 import com.example.tallermecanico_sebastian.ui.pantallas.PantallaInicio
 import com.example.tallermecanico_sebastian.ui.pantallas.PantallaLogin
@@ -89,6 +91,11 @@ enum class Pantallas(@StringRes val titulo: Int) {
     AnyadirCliente(titulo = R.string.pantalla_anyadir_cliente),
     AnyadirCoche(titulo = R.string.pantalla_anyadir_coche),
     AnyadirEmpleado(titulo = R.string.pantalla_anyadir_empleado),
+
+    DetalleAveria(titulo = R.string.pantalla_detalle_averia),
+    DetalleCliente(titulo = R.string.pantalla_detalle_cliente),
+    DetalleCoche(titulo = R.string.pantalla_detalle_coche),
+    DetalleEmpleado(titulo = R.string.pantalla_detalle_empleado),
 //    EditarFacturas(titulo = R.string.pantalla_editar_facturas),
 
 //    TODO: HACER PANTALLA PARA CRUD EMPLEADOS
@@ -226,6 +233,10 @@ fun TallerApp(
                     onAveriasObtenidos = { viewModelAveria.obtenerAverias() },
                     onAveriaClick = {
                         viewModelAveria.actualizarAveriaPulsado(it)
+                        navController.navigate(Pantallas.DetalleAveria.name)
+                    },
+                    onAveriaEditar = {
+                        viewModelAveria.actualizarAveriaPulsado(it)
                         navController.navigate(Pantallas.EditarAverias.name)
                     },
                     onAveriaInsertar = { navController.navigate(Pantallas.AnyadirAveria.name) },
@@ -237,6 +248,10 @@ fun TallerApp(
                     vehiculoUIState = vehiculoUIState,
                     onVehiculosObtenidos = { viewModelVehiculo.obtenerVehiculos() },
                     onVehiculoClick = {
+                        viewModelVehiculo.actualizarVehiculoPulsado(it)
+                        navController.navigate(Pantallas.DetalleCoche.name)
+                    },
+                    onVehiculoEditar = {
                         viewModelVehiculo.actualizarVehiculoPulsado(it)
                         navController.navigate(Pantallas.EditarCoches.name)
                     },
@@ -250,6 +265,10 @@ fun TallerApp(
                     onClientesObtenidos = { viewModelCliente.obtenerClientes() },
                     onClienteClick = {
                         viewModelCliente.actualizarClientePulsado(it)
+                        navController.navigate(Pantallas.DetalleCoche.name)
+                    },
+                    onClienteEditar = {
+                        viewModelCliente.actualizarClientePulsado(it)
                         navController.navigate(Pantallas.EditarClientes.name)
                     },
                     onClienteInsertar = { navController.navigate(Pantallas.AnyadirCliente.name) },
@@ -261,6 +280,10 @@ fun TallerApp(
                     empleadoUIState = empleadoUIState,
                     onEmpleadosObtenidos = { viewModelEmpleado.obtenerEmpleados() },
                     onEmpleadoClick = {
+                        viewModelEmpleado.actualizarEmpleadoPulsado(it)
+                        navController.navigate(Pantallas.DetalleEmpleado.name)
+                    },
+                    onEmpleadoEditar = {
                         viewModelEmpleado.actualizarEmpleadoPulsado(it)
                         navController.navigate(Pantallas.EditarEmpleados.name)
                     },
@@ -309,28 +332,105 @@ fun TallerApp(
                     modifier = Modifier
                 )
             }
+            //DETALLE (INFO)
+            composable(route = Pantallas.DetalleAveria.name) {
+                PantallaDetalleAveria(
+                    averia = viewModelAveria.averiaPulsado,
+                    onAceptar = { navController.popBackStack() },
+                    modifier = Modifier
+                )
+            }
+            composable(route = Pantallas.DetalleCoche.name) {
+                PantallaDetalleCoche(
+                    vehiculo = viewModelVehiculo.vehiculoPulsado,
+                    onAceptar = { navController.popBackStack() },
+                    modifier = Modifier
+                )
+            }
+            composable(route = Pantallas.DetalleCliente.name) {
+                PantallaDetalleCliente(
+                    cliente = viewModelCliente.clientePulsado,
+                    onAceptar = { navController.popBackStack() },
+                    modifier = Modifier
+                )
+            }
+            composable(route = Pantallas.DetalleEmpleado.name) {
+                PantallaDetalleEmpleado(
+                    empleado = viewModelEmpleado.empleadoPulsado,
+                    onAceptar = { navController.popBackStack() },
+                    modifier = Modifier
+                )
+            }
             //EDITAR Y BORRAR
             composable(route = Pantallas.EditarAverias.name) {
-                PantallaInicio(
-                    empleadoViewModel = viewModelEmpleado,
+                PantallaEditarAverias(
+                    averia = viewModelAveria.averiaPulsado,
+                    onCancelar = {
+                        navController.popBackStack()
+                        navController.popBackStack(Pantallas.Averias.name, inclusive = false)
+                    },
+                    onGuardar = {
+                        viewModelAveria.actualizarAveria(it.cod_averia.toString(), it)
+                        navController.popBackStack(Pantallas.Inicio.name, inclusive = false)
+                    },
+                    onBorrar = { id ->
+                        viewModelAveria.eliminarAveria(id)
+                        navController.popBackStack(Pantallas.Inicio.name, inclusive = false)
+                    },
                     modifier = Modifier
                 )
             }
             composable(route = Pantallas.EditarCoches.name) {
-                PantallaInicio(
-                    empleadoViewModel = viewModelEmpleado,
+                PantallaEditarCoches(
+                    vehiculo = viewModelVehiculo.vehiculoPulsado,
+                    onCancelar = {
+                        navController.popBackStack()
+                        navController.popBackStack(Pantallas.Coches.name, inclusive = false)
+                    },
+                    onGuardar = {
+                        viewModelVehiculo.actualizarVehiculo(it.cod_vehiculo.toString(), it)
+                        navController.popBackStack(Pantallas.Inicio.name, inclusive = false)
+                    },
+                    onBorrar = { id ->
+                        viewModelAveria.eliminarAveria(id)
+                        navController.popBackStack(Pantallas.Inicio.name, inclusive = false)
+                    },
                     modifier = Modifier
                 )
             }
             composable(route = Pantallas.EditarClientes.name) {
-                PantallaInicio(
-                    empleadoViewModel = viewModelEmpleado,
+                PantallaEditarClientes(
+                    cliente = viewModelCliente.clientePulsado,
+                    onCancelar = {
+                        navController.popBackStack()
+                        navController.popBackStack(Pantallas.Clientes.name, inclusive = false)
+                    },
+                    onGuardar = {
+                        viewModelCliente.actualizarCliente(it.cod_cliente.toString(), it)
+                        navController.popBackStack(Pantallas.Inicio.name, inclusive = false)
+                    },
+                    onBorrar = { id ->
+                        viewModelAveria.eliminarAveria(id)
+                        navController.popBackStack(Pantallas.Inicio.name, inclusive = false)
+                    },
                     modifier = Modifier
                 )
             }
             composable(route = Pantallas.EditarEmpleados.name) {
-                PantallaInicio(
-                    empleadoViewModel = viewModelEmpleado,
+                PantallaEditarEmpleados(
+                    empleado = viewModelEmpleado.empleadoPulsado,
+                    onCancelar = {
+                        navController.popBackStack()
+                        navController.popBackStack(Pantallas.Empleados.name, inclusive = false)
+                    },
+                    onGuardar = {
+                        viewModelEmpleado.actualizarEmpleado(it.cod_empleado.toString(), it)
+                        navController.popBackStack(Pantallas.Inicio.name, inclusive = false)
+                    },
+                    onBorrar = { id ->
+                        viewModelAveria.eliminarAveria(id)
+                        navController.popBackStack(Pantallas.Inicio.name, inclusive = false)
+                    },
                     modifier = Modifier
                 )
             }

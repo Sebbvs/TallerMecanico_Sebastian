@@ -26,7 +26,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -36,7 +35,6 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.tallermecanico_sebastian.R
-import com.example.tallermecanico_sebastian.modelo.Empleado
 import com.example.tallermecanico_sebastian.ui.Pantallas
 import com.example.tallermecanico_sebastian.ui.viewmodel.EmpleadoUIState
 

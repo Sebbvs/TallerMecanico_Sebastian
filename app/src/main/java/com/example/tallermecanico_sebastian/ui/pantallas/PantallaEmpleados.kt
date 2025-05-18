@@ -1,9 +1,10 @@
 package com.example.tallermecanico_sebastian.ui.pantallas
 
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -12,6 +13,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Create
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -26,6 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.tallermecanico_sebastian.R
 import com.example.tallermecanico_sebastian.modelo.Empleado
+import com.example.tallermecanico_sebastian.ui.theme.AzulPrincipal
 import com.example.tallermecanico_sebastian.ui.viewmodel.EmpleadoUIState
 
 @Composable
@@ -33,6 +38,7 @@ fun PantallaEmpleados(
     empleadoUIState: EmpleadoUIState,
     onEmpleadosObtenidos: () -> Unit,
     onEmpleadoClick: (Empleado) -> Unit,
+    onEmpleadoEditar: (Empleado) -> Unit,
     onEmpleadoInsertar: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -43,6 +49,7 @@ fun PantallaEmpleados(
             lista = empleadoUIState.empleados,
             modifier = modifier.fillMaxWidth(),
             onEmpleadoClick = onEmpleadoClick,
+            onEmpleadoEditar = onEmpleadoEditar,
             onEmpleadoInsertar = onEmpleadoInsertar
         )
 
@@ -59,6 +66,7 @@ fun PantallaExitoEmpleados(
     lista: List<Empleado>,
     modifier: Modifier,
     onEmpleadoClick: (Empleado) -> Unit,
+    onEmpleadoEditar: (Empleado) -> Unit,
     onEmpleadoInsertar: () -> Unit
 ) {
     LazyColumn(
@@ -70,15 +78,18 @@ fun PantallaExitoEmpleados(
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(5.dp)
-                    .clickable {
-                        onEmpleadoClick(empleado)
-                    },
+                    .padding(3.dp)
+                    .border(
+                        width = 1.dp,
+                        color = AzulPrincipal,
+                        shape = RoundedCornerShape(16.dp)
+                    ),
                 shape = RoundedCornerShape(16.dp),
                 elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
             ) {
                 Column(
-                    modifier = Modifier.padding(5.dp)
+                    modifier = Modifier.padding(start = 9.dp, top = 3.dp, bottom = 3.dp)
                 ) {
                     Text(
                         text = "${stringResource(R.string.empleado_nombre)}: ${empleado.nombre} ${empleado.apellido1}",
@@ -93,6 +104,26 @@ fun PantallaExitoEmpleados(
                         text = "${stringResource(R.string.empleado_direccion)}: ${empleado.direccion}",
                         style = MaterialTheme.typography.titleSmall
                     )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Button(
+                            onClick = {
+                                onEmpleadoClick(empleado)
+                            },
+                        ) {
+                            Icons.Filled.Info
+                        }
+                        Button(
+                            onClick = {
+                                onEmpleadoEditar(empleado)
+                            },
+                        ) {
+                            Icons.Filled.Create
+                        }
+                    }
                 }
             }
         }

@@ -1,6 +1,6 @@
 package com.example.tallermecanico_sebastian.ui.pantallas
 
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,17 +9,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Create
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,11 +27,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.tallermecanico_sebastian.R
 import com.example.tallermecanico_sebastian.modelo.Averia
+import com.example.tallermecanico_sebastian.ui.theme.AzulPrincipal
 import com.example.tallermecanico_sebastian.ui.viewmodel.AveriaUIState
 
 @Composable
@@ -39,6 +39,7 @@ fun PantallaAverias(
     averiaUIState: AveriaUIState,
     onAveriasObtenidos: () -> Unit,
     onAveriaClick: (Averia) -> Unit,
+    onAveriaEditar: (Averia) -> Unit,
     onAveriaInsertar: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -49,6 +50,7 @@ fun PantallaAverias(
             lista = averiaUIState.averias,
             modifier = modifier.fillMaxWidth(),
             onAveriaClick = onAveriaClick,
+            onAveriaEditar = onAveriaEditar,
             onAveriaInsertar = onAveriaInsertar
         )
 
@@ -64,13 +66,14 @@ fun PantallaExitoAverias(
     lista: List<Averia>,
     modifier: Modifier,
     onAveriaClick: (Averia) -> Unit,
+    onAveriaEditar: (Averia) -> Unit,
     onAveriaInsertar: () -> Unit
 ) {
-/*    Text(
-        text = "Averías",
-        style = MaterialTheme.typography.headlineLarge,
-        fontWeight = FontWeight.Bold
-    )*/
+    /*    Text(
+    text = "Averías",
+    style = MaterialTheme.typography.headlineLarge,
+    fontWeight = FontWeight.Bold
+)*/
     LazyColumn(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -80,16 +83,18 @@ fun PantallaExitoAverias(
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(5.dp)
-                    .clickable {
-                        onAveriaClick(averia)
-                    },
+                    .padding(3.dp)
+                    .border(
+                        width = 1.dp,
+                        color = AzulPrincipal,
+                        shape = RoundedCornerShape(16.dp)
+                    ),
                 shape = RoundedCornerShape(16.dp),
                 elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
-//                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
             ) {
                 Column(
-                    modifier = Modifier.padding(5.dp)
+                    modifier = Modifier.padding(start = 9.dp, top = 3.dp, bottom = 3.dp)
                 ) {
                     Text(
                         text = "${stringResource(R.string.averia_descripcion)}: ${averia.descripcion}",
@@ -97,7 +102,7 @@ fun PantallaExitoAverias(
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = "${stringResource(R.string.averia_vehiculo)}: ${averia.vehiculo.marca} ${averia.vehiculo.modelo} [${averia.vehiculo.matricula}]",
+                        text = "${stringResource(R.string.averia_vehiculo)}: ${averia.vehiculo?.marca} ${averia.vehiculo?.modelo} [${averia.vehiculo?.matricula}]",
                         style = MaterialTheme.typography.titleSmall
                     )
                     Text(
@@ -105,17 +110,43 @@ fun PantallaExitoAverias(
                         style = MaterialTheme.typography.titleSmall
                     )
                     Text(
-                        text = "${stringResource(R.string.averia_cliente)}: ${averia.cliente.nombre} ${averia.cliente.apellido1}",
+                        text = "${stringResource(R.string.averia_cliente)}: ${averia.cliente?.nombre} ${averia.cliente?.apellido1}",
                         style = MaterialTheme.typography.titleSmall
                     )
                     Text(
                         text = "${stringResource(R.string.averia_estado)}: ${averia.estado}",
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.SemiBold,
-                        color = if (averia.estado.lowercase()
+                        color = if (averia.estado?.lowercase()
                                 .equals("reparado")
                         ) Color(0xFF388E3C) else Color(0xFFD32F2F)
                     )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceEvenly,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        OutlinedButton(
+                            onClick = {
+                                onAveriaClick(averia)
+                            },
+                        ) {
+                            Icon(
+                                imageVector = Icons.Filled.Info,
+                                contentDescription = "Info"
+                            )
+                        }
+                        OutlinedButton(
+                            onClick = {
+                                onAveriaEditar(averia)
+                            },
+                        ) {
+                            Icon(
+                                imageVector = Icons.Filled.Create,
+                                contentDescription = "Editar"
+                            )
+                        }
+                    }
                 }
             }
         }
@@ -133,5 +164,4 @@ fun PantallaExitoAverias(
             Icon(Icons.Filled.Add, "Insertar")
         }
     }
-
 }

@@ -89,49 +89,49 @@ class ClienteViewModel(private val clienteRepositorio: ClienteRepositorio) : Vie
                 ClienteUIState.Error
             }
         }
+    }
 
-        fun actualizarCliente(id: String, cliente: Cliente) {
-            viewModelScope.launch {
-                clienteUIState = ClienteUIState.Cargando
-                clienteUIState = try {
-                    val clienteActualizado = clienteRepositorio.actualizarCliente(
-                        id = id,
-                        cliente = cliente
-                    )
-                    ClienteUIState.ActualizarExito(clienteActualizado)
-                } catch (e: IOException) {
-                    Log.v("ClienteViewModel IO", "Error de Conexion actualizarCliente", e)
-                    ClienteUIState.Error
-                } catch (e: HttpException) {
-                    Log.v("ClienteViewModel HTTP", "Error HTTP %{e.code()} actualizarCliente", e)
-                    ClienteUIState.Error
-                } catch (e: IOException) {
-                    Log.v("ClienteViewModel E", "Error desconocido actualizarCliente", e)
-                    ClienteUIState.Error
-                }
-            }
-
-            fun eliminarCliente(id: String) {
-                viewModelScope.launch {
-                    clienteUIState = ClienteUIState.Cargando
-                    clienteUIState = try {
-                        clienteRepositorio.eliminarCliente(id)
-                        ClienteUIState.EliminarExito(id)
-                    } catch (e: IOException) {
-                        Log.v("ClienteViewModel IO", "Error de Conexion eliminarCliente", e)
-                        ClienteUIState.Error
-                    } catch (e: HttpException) {
-                        Log.v("ClienteViewModel HTTP", "Error HTTP %{e.code()} eliminarCliente", e)
-                        ClienteUIState.Error
-                    } catch (e: IOException) {
-                        Log.v("ClienteViewModel E", "Error desconocido eliminarCliente", e)
-                        ClienteUIState.Error
-                    }
-                }
+    fun actualizarCliente(id: String, cliente: Cliente) {
+        viewModelScope.launch {
+            clienteUIState = ClienteUIState.Cargando
+            clienteUIState = try {
+                val clienteActualizado = clienteRepositorio.actualizarCliente(
+                    id = id,
+                    cliente = cliente
+                )
+                ClienteUIState.ActualizarExito(clienteActualizado)
+            } catch (e: IOException) {
+                Log.v("ClienteViewModel IO", "Error de Conexion actualizarCliente", e)
+                ClienteUIState.Error
+            } catch (e: HttpException) {
+                Log.v("ClienteViewModel HTTP", "Error HTTP %{e.code()} actualizarCliente", e)
+                ClienteUIState.Error
+            } catch (e: IOException) {
+                Log.v("ClienteViewModel E", "Error desconocido actualizarCliente", e)
+                ClienteUIState.Error
             }
         }
     }
-    
+
+    fun eliminarCliente(id: String) {
+        viewModelScope.launch {
+            clienteUIState = ClienteUIState.Cargando
+            clienteUIState = try {
+                clienteRepositorio.eliminarCliente(id)
+                ClienteUIState.EliminarExito(id)
+            } catch (e: IOException) {
+                Log.v("ClienteViewModel IO", "Error de Conexion eliminarCliente", e)
+                ClienteUIState.Error
+            } catch (e: HttpException) {
+                Log.v("ClienteViewModel HTTP", "Error HTTP %{e.code()} eliminarCliente", e)
+                ClienteUIState.Error
+            } catch (e: IOException) {
+                Log.v("ClienteViewModel E", "Error desconocido eliminarCliente", e)
+                ClienteUIState.Error
+            }
+        }
+    }
+
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {

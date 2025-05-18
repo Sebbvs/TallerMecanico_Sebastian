@@ -14,7 +14,6 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -30,32 +29,27 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.tallermecanico_sebastian.R
-import com.example.tallermecanico_sebastian.modelo.Averia
 import com.example.tallermecanico_sebastian.modelo.Empleado
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 @Composable
 fun PantallaEditarEmpleados(
     empleado: Empleado,
-    onAceptar: (Empleado) -> Unit,
     onCancelar: () -> Unit,
     onBorrar: (String) -> Unit,
     onGuardar: (Empleado) -> Unit,
     modifier: Modifier = Modifier
 ) {
 
-    var nombre by remember { mutableStateOf(empleado.nombre) }
-    var apellido1 by remember { mutableStateOf(empleado.apellido1) }
-    var apellido2 by remember { mutableStateOf(empleado.apellido2) }
-    var email by remember { mutableStateOf(empleado.email) }
-    var direccion by remember { mutableStateOf(empleado.direccion) }
-    var user by remember { mutableStateOf(empleado.usuario) }
-    var pass by remember { mutableStateOf(empleado.contrasenya) }
+    var nombre by remember { mutableStateOf(empleado.nombre ?: "") }
+    var apellido1 by remember { mutableStateOf(empleado.apellido1 ?: "") }
+    var apellido2 by remember { mutableStateOf(empleado.apellido2 ?: "") }
+    var email by remember { mutableStateOf(empleado.email ?: "") }
+    var direccion by remember { mutableStateOf(empleado.direccion ?: "") }
+    var user by remember { mutableStateOf(empleado.usuario ?: "") }
+    var pass by remember { mutableStateOf(empleado.contrasenya ?: "") }
     var context = LocalContext.current
     var abrirAlertDialog by remember { mutableStateOf(false) }
 
@@ -63,135 +57,134 @@ fun PantallaEditarEmpleados(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
     ) {
+        TextField(
+            value = empleado.cod_empleado.toString(),
+            label = { Text(text = "Código") },
+            onValueChange = {},
+            enabled = false
+        )
+
         Spacer(Modifier.height(16.dp))
-    }
 
-    TextField(
-        value = empleado.cod_empleado.toString(),
-        label = { Text(text = "Código") },
-        onValueChange = {},
-        enabled = false
-    )
+        TextField(
+            value = nombre,
+            onValueChange = { nombre = it },
+            label = { Text(text = "Nombre") },
+        )
 
-    Spacer(Modifier.height(16.dp))
+        Spacer(Modifier.height(16.dp))
 
-    TextField(
-        value = nombre,
-        onValueChange = { nombre = it },
-        label = { Text(text = "Nombre") },
-    )
+        TextField(
+            value = apellido1,
+            onValueChange = { apellido1 = it },
+            label = { Text(text = "Primer apellido") },
+        )
 
-    Spacer(Modifier.height(16.dp))
+        Spacer(Modifier.height(16.dp))
 
-    TextField(
-        value = apellido1,
-        onValueChange = { apellido1 = it },
-        label = { Text(text = "Primer apellido") },
-    )
+        TextField(
+            value = apellido2,
+            onValueChange = { apellido2 = it },
+            label = { Text(text = "Segundo apellido") },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        )
 
-    Spacer(Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
-    TextField(
-        value = apellido2,
-        onValueChange = { apellido2 = it },
-        label = { Text(text = "Segundo apellido") },
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-    )
+        TextField(
+            value = direccion,
+            onValueChange = { direccion = it },
+            label = { Text(text = "Dirección") },
+        )
 
-    Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
-    TextField(
-        value = direccion,
-        onValueChange = { direccion = it },
-        label = { Text(text = "Dirección") },
-    )
+        TextField(
+            value = email,
+            onValueChange = { email = it },
+            label = { Text(text = "Email") },
+        )
 
-    Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
-    TextField(
-        value = email,
-        onValueChange = { email = it },
-        label = { Text(text = "Email") },
-    )
+        TextField(
+            value = user,
+            onValueChange = { user = it },
+            label = { Text(text = "Email") },
+        )
 
-    Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
-    TextField(
-        value = user,
-        onValueChange = { user = it },
-        label = { Text(text = "Email") },
-    )
+        TextField(
+            value = pass,
+            onValueChange = { pass = it },
+            label = { Text(text = "Contraseña") },
+        )
 
-    Spacer(modifier = Modifier.height(16.dp))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            OutlinedButton(onClick = onCancelar) {
+                Text(stringResource(R.string.dialogoBtnCancelar))
+            }
 
-    TextField(
-        value = pass,
-        onValueChange = { pass = it },
-        label = { Text(text = "Contraseña") },
-    )
-
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.Center
-    ) {
-        OutlinedButton(onClick = onCancelar) {
-            Text(stringResource(R.string.dialogoBtnCancelar))
+            Button(
+                onClick = {
+                    val empleadoEditado = empleado.copy(
+                        cod_empleado = empleado.cod_empleado,
+                        nombre = nombre ?: "",
+                        apellido1 = apellido1 ?: "",
+                        apellido2 = apellido2 ?: "",
+                        email = email ?: "",
+                        direccion = direccion ?: "",
+                        usuario = user ?: "",
+                        contrasenya = pass ?: "",
+                    )
+                    onGuardar(empleadoEditado)
+                }
+            ) {
+                Text(text = stringResource(R.string.btnGuardar))
+            }
         }
-
+        Spacer(modifier = Modifier.height(20.dp))
         Button(
             onClick = {
-                val empleadoEditado = empleado.copy(
-                    cod_empleado = empleado.cod_empleado,
-                    nombre = nombre ?: "",
-                    apellido1 = apellido1 ?: "",
-                    apellido2 = apellido2 ?: "",
-                    email = email ?: "",
-                    direccion = direccion ?: "",
-                    usuario = user ?: "",
-                    contrasenya = pass ?: "",
-                )
-                onGuardar(empleadoEditado)
-            }
-        ) {
-            Text(text = stringResource(R.string.btnGuardar))
-        }
-    }
-    Spacer(modifier = Modifier.height(20.dp))
-    Button(
-        onClick = {
-            abrirAlertDialog = true
-        },
-        colors = ButtonDefaults.buttonColors(
-            containerColor = Color.Red,
-            contentColor = Color.White
-        )
-    ) {
-        Text(text = stringResource(R.string.btnBorrar))
-    }
-
-    if (abrirAlertDialog) {
-        AlertDialogEmpleadoConfirmar(
-            onDismissRequest = { abrirAlertDialog = false },
-            onConfirmation = {
-                abrirAlertDialog = false
-                val empleadoEditado = empleado.copy(
-                    cod_empleado = empleado.cod_empleado,
-                    nombre = nombre ?: "",
-                    apellido1 = apellido1 ?: "",
-                    apellido2 = apellido2 ?: "",
-                    email = email ?: "",
-                    direccion = direccion ?: "",
-                    usuario = user ?: "",
-                    contrasenya = pass ?: "",
-                )
-                onBorrar(empleadoEditado.cod_empleado.toString())
-                Toast.makeText(context, "Avería borrada correctamente", Toast.LENGTH_SHORT)
-                    .show()
+                abrirAlertDialog = true
             },
-            dialogTitle = stringResource(R.string.dialogoAveriaTitulo),
-            dialogText = stringResource(R.string.dialogoAveriaTexto),
-            icon = Icons.Default.Warning
-        )
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color.Red,
+                contentColor = Color.White
+            )
+        ) {
+            Text(text = stringResource(R.string.btnBorrar))
+        }
+
+        if (abrirAlertDialog) {
+            AlertDialogEmpleadoConfirmar(
+                onDismissRequest = { abrirAlertDialog = false },
+                onConfirmation = {
+                    abrirAlertDialog = false
+                    val empleadoEditado = empleado.copy(
+                        cod_empleado = empleado.cod_empleado,
+                        nombre = nombre ?: "",
+                        apellido1 = apellido1 ?: "",
+                        apellido2 = apellido2 ?: "",
+                        email = email ?: "",
+                        direccion = direccion ?: "",
+                        usuario = user ?: "",
+                        contrasenya = pass ?: "",
+                    )
+                    onBorrar(empleadoEditado.cod_empleado.toString())
+                    Toast.makeText(context, "Avería borrada correctamente", Toast.LENGTH_SHORT)
+                        .show()
+                },
+                dialogTitle = stringResource(R.string.dialogoAveriaTitulo),
+                dialogText = stringResource(R.string.dialogoAveriaTexto),
+                icon = Icons.Default.Warning
+            )
+        }
     }
 }
 

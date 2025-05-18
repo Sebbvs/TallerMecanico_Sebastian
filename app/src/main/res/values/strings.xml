@@ -21,6 +21,11 @@
     <string name="pantalla_anyadir_coche">Nuevo Vehículo</string>
     <string name="pantalla_anyadir_empleado">Nuevo Empleado</string>
 
+    <string name="pantalla_detalle_averia">Detalle Avería</string>
+    <string name="pantalla_detalle_cliente">Detalle Cliente</string>
+    <string name="pantalla_detalle_coche">Detalle Coche</string>
+    <string name="pantalla_detalle_empleado">Detalle Empelado</string>
+
     <!--BOTON ATRAS-->
     <string name="atras">Atrás</string>
     <string name="home">Inicio</string>
@@ -95,5 +100,8 @@
     <string name="dialogoBtnCancelar">Cancelar</string>
     <string name="btnGuardar">Guardar</string>
     <string name="btnBorrar">Borrar</string>
+
+    <!--    EXTRAS-->
+    <string name="btnAceptar">Aceptar</string>
 
 </resources>
