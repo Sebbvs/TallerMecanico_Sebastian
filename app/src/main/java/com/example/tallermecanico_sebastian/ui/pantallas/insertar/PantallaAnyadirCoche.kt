@@ -1,4 +1,4 @@
-package com.example.tallermecanico_sebastian.ui.pantallas
+package com.example.tallermecanico_sebastian.ui.pantallas.insertar
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -22,23 +21,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.tallermecanico_sebastian.R
-import com.example.tallermecanico_sebastian.modelo.Cliente
+import com.example.tallermecanico_sebastian.modelo.Vehiculo
 
 @Composable
-fun PantallaAnyadirCliente(
-    onInsertar: (Cliente) -> Unit,
+fun PantallaAnyadirCoche(
+    onInsertar: (Vehiculo) -> Unit,
     onCancelar: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var nombre by remember { mutableStateOf("") }
-    var apellido1 by remember { mutableStateOf("") }
-    var apellido2 by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
-    var direccion by remember { mutableStateOf("") }
+    var marca by remember { mutableStateOf("") }
+    var modelo by remember { mutableStateOf("") }
+    var especificaciones by remember { mutableStateOf("") }
+    var matricula by remember { mutableStateOf("") }
+    var vin by remember { mutableStateOf("") }
     var context = LocalContext.current
     var abrirAlertDialog by remember { mutableStateOf(false) }
 
@@ -46,46 +44,44 @@ fun PantallaAnyadirCliente(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
     ) {
-
         Spacer(Modifier.height(16.dp))
 
         TextField(
-            value = nombre,
-            onValueChange = { nombre = it },
-            label = { Text(text = "Nombre") },
+            value = marca,
+            onValueChange = { marca = it },
+            label = { Text(text = "Marca") },
         )
 
         Spacer(Modifier.height(16.dp))
 
         TextField(
-            value = apellido1,
-            onValueChange = { apellido1 = it },
-            label = { Text(text = "Primer apellido") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal)
+            value = modelo,
+            onValueChange = { modelo = it },
+            label = { Text(text = "Modelo") },
         )
 
         Spacer(Modifier.height(16.dp))
 
         TextField(
-            value = apellido2,
-            onValueChange = { apellido2 = it },
-            label = { Text(text = "Segundo apellido") },
+            value = especificaciones,
+            onValueChange = { especificaciones = it },
+            label = { Text(text = "Especificaciones") },
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         TextField(
-            value = email,
-            onValueChange = { email = it },
-            label = { Text(text = "Email") },
+            value = matricula,
+            onValueChange = { matricula = it },
+            label = { Text(text = "Matricula") },
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         TextField(
-            value = direccion,
-            onValueChange = { direccion = it },
-            label = { Text(text = "Dirección") },
+            value = vin,
+            onValueChange = { vin = it },
+            label = { Text(text = "Vin (Bastidor)") },
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -104,24 +100,24 @@ fun PantallaAnyadirCliente(
             val context = LocalContext.current
             Button(
                 onClick = {
-                    if (nombre.isEmpty() || apellido1.isEmpty() || email.isEmpty()) {
+                    if (marca.isEmpty() || modelo.isEmpty() || matricula.isEmpty()) {
                         Toast.makeText(
                             context,
                             context.getString(R.string.warningFormulario),
                             Toast.LENGTH_SHORT
                         ).show()
                     } else {
-                        val cliente = Cliente(
-                            nombre = nombre,
-                            apellido1 = apellido1,
-                            apellido2 = apellido2,
-                            email = email,
-                            direccion = direccion,
+                        val coche = Vehiculo(
+                            marca = marca,
+                            modelo = modelo,
+                            especificaciones = especificaciones,
+                            matricula = matricula,
+                            vin = vin,
                         )
-                        onInsertar(cliente)
+                        onInsertar(coche)
                         Toast.makeText(
                             context,
-                            "Cliente guardada correctamente.",
+                            "Vehículo guardada correctamente.",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -136,8 +132,8 @@ fun PantallaAnyadirCliente(
 
 @Preview(showBackground = true)
 @Composable
-fun PantallaAnyadirClientePreview() {
-    PantallaAnyadirCliente(
+fun PantallaAnyadirCochePreview() {
+    PantallaAnyadirCoche(
         onInsertar = {},
         onCancelar = {},
         modifier = Modifier

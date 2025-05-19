@@ -1,23 +1,31 @@
-package com.example.tallermecanico_sebastian.ui.pantallas
+package com.example.tallermecanico_sebastian.ui.pantallas.modificar
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
+import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -33,9 +41,12 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.tallermecanico_sebastian.R
 import com.example.tallermecanico_sebastian.modelo.Averia
+import com.example.tallermecanico_sebastian.ui.pantallas.DatePickerModal
+import com.example.tallermecanico_sebastian.ui.pantallas.convertMillisToDate
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PantallaEditarAverias(
     averia: Averia,
@@ -62,23 +73,29 @@ fun PantallaEditarAverias(
     var context = LocalContext.current
     var abrirAlertDialog by remember { mutableStateOf(false) }
 
+    var showDatePicker1 by remember { mutableStateOf(false) }
+    var showDatePicker2 by remember { mutableStateOf(false) }
+    val datePickerState = rememberDatePickerState()
+    val selectedDate = datePickerState.selectedDateMillis?.let {
+        convertMillisToDate(it)
+    } ?: ""
+
+    var comprobarRecepcion by remember { mutableStateOf<Long?>(null) }
+    var comprobarResolucion by remember { mutableStateOf<Long?>(null) }
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier
+        modifier = modifier.fillMaxSize().padding(20.dp)
     ) {
-/*        TextField(
-            value = averia.cod_averia.toString(),
-            label = { Text(text = "Código") },
-            onValueChange = {},
-            enabled = false
-        )*/
-
-        Spacer(Modifier.height(16.dp))
 
         TextField(
             value = descripcion,
             onValueChange = { descripcion = it },
-            label = { Text(text = "Descripción") },
+            label = { Text(text = stringResource(R.string.editarAveria_descripcion)) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 28.dp, end = 28.dp)
+                .height(112.dp)
         )
 
         Spacer(Modifier.height(16.dp))
@@ -86,7 +103,10 @@ fun PantallaEditarAverias(
         TextField(
             value = precio,
             onValueChange = { precio = it },
-            label = { Text(text = "Precio") },
+            label = { Text(text = stringResource(R.string.editarAveria_precio)) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 28.dp, end = 28.dp)
         )
 
         Spacer(Modifier.height(16.dp))
@@ -94,25 +114,102 @@ fun PantallaEditarAverias(
         TextField(
             value = estado,
             onValueChange = { estado = it },
-            label = { Text(text = "Estado") },
+            label = { Text(text = stringResource(R.string.editarAveria_estado)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 28.dp, end = 28.dp)
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        TextField(
-            value = fechaRecepcion,
-            onValueChange = { fechaRecepcion = it },
-            label = { Text(text = "Fecha de recepción") },
-        )
+        Box(
+//            modifier = Modifier.fillMaxWidth()
+        ) {
+            OutlinedTextField(
+                value = fechaRecepcion,
+                onValueChange = { },
+                label = { Text(text = stringResource(R.string.editarAveria_fechaRecepcion)) },
+                readOnly = true,
+                trailingIcon = {
+                    IconButton(onClick = { showDatePicker1 = !showDatePicker1 }) {
+                        Icon(
+                            imageVector = Icons.Default.DateRange,
+                            contentDescription = stringResource(R.string.editarAveria_seleccionarFecha)
+                        )
+                    }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(64.dp).padding(start = 28.dp, end = 28.dp)
+            )
+
+            if (showDatePicker1) {
+                DatePickerModal(
+                    onDateSelected = {
+                        if (it != null) {
+                            fechaRecepcion = convertMillisToDate(it)
+                            if (comprobarResolucion != null && comprobarResolucion!! < it) {
+                                comprobarResolucion = null
+                                fechaResolucion = ""
+                            }
+                        }
+                        showDatePicker1 = false
+                    },
+                    onDismiss = {
+                        showDatePicker1 = false
+                    }
+                )
+            }
+        }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        TextField(
-            value = fechaResolucion,
-            onValueChange = { fechaResolucion = it },
-            label = { Text(text = "Fecha de resolución") },
-        )
+        Box(
+//            modifier = Modifier.fillMaxWidth()
+        ) {
+            OutlinedTextField(
+                value = fechaResolucion,
+                onValueChange = { },
+                label = { Text(text = stringResource(R.string.editarAveria_fechaResolucion)) },
+                readOnly = true,
+                trailingIcon = {
+                    IconButton(onClick = { showDatePicker2 = !showDatePicker2 }) {
+                        Icon(
+                            imageVector = Icons.Default.DateRange,
+                            contentDescription = stringResource(R.string.editarAveria_seleccionarFecha)
+                        )
+                    }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(64.dp).padding(start = 28.dp, end = 28.dp)
+            )
+
+            if (showDatePicker2) {
+                DatePickerModal(
+                    onDateSelected = {
+                        if (it != null) {
+                            if (comprobarResolucion == null || it >= comprobarRecepcion!!) {
+                                comprobarResolucion = it
+                                fechaResolucion = convertMillisToDate(it)
+                            } else {
+                                Toast.makeText(
+                                    context,
+                                    R.string.editarAveria_mensajeFecha,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                            fechaResolucion = convertMillisToDate(it)
+                        }
+                        showDatePicker2 = false
+                    },
+                    onDismiss = {
+                        showDatePicker2 = false
+                    }
+                )
+            }
+        }
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -137,6 +234,12 @@ fun PantallaEditarAverias(
                         fecha_resolucion = fechaResolucion ?: ""
                     )
                     onGuardar(averiaEditado)
+                    Toast.makeText(
+                        context,
+                        R.string.editarAveria_mensajeAveria1,
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
                 }
             ) {
                 Text(text = stringResource(R.string.btnGuardar))
@@ -170,7 +273,11 @@ fun PantallaEditarAverias(
                         fecha_resolucion = fechaResolucion ?: ""
                     )
                     onBorrar(averiaEditado.cod_averia.toString())
-                    Toast.makeText(context, "Avería borrada correctamente", Toast.LENGTH_SHORT)
+                    Toast.makeText(
+                        context,
+                        R.string.editarAveria_mensajeAveria2,
+                        Toast.LENGTH_SHORT
+                    )
                         .show()
                 },
                 dialogTitle = stringResource(R.string.dialogoAveriaTitulo),

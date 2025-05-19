@@ -1,12 +1,15 @@
-package com.example.tallermecanico_sebastian.ui.pantallas
+package com.example.tallermecanico_sebastian.ui.pantallas.modificar
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.AlertDialog
@@ -28,44 +31,44 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import com.example.tallermecanico_sebastian.R
-import com.example.tallermecanico_sebastian.modelo.Cliente
+import com.example.tallermecanico_sebastian.modelo.Empleado
 
 @Composable
-fun PantallaEditarClientes(
-    cliente: Cliente,
+fun PantallaEditarEmpleados(
+    empleado: Empleado,
     onCancelar: () -> Unit,
     onBorrar: (String) -> Unit,
-    onGuardar: (Cliente) -> Unit,
+    onGuardar: (Empleado) -> Unit,
     modifier: Modifier = Modifier
 ) {
 
-    var nombre by remember { mutableStateOf(cliente.nombre ?: "") }
-    var apellido1 by remember { mutableStateOf(cliente.apellido1 ?: "") }
-    var apellido2 by remember { mutableStateOf(cliente.apellido2 ?: "") }
-    var email by remember { mutableStateOf(cliente.email ?: "") }
-    var direccion by remember { mutableStateOf(cliente.direccion ?: "") }
+    var nombre by remember { mutableStateOf(empleado.nombre ?: "") }
+    var apellido1 by remember { mutableStateOf(empleado.apellido1 ?: "") }
+    var apellido2 by remember { mutableStateOf(empleado.apellido2 ?: "") }
+    var email by remember { mutableStateOf(empleado.email ?: "") }
+    var direccion by remember { mutableStateOf(empleado.direccion ?: "") }
+    var user by remember { mutableStateOf(empleado.usuario ?: "") }
+    var pass by remember { mutableStateOf(empleado.contrasenya ?: "") }
     var context = LocalContext.current
     var abrirAlertDialog by remember { mutableStateOf(false) }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
+            .fillMaxSize()
+            .padding(20.dp)
     ) {
-/*        TextField(
-            value = cliente.cod_cliente.toString(),
-            label = { Text(text = "Código") },
-            onValueChange = {},
-            enabled = false
-        )*/
-
-//        Spacer(Modifier.height(16.dp))
-
         TextField(
             value = nombre,
             onValueChange = { nombre = it },
-            label = { Text(text = "Nombre") },
+            label = { Text(text = stringResource(R.string.editarEmpleado_nombre)) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 28.dp, end = 28.dp)
         )
 
         Spacer(Modifier.height(16.dp))
@@ -73,7 +76,10 @@ fun PantallaEditarClientes(
         TextField(
             value = apellido1,
             onValueChange = { apellido1 = it },
-            label = { Text(text = "Primer apellido") },
+            label = { Text(text = stringResource(R.string.editarEmpleado_apellido1)) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 28.dp, end = 28.dp)
         )
 
         Spacer(Modifier.height(16.dp))
@@ -81,7 +87,21 @@ fun PantallaEditarClientes(
         TextField(
             value = apellido2,
             onValueChange = { apellido2 = it },
-            label = { Text(text = "Segundo apellido") },
+            label = { Text(text = stringResource(R.string.editarEmpleado_apellido2)) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 28.dp, end = 28.dp)
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        TextField(
+            value = direccion,
+            onValueChange = { direccion = it },
+            label = { Text(text = stringResource(R.string.editarEmpleado_direccion)) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 28.dp, end = 28.dp)
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -89,10 +109,35 @@ fun PantallaEditarClientes(
         TextField(
             value = email,
             onValueChange = { email = it },
-            label = { Text(text = "Email") },
+            label = { Text(text = stringResource(R.string.editarEmpleado_email)) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 28.dp, end = 28.dp)
         )
 
         Spacer(modifier = Modifier.height(16.dp))
+
+        TextField(
+            value = user,
+            onValueChange = { user = it },
+            label = { Text(text = stringResource(R.string.editarEmpleado_usu)) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 28.dp, end = 28.dp)
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        TextField(
+            value = pass,
+            onValueChange = { pass = it },
+            label = { Text(text = stringResource(R.string.editarEmpleado_pass)) },
+            visualTransformation = PasswordVisualTransformation(),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 28.dp, end = 28.dp)
+        )
 
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -105,21 +150,25 @@ fun PantallaEditarClientes(
 
             Button(
                 onClick = {
-                    val clienteEditado = cliente.copy(
-                        cod_cliente = cliente.cod_cliente,
+                    val empleadoEditado = empleado.copy(
+                        cod_empleado = empleado.cod_empleado,
                         nombre = nombre ?: "",
                         apellido1 = apellido1 ?: "",
                         apellido2 = apellido2 ?: "",
                         email = email ?: "",
-                        direccion = direccion ?: ""
+                        direccion = direccion ?: "",
+                        usuario = user ?: "",
+                        contrasenya = pass ?: "",
                     )
-                    onGuardar(clienteEditado)
+                    onGuardar(empleadoEditado)
+                    Toast.makeText(context, R.string.editarEmpleado_mensaje2, Toast.LENGTH_SHORT)
+                        .show()
                 }
             ) {
                 Text(text = stringResource(R.string.btnGuardar))
             }
         }
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(20.dp))
         Button(
             onClick = {
                 abrirAlertDialog = true
@@ -133,24 +182,26 @@ fun PantallaEditarClientes(
         }
 
         if (abrirAlertDialog) {
-            AlertDialogClienteConfirmar(
+            AlertDialogEmpleadoConfirmar(
                 onDismissRequest = { abrirAlertDialog = false },
                 onConfirmation = {
                     abrirAlertDialog = false
-                    val clienteEditado = cliente.copy(
-                        cod_cliente = cliente.cod_cliente,
+                    val empleadoEditado = empleado.copy(
+                        cod_empleado = empleado.cod_empleado,
                         nombre = nombre ?: "",
                         apellido1 = apellido1 ?: "",
                         apellido2 = apellido2 ?: "",
                         email = email ?: "",
-                        direccion = direccion ?: ""
+                        direccion = direccion ?: "",
+                        usuario = user ?: "",
+                        contrasenya = pass ?: "",
                     )
-                    onBorrar(clienteEditado.cod_cliente.toString())
-                    Toast.makeText(context, "Cliente borrada correctamente", Toast.LENGTH_SHORT)
+                    onBorrar(empleadoEditado.cod_empleado.toString())
+                    Toast.makeText(context, R.string.editarEmpleado_mensaje2, Toast.LENGTH_SHORT)
                         .show()
                 },
-                dialogTitle = stringResource(R.string.dialogoClienteTitulo),
-                dialogText = stringResource(R.string.dialogoClienteTexto),
+                dialogTitle = stringResource(R.string.dialogoAveriaTitulo),
+                dialogText = stringResource(R.string.dialogoAveriaTexto),
                 icon = Icons.Default.Warning
             )
         }
@@ -158,7 +209,7 @@ fun PantallaEditarClientes(
 }
 
 @Composable
-fun AlertDialogClienteConfirmar(
+fun AlertDialogEmpleadoConfirmar(
     onDismissRequest: () -> Unit,
     onConfirmation: () -> Unit,
     dialogTitle: String,

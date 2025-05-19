@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Averia(
     @SerialName(value = "cod_averia")
-    val cod_averia: Int = 0,
+    val cod_averia: Int? = 0,
     @SerialName(value = "descripcion")
     val descripcion: String? = "", //OBLIGATORIO
     @SerialName(value = "precio")

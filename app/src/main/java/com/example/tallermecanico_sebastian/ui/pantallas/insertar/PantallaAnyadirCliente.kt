@@ -1,4 +1,4 @@
-package com.example.tallermecanico_sebastian.ui.pantallas
+package com.example.tallermecanico_sebastian.ui.pantallas.insertar
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -21,14 +22,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.tallermecanico_sebastian.R
-import com.example.tallermecanico_sebastian.modelo.Empleado
+import com.example.tallermecanico_sebastian.modelo.Cliente
 
 @Composable
-fun PantallaAnyadirEmpleado(
-    onInsertar: (Empleado) -> Unit,
+fun PantallaAnyadirCliente(
+    onInsertar: (Cliente) -> Unit,
     onCancelar: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -37,10 +39,8 @@ fun PantallaAnyadirEmpleado(
     var apellido2 by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var direccion by remember { mutableStateOf("") }
-    var usuario by remember { mutableStateOf("") }
-    var contrasenya by remember { mutableStateOf("") }
     var context = LocalContext.current
-    var abrirAlertDialog by remember { mutableStateOf("") }
+    var abrirAlertDialog by remember { mutableStateOf(false) }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -61,6 +61,7 @@ fun PantallaAnyadirEmpleado(
             value = apellido1,
             onValueChange = { apellido1 = it },
             label = { Text(text = "Primer apellido") },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal)
         )
 
         Spacer(Modifier.height(16.dp))
@@ -103,26 +104,24 @@ fun PantallaAnyadirEmpleado(
             val context = LocalContext.current
             Button(
                 onClick = {
-                    if (nombre.isEmpty() || usuario.isEmpty() || contrasenya.isEmpty()) {
+                    if (nombre.isEmpty() || apellido1.isEmpty() || email.isEmpty()) {
                         Toast.makeText(
                             context,
                             context.getString(R.string.warningFormulario),
                             Toast.LENGTH_SHORT
                         ).show()
                     } else {
-                        val empleado = Empleado(
+                        val cliente = Cliente(
                             nombre = nombre,
                             apellido1 = apellido1,
                             apellido2 = apellido2,
                             email = email,
                             direccion = direccion,
-                            usuario = usuario,
-                            contrasenya = contrasenya,
                         )
-                        onInsertar(empleado)
+                        onInsertar(cliente)
                         Toast.makeText(
                             context,
-                            "Empleado guardado correctamente.",
+                            "Cliente guardada correctamente.",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -137,8 +136,8 @@ fun PantallaAnyadirEmpleado(
 
 @Preview(showBackground = true)
 @Composable
-fun PantallaAnyadirEmpeladoPreview() {
-    PantallaAnyadirAveria(
+fun PantallaAnyadirClientePreview() {
+    PantallaAnyadirCliente(
         onInsertar = {},
         onCancelar = {},
         modifier = Modifier

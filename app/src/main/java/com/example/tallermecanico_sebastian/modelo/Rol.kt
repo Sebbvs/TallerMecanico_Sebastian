@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Rol(
     @SerialName(value = "cod_rol")
-    val cod_rol: Int = 0,
+    val cod_rol: Int? = 0,
     @SerialName(value = "nombre")
-    val nombre: String = "",
+    val nombre: String? = "",
 )

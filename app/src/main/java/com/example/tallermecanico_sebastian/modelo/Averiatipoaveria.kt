@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Averiatipoaveria(
     @SerialName(value = "id")
-    val id: Int = 0,
+    val id: Int? = 0,
 )

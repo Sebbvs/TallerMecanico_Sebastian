@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Vehiculo(
     @SerialName(value = "cod_vehiculo")
-    val cod_vehiculo: Int = 0,
+    val cod_vehiculo: Int? = 0,
     @SerialName(value = "marca")
     val marca: String? = "",//OBLIGATORIO
     @SerialName(value = "modelo")

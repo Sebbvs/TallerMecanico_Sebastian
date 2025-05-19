@@ -1,12 +1,14 @@
-package com.example.tallermecanico_sebastian.ui.pantallas
+package com.example.tallermecanico_sebastian.ui.pantallas.modificar
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Warning
@@ -54,20 +56,15 @@ fun PantallaEditarCoches(
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
+            .fillMaxSize()
+            .padding(20.dp)
     ) {
-        TextField(
-            value = vehiculo.cod_vehiculo.toString(),
-            label = { Text(text = "Código") },
-            onValueChange = {},
-            enabled = false
-        )
-
-        Spacer(Modifier.height(16.dp))
-
         TextField(
             value = marca,
             onValueChange = { marca = it },
-            label = { Text(text = "Nombre") },
+            label = { Text(text = stringResource(R.string.editarCoche_marca)) }, modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 28.dp, end = 28.dp)
         )
 
         Spacer(Modifier.height(16.dp))
@@ -75,7 +72,10 @@ fun PantallaEditarCoches(
         TextField(
             value = modelo,
             onValueChange = { modelo = it },
-            label = { Text(text = "Localización") },
+            label = { Text(text = stringResource(R.string.editarCoche_modelo)) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 28.dp, end = 28.dp)
         )
 
         Spacer(Modifier.height(16.dp))
@@ -83,8 +83,11 @@ fun PantallaEditarCoches(
         TextField(
             value = especificaciones,
             onValueChange = { especificaciones = it },
-            label = { Text(text = "Extensión (km²)") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            label = { Text(text = stringResource(R.string.editarCoche_especificaciones)) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 28.dp, end = 28.dp)
+                .height(112.dp)
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -92,7 +95,10 @@ fun PantallaEditarCoches(
         TextField(
             value = matricula,
             onValueChange = { matricula = it },
-            label = { Text(text = "Organismo Responsable") },
+            label = { Text(text = stringResource(R.string.editarCoche_matricula)) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 28.dp, end = 28.dp)
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -100,7 +106,10 @@ fun PantallaEditarCoches(
         TextField(
             value = vin,
             onValueChange = { vin = it },
-            label = { Text(text = "Organismo Responsable") },
+            label = { Text(text = stringResource(R.string.editarCoche_vin)) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 28.dp, end = 28.dp)
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -125,6 +134,8 @@ fun PantallaEditarCoches(
                         vin = vin ?: ""
                     )
                     onGuardar(vehiculoEditado)
+                    Toast.makeText(context, R.string.editarCoche_mensaje1, Toast.LENGTH_SHORT)
+                        .show()
                 }
             ) {
                 Text(text = stringResource(R.string.btnGuardar))
@@ -157,7 +168,7 @@ fun PantallaEditarCoches(
                         vin = vin ?: ""
                     )
                     onBorrar(vehiculoEditado.cod_vehiculo.toString())
-                    Toast.makeText(context, "Cliente borrada correctamente", Toast.LENGTH_SHORT)
+                    Toast.makeText(context, R.string.editarCoche_mensaje2, Toast.LENGTH_SHORT)
                         .show()
                 },
                 dialogTitle = stringResource(R.string.dialogoClienteTitulo),

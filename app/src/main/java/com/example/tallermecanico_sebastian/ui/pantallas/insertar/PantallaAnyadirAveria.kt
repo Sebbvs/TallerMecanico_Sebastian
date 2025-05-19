@@ -1,18 +1,34 @@
-package com.example.tallermecanico_sebastian.ui.pantallas
+package com.example.tallermecanico_sebastian.ui.pantallas.insertar
 
 import android.widget.Toast
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Button
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.DisplayMode
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
+import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -20,6 +36,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.PointerEventPass
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -30,9 +48,15 @@ import com.example.tallermecanico_sebastian.modelo.Averia
 import com.example.tallermecanico_sebastian.modelo.Cliente
 import com.example.tallermecanico_sebastian.modelo.Empleado
 import com.example.tallermecanico_sebastian.modelo.Vehiculo
+import com.example.tallermecanico_sebastian.ui.pantallas.DatePickerModal
+import com.example.tallermecanico_sebastian.ui.pantallas.convertMillisToDate
+import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.util.Date
+import java.util.Locale
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PantallaAnyadirAveria(
     onInsertar: (Averia) -> Unit,
@@ -56,15 +80,20 @@ fun PantallaAnyadirAveria(
     var context = LocalContext.current
     var abrirAlertDialog by remember { mutableStateOf("") }
 
+    var showDatePicker1 by remember { mutableStateOf(false) }
+    var showDatePicker2 by remember { mutableStateOf(false) }
+    val datePickerState = rememberDatePickerState()
+    val selectedDate = datePickerState.selectedDateMillis?.let {
+        convertMillisToDate(it)
+    } ?: ""
+
+    var comprobarRecepcion by remember { mutableStateOf<Long?>(null) }
+    var comprobarResolucion by remember { mutableStateOf<Long?>(null) }
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
     ) {
-/*        Text(
-            text = "Nueva Avería",
-            style = MaterialTheme.typography.headlineMedium,
-            fontWeight = FontWeight.Bold
-        )*/
         Spacer(Modifier.height(16.dp))
 
         TextField(
@@ -92,19 +121,93 @@ fun PantallaAnyadirAveria(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        TextField(
-            value = fechaRecepcion,
-            onValueChange = { fechaRecepcion = it },
-            label = { Text(text = "Fecha de recepcion") },
-        )
+        Box(
+//            modifier = Modifier.fillMaxWidth()
+        ) {
+            OutlinedTextField(
+                value = fechaRecepcion,
+                onValueChange = { },
+                label = { Text("Fecha de recepción") },
+                readOnly = true,
+                trailingIcon = {
+                    IconButton(onClick = { showDatePicker1 = !showDatePicker1 }) {
+                        Icon(
+                            imageVector = Icons.Default.DateRange,
+                            contentDescription = "Select date"
+                        )
+                    }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(64.dp)
+            )
+
+            if (showDatePicker1) {
+                DatePickerModal(
+                    onDateSelected = {
+                        if (it != null) {
+                            fechaRecepcion = convertMillisToDate(it)
+                            if (comprobarResolucion != null && comprobarResolucion!! < it) {
+                                comprobarResolucion = null
+                                fechaResolucion = ""
+                            }
+                        }
+                        showDatePicker1 = false
+                    },
+                    onDismiss = {
+                        showDatePicker1 = false
+                    }
+                )
+            }
+        }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        TextField(
-            value = fechaResolucion,
-            onValueChange = { fechaResolucion = it },
-            label = { Text(text = "Fecha de resolucion") },
-        )
+        Box(
+//            modifier = Modifier.fillMaxWidth()
+        ) {
+            OutlinedTextField(
+                value = fechaResolucion,
+                onValueChange = { },
+                label = { Text("Fecha de resolución") },
+                readOnly = true,
+                trailingIcon = {
+                    IconButton(onClick = { showDatePicker2 = !showDatePicker2 }) {
+                        Icon(
+                            imageVector = Icons.Default.DateRange,
+                            contentDescription = "Select date"
+                        )
+                    }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(64.dp)
+            )
+
+            if (showDatePicker2) {
+                DatePickerModal(
+                    onDateSelected = {
+                        if (it != null) {
+                            if (comprobarResolucion == null || it >= comprobarRecepcion!!) {
+                                comprobarResolucion = it
+                                fechaResolucion = convertMillisToDate(it)
+                            } else {
+                                Toast.makeText(
+                                    context,
+                                    "La fecha de resolución no puede ser anterior a la de recepción",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                            fechaResolucion = convertMillisToDate(it)
+                        }
+                        showDatePicker2 = false
+                    },
+                    onDismiss = {
+                        showDatePicker2 = false
+                    }
+                )
+            }
+        }
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -154,7 +257,6 @@ fun PantallaAnyadirAveria(
             }
         }
     }
-
 }
 
 @Preview(showBackground = true)

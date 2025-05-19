@@ -30,9 +30,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -42,27 +40,25 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.example.tallermecanico_sebastian.R
 import com.example.tallermecanico_sebastian.modelo.Ruta
-import com.example.tallermecanico_sebastian.ui.pantallas.PantallaAnyadirAveria
-import com.example.tallermecanico_sebastian.ui.pantallas.PantallaAnyadirCliente
-import com.example.tallermecanico_sebastian.ui.pantallas.PantallaAnyadirCoche
-import com.example.tallermecanico_sebastian.ui.pantallas.PantallaAnyadirEmpeladoPreview
-import com.example.tallermecanico_sebastian.ui.pantallas.PantallaAnyadirEmpleado
-import com.example.tallermecanico_sebastian.ui.pantallas.PantallaAverias
-import com.example.tallermecanico_sebastian.ui.pantallas.PantallaClientes
-import com.example.tallermecanico_sebastian.ui.pantallas.PantallaCoches
-import com.example.tallermecanico_sebastian.ui.pantallas.PantallaDetalleAveria
-import com.example.tallermecanico_sebastian.ui.pantallas.PantallaDetalleCliente
-import com.example.tallermecanico_sebastian.ui.pantallas.PantallaDetalleCoche
-import com.example.tallermecanico_sebastian.ui.pantallas.PantallaDetalleEmpleado
-import com.example.tallermecanico_sebastian.ui.pantallas.PantallaEditarAverias
-import com.example.tallermecanico_sebastian.ui.pantallas.PantallaEditarClientes
-import com.example.tallermecanico_sebastian.ui.pantallas.PantallaEditarCoches
-import com.example.tallermecanico_sebastian.ui.pantallas.PantallaEditarEmpleados
-import com.example.tallermecanico_sebastian.ui.pantallas.PantallaEmpleados
+import com.example.tallermecanico_sebastian.ui.pantallas.insertar.PantallaAnyadirAveria
+import com.example.tallermecanico_sebastian.ui.pantallas.insertar.PantallaAnyadirCliente
+import com.example.tallermecanico_sebastian.ui.pantallas.insertar.PantallaAnyadirCoche
+import com.example.tallermecanico_sebastian.ui.pantallas.insertar.PantallaAnyadirEmpleado
+import com.example.tallermecanico_sebastian.ui.pantallas.listar.PantallaAverias
+import com.example.tallermecanico_sebastian.ui.pantallas.listar.PantallaClientes
+import com.example.tallermecanico_sebastian.ui.pantallas.listar.PantallaCoches
+import com.example.tallermecanico_sebastian.ui.pantallas.detalle.PantallaDetalleAveria
+import com.example.tallermecanico_sebastian.ui.pantallas.detalle.PantallaDetalleCliente
+import com.example.tallermecanico_sebastian.ui.pantallas.detalle.PantallaDetalleCoche
+import com.example.tallermecanico_sebastian.ui.pantallas.detalle.PantallaDetalleEmpleado
+import com.example.tallermecanico_sebastian.ui.pantallas.modificar.PantallaEditarAverias
+import com.example.tallermecanico_sebastian.ui.pantallas.modificar.PantallaEditarClientes
+import com.example.tallermecanico_sebastian.ui.pantallas.modificar.PantallaEditarCoches
+import com.example.tallermecanico_sebastian.ui.pantallas.modificar.PantallaEditarEmpleados
+import com.example.tallermecanico_sebastian.ui.pantallas.listar.PantallaEmpleados
 import com.example.tallermecanico_sebastian.ui.pantallas.PantallaInicio
 import com.example.tallermecanico_sebastian.ui.pantallas.PantallaLogin
 import com.example.tallermecanico_sebastian.ui.theme.Blanco
@@ -179,13 +175,13 @@ fun TallerApp(
                             icon = {
                                 if (selectedItem == index)
                                     Image(
-                                        painter = painterResource(id = ruta.iconoLleno),
+                                        painter = painterResource(id = ruta.iconoLleno!!),
                                         contentDescription = stringResource(id = ruta.nombre),
                                         modifier = Modifier.size(18.dp)
                                     )
                                 else
                                     Image(
-                                        painter = painterResource(id = ruta.iconoVacio),
+                                        painter = painterResource(id = ruta.iconoVacio!!),
                                         contentDescription = stringResource(id = ruta.nombre),
                                         modifier = Modifier.size(18.dp)
                                     )
@@ -265,7 +261,7 @@ fun TallerApp(
                     onClientesObtenidos = { viewModelCliente.obtenerClientes() },
                     onClienteClick = {
                         viewModelCliente.actualizarClientePulsado(it)
-                        navController.navigate(Pantallas.DetalleCoche.name)
+                        navController.navigate(Pantallas.DetalleCliente.name)
                     },
                     onClienteEditar = {
                         viewModelCliente.actualizarClientePulsado(it)

@@ -1,11 +1,14 @@
-package com.example.tallermecanico_sebastian.ui.pantallas
+package com.example.tallermecanico_sebastian.ui.pantallas.detalle
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -36,46 +39,46 @@ fun PantallaDetalleEmpleado(
     var direccion by remember { mutableStateOf(empleado.direccion ?: "") }
     var user by remember { mutableStateOf(empleado.usuario ?: "") }
     var pass by remember { mutableStateOf(empleado.contrasenya ?: "") }
+    var rol by remember { mutableStateOf(empleado.rol?.nombre ?: "") }
     var context = LocalContext.current
     var abrirAlertDialog by remember { mutableStateOf(false) }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
+            .fillMaxSize()
+            .padding(20.dp)
     ) {
-/*        TextField(
-            value = empleado.cod_empleado.toString(),
-            label = { Text(text = "Código") },
-            onValueChange = {},
-            enabled = false
-        )*/
-
-        Spacer(Modifier.height(16.dp))
-
         TextField(
             value = nombre,
             onValueChange = { nombre = it },
             label = { Text(text = "Nombre") },
-            enabled = false
+            readOnly = true,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 28.dp, end = 28.dp)
         )
 
         Spacer(Modifier.height(16.dp))
 
         TextField(
-            value = apellido1,
+            value = "${apellido1} ${apellido2}",
             onValueChange = { apellido1 = it },
-            label = { Text(text = "Primer apellido") },
-            enabled = false
+            label = { Text(text = "Apellidos") },
+            readOnly = true,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 28.dp, end = 28.dp)
         )
 
-        Spacer(Modifier.height(16.dp))
+        /*        Spacer(Modifier.height(16.dp))
 
-        TextField(
-            value = apellido2,
-            onValueChange = { apellido2 = it },
-            label = { Text(text = "Segundo apellido") },
-            enabled = false
-        )
+                TextField(
+                    value = apellido2,
+                    onValueChange = { apellido2 = it },
+                    label = { Text(text = "Segundo apellido") },
+                    readOnly = true,
+                )*/
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -83,7 +86,11 @@ fun PantallaDetalleEmpleado(
             value = email,
             onValueChange = { email = it },
             label = { Text(text = "Email") },
-            enabled = false
+            readOnly = true,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 28.dp, end = 28.dp)
+
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -92,7 +99,10 @@ fun PantallaDetalleEmpleado(
             value = direccion,
             onValueChange = { direccion = it },
             label = { Text(text = "Dirección") },
-            enabled = false
+            readOnly = true,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 28.dp, end = 28.dp)
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -100,25 +110,31 @@ fun PantallaDetalleEmpleado(
         TextField(
             value = user,
             onValueChange = { user = it },
-            label = { Text(text = "Email") },
+            label = { Text(text = "Usuario") },
+            readOnly = true,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 28.dp, end = 28.dp)
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         TextField(
-            value = pass,
-            onValueChange = { pass = it },
-            label = { Text(text = "Contraseña") },
+            value = rol,
+            onValueChange = {},
+            label = { Text(text = "Rol") },
+            readOnly = true,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 28.dp, end = 28.dp)
         )
-
-        //TODO FALTA ANYADIR ROL O COD_ROL
 
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            OutlinedButton(onClick = onAceptar) {
+            Button(onClick = onAceptar) {
                 Text(stringResource(R.string.btnAceptar))
             }
         }

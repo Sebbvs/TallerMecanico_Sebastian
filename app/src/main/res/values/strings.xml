@@ -24,7 +24,7 @@
     <string name="pantalla_detalle_averia">Detalle Avería</string>
     <string name="pantalla_detalle_cliente">Detalle Cliente</string>
     <string name="pantalla_detalle_coche">Detalle Coche</string>
-    <string name="pantalla_detalle_empleado">Detalle Empelado</string>
+    <string name="pantalla_detalle_empleado">Detalle Empleado</string>
 
     <!--BOTON ATRAS-->
     <string name="atras">Atrás</string>
@@ -42,6 +42,7 @@
     <!--    PANTALLA INICIO-->
     <string name="error_de_conexion">ERROR DE CONEXIÓN!</string>
     <string name="cargando">CARGANDO...</string>
+    <string name="mensaje">Bienvenido</string>
 
     <!--    PANTALLA AVERIAS-->
     <string name="averia_titulo">Averías</string>
@@ -59,6 +60,16 @@
     <string name="tituloEditarAverias">Editar Avería</string>
     <string name="dialogoAveriaTitulo">Cuídado! Estás a punto de borrar la avería seleccionado</string>
     <string name="dialogoAveriaTexto">Esta es una acción permanente y no se puede deshacer. Si deseas borrar esta avería, pulsa \"Confirmar\".</string>
+    <string name="editarAveria_descripcion">Descripción</string>
+    <string name="editarAveria_precio">Precio</string>
+    <string name="editarAveria_estado">Estado</string>
+    <string name="editarAveria_fechaRecepcion">Fecha de recepción</string>
+    <string name="editarAveria_fechaResolucion">Fecha de resolución</string>
+    <string name="editarAveria_seleccionarFecha">Selecciona una fecha</string>
+    <string name="editarAveria_mensajeFecha">La fecha de resolución no puede ser anterior a la de recepción</string>
+    <string name="editarAveria_mensajeAveria1">Avería modificada correctamente</string>
+    <string name="editarAveria_mensajeAveria2">Avería borrada correctamente</string>
+
 
     <!--    PANTALLA INSERTAR AVERIA-->
     <string name="warningFormulario">¡Cuídado! \nFaltan campos por completar.</string>
@@ -73,6 +84,12 @@
     <string name="tituloEditarClientes">Editar Cliente</string>
     <string name="dialogoClienteTitulo">Cuídado! Estás a punto de borrar el cliente seleccionado</string>
     <string name="dialogoClienteTexto">Esta es una acción permanente y no se puede deshacer. Si deseas borrar este cliente, pulsa \"Confirmar\".</string>
+    <string name="editarCliente_nombre">Nombre</string>
+    <string name="editarCliente_apellido1">Primer apellido</string>
+    <string name="editarCliente_apellido2">Segundo apellido</string>
+    <string name="editarCliente_email">Email</string>
+    <string name="editarCliente_mensaje1">Cliente modificado correctamente</string>
+    <string name="editarCliente_mensaje2">Cliente borrado correctamente</string>
 
     <!--    PANTALLA VEHICULO-->
     <string name="vehiculo_titulo">Vehiculos</string>
@@ -86,6 +103,13 @@
     <string name="tituloEditarVehiculos">Editar Vehículo</string>
     <string name="dialogoVehiculoTitulo">Cuídado! Estás a punto de borrar el vehículo seleccionado</string>
     <string name="dialogoVehiculoTexto">Esta es una acción permanente y no se puede deshacer. Si deseas borrar este vehículo, pulsa \"Confirmar\".</string>
+    <string name="editarCoche_marca">Marca</string>
+    <string name="editarCoche_modelo">Modelo</string>
+    <string name="editarCoche_especificaciones">Especificaciones</string>
+    <string name="editarCoche_matricula">Matricula</string>
+    <string name="editarCoche_vin">Vin</string>
+    <string name="editarCoche_mensaje1">Coche modificado correctamente</string>
+    <string name="editarCoche_mensaje2">Coche borrado correctamente</string>
 
     <!--    PANTALLA EMPLEADOS-->
     <string name="empleado_nombre">Nombre</string>
@@ -94,6 +118,15 @@
 
     <!--    PANTALLA EDITAR EMPLEADOS-->
     <string name="tituloEditarEmpleados">Editar Empleado</string>
+    <string name="editarEmpleado_nombre">Nombre</string>
+    <string name="editarEmpleado_apellido1">Primer apellido</string>
+    <string name="editarEmpleado_apellido2">Segundo apellido</string>
+    <string name="editarEmpleado_direccion">Dirección</string>
+    <string name="editarEmpleado_email">Email</string>
+    <string name="editarEmpleado_usu">Usuario</string>
+    <string name="editarEmpleado_pass">Contraseña</string>
+    <string name="editarEmpleado_mensaje1">Avería modificada correctamente</string>
+    <string name="editarEmpleado_mensaje2">Avería borrada correctamente</string>
 
     <!--    BOTONES Y DIALOGOS-->
     <string name="dialogoBtnConfirmar">Confirmar</string>
@@ -103,5 +136,7 @@
 
     <!--    EXTRAS-->
     <string name="btnAceptar">Aceptar</string>
+    <string name="calendarioAceptar">Aceptar</string>
+    <string name="calendarioCancelar">Cancelar</string>
 
 </resources>

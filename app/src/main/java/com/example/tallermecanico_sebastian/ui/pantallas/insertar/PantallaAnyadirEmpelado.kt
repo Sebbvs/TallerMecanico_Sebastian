@@ -1,4 +1,4 @@
-package com.example.tallermecanico_sebastian.ui.pantallas
+package com.example.tallermecanico_sebastian.ui.pantallas.insertar
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
@@ -24,64 +24,67 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.tallermecanico_sebastian.R
-import com.example.tallermecanico_sebastian.modelo.Vehiculo
+import com.example.tallermecanico_sebastian.modelo.Empleado
 
 @Composable
-fun PantallaAnyadirCoche(
-    onInsertar: (Vehiculo) -> Unit,
+fun PantallaAnyadirEmpleado(
+    onInsertar: (Empleado) -> Unit,
     onCancelar: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var marca by remember { mutableStateOf("") }
-    var modelo by remember { mutableStateOf("") }
-    var especificaciones by remember { mutableStateOf("") }
-    var matricula by remember { mutableStateOf("") }
-    var vin by remember { mutableStateOf("") }
+    var nombre by remember { mutableStateOf("") }
+    var apellido1 by remember { mutableStateOf("") }
+    var apellido2 by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+    var direccion by remember { mutableStateOf("") }
+    var usuario by remember { mutableStateOf("") }
+    var contrasenya by remember { mutableStateOf("") }
     var context = LocalContext.current
-    var abrirAlertDialog by remember { mutableStateOf(false) }
+    var abrirAlertDialog by remember { mutableStateOf("") }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
     ) {
+
         Spacer(Modifier.height(16.dp))
 
         TextField(
-            value = marca,
-            onValueChange = { marca = it },
-            label = { Text(text = "Marca") },
+            value = nombre,
+            onValueChange = { nombre = it },
+            label = { Text(text = "Nombre") },
         )
 
         Spacer(Modifier.height(16.dp))
 
         TextField(
-            value = modelo,
-            onValueChange = { modelo = it },
-            label = { Text(text = "Modelo") },
+            value = apellido1,
+            onValueChange = { apellido1 = it },
+            label = { Text(text = "Primer apellido") },
         )
 
         Spacer(Modifier.height(16.dp))
 
         TextField(
-            value = especificaciones,
-            onValueChange = { especificaciones = it },
-            label = { Text(text = "Especificaciones") },
+            value = apellido2,
+            onValueChange = { apellido2 = it },
+            label = { Text(text = "Segundo apellido") },
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         TextField(
-            value = matricula,
-            onValueChange = { matricula = it },
-            label = { Text(text = "Matricula") },
+            value = email,
+            onValueChange = { email = it },
+            label = { Text(text = "Email") },
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         TextField(
-            value = vin,
-            onValueChange = { vin = it },
-            label = { Text(text = "Vin (Bastidor)") },
+            value = direccion,
+            onValueChange = { direccion = it },
+            label = { Text(text = "Dirección") },
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -100,24 +103,26 @@ fun PantallaAnyadirCoche(
             val context = LocalContext.current
             Button(
                 onClick = {
-                    if (marca.isEmpty() || modelo.isEmpty() || matricula.isEmpty()) {
+                    if (nombre.isEmpty() || usuario.isEmpty() || contrasenya.isEmpty()) {
                         Toast.makeText(
                             context,
                             context.getString(R.string.warningFormulario),
                             Toast.LENGTH_SHORT
                         ).show()
                     } else {
-                        val coche = Vehiculo(
-                            marca = marca,
-                            modelo = modelo,
-                            especificaciones = especificaciones,
-                            matricula = matricula,
-                            vin = vin,
+                        val empleado = Empleado(
+                            nombre = nombre,
+                            apellido1 = apellido1,
+                            apellido2 = apellido2,
+                            email = email,
+                            direccion = direccion,
+                            usuario = usuario,
+                            contrasenya = contrasenya,
                         )
-                        onInsertar(coche)
+                        onInsertar(empleado)
                         Toast.makeText(
                             context,
-                            "Vehículo guardada correctamente.",
+                            "Empleado guardado correctamente.",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -132,8 +137,8 @@ fun PantallaAnyadirCoche(
 
 @Preview(showBackground = true)
 @Composable
-fun PantallaAnyadirCochePreview() {
-    PantallaAnyadirCoche(
+fun PantallaAnyadirEmpleadoPreview() {
+    PantallaAnyadirAveria(
         onInsertar = {},
         onCancelar = {},
         modifier = Modifier

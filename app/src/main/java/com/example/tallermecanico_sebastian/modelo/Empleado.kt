@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Empleado(
     @SerialName(value = "cod_empleado")
-    val cod_empleado: Int = 0,
+    val cod_empleado: Int? = 0,
     @SerialName(value = "nombre")
     val nombre: String? = "",//OBLIGATORIO
     @SerialName(value = "apellido1")
@@ -22,7 +22,7 @@ data class Empleado(
     @SerialName(value = "contraseña")
     val contrasenya: String? = "",//OBLIGATORIO
     @SerialName(value = "cod_rol")
-    val cod_rol: Int = 0,
+    val cod_rol: Int? = 0,
     @SerialName(value = "rol")
     val rol: Rol? = Rol(),
 )

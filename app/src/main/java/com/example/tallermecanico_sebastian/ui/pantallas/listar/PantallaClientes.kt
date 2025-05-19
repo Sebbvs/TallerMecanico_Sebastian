@@ -1,4 +1,4 @@
-package com.example.tallermecanico_sebastian.ui.pantallas
+package com.example.tallermecanico_sebastian.ui.pantallas.listar
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -15,11 +15,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,6 +30,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.tallermecanico_sebastian.R
 import com.example.tallermecanico_sebastian.modelo.Cliente
+import com.example.tallermecanico_sebastian.ui.pantallas.PantallaCargando
+import com.example.tallermecanico_sebastian.ui.pantallas.PantallaError
 import com.example.tallermecanico_sebastian.ui.theme.AzulPrincipal
 import com.example.tallermecanico_sebastian.ui.viewmodel.ClienteUIState
 
@@ -105,22 +107,28 @@ fun PantallaExitoClientes(
                     )
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center,
+                        horizontalArrangement = Arrangement.SpaceEvenly,
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        Button(
+                        OutlinedButton(
                             onClick = {
                                 onClienteClick(cliente)
                             },
                         ) {
-                            Icons.Filled.Info
+                            Icon(
+                                imageVector = Icons.Filled.Info,
+                                contentDescription = "Info"
+                            )
                         }
-                        Button(
+                        OutlinedButton(
                             onClick = {
                                 onClienteEditar(cliente)
                             },
                         ) {
-                            Icons.Filled.Create
+                            Icon(
+                                imageVector = Icons.Filled.Create,
+                                contentDescription = "Editar"
+                            )
                         }
                     }
                 }

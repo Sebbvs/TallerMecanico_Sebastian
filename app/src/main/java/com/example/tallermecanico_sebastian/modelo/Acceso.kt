@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Acceso(
     @SerialName(value = "usuario")
-    val usuario: String = "",
+    val usuario: String? = "",
     @SerialName(value = "contraseña")
-    val contrasenya: String = "",
+    val contrasenya: String? = "",
 )

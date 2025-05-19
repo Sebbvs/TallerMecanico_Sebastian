@@ -33,7 +33,7 @@ fun PantallaInicio(
         modifier = Modifier.fillMaxSize()
     ) {
         Text(
-            text = "Bienvenido ${empleado?.nombre ?: Empleado}!",
+            text = "${stringResource(R.string.mensaje)} ${empleado?.nombre ?: Empleado}!",
             fontWeight = FontWeight.Bold
         )
 
