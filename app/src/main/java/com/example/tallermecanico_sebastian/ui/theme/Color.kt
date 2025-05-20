@@ -14,6 +14,8 @@ val NegroCarbon = Color(0xFF121212)
 val Blanco = Color(0xFFFFFFFF)
 val Negro = Color(0xFF000000)
 val VerdeClaro = Color(0xFFBDECB6)
+val Rojo = Color(0xFFD32F2F)
+val Verde = Color(0xFF388E3C)
 
 
 // Colores base extraídos o inspirados de Material 3 Static Color baseline

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
@@ -45,14 +46,17 @@ fun PantallaAnyadirCliente(
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
+            .fillMaxSize()
+            .padding(20.dp)
     ) {
-
-        Spacer(Modifier.height(16.dp))
-
         TextField(
             value = nombre,
             onValueChange = { nombre = it },
-            label = { Text(text = "Nombre") },
+            label = { Text(text = stringResource(R.string.editarCliente_nombre)) },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 28.dp, end = 28.dp)
         )
 
         Spacer(Modifier.height(16.dp))
@@ -60,8 +64,11 @@ fun PantallaAnyadirCliente(
         TextField(
             value = apellido1,
             onValueChange = { apellido1 = it },
-            label = { Text(text = "Primer apellido") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal)
+            label = { Text(text = stringResource(R.string.editarCliente_apellido1)) },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 28.dp, end = 28.dp)
         )
 
         Spacer(Modifier.height(16.dp))
@@ -69,7 +76,11 @@ fun PantallaAnyadirCliente(
         TextField(
             value = apellido2,
             onValueChange = { apellido2 = it },
-            label = { Text(text = "Segundo apellido") },
+            label = { Text(text = stringResource(R.string.editarCliente_apellido2)) },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 28.dp, end = 28.dp)
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -77,7 +88,11 @@ fun PantallaAnyadirCliente(
         TextField(
             value = email,
             onValueChange = { email = it },
-            label = { Text(text = "Email") },
+            label = { Text(text = stringResource(R.string.editarCliente_email)) },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 28.dp, end = 28.dp)
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -85,7 +100,11 @@ fun PantallaAnyadirCliente(
         TextField(
             value = direccion,
             onValueChange = { direccion = it },
-            label = { Text(text = "Dirección") },
+            label = { Text(text = stringResource(R.string.editarCliente_direccion)) },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 28.dp, end = 28.dp)
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -121,7 +140,7 @@ fun PantallaAnyadirCliente(
                         onInsertar(cliente)
                         Toast.makeText(
                             context,
-                            "Cliente guardada correctamente.",
+                            R.string.editarCliente_mensaje3,
                             Toast.LENGTH_SHORT
                         ).show()
                     }

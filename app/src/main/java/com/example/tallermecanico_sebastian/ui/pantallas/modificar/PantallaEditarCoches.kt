@@ -62,7 +62,9 @@ fun PantallaEditarCoches(
         TextField(
             value = marca,
             onValueChange = { marca = it },
-            label = { Text(text = stringResource(R.string.editarCoche_marca)) }, modifier = Modifier
+            label = { Text(text = stringResource(R.string.editarCoche_marca)) },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 28.dp, end = 28.dp)
         )
@@ -73,6 +75,7 @@ fun PantallaEditarCoches(
             value = modelo,
             onValueChange = { modelo = it },
             label = { Text(text = stringResource(R.string.editarCoche_modelo)) },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 28.dp, end = 28.dp)
@@ -84,6 +87,7 @@ fun PantallaEditarCoches(
             value = especificaciones,
             onValueChange = { especificaciones = it },
             label = { Text(text = stringResource(R.string.editarCoche_especificaciones)) },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 28.dp, end = 28.dp)
@@ -96,6 +100,7 @@ fun PantallaEditarCoches(
             value = matricula,
             onValueChange = { matricula = it },
             label = { Text(text = stringResource(R.string.editarCoche_matricula)) },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 28.dp, end = 28.dp)
@@ -107,6 +112,7 @@ fun PantallaEditarCoches(
             value = vin,
             onValueChange = { vin = it },
             label = { Text(text = stringResource(R.string.editarCoche_vin)) },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 28.dp, end = 28.dp)

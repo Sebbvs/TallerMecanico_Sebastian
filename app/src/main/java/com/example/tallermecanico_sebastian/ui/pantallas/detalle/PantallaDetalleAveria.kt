@@ -171,21 +171,21 @@ fun PantallaDetalleAveria(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        TextField(
-            value = "$empleado_nom $empleado_ape1 $empleado_ape2",
-            onValueChange = { },
-            label = { Text(text = "Empleado") },
-            readOnly = true,
-            colors = TextFieldDefaults.colors(
-                disabledLabelColor = Color.Black,
-                disabledTextColor = Color.Black
-            ),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
-        )
+        /*        TextField(
+                    value = "$empleado_nom $empleado_ape1 $empleado_ape2",
+                    onValueChange = { },
+                    label = { Text(text = "Empleado") },
+                    readOnly = true,
+                    colors = TextFieldDefaults.colors(
+                        disabledLabelColor = Color.Black,
+                        disabledTextColor = Color.Black
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 28.dp, end = 28.dp)
+                )*/
 
-        Spacer(modifier = Modifier.height(16.dp))
+//        Spacer(modifier = Modifier.height(16.dp))
 
         TextField(
             value = "$cliente_nom $cliente_ape1 $cliente_ape2",

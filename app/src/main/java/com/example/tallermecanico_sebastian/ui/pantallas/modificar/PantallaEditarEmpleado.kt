@@ -66,6 +66,7 @@ fun PantallaEditarEmpleados(
             value = nombre,
             onValueChange = { nombre = it },
             label = { Text(text = stringResource(R.string.editarEmpleado_nombre)) },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 28.dp, end = 28.dp)
@@ -77,6 +78,7 @@ fun PantallaEditarEmpleados(
             value = apellido1,
             onValueChange = { apellido1 = it },
             label = { Text(text = stringResource(R.string.editarEmpleado_apellido1)) },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 28.dp, end = 28.dp)
@@ -88,6 +90,7 @@ fun PantallaEditarEmpleados(
             value = apellido2,
             onValueChange = { apellido2 = it },
             label = { Text(text = stringResource(R.string.editarEmpleado_apellido2)) },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 28.dp, end = 28.dp)
@@ -99,6 +102,7 @@ fun PantallaEditarEmpleados(
             value = direccion,
             onValueChange = { direccion = it },
             label = { Text(text = stringResource(R.string.editarEmpleado_direccion)) },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 28.dp, end = 28.dp)
@@ -110,6 +114,7 @@ fun PantallaEditarEmpleados(
             value = email,
             onValueChange = { email = it },
             label = { Text(text = stringResource(R.string.editarEmpleado_email)) },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 28.dp, end = 28.dp)
@@ -121,6 +126,7 @@ fun PantallaEditarEmpleados(
             value = user,
             onValueChange = { user = it },
             label = { Text(text = stringResource(R.string.editarEmpleado_usu)) },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 28.dp, end = 28.dp)

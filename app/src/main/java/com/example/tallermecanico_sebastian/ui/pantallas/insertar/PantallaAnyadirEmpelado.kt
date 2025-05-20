@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -21,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.tallermecanico_sebastian.R
@@ -52,7 +54,8 @@ fun PantallaAnyadirEmpleado(
         TextField(
             value = nombre,
             onValueChange = { nombre = it },
-            label = { Text(text = "Nombre") },
+            label = { Text(text = stringResource(R.string.editarEmpleado_nombre)) },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
         )
 
         Spacer(Modifier.height(16.dp))
@@ -60,7 +63,8 @@ fun PantallaAnyadirEmpleado(
         TextField(
             value = apellido1,
             onValueChange = { apellido1 = it },
-            label = { Text(text = "Primer apellido") },
+            label = { Text(text = stringResource(R.string.editarEmpleado_apellido1)) },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
         )
 
         Spacer(Modifier.height(16.dp))
@@ -68,7 +72,8 @@ fun PantallaAnyadirEmpleado(
         TextField(
             value = apellido2,
             onValueChange = { apellido2 = it },
-            label = { Text(text = "Segundo apellido") },
+            label = { Text(text = stringResource(R.string.editarEmpleado_apellido2)) },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -76,7 +81,8 @@ fun PantallaAnyadirEmpleado(
         TextField(
             value = email,
             onValueChange = { email = it },
-            label = { Text(text = "Email") },
+            label = { Text(text = stringResource(R.string.editarEmpleado_email)) },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -84,7 +90,8 @@ fun PantallaAnyadirEmpleado(
         TextField(
             value = direccion,
             onValueChange = { direccion = it },
-            label = { Text(text = "Dirección") },
+            label = { Text(text = stringResource(R.string.editarEmpleado_direccion)) },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -122,7 +129,7 @@ fun PantallaAnyadirEmpleado(
                         onInsertar(empleado)
                         Toast.makeText(
                             context,
-                            "Empleado guardado correctamente.",
+                            R.string.editarEmpleado_mensaje3,
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -132,7 +139,6 @@ fun PantallaAnyadirEmpleado(
             }
         }
     }
-
 }
 
 @Preview(showBackground = true)

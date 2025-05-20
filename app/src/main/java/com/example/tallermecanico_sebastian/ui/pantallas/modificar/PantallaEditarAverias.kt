@@ -41,8 +41,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.tallermecanico_sebastian.R
 import com.example.tallermecanico_sebastian.modelo.Averia
-import com.example.tallermecanico_sebastian.ui.pantallas.DatePickerModal
-import com.example.tallermecanico_sebastian.ui.pantallas.convertMillisToDate
+import com.example.tallermecanico_sebastian.ui.pantallas.componentes.DatePickerModal
+import com.example.tallermecanico_sebastian.ui.pantallas.componentes.EstadoSwitch
+import com.example.tallermecanico_sebastian.ui.pantallas.componentes.convertMillisToDate
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -58,7 +59,7 @@ fun PantallaEditarAverias(
 
     var descripcion by remember { mutableStateOf(averia.descripcion ?: "") }
     var precio by remember { mutableStateOf(averia.precio ?: "") }
-    var estado by remember { mutableStateOf(averia.estado ?: "") }
+//    var estado by remember { mutableStateOf(averia.estado ?: "") }
 //    var cod_empleado by remember { mutableStateOf(averia.cod_empleado) }
     var fechaRecepcion by remember { mutableStateOf(averia.fecha_recepcion ?: "") }
     var fechaResolucion by remember { mutableStateOf(averia.fecha_resolucion ?: "") }
@@ -83,15 +84,21 @@ fun PantallaEditarAverias(
     var comprobarRecepcion by remember { mutableStateOf<Long?>(null) }
     var comprobarResolucion by remember { mutableStateOf<Long?>(null) }
 
+    var estado by remember { mutableStateOf(false) }
+    val estadoTexto = if (estado) "Reparado" else "No reparado"
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier.fillMaxSize().padding(20.dp)
+        modifier = modifier
+            .fillMaxSize()
+            .padding(20.dp)
     ) {
 
         TextField(
             value = descripcion,
             onValueChange = { descripcion = it },
             label = { Text(text = stringResource(R.string.editarAveria_descripcion)) },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 28.dp, end = 28.dp)
@@ -104,6 +111,7 @@ fun PantallaEditarAverias(
             value = precio,
             onValueChange = { precio = it },
             label = { Text(text = stringResource(R.string.editarAveria_precio)) },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 28.dp, end = 28.dp)
@@ -111,14 +119,18 @@ fun PantallaEditarAverias(
 
         Spacer(Modifier.height(16.dp))
 
-        TextField(
-            value = estado,
-            onValueChange = { estado = it },
-            label = { Text(text = stringResource(R.string.editarAveria_estado)) },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
+        /*        TextField(
+                    value = estado,
+                    onValueChange = { estado = it },
+                    label = { Text(text = stringResource(R.string.editarAveria_estado)) },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 28.dp, end = 28.dp)
+                )*/
+        EstadoSwitch(
+            estado = estado,
+            onEstadoChange = { estado = it }
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -141,7 +153,8 @@ fun PantallaEditarAverias(
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(64.dp).padding(start = 28.dp, end = 28.dp)
+                    .height(64.dp)
+                    .padding(start = 28.dp, end = 28.dp)
             )
 
             if (showDatePicker1) {
@@ -183,7 +196,8 @@ fun PantallaEditarAverias(
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(64.dp).padding(start = 28.dp, end = 28.dp)
+                    .height(64.dp)
+                    .padding(start = 28.dp, end = 28.dp)
             )
 
             if (showDatePicker2) {
@@ -221,14 +235,13 @@ fun PantallaEditarAverias(
             OutlinedButton(onClick = onCancelar) {
                 Text(stringResource(R.string.dialogoBtnCancelar))
             }
-
             Button(
                 onClick = {
                     val averiaEditado = averia.copy(
                         cod_averia = averia.cod_averia,
                         descripcion = descripcion ?: "",
                         precio = precio ?: "",
-                        estado = estado ?: "",
+                        estado = estadoTexto ?: "",
                         fecha_recepcion = fechaRecepcion ?: LocalDate.now()
                             .format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString(),
                         fecha_resolucion = fechaResolucion ?: ""
@@ -257,7 +270,6 @@ fun PantallaEditarAverias(
         ) {
             Text(text = stringResource(R.string.btnBorrar))
         }
-
         if (abrirAlertDialog) {
             AlertDialogAveriaConfirmar(
                 onDismissRequest = { abrirAlertDialog = false },
@@ -267,7 +279,7 @@ fun PantallaEditarAverias(
                         cod_averia = averia.cod_averia,
                         descripcion = descripcion ?: "",
                         precio = precio ?: "",
-                        estado = estado ?: "",
+                        estado = estadoTexto ?: "",
                         fecha_recepcion = fechaRecepcion ?: LocalDate.now()
                             .format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString(),
                         fecha_resolucion = fechaResolucion ?: ""

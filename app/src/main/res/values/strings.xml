@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TallerMecanico_Sebastian</string>
+    <string name="app_name">Taller Mecanico</string>
 
     <!--    PANTALLAS-->
     <string name="pantalla_login">Login</string>
@@ -71,8 +71,12 @@
     <string name="editarAveria_mensajeAveria2">Avería borrada correctamente</string>
 
 
-    <!--    PANTALLA INSERTAR AVERIA-->
+    <!--    PANTALLAS INSERTAR-->
     <string name="warningFormulario">¡Cuídado! \nFaltan campos por completar.</string>
+    <string name="editarAveria_mensaje3">Avería guardada correctamente</string>
+    <string name="editarCliente_mensaje3">Cliente guardado correctamente</string>
+    <string name="editarCoche_mensaje3">Coche guardado correctamente</string>
+    <string name="editarEmpleado_mensaje3">Empleado guardado correctamente</string>
 
     <!--    PANTALLA CLIENTES-->
     <string name="cliente_titulo">Clientes</string>
@@ -88,6 +92,7 @@
     <string name="editarCliente_apellido1">Primer apellido</string>
     <string name="editarCliente_apellido2">Segundo apellido</string>
     <string name="editarCliente_email">Email</string>
+    <string name="editarCliente_direccion">Dirección</string>
     <string name="editarCliente_mensaje1">Cliente modificado correctamente</string>
     <string name="editarCliente_mensaje2">Cliente borrado correctamente</string>
 
@@ -138,5 +143,9 @@
     <string name="btnAceptar">Aceptar</string>
     <string name="calendarioAceptar">Aceptar</string>
     <string name="calendarioCancelar">Cancelar</string>
+    <string name="filtroChipTodo">Todas</string>
+    <string name="filtroChipReparado">Reparado</string>
+    <string name="filtroChipSinReparar">Sin reparar</string>
+    <string name="filtros">Filtros</string>
 
 </resources>

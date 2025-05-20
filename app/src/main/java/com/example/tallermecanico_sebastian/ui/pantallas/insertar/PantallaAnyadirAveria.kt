@@ -1,9 +1,6 @@
 package com.example.tallermecanico_sebastian.ui.pantallas.insertar
 
 import android.widget.Toast
-import androidx.compose.foundation.gestures.awaitEachGesture
-import androidx.compose.foundation.gestures.awaitFirstDown
-import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,16 +14,12 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Button
-import androidx.compose.material3.DatePicker
-import androidx.compose.material3.DatePickerDialog
-import androidx.compose.material3.DisplayMode
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
@@ -36,8 +29,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.pointer.PointerEventPass
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -48,13 +39,11 @@ import com.example.tallermecanico_sebastian.modelo.Averia
 import com.example.tallermecanico_sebastian.modelo.Cliente
 import com.example.tallermecanico_sebastian.modelo.Empleado
 import com.example.tallermecanico_sebastian.modelo.Vehiculo
-import com.example.tallermecanico_sebastian.ui.pantallas.DatePickerModal
-import com.example.tallermecanico_sebastian.ui.pantallas.convertMillisToDate
-import java.text.SimpleDateFormat
+import com.example.tallermecanico_sebastian.ui.pantallas.componentes.DatePickerModal
+import com.example.tallermecanico_sebastian.ui.pantallas.componentes.EstadoSwitch
+import com.example.tallermecanico_sebastian.ui.pantallas.componentes.convertMillisToDate
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.Date
-import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -65,7 +54,7 @@ fun PantallaAnyadirAveria(
 ) {
     var descripcion by remember { mutableStateOf("") }
     var precio by remember { mutableStateOf("") }
-    var estado by remember { mutableStateOf("") }
+//    var estado by remember { mutableStateOf("") }
     var fechaRecepcion by remember {
         mutableStateOf(
             LocalDate.now()
@@ -90,16 +79,25 @@ fun PantallaAnyadirAveria(
     var comprobarRecepcion by remember { mutableStateOf<Long?>(null) }
     var comprobarResolucion by remember { mutableStateOf<Long?>(null) }
 
+    var estado by remember { mutableStateOf(false) }
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
+            .fillMaxSize()
+            .padding(20.dp)
     ) {
         Spacer(Modifier.height(16.dp))
 
         TextField(
             value = descripcion,
             onValueChange = { descripcion = it },
-            label = { Text(text = "Descripcion") },
+            label = { Text(text = stringResource(R.string.editarAveria_descripcion)) },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 28.dp, end = 28.dp)
+                .height(112.dp)
         )
 
         Spacer(Modifier.height(16.dp))
@@ -107,17 +105,29 @@ fun PantallaAnyadirAveria(
         TextField(
             value = precio,
             onValueChange = { precio = it },
-            label = { Text(text = "Precio") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal)
+            label = { Text(text = stringResource(R.string.editarAveria_precio)) },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 28.dp, end = 28.dp)
         )
 
         Spacer(Modifier.height(16.dp))
 
-        TextField(
-            value = estado,
-            onValueChange = { estado = it },
-            label = { Text(text = "Estado") },
+        /*        TextField(
+                    value = estado,
+                    onValueChange = { estado = it },
+                    label = { Text(text = stringResource(R.string.editarAveria_estado)) },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 28.dp, end = 28.dp)
+                )*/
+        EstadoSwitch(
+            estado = estado,
+            onEstadoChange = { estado = it }
         )
+
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -127,19 +137,20 @@ fun PantallaAnyadirAveria(
             OutlinedTextField(
                 value = fechaRecepcion,
                 onValueChange = { },
-                label = { Text("Fecha de recepción") },
+                label = { Text(stringResource(R.string.editarAveria_fechaRecepcion)) },
                 readOnly = true,
                 trailingIcon = {
                     IconButton(onClick = { showDatePicker1 = !showDatePicker1 }) {
                         Icon(
                             imageVector = Icons.Default.DateRange,
-                            contentDescription = "Select date"
+                            contentDescription = stringResource(R.string.editarAveria_seleccionarFecha)
                         )
                     }
                 },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(64.dp)
+                    .padding(start = 28.dp, end = 28.dp)
             )
 
             if (showDatePicker1) {
@@ -169,19 +180,20 @@ fun PantallaAnyadirAveria(
             OutlinedTextField(
                 value = fechaResolucion,
                 onValueChange = { },
-                label = { Text("Fecha de resolución") },
+                label = { Text(stringResource(R.string.editarAveria_fechaResolucion)) },
                 readOnly = true,
                 trailingIcon = {
                     IconButton(onClick = { showDatePicker2 = !showDatePicker2 }) {
                         Icon(
                             imageVector = Icons.Default.DateRange,
-                            contentDescription = "Select date"
+                            contentDescription = stringResource(R.string.editarAveria_seleccionarFecha)
                         )
                     }
                 },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(64.dp)
+                    .padding(start = 28.dp, end = 28.dp)
             )
 
             if (showDatePicker2) {
@@ -194,7 +206,7 @@ fun PantallaAnyadirAveria(
                             } else {
                                 Toast.makeText(
                                     context,
-                                    "La fecha de resolución no puede ser anterior a la de recepción",
+                                    R.string.editarAveria_mensajeFecha,
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
@@ -223,9 +235,10 @@ fun PantallaAnyadirAveria(
             }
             Spacer(modifier = Modifier.padding(end = 20.dp))
             val context = LocalContext.current
+            val estadoTexto = if (estado) "Reparado" else "Sin reparar"
             Button(
                 onClick = {
-                    if (descripcion.isEmpty() || estado.isEmpty() || fechaRecepcion.isEmpty()) {
+                    if (descripcion.isEmpty() || estadoTexto.isEmpty() || fechaRecepcion.isEmpty()) {
                         Toast.makeText(
                             context,
                             context.getString(R.string.warningFormulario),
@@ -235,7 +248,7 @@ fun PantallaAnyadirAveria(
                         val averia = Averia(
                             descripcion = descripcion,
                             precio = precio,
-                            estado = estado,
+                            estado = estadoTexto,
                             fecha_recepcion = fechaRecepcion,
                             fecha_resolucion = fechaResolucion,
                             averia_piezas = emptyList(),
@@ -247,7 +260,7 @@ fun PantallaAnyadirAveria(
                         onInsertar(averia)
                         Toast.makeText(
                             context,
-                            "Avería guardada correctamente.",
+                            R.string.editarAveria_mensaje3,
                             Toast.LENGTH_SHORT
                         ).show()
                     }

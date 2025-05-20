@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.AlertDialog
@@ -30,6 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.tallermecanico_sebastian.R
 import com.example.tallermecanico_sebastian.modelo.Cliente
@@ -61,6 +63,7 @@ fun PantallaEditarClientes(
             value = nombre,
             onValueChange = { nombre = it },
             label = { Text(text = stringResource(R.string.editarCliente_nombre)) },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 28.dp, end = 28.dp)
@@ -72,6 +75,7 @@ fun PantallaEditarClientes(
             value = apellido1,
             onValueChange = { apellido1 = it },
             label = { Text(text = stringResource(R.string.editarCliente_apellido1)) },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 28.dp, end = 28.dp)
@@ -83,6 +87,7 @@ fun PantallaEditarClientes(
             value = apellido2,
             onValueChange = { apellido2 = it },
             label = { Text(text = stringResource(R.string.editarCliente_apellido2)) },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 28.dp, end = 28.dp)
@@ -94,6 +99,7 @@ fun PantallaEditarClientes(
             value = email,
             onValueChange = { email = it },
             label = { Text(text = stringResource(R.string.editarCliente_email)) },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 28.dp, end = 28.dp)
