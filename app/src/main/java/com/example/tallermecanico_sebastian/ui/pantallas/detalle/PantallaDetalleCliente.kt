@@ -124,7 +124,7 @@ fun PantallaDetalleCliente(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 28.dp, end = 28.dp)
-                .height(112.dp)
+//                .height(112.dp)
         )
 
         Spacer(modifier = Modifier.height(16.dp))

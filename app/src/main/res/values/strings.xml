@@ -26,6 +26,8 @@
     <string name="pantalla_detalle_coche">Detalle Coche</string>
     <string name="pantalla_detalle_empleado">Detalle Empleado</string>
 
+    <string name="pantalla_cambio_contrasenya">Cambiar Contrasenya</string>
+
     <!--BOTON ATRAS-->
     <string name="atras">Atrás</string>
     <string name="home">Inicio</string>
@@ -43,6 +45,8 @@
     <string name="error_de_conexion">ERROR DE CONEXIÓN!</string>
     <string name="cargando">CARGANDO...</string>
     <string name="mensaje">Bienvenido</string>
+    <string name="btnInicio1">Bienvenido</string>
+    <string name="btnInicio2">Bienvenido</string>
 
     <!--    PANTALLA AVERIAS-->
     <string name="averia_titulo">Averías</string>
@@ -147,5 +151,30 @@
     <string name="filtroChipReparado">Reparado</string>
     <string name="filtroChipSinReparar">Sin reparar</string>
     <string name="filtros">Filtros</string>
+
+    <string name="averiaObligatorio1">¡La descripción es obligatoria!</string>
+    <string name="averiaObligatorio2">¡El estado es obligatorio!</string>
+    <string name="averiaObligatorio3">¡La fecha de recepción es obligatoria!</string>
+
+    <string name="clienteObligatorio1">¡El nombre es obligatorio!</string>
+    <string name="clienteObligatorio2">¡El primer apellido es obligatorio!</string>
+    <string name="clienteObligatorio3">¡El email es obligatorio!</string>
+
+    <string name="cocheObligatorio1">¡La marca es obligatoria!</string>
+    <string name="cocheObligatorio2">¡El modelo es obligatorio!</string>
+    <string name="cocheObligatorio3">¡La matrícula es obligatoria!</string>
+
+    <string name="empleadoObligatorio1">¡El nombre es obligatorio!</string>
+    <string name="empleadoObligatorio2">¡El primer apellido es obligatoria!</string>
+    <string name="empleadoObligatorio3">¡El nombre de usuario es obligatorio!</string>
+    <string name="empleadoObligatorio4">¡La contraseña es obligatoria!</string>
+
+    <string name="cambiarContrasenya">Cambiar contraseña</string>
+    <string name="cambiarContrasenya2">Cambiar contraseña de</string>
+    <string name="editarEmpleado_pass2">Confirmar contraseña</string>
+    <string name="matchPassword">Atención: ¡Las contraseñas no coinciden!</string>
+    <string name="nuevaContrasenya_mensaje">Contraseña cambiada correctamente</string>
+
+    <string name="empleadoContrasenya">Cambiar contraseña</string>
 
 </resources>

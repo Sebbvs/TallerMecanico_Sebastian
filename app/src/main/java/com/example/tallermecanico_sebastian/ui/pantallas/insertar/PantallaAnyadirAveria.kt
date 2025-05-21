@@ -87,30 +87,28 @@ fun PantallaAnyadirAveria(
             .fillMaxSize()
             .padding(20.dp)
     ) {
-        Spacer(Modifier.height(16.dp))
-
         TextField(
             value = descripcion,
             onValueChange = { descripcion = it },
-            label = { Text(text = stringResource(R.string.editarAveria_descripcion)) },
+            label = { Text(text = stringResource(R.string.editarAveria_descripcion) + " *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 28.dp, end = 28.dp)
-                .height(112.dp)
+//                .height(112.dp)
         )
 
         Spacer(Modifier.height(16.dp))
 
-        TextField(
-            value = precio,
-            onValueChange = { precio = it },
-            label = { Text(text = stringResource(R.string.editarAveria_precio)) },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
-        )
+        /*        TextField(
+                    value = precio,
+                    onValueChange = { precio = it },
+                    label = { Text(text = stringResource(R.string.editarAveria_precio)) },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 28.dp, end = 28.dp)
+                )*/
 
         Spacer(Modifier.height(16.dp))
 
@@ -137,7 +135,7 @@ fun PantallaAnyadirAveria(
             OutlinedTextField(
                 value = fechaRecepcion,
                 onValueChange = { },
-                label = { Text(stringResource(R.string.editarAveria_fechaRecepcion)) },
+                label = { Text(stringResource(R.string.editarAveria_fechaRecepcion) + " +") },
                 readOnly = true,
                 trailingIcon = {
                     IconButton(onClick = { showDatePicker1 = !showDatePicker1 }) {
@@ -238,12 +236,22 @@ fun PantallaAnyadirAveria(
             val estadoTexto = if (estado) "Reparado" else "Sin reparar"
             Button(
                 onClick = {
-                    if (descripcion.isEmpty() || estadoTexto.isEmpty() || fechaRecepcion.isEmpty()) {
+                    /*if (descripcion.isEmpty() || estadoTexto.isEmpty() || fechaRecepcion.isEmpty()) {
                         Toast.makeText(
                             context,
-                            context.getString(R.string.warningFormulario),
+                            R.string.warningFormulario,
                             Toast.LENGTH_SHORT
                         ).show()
+                    }*/
+                    if (descripcion.isEmpty()) {
+                        Toast.makeText(context, R.string.averiaObligatorio1, Toast.LENGTH_SHORT)
+                            .show()
+                    } else if (estadoTexto.isEmpty()) {
+                        Toast.makeText(context, R.string.averiaObligatorio2, Toast.LENGTH_SHORT)
+                            .show()
+                    } else if (fechaRecepcion.isEmpty()) {
+                        Toast.makeText(context, R.string.averiaObligatorio3, Toast.LENGTH_SHORT)
+                            .show()
                     } else {
                         val averia = Averia(
                             descripcion = descripcion,

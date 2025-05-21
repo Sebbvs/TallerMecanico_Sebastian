@@ -102,19 +102,7 @@ fun PantallaEditarAverias(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 28.dp, end = 28.dp)
-                .height(112.dp)
-        )
-
-        Spacer(Modifier.height(16.dp))
-
-        TextField(
-            value = precio,
-            onValueChange = { precio = it },
-            label = { Text(text = stringResource(R.string.editarAveria_precio)) },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
+//                .height(112.dp)
         )
 
         Spacer(Modifier.height(16.dp))
@@ -227,6 +215,18 @@ fun PantallaEditarAverias(
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        TextField(
+            value = precio,
+            onValueChange = { precio = it },
+            label = { Text(text = stringResource(R.string.editarAveria_precio)) },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 28.dp, end = 28.dp)
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly,
@@ -237,22 +237,34 @@ fun PantallaEditarAverias(
             }
             Button(
                 onClick = {
-                    val averiaEditado = averia.copy(
-                        cod_averia = averia.cod_averia,
-                        descripcion = descripcion ?: "",
-                        precio = precio ?: "",
-                        estado = estadoTexto ?: "",
-                        fecha_recepcion = fechaRecepcion ?: LocalDate.now()
-                            .format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString(),
-                        fecha_resolucion = fechaResolucion ?: ""
-                    )
-                    onGuardar(averiaEditado)
-                    Toast.makeText(
-                        context,
-                        R.string.editarAveria_mensajeAveria1,
-                        Toast.LENGTH_SHORT
-                    )
-                        .show()
+                    if (descripcion.isEmpty()) {
+                        Toast.makeText(context, R.string.averiaObligatorio1, Toast.LENGTH_SHORT)
+                            .show()
+                    } else if (estadoTexto.isEmpty()) {
+                        Toast.makeText(context, R.string.averiaObligatorio2, Toast.LENGTH_SHORT)
+                            .show()
+                    } else if (fechaRecepcion.isEmpty()) {
+                        Toast.makeText(context, R.string.averiaObligatorio3, Toast.LENGTH_SHORT)
+                            .show()
+//                        TODO ANYADIR CLIENTE, EMPLEADO y VEHICULO
+                    } else {
+                        val averiaEditado = averia.copy(
+                            cod_averia = averia.cod_averia,
+                            descripcion = descripcion ?: "",
+                            precio = precio ?: "",
+                            estado = estadoTexto ?: "",
+                            fecha_recepcion = fechaRecepcion ?: LocalDate.now()
+                                .format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString(),
+                            fecha_resolucion = fechaResolucion ?: ""
+                        )
+                        onGuardar(averiaEditado)
+                        Toast.makeText(
+                            context,
+                            R.string.editarAveria_mensajeAveria1,
+                            Toast.LENGTH_SHORT
+                        )
+                            .show()
+                    }
                 }
             ) {
                 Text(text = stringResource(R.string.btnGuardar))

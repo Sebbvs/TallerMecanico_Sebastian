@@ -73,7 +73,7 @@ fun PantallaExitoClientes(
     LazyColumn(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(12.dp),
-        modifier = Modifier
+        modifier = Modifier.padding(8.dp)
     ) {
         items(lista) { cliente ->
             Card(
@@ -92,8 +92,19 @@ fun PantallaExitoClientes(
                 Column(
                     modifier = Modifier.padding(start = 9.dp, top = 3.dp, bottom = 3.dp)
                 ) {
+                    val nombreCompleto = if (cliente.apellido2 == null) {
+                        "${stringResource(R.string.cliente_nombre)}: ${cliente.nombre} ${cliente.apellido1}"
+                    } else {
+                        "${stringResource(R.string.cliente_nombre)}: ${cliente.nombre} ${cliente.apellido1} ${cliente.apellido2}"
+                    }
+                    val direccion = if (cliente.direccion == null) {
+                        "${stringResource(R.string.cliente_direccion)}:"
+                    } else {
+                        "${stringResource(R.string.cliente_direccion)}: ${cliente.direccion}"
+                    }
+
                     Text(
-                        text = "${stringResource(R.string.cliente_nombre)}: ${cliente.nombre} ${cliente.apellido1} ${cliente.apellido2}",
+                        text = nombreCompleto,
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold
                     )
@@ -102,7 +113,7 @@ fun PantallaExitoClientes(
                         style = MaterialTheme.typography.titleSmall
                     )
                     Text(
-                        text = "${stringResource(R.string.cliente_direccion)}: ${cliente.direccion}",
+                        text = direccion,
                         style = MaterialTheme.typography.titleSmall
                     )
                     Row(

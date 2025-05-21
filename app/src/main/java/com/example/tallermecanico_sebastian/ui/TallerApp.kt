@@ -43,6 +43,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.tallermecanico_sebastian.R
 import com.example.tallermecanico_sebastian.modelo.Ruta
+import com.example.tallermecanico_sebastian.ui.pantallas.PantallaCambiarContrasenya
 import com.example.tallermecanico_sebastian.ui.pantallas.insertar.PantallaAnyadirAveria
 import com.example.tallermecanico_sebastian.ui.pantallas.insertar.PantallaAnyadirCliente
 import com.example.tallermecanico_sebastian.ui.pantallas.insertar.PantallaAnyadirCoche
@@ -92,9 +93,11 @@ enum class Pantallas(@StringRes val titulo: Int) {
     DetalleCliente(titulo = R.string.pantalla_detalle_cliente),
     DetalleCoche(titulo = R.string.pantalla_detalle_coche),
     DetalleEmpleado(titulo = R.string.pantalla_detalle_empleado),
+
+    CambioContrasenya(titulo = R.string.pantalla_cambio_contrasenya),
 //    EditarFacturas(titulo = R.string.pantalla_editar_facturas),
 
-//    TODO: HACER PANTALLA PARA CRUD EMPLEADOS
+
 }
 
 val listaRutas = listOf(
@@ -284,6 +287,10 @@ fun TallerApp(
                         navController.navigate(Pantallas.EditarEmpleados.name)
                     },
                     onEmpleadoInsertar = { navController.navigate(Pantallas.AnyadirEmpleado.name) },
+                    onEmpleadoContrasenya = {
+                        viewModelEmpleado.actualizarEmpleadoPulsado(it)
+                        navController.navigate(Pantallas.CambioContrasenya.name)
+                    },
                     modifier = Modifier
                 )
             }
@@ -363,15 +370,14 @@ fun TallerApp(
                     averia = viewModelAveria.averiaPulsado,
                     onCancelar = {
                         navController.popBackStack()
-                        navController.popBackStack(Pantallas.Averias.name, inclusive = false)
                     },
                     onGuardar = {
                         viewModelAveria.actualizarAveria(it.cod_averia.toString(), it)
-                        navController.popBackStack(Pantallas.Inicio.name, inclusive = false)
+                        navController.popBackStack()
                     },
                     onBorrar = { id ->
                         viewModelAveria.eliminarAveria(id)
-                        navController.popBackStack(Pantallas.Inicio.name, inclusive = false)
+                        navController.popBackStack()
                     },
                     modifier = Modifier
                 )
@@ -381,15 +387,14 @@ fun TallerApp(
                     vehiculo = viewModelVehiculo.vehiculoPulsado,
                     onCancelar = {
                         navController.popBackStack()
-                        navController.popBackStack(Pantallas.Coches.name, inclusive = false)
                     },
                     onGuardar = {
                         viewModelVehiculo.actualizarVehiculo(it.cod_vehiculo.toString(), it)
-                        navController.popBackStack(Pantallas.Inicio.name, inclusive = false)
+                        navController.popBackStack()
                     },
                     onBorrar = { id ->
                         viewModelAveria.eliminarAveria(id)
-                        navController.popBackStack(Pantallas.Inicio.name, inclusive = false)
+                        navController.popBackStack()
                     },
                     modifier = Modifier
                 )
@@ -399,15 +404,14 @@ fun TallerApp(
                     cliente = viewModelCliente.clientePulsado,
                     onCancelar = {
                         navController.popBackStack()
-                        navController.popBackStack(Pantallas.Clientes.name, inclusive = false)
                     },
                     onGuardar = {
                         viewModelCliente.actualizarCliente(it.cod_cliente.toString(), it)
-                        navController.popBackStack(Pantallas.Inicio.name, inclusive = false)
+                        navController.popBackStack()
                     },
                     onBorrar = { id ->
                         viewModelAveria.eliminarAveria(id)
-                        navController.popBackStack(Pantallas.Inicio.name, inclusive = false)
+                        navController.popBackStack()
                     },
                     modifier = Modifier
                 )
@@ -417,17 +421,32 @@ fun TallerApp(
                     empleado = viewModelEmpleado.empleadoPulsado,
                     onCancelar = {
                         navController.popBackStack()
-                        navController.popBackStack(Pantallas.Empleados.name, inclusive = false)
                     },
                     onGuardar = {
                         viewModelEmpleado.actualizarEmpleado(it.cod_empleado.toString(), it)
-                        navController.popBackStack(Pantallas.Inicio.name, inclusive = false)
+                        navController.popBackStack()
                     },
                     onBorrar = { id ->
                         viewModelAveria.eliminarAveria(id)
-                        navController.popBackStack(Pantallas.Inicio.name, inclusive = false)
+                        navController.popBackStack()
                     },
+                    /*                    onCambiar = {
+                                            navController.navigate(Pantallas.CambioContrasenya.name)
+                                        },*/
                     modifier = Modifier
+                )
+            }
+            //CAMBIO DE CONTRASENYA
+            composable(route = Pantallas.CambioContrasenya.name) {
+                PantallaCambiarContrasenya(
+                    empleado = viewModelEmpleado.empleadoPulsado,
+                    onCancelar = {
+                        navController.popBackStack()
+                    },
+                    onCambiar = {
+                        viewModelEmpleado.actualizarEmpleado(it.cod_empleado.toString(), it)
+                        navController.popBackStack()
+                    }
                 )
             }
 

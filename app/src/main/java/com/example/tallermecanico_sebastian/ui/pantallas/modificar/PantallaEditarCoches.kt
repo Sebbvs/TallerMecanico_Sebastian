@@ -91,7 +91,7 @@ fun PantallaEditarCoches(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 28.dp, end = 28.dp)
-                .height(112.dp)
+//                .height(112.dp)
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -131,6 +131,16 @@ fun PantallaEditarCoches(
 
             Button(
                 onClick = {
+                    if (marca.isEmpty()) {
+                        Toast.makeText(context, R.string.cocheObligatorio1, Toast.LENGTH_SHORT)
+                            .show()
+                    } else if (modelo.isEmpty()) {
+                        Toast.makeText(context, R.string.cocheObligatorio2, Toast.LENGTH_SHORT)
+                            .show()
+                    } else if (matricula.isEmpty()) {
+                        Toast.makeText(context, R.string.cocheObligatorio3, Toast.LENGTH_SHORT)
+                            .show()
+                    }
                     val vehiculoEditado = vehiculo.copy(
                         cod_vehiculo = vehiculo.cod_vehiculo,
                         marca = marca ?: "",

@@ -54,7 +54,7 @@ fun PantallaAnyadirEmpleado(
         TextField(
             value = nombre,
             onValueChange = { nombre = it },
-            label = { Text(text = stringResource(R.string.editarEmpleado_nombre)) },
+            label = { Text(text = stringResource(R.string.editarEmpleado_nombre) + " *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
         )
 
@@ -63,7 +63,7 @@ fun PantallaAnyadirEmpleado(
         TextField(
             value = apellido1,
             onValueChange = { apellido1 = it },
-            label = { Text(text = stringResource(R.string.editarEmpleado_apellido1)) },
+            label = { Text(text = stringResource(R.string.editarEmpleado_apellido1) + " *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
         )
 
@@ -96,6 +96,24 @@ fun PantallaAnyadirEmpleado(
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        Spacer(modifier = Modifier.height(16.dp))
+
+        TextField(
+            value = usuario,
+            onValueChange = { usuario = it },
+            label = { Text(text = stringResource(R.string.editarEmpleado_usu) + " *") },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        TextField(
+            value = contrasenya,
+            onValueChange = { contrasenya = it },
+            label = { Text(text = stringResource(R.string.editarEmpleado_pass) + " *") },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+        )
+
         Row(
             modifier = Modifier
                 .fillMaxSize()
@@ -110,10 +128,28 @@ fun PantallaAnyadirEmpleado(
             val context = LocalContext.current
             Button(
                 onClick = {
-                    if (nombre.isEmpty() || usuario.isEmpty() || contrasenya.isEmpty()) {
+                    if (nombre.isEmpty()) {
                         Toast.makeText(
                             context,
-                            context.getString(R.string.warningFormulario),
+                            R.string.empleadoObligatorio1,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else if (apellido1.isEmpty()) {
+                        Toast.makeText(
+                            context,
+                            R.string.empleadoObligatorio2,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else if (usuario.isEmpty()) {
+                        Toast.makeText(
+                            context,
+                            R.string.empleadoObligatorio3,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else if (contrasenya.isEmpty()) {
+                        Toast.makeText(
+                            context,
+                            R.string.empleadoObligatorio4,
                             Toast.LENGTH_SHORT
                         ).show()
                     } else {

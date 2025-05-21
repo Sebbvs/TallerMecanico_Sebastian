@@ -52,7 +52,7 @@ fun PantallaAnyadirCliente(
         TextField(
             value = nombre,
             onValueChange = { nombre = it },
-            label = { Text(text = stringResource(R.string.editarCliente_nombre)) },
+            label = { Text(text = stringResource(R.string.editarCliente_nombre) + " *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
@@ -64,7 +64,7 @@ fun PantallaAnyadirCliente(
         TextField(
             value = apellido1,
             onValueChange = { apellido1 = it },
-            label = { Text(text = stringResource(R.string.editarCliente_apellido1)) },
+            label = { Text(text = stringResource(R.string.editarCliente_apellido1) + " *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
@@ -88,7 +88,7 @@ fun PantallaAnyadirCliente(
         TextField(
             value = email,
             onValueChange = { email = it },
-            label = { Text(text = stringResource(R.string.editarCliente_email)) },
+            label = { Text(text = stringResource(R.string.editarCliente_email) + " *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
             modifier = Modifier
                 .fillMaxWidth()
@@ -123,13 +123,30 @@ fun PantallaAnyadirCliente(
             val context = LocalContext.current
             Button(
                 onClick = {
-                    if (nombre.isEmpty() || apellido1.isEmpty() || email.isEmpty()) {
+                    if (nombre.isBlank()) {
                         Toast.makeText(
                             context,
-                            context.getString(R.string.warningFormulario),
+                            R.string.clienteObligatorio1,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else if (apellido1.isBlank()) {
+                        Toast.makeText(
+                            context,
+                            R.string.clienteObligatorio2,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else if (email.isBlank()) {
+                        Toast.makeText(
+                            context,
+                            R.string.clienteObligatorio3,
                             Toast.LENGTH_SHORT
                         ).show()
                     } else {
+                        if (apellido2.isBlank()) {
+                            apellido2 = ""
+                        } else if (direccion.isBlank()) {
+                            apellido2 = ""
+                        }
                         val cliente = Cliente(
                             nombre = nombre,
                             apellido1 = apellido1,

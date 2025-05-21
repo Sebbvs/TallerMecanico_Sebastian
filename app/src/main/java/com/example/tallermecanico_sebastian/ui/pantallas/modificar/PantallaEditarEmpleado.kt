@@ -43,6 +43,7 @@ fun PantallaEditarEmpleados(
     onCancelar: () -> Unit,
     onBorrar: (String) -> Unit,
     onGuardar: (Empleado) -> Unit,
+//    onCambiar: (Empleado) -> Unit,
     modifier: Modifier = Modifier
 ) {
 
@@ -55,6 +56,9 @@ fun PantallaEditarEmpleados(
     var pass by remember { mutableStateOf(empleado.contrasenya ?: "") }
     var context = LocalContext.current
     var abrirAlertDialog by remember { mutableStateOf(false) }
+
+    var empeladoEditable by remember { mutableStateOf(empleado) }
+    var mostrarPantallaCambiarContrasenya by remember { mutableStateOf(false) }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -134,16 +138,24 @@ fun PantallaEditarEmpleados(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        TextField(
-            value = pass,
-            onValueChange = { pass = it },
-            label = { Text(text = stringResource(R.string.editarEmpleado_pass)) },
-            visualTransformation = PasswordVisualTransformation(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
-        )
+        /*        TextField(
+                    value = pass,
+                    onValueChange = { pass = it },
+                    label = { Text(text = stringResource(R.string.editarEmpleado_pass)) },
+                    visualTransformation = PasswordVisualTransformation(),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 28.dp, end = 28.dp)
+                )*/
+
+        /*        TextButton(
+                    onClick = {
+                        onCambiar(empleado)
+                    }
+                ) {
+                    Text(text = stringResource(R.string.cambiarContrasenya))
+                }*/
 
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -156,19 +168,34 @@ fun PantallaEditarEmpleados(
 
             Button(
                 onClick = {
-                    val empleadoEditado = empleado.copy(
-                        cod_empleado = empleado.cod_empleado,
-                        nombre = nombre ?: "",
-                        apellido1 = apellido1 ?: "",
-                        apellido2 = apellido2 ?: "",
-                        email = email ?: "",
-                        direccion = direccion ?: "",
-                        usuario = user ?: "",
-                        contrasenya = pass ?: "",
-                    )
-                    onGuardar(empleadoEditado)
-                    Toast.makeText(context, R.string.editarEmpleado_mensaje2, Toast.LENGTH_SHORT)
-                        .show()
+                    if (nombre.isEmpty()) {
+                        Toast.makeText(context, R.string.empleadoObligatorio1, Toast.LENGTH_SHORT)
+                            .show()
+                    } else if (apellido1.isEmpty()) {
+                        Toast.makeText(context, R.string.empleadoObligatorio2, Toast.LENGTH_SHORT)
+                            .show()
+                    } else if (user.isEmpty()) {
+                        Toast.makeText(context, R.string.empleadoObligatorio3, Toast.LENGTH_SHORT)
+                            .show()
+                    } else {
+                        val empleadoEditado = empleado.copy(
+                            cod_empleado = empleado.cod_empleado,
+                            nombre = nombre ?: "",
+                            apellido1 = apellido1 ?: "",
+                            apellido2 = apellido2 ?: "",
+                            email = email ?: "",
+                            direccion = direccion ?: "",
+                            usuario = user ?: "",
+                            contrasenya = pass ?: "",
+                        )
+                        onGuardar(empleadoEditado)
+                        Toast.makeText(
+                            context,
+                            R.string.editarEmpleado_mensaje1,
+                            Toast.LENGTH_SHORT
+                        )
+                            .show()
+                    }
                 }
             ) {
                 Text(text = stringResource(R.string.btnGuardar))

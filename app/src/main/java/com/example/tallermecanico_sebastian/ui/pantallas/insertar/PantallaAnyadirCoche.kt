@@ -52,7 +52,7 @@ fun PantallaAnyadirCoche(
         TextField(
             value = marca,
             onValueChange = { marca = it },
-            label = { Text(text = stringResource(R.string.editarCoche_marca)) },
+            label = { Text(text = stringResource(R.string.editarCoche_marca) + " *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
@@ -64,7 +64,7 @@ fun PantallaAnyadirCoche(
         TextField(
             value = modelo,
             onValueChange = { modelo = it },
-            label = { Text(text = stringResource(R.string.editarCoche_modelo)) },
+            label = { Text(text = stringResource(R.string.editarCoche_modelo) + " *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
@@ -81,7 +81,7 @@ fun PantallaAnyadirCoche(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 28.dp, end = 28.dp)
-                .padding(112.dp)
+//                .height(112.dp)
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -89,7 +89,7 @@ fun PantallaAnyadirCoche(
         TextField(
             value = matricula,
             onValueChange = { matricula = it },
-            label = { Text(text = stringResource(R.string.editarCoche_matricula)) },
+            label = { Text(text = stringResource(R.string.editarCoche_matricula) + " *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
@@ -124,10 +124,22 @@ fun PantallaAnyadirCoche(
             val context = LocalContext.current
             Button(
                 onClick = {
-                    if (marca.isEmpty() || modelo.isEmpty() || matricula.isEmpty()) {
+                    if (marca.isEmpty()) {
                         Toast.makeText(
                             context,
-                            context.getString(R.string.warningFormulario),
+                            R.string.cocheObligatorio1,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else if (modelo.isEmpty()) {
+                        Toast.makeText(
+                            context,
+                            R.string.cocheObligatorio1,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else if (matricula.isEmpty()) {
+                        Toast.makeText(
+                            context,
+                            R.string.cocheObligatorio1,
                             Toast.LENGTH_SHORT
                         ).show()
                     } else {

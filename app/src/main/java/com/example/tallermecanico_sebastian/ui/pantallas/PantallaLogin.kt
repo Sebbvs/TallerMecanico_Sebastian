@@ -91,6 +91,7 @@ fun PantallaLogin(
             onValueChange = { usuario = it },
             label = { Text(text = "Usuario") },
             singleLine = true,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
         )
 
         Spacer(Modifier.height(16.dp))

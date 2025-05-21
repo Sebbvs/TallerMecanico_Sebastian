@@ -21,7 +21,8 @@ import com.example.tallermecanico_sebastian.ui.theme.Rojo
 import com.example.tallermecanico_sebastian.ui.theme.Verde
 
 @Composable
-fun SwitchControl(){}
+fun SwitchControl() {
+}
 
 @Composable
 fun EstadoSwitch(
@@ -46,6 +47,7 @@ fun EstadoSwitch(
                         contentDescription = null,
                         modifier = Modifier.size(SwitchDefaults.IconSize)
                     )
+                    Text(text = " *")
                 }
             } else {
                 {
@@ -54,6 +56,7 @@ fun EstadoSwitch(
                         contentDescription = null,
                         modifier = Modifier.size(SwitchDefaults.IconSize)
                     )
+                    Text(text = " *")
                 }
             },
             colors = SwitchDefaults.colors(

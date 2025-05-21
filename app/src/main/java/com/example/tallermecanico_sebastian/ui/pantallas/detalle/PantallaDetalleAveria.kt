@@ -85,15 +85,15 @@ fun PantallaDetalleAveria(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 28.dp, end = 28.dp)
-                .height(112.dp)
+//                .height(112.dp)
         )
 
-        Spacer(Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
         TextField(
-            value = precio,
-            onValueChange = { precio = it },
-            label = { Text(text = "Precio") },
+            value = "$vehiculo_marca $vehiculo_modelo",
+            onValueChange = { },
+            label = { Text(text = "Vehiculo") },
             readOnly = true,
             colors = TextFieldDefaults.colors(
                 disabledLabelColor = Color.Black,
@@ -104,22 +104,21 @@ fun PantallaDetalleAveria(
                 .padding(start = 28.dp, end = 28.dp)
         )
 
-        Spacer(Modifier.height(16.dp))
+        /*        Spacer(Modifier.height(16.dp))
 
-        TextField(
-            value = estado,
-            onValueChange = { estado = it },
-            label = { Text(text = "Estado") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            readOnly = true,
-            colors = TextFieldDefaults.colors(
-                disabledLabelColor = Color.Black,
-                disabledTextColor = Color.Black
-            ),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
-        )
+                TextField(
+                    value = precio,
+                    onValueChange = { precio = it },
+                    label = { Text(text = "Precio") },
+                    readOnly = true,
+                    colors = TextFieldDefaults.colors(
+                        disabledLabelColor = Color.Black,
+                        disabledTextColor = Color.Black
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 28.dp, end = 28.dp)
+                )*/
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -169,6 +168,23 @@ fun PantallaDetalleAveria(
                 .padding(start = 28.dp, end = 28.dp)
         )
 
+        Spacer(Modifier.height(16.dp))
+
+        TextField(
+            value = estado,
+            onValueChange = { estado = it },
+            label = { Text(text = "Estado") },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            readOnly = true,
+            colors = TextFieldDefaults.colors(
+                disabledLabelColor = Color.Black,
+                disabledTextColor = Color.Black
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 28.dp, end = 28.dp)
+        )
+
         Spacer(modifier = Modifier.height(16.dp))
 
         /*        TextField(
@@ -191,22 +207,6 @@ fun PantallaDetalleAveria(
             value = "$cliente_nom $cliente_ape1 $cliente_ape2",
             onValueChange = { },
             label = { Text(text = "Cliente") },
-            readOnly = true,
-            colors = TextFieldDefaults.colors(
-                disabledLabelColor = Color.Black,
-                disabledTextColor = Color.Black
-            ),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        TextField(
-            value = "$vehiculo_marca $vehiculo_modelo",
-            onValueChange = { },
-            label = { Text(text = "Vehiculo") },
             readOnly = true,
             colors = TextFieldDefaults.colors(
                 disabledLabelColor = Color.Black,

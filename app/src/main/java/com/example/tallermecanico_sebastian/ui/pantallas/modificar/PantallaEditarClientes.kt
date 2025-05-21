@@ -62,7 +62,7 @@ fun PantallaEditarClientes(
         TextField(
             value = nombre,
             onValueChange = { nombre = it },
-            label = { Text(text = stringResource(R.string.editarCliente_nombre)) },
+            label = { Text(text = stringResource(R.string.editarCliente_nombre) + " *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
@@ -74,7 +74,7 @@ fun PantallaEditarClientes(
         TextField(
             value = apellido1,
             onValueChange = { apellido1 = it },
-            label = { Text(text = stringResource(R.string.editarCliente_apellido1)) },
+            label = { Text(text = stringResource(R.string.editarCliente_apellido1) + " *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
@@ -98,8 +98,20 @@ fun PantallaEditarClientes(
         TextField(
             value = email,
             onValueChange = { email = it },
-            label = { Text(text = stringResource(R.string.editarCliente_email)) },
+            label = { Text(text = stringResource(R.string.editarCliente_email) + " *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 28.dp, end = 28.dp)
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        TextField(
+            value = direccion,
+            onValueChange = { direccion = it },
+            label = { Text(text = stringResource(R.string.editarCliente_direccion)) },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 28.dp, end = 28.dp)
@@ -118,17 +130,28 @@ fun PantallaEditarClientes(
 
             Button(
                 onClick = {
-                    val clienteEditado = cliente.copy(
-                        cod_cliente = cliente.cod_cliente,
-                        nombre = nombre ?: "",
-                        apellido1 = apellido1 ?: "",
-                        apellido2 = apellido2 ?: "",
-                        email = email ?: "",
-                        direccion = direccion ?: ""
-                    )
-                    onGuardar(clienteEditado)
-                    Toast.makeText(context, R.string.editarCliente_mensaje1, Toast.LENGTH_SHORT)
-                        .show()
+                    if (nombre.isEmpty()) {
+                        Toast.makeText(context, R.string.clienteObligatorio1, Toast.LENGTH_SHORT)
+                            .show()
+                    } else if (apellido1.isEmpty()) {
+                        Toast.makeText(context, R.string.clienteObligatorio2, Toast.LENGTH_SHORT)
+                            .show()
+                    } else if (email.isEmpty()) {
+                        Toast.makeText(context, R.string.clienteObligatorio3, Toast.LENGTH_SHORT)
+                            .show()
+                    } else {
+                        val clienteEditado = cliente.copy(
+                            cod_cliente = cliente.cod_cliente,
+                            nombre = nombre ?: "",
+                            apellido1 = apellido1 ?: "",
+                            apellido2 = apellido2 ?: "",
+                            email = email ?: "",
+                            direccion = direccion ?: ""
+                        )
+                        onGuardar(clienteEditado)
+                        Toast.makeText(context, R.string.editarCliente_mensaje1, Toast.LENGTH_SHORT)
+                            .show()
+                    }
                 }
             ) {
                 Text(text = stringResource(R.string.btnGuardar))

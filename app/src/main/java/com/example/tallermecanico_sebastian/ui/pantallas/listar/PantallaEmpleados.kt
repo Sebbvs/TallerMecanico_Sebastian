@@ -42,6 +42,7 @@ fun PantallaEmpleados(
     onEmpleadoClick: (Empleado) -> Unit,
     onEmpleadoEditar: (Empleado) -> Unit,
     onEmpleadoInsertar: () -> Unit,
+    onEmpleadoContrasenya: (Empleado) -> Unit,
     modifier: Modifier = Modifier
 ) {
     when (empleadoUIState) {
@@ -52,7 +53,8 @@ fun PantallaEmpleados(
             modifier = modifier.fillMaxWidth(),
             onEmpleadoClick = onEmpleadoClick,
             onEmpleadoEditar = onEmpleadoEditar,
-            onEmpleadoInsertar = onEmpleadoInsertar
+            onEmpleadoInsertar = onEmpleadoInsertar,
+            onEmpleadoContrasenya = onEmpleadoContrasenya
         )
 
 
@@ -69,12 +71,13 @@ fun PantallaExitoEmpleados(
     modifier: Modifier,
     onEmpleadoClick: (Empleado) -> Unit,
     onEmpleadoEditar: (Empleado) -> Unit,
-    onEmpleadoInsertar: () -> Unit
+    onEmpleadoInsertar: () -> Unit,
+    onEmpleadoContrasenya: (Empleado) -> Unit
 ) {
     LazyColumn(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(12.dp),
-        modifier = Modifier
+        modifier = Modifier.padding(8.dp)
     ) {
         items(lista) { empleado ->
             Card(
@@ -93,8 +96,19 @@ fun PantallaExitoEmpleados(
                 Column(
                     modifier = Modifier.padding(start = 9.dp, top = 3.dp, bottom = 3.dp)
                 ) {
+                    val nombreCompleto = if (empleado.apellido2 == null) {
+                        "${stringResource(R.string.empleado_nombre)}: ${empleado.nombre} ${empleado.apellido1}"
+                    } else {
+                        "${stringResource(R.string.empleado_nombre)}: ${empleado.nombre} ${empleado.apellido1} ${empleado.apellido2}"
+                    }
+                    val direccion = if (empleado.direccion == null) {
+                        "${stringResource(R.string.empleado_direccion)}: "
+                    } else {
+                        "${stringResource(R.string.empleado_direccion)}: ${empleado.direccion}"
+                    }
+
                     Text(
-                        text = "${stringResource(R.string.empleado_nombre)}: ${empleado.nombre} ${empleado.apellido1}",
+                        text = nombreCompleto,
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold
                     )
@@ -103,7 +117,7 @@ fun PantallaExitoEmpleados(
                         style = MaterialTheme.typography.titleSmall
                     )
                     Text(
-                        text = "${stringResource(R.string.empleado_direccion)}: ${empleado.direccion}",
+                        text = direccion,
                         style = MaterialTheme.typography.titleSmall
                     )
                     Row(
@@ -130,6 +144,13 @@ fun PantallaExitoEmpleados(
                                 imageVector = Icons.Filled.Create,
                                 contentDescription = "Editar"
                             )
+                        }
+                        OutlinedButton(
+                            onClick = {
+                                onEmpleadoContrasenya(empleado)
+                            },
+                        ) {
+                            Text(text = stringResource(R.string.empleadoContrasenya))
                         }
                     }
                 }

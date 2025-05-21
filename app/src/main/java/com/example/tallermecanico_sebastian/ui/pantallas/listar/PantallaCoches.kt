@@ -73,7 +73,7 @@ fun PantallaExitoVehiculos(
     LazyColumn(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(12.dp),
-        modifier = Modifier
+        modifier = Modifier.padding(8.dp)
     ) {
         items(lista) { vehiculo ->
             Card(
@@ -92,13 +92,19 @@ fun PantallaExitoVehiculos(
                 Column(
                     modifier = Modifier.padding(start = 9.dp, top = 3.dp, bottom = 3.dp)
                 ) {
+                    val especificaciones = if (vehiculo.especificaciones == null) {
+                        "${stringResource(R.string.vehiculo_especificaciones)}:"
+                    } else {
+                        "${stringResource(R.string.vehiculo_especificaciones)}: ${vehiculo.especificaciones}"
+                    }
+
                     Text(
                         text = "${stringResource(R.string.vehiculo_marca)}: ${vehiculo.marca} ${vehiculo.modelo}",
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = "${stringResource(R.string.vehiculo_especificaciones)}: ${vehiculo.especificaciones}",
+                        text = especificaciones,
                         style = MaterialTheme.typography.titleSmall
                     )
                     Text(
