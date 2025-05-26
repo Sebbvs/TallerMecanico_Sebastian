@@ -47,36 +47,36 @@ fun PantallaAnyadirCoche(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
     ) {
-        Spacer(Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         TextField(
             value = marca,
             onValueChange = { marca = it },
-            label = { Text(text = stringResource(R.string.editarCoche_marca) + " *") },
+            label = { Text(text = stringResource(R.string.texto_marca) + " *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 28.dp, end = 28.dp)
         )
 
-        Spacer(Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         TextField(
             value = modelo,
             onValueChange = { modelo = it },
-            label = { Text(text = stringResource(R.string.editarCoche_modelo) + " *") },
+            label = { Text(text = stringResource(R.string.editar_coche_modelo) + " *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 28.dp, end = 28.dp)
         )
 
-        Spacer(Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         TextField(
             value = especificaciones,
             onValueChange = { especificaciones = it },
-            label = { Text(text = stringResource(R.string.editarCoche_especificaciones)) },
+            label = { Text(text = stringResource(R.string.editar_coche_especificaciones)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
@@ -84,31 +84,31 @@ fun PantallaAnyadirCoche(
 //                .height(112.dp)
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         TextField(
             value = matricula,
             onValueChange = { matricula = it },
-            label = { Text(text = stringResource(R.string.editarCoche_matricula) + " *") },
+            label = { Text(text = stringResource(R.string.texto_matricula) + " *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 28.dp, end = 28.dp)
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         TextField(
             value = vin,
             onValueChange = { vin = it },
-            label = { Text(text = stringResource(R.string.editarCoche_vin)) },
+            label = { Text(text = stringResource(R.string.editar_coche_vin)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 28.dp, end = 28.dp)
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         Row(
             modifier = Modifier
@@ -118,7 +118,7 @@ fun PantallaAnyadirCoche(
             horizontalArrangement = Arrangement.Center
         ) {
             OutlinedButton(onClick = onCancelar) {
-                Text(stringResource(R.string.dialogoBtnCancelar))
+                Text(stringResource(R.string.cancelar))
             }
             Spacer(modifier = Modifier.padding(end = 20.dp))
             val context = LocalContext.current
@@ -127,19 +127,19 @@ fun PantallaAnyadirCoche(
                     if (marca.isEmpty()) {
                         Toast.makeText(
                             context,
-                            R.string.cocheObligatorio1,
+                            R.string.coche_obligatorio_1,
                             Toast.LENGTH_SHORT
                         ).show()
                     } else if (modelo.isEmpty()) {
                         Toast.makeText(
                             context,
-                            R.string.cocheObligatorio1,
+                            R.string.coche_obligatorio_1,
                             Toast.LENGTH_SHORT
                         ).show()
                     } else if (matricula.isEmpty()) {
                         Toast.makeText(
                             context,
-                            R.string.cocheObligatorio1,
+                            R.string.coche_obligatorio_1,
                             Toast.LENGTH_SHORT
                         ).show()
                     } else {
@@ -153,13 +153,13 @@ fun PantallaAnyadirCoche(
                         onInsertar(coche)
                         Toast.makeText(
                             context,
-                            R.string.editarCoche_mensaje3,
+                            R.string.editar_coche_mensaje_3,
                             Toast.LENGTH_SHORT
                         ).show()
                     }
                 }
             ) {
-                Text(stringResource(R.string.btnGuardar))
+                Text(stringResource(R.string.btn_guardar))
             }
         }
     }

@@ -7,49 +7,51 @@
     <string name="pantalla_averias">Averias</string>
     <string name="pantalla_coches">Coches</string>
     <string name="pantalla_clientes">Clientes</string>
-    <string name="pantalla_empleados">Empleados</string>
+    <string name="pantalla_empleados">Administrar empleados</string>
+    <string name="pantalla_piezas">Piezas</string>
     <string name="pantalla_facturas">Facturas</string>
 
-    <string name="pantalla_editar_averias">Editar Averías</string>
-    <string name="pantalla_editar_coches">Editar Coches</string>
-    <string name="pantalla_editar_clientes">Editar Clientes</string>
-    <string name="pantalla_editar_empleados">Editar Empleados</string>
-    <string name="pantalla_editar_facturas">Editar Facturas</string>
+    <string name="pantalla_editar_averias">Editar averías</string>
+    <string name="pantalla_editar_coches">Editar coches</string>
+    <string name="pantalla_editar_clientes">Editar clientes</string>
+    <string name="pantalla_editar_empleados">Editar empleados</string>
+    <string name="pantalla_editar_piezas">Editar piezas</string>
+    <string name="pantalla_editar_facturas">Editar facturas</string>
 
-    <string name="pantalla_anyadir_averia">Nuevo Avería</string>
-    <string name="pantalla_anyadir_cliente">Nuevo Cliente</string>
-    <string name="pantalla_anyadir_coche">Nuevo Vehículo</string>
-    <string name="pantalla_anyadir_empleado">Nuevo Empleado</string>
+    <string name="pantalla_anyadir_averia">Nueva avería</string>
+    <string name="pantalla_anyadir_cliente">Nuevo cliente</string>
+    <string name="pantalla_anyadir_coche">Nuevo vehículo</string>
+    <string name="pantalla_anyadir_pieza">Nueva pieza</string>
+    <string name="pantalla_anyadir_empleado">Nuevo empleado</string>
 
-    <string name="pantalla_detalle_averia">Detalle Avería</string>
-    <string name="pantalla_detalle_cliente">Detalle Cliente</string>
-    <string name="pantalla_detalle_coche">Detalle Coche</string>
-    <string name="pantalla_detalle_empleado">Detalle Empleado</string>
+    <string name="pantalla_detalle_averia">Detalle avería</string>
+    <string name="pantalla_detalle_cliente">Detalle cliente</string>
+    <string name="pantalla_detalle_coche">Detalle coche</string>
+    <string name="pantalla_detalle_empleado">Detalle empleado</string>
+    <string name="pantalla_detalle_pieza">Detalle pieza</string>
 
-    <string name="pantalla_cambio_contrasenya">Cambiar Contrasenya</string>
-
-    <!--BOTON ATRAS-->
-    <string name="atras">Atrás</string>
-    <string name="home">Inicio</string>
+    <string name="pantalla_cambio_contrasenya">Cambiar contraseña</string>
 
     <!--    PANTALLA LOGIN-->
     <string name="acceso">Acceso</string>
     <string name="boton_login">Acceder</string>
-    <string name="contrasenya_oculta">Oculta</string>
-    <string name="contrasenya_visible">Visible</string>
+    <string name="contrasenya_oculta">Ocultar</string>
+    <string name="contrasenya_visible">Mostrar</string>
     <string name="lift_logo">App Logo</string>
     <string name="abrir_menu">Abrir menú</string>
+
+    <!--    MENU-->
     <string name="log_out">Cerrar sesión</string>
+    <string name="texto_miperfil">Mi perfil</string>
+    <string name="administrar">Administrar</string>
 
     <!--    PANTALLA INICIO-->
-    <string name="error_de_conexion">ERROR DE CONEXIÓN!</string>
-    <string name="cargando">CARGANDO...</string>
-    <string name="mensaje">Bienvenido</string>
-    <string name="btnInicio1">Bienvenido</string>
-    <string name="btnInicio2">Bienvenido</string>
+    <string name="error_de_conexion">Error de conexión…</string>
+    <string name="cargando">Cargando…</string>
+    <string name="mensaje_bienvenida">Bienvenido</string>
+    <string name="mensaje_mi_perfil">Aquí podrás editar tu perfil</string>
 
     <!--    PANTALLA AVERIAS-->
-    <string name="averia_titulo">Averías</string>
     <string name="averia_descripcion">Descripción</string>
     <string name="averia_precio">Precio</string>
     <string name="averia_estado">Estado</string>
@@ -57,124 +59,114 @@
     <string name="averia_fecha_resolucion">Fecha de resolución</string>
     <string name="averia_observaciones">Observaciones</string>
     <string name="averia_empleado">Empleado</string>
-    <string name="averia_cliente">Cliente</string>
-    <string name="averia_vehiculo">Vechiulo</string>
+    <string name="texto_cliente">Cliente</string>
+    <string name="texto_vehiculo">Vehículo</string>
 
     <!--    PANTALLA EDITAR AVERIAS-->
-    <string name="tituloEditarAverias">Editar Avería</string>
-    <string name="dialogoAveriaTitulo">Cuídado! Estás a punto de borrar la avería seleccionado</string>
-    <string name="dialogoAveriaTexto">Esta es una acción permanente y no se puede deshacer. Si deseas borrar esta avería, pulsa \"Confirmar\".</string>
-    <string name="editarAveria_descripcion">Descripción</string>
-    <string name="editarAveria_precio">Precio</string>
-    <string name="editarAveria_estado">Estado</string>
-    <string name="editarAveria_fechaRecepcion">Fecha de recepción</string>
-    <string name="editarAveria_fechaResolucion">Fecha de resolución</string>
-    <string name="editarAveria_seleccionarFecha">Selecciona una fecha</string>
-    <string name="editarAveria_mensajeFecha">La fecha de resolución no puede ser anterior a la de recepción</string>
-    <string name="editarAveria_mensajeAveria1">Avería modificada correctamente</string>
-    <string name="editarAveria_mensajeAveria2">Avería borrada correctamente</string>
-
+    <string name="dialogo_averia_titulo">¡Cuidado! Estás a punto de borrar la avería seleccionado</string>
+    <string name="dialogo_averia_texto">Esta es una acción permanente y no se puede deshacer. Si deseas borrar esta avería, pulsa \"Confirmar\".</string>
+    <string name="editar_averia_seleccionar_fecha">Selecciona una fecha</string>
+    <string name="editar_averia_mensaje_fecha">La fecha de resolución no puede ser anterior a la de recepción</string>
+    <string name="editar_averia_mensaje_averia_1">Avería modificada correctamente</string>
+    <string name="editar_averia_mensaje_averia_2">Avería borrada correctamente</string>
 
     <!--    PANTALLAS INSERTAR-->
-    <string name="warningFormulario">¡Cuídado! \nFaltan campos por completar.</string>
-    <string name="editarAveria_mensaje3">Avería guardada correctamente</string>
-    <string name="editarCliente_mensaje3">Cliente guardado correctamente</string>
-    <string name="editarCoche_mensaje3">Coche guardado correctamente</string>
-    <string name="editarEmpleado_mensaje3">Empleado guardado correctamente</string>
+    <string name="warning_formulario">¡Cuidado! \nFaltan campos por completar.</string>
+    <string name="editar_averia_mensaje_3">Avería guardada correctamente</string>
+    <string name="editar_cliente_mensaje_3">Cliente guardado correctamente</string>
+    <string name="editar_coche_mensaje_3">Coche guardado correctamente</string>
+    <string name="editar_empleado_mensaje_3">Empleado guardado correctamente</string>
+    <string name="editar_pieza_mensaje_3">Pieza guardada correctamente</string>
 
     <!--    PANTALLA CLIENTES-->
-    <string name="cliente_titulo">Clientes</string>
-    <string name="cliente_nombre">Nombre</string>
-    <string name="cliente_email">Email</string>
-    <string name="cliente_direccion">Dirección</string>
+    <string name="texto_nombre">Nombre</string>
+    <string name="texto_email">Email</string>
+    <string name="texto_direccion">Dirección</string>
 
     <!--    PANTALLA EDITAR CLIENTES-->
-    <string name="tituloEditarClientes">Editar Cliente</string>
-    <string name="dialogoClienteTitulo">Cuídado! Estás a punto de borrar el cliente seleccionado</string>
-    <string name="dialogoClienteTexto">Esta es una acción permanente y no se puede deshacer. Si deseas borrar este cliente, pulsa \"Confirmar\".</string>
-    <string name="editarCliente_nombre">Nombre</string>
-    <string name="editarCliente_apellido1">Primer apellido</string>
-    <string name="editarCliente_apellido2">Segundo apellido</string>
-    <string name="editarCliente_email">Email</string>
-    <string name="editarCliente_direccion">Dirección</string>
-    <string name="editarCliente_mensaje1">Cliente modificado correctamente</string>
-    <string name="editarCliente_mensaje2">Cliente borrado correctamente</string>
+    <string name="dialogo_cliente_titulo">¡Cuidado! Estás a punto de borrar el cliente seleccionado</string>
+    <string name="dialogo_cliente_texto">Esta es una acción permanente y no se puede deshacer. Si deseas borrar este cliente, pulsa \"Confirmar\".</string>
+    <string name="texto_primer_apellido">Primer apellido</string>
+    <string name="texto_segundo_apellido">Segundo apellido</string>
+    <string name="editar_cliente_mensaje_1">Cliente modificado correctamente</string>
+    <string name="editar_cliente_mensaje_2">Cliente borrado correctamente</string>
 
     <!--    PANTALLA VEHICULO-->
-    <string name="vehiculo_titulo">Vehiculos</string>
-    <string name="vehiculo_marca">Marca</string>
+    <string name="texto_marca">Marca</string>
     <string name="vehiculo_especificaciones">Detalle</string>
-    <string name="vehiculo_matricula">Matricula</string>
+    <string name="texto_matricula">Matrícula</string>
     <string name="vehiculo_vin">Bastidor</string>
-    <string name="vehiculo_cliente">Cliente</string>
 
     <!--    PANTALLA EDITAR VEHICULOS-->
-    <string name="tituloEditarVehiculos">Editar Vehículo</string>
-    <string name="dialogoVehiculoTitulo">Cuídado! Estás a punto de borrar el vehículo seleccionado</string>
-    <string name="dialogoVehiculoTexto">Esta es una acción permanente y no se puede deshacer. Si deseas borrar este vehículo, pulsa \"Confirmar\".</string>
-    <string name="editarCoche_marca">Marca</string>
-    <string name="editarCoche_modelo">Modelo</string>
-    <string name="editarCoche_especificaciones">Especificaciones</string>
-    <string name="editarCoche_matricula">Matricula</string>
-    <string name="editarCoche_vin">Vin</string>
-    <string name="editarCoche_mensaje1">Coche modificado correctamente</string>
-    <string name="editarCoche_mensaje2">Coche borrado correctamente</string>
-
-    <!--    PANTALLA EMPLEADOS-->
-    <string name="empleado_nombre">Nombre</string>
-    <string name="empleado_email">Email</string>
-    <string name="empleado_direccion">Dirección</string>
+    <string name="dialogo_vehiculo_titulo">¡Cuidado! Estás a punto de borrar el vehículo seleccionado</string>
+    <string name="dialogo_vehiculo_texto">Esta es una acción permanente y no se puede deshacer. Si deseas borrar este vehículo, pulsa \"Confirmar\".</string>
+    <string name="editar_coche_modelo">Modelo</string>
+    <string name="editar_coche_especificaciones">Especificaciones</string>
+    <string name="editar_coche_vin">Vin</string>
+    <string name="editar_coche_mensaje_1">Coche modificado correctamente</string>
+    <string name="editar_coche_mensaje_2">Coche borrado correctamente</string>
 
     <!--    PANTALLA EDITAR EMPLEADOS-->
-    <string name="tituloEditarEmpleados">Editar Empleado</string>
-    <string name="editarEmpleado_nombre">Nombre</string>
-    <string name="editarEmpleado_apellido1">Primer apellido</string>
-    <string name="editarEmpleado_apellido2">Segundo apellido</string>
-    <string name="editarEmpleado_direccion">Dirección</string>
-    <string name="editarEmpleado_email">Email</string>
-    <string name="editarEmpleado_usu">Usuario</string>
-    <string name="editarEmpleado_pass">Contraseña</string>
-    <string name="editarEmpleado_mensaje1">Avería modificada correctamente</string>
-    <string name="editarEmpleado_mensaje2">Avería borrada correctamente</string>
+    <string name="dialogo_empleado_titulo">¡Cuidado! Estás a punto de borrar al empleado seleccionado</string>
+    <string name="dialogo_empleado_texto">Esta es una acción permanente y no se puede deshacer. Si deseas borrar a este empleado, pulsa \"Confirmar\".</string>
+    <string name="editar_empleado_usu">Usuario</string>
+    <string name="editar_empleado_pass">Contraseña</string>
+    <string name="editar_empleado_mensaje_1">Empleado modificado correctamente</string>
+    <string name="editar_empleado_mensaje_2">Empleado borrado correctamente</string>
+
+    <!--    PANTALLA EDITAR PIEZAS-->
+    <string name="editar_pieza_cantidad">Cantidad</string>
+    <string name="editar_pieza_tipopieza">Tipo</string>
+    <string name="dialogo_pieza_titulo">¡Cuidado! Estás a punto de borrar la pieza seleccionada</string>
+    <string name="dialogo_pieza_texto">Esta es una acción permanente y no se puede deshacer. Si deseas borrar esta pieza, pulsa \"Confirmar\".</string>
+    <string name="editar_pieza_mensaje_1">Pieza modificada correctamente</string>
+    <string name="editar_pieza_mensaje_2">Pieza borrada correctamente</string>
+
+    <!--    PANTALLA MIPERFIL-->
+    <string name="editar_mi_perfil_mensaje_1">Perfil guardado correctamente</string>
 
     <!--    BOTONES Y DIALOGOS-->
-    <string name="dialogoBtnConfirmar">Confirmar</string>
-    <string name="dialogoBtnCancelar">Cancelar</string>
-    <string name="btnGuardar">Guardar</string>
-    <string name="btnBorrar">Borrar</string>
+    <string name="dialogo_btn_confirmar">Confirmar</string>
+
+    <string name="btn_guardar">Guardar</string>
+    <string name="btn_borrar">Borrar</string>
+    <string name="aceptar">Aceptar</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="atras">Atrás</string>
+    <string name="home">Inicio</string>
 
     <!--    EXTRAS-->
-    <string name="btnAceptar">Aceptar</string>
-    <string name="calendarioAceptar">Aceptar</string>
-    <string name="calendarioCancelar">Cancelar</string>
-    <string name="filtroChipTodo">Todas</string>
-    <string name="filtroChipReparado">Reparado</string>
-    <string name="filtroChipSinReparar">Sin reparar</string>
+    <string name="filtro_chip_todo">Todas</string>
+    <string name="filtro_chip_reparado">Reparado</string>
+    <string name="filtro_chip_sin_reparar">Sin reparar</string>
     <string name="filtros">Filtros</string>
 
-    <string name="averiaObligatorio1">¡La descripción es obligatoria!</string>
-    <string name="averiaObligatorio2">¡El estado es obligatorio!</string>
-    <string name="averiaObligatorio3">¡La fecha de recepción es obligatoria!</string>
+    <string name="averia_obligatorio_1">¡La descripción es obligatoria!</string>
+    <string name="averia_obligatorio_2">¡El estado es obligatorio!</string>
+    <string name="averia_obligatorio_3">¡La fecha de recepción es obligatoria!</string>
+    <string name="averia_obligatorio_4">¡Si el vehículo está reparado, debe tener una fecha de resolución!</string>
+    <string name="averia_obligatorio_5">¡Si el vehículo tiene fecha de resolución, debe estar reparado!</string>
 
-    <string name="clienteObligatorio1">¡El nombre es obligatorio!</string>
-    <string name="clienteObligatorio2">¡El primer apellido es obligatorio!</string>
-    <string name="clienteObligatorio3">¡El email es obligatorio!</string>
+    <string name="cliente_obligatorio_1">¡El nombre es obligatorio!</string>
+    <string name="cliente_obligatorio_2">¡El primer apellido es obligatorio!</string>
+    <string name="cliente_obligatorio_3">¡El email es obligatorio!</string>
 
-    <string name="cocheObligatorio1">¡La marca es obligatoria!</string>
-    <string name="cocheObligatorio2">¡El modelo es obligatorio!</string>
-    <string name="cocheObligatorio3">¡La matrícula es obligatoria!</string>
+    <string name="coche_obligatorio_1">¡La marca es obligatoria!</string>
+    <string name="coche_obligatorio_2">¡El modelo es obligatorio!</string>
+    <string name="coche_obligatorio_3">¡La matrícula es obligatoria!</string>
 
-    <string name="empleadoObligatorio1">¡El nombre es obligatorio!</string>
-    <string name="empleadoObligatorio2">¡El primer apellido es obligatoria!</string>
-    <string name="empleadoObligatorio3">¡El nombre de usuario es obligatorio!</string>
-    <string name="empleadoObligatorio4">¡La contraseña es obligatoria!</string>
+    <string name="empleado_obligatorio_1">¡El nombre es obligatorio!</string>
+    <string name="empleado_obligatorio_2">¡El primer apellido es obligatorio!</string>
+    <string name="empleado_obligatorio_3">¡El nombre de usuario es obligatorio!</string>
+    <string name="empleado_obligatorio_4">¡La contraseña es obligatoria!</string>
 
-    <string name="cambiarContrasenya">Cambiar contraseña</string>
-    <string name="cambiarContrasenya2">Cambiar contraseña de</string>
-    <string name="editarEmpleado_pass2">Confirmar contraseña</string>
-    <string name="matchPassword">Atención: ¡Las contraseñas no coinciden!</string>
-    <string name="nuevaContrasenya_mensaje">Contraseña cambiada correctamente</string>
+    <string name="pieza_obligatorio_1">¡La descripción es obligatoria!</string>
+    <string name="pieza_obligatorio_2">¡La cantidad es obligatoria!</string>
 
-    <string name="empleadoContrasenya">Cambiar contraseña</string>
+    <string name="cambiar_contrasenya">Cambiar contraseña</string>
+    <string name="prep_de">de</string>
+    <string name="confirmar_contrasenya">Confirmar contraseña</string>
+    <string name="coincidir_contrasenya">Atención: ¡Las contraseñas no coinciden!</string>
+    <string name="nueva_contrasenya_mensaje">Contraseña cambiada correctamente</string>
 
 </resources>

@@ -1,5 +1,6 @@
 package com.example.tallermecanico_sebastian.ui.pantallas.modificar
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,15 +11,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Warning
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -27,48 +22,59 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.tallermecanico_sebastian.R
 import com.example.tallermecanico_sebastian.modelo.Empleado
+import com.example.tallermecanico_sebastian.ui.viewmodel.EmpleadoViewModel
 
 @Composable
-fun PantallaEditarEmpleados(
-    empleado: Empleado,
-    onCancelar: () -> Unit,
-    onBorrar: (String) -> Unit,
-    onGuardar: (Empleado) -> Unit,
-//    onCambiar: (Empleado) -> Unit,
-    modifier: Modifier = Modifier
-) {
+fun PantallaMiPerfil(
+    modifier: Modifier,
+    empleadoViewModel: EmpleadoViewModel = viewModel(),
 
-    var nombre by remember { mutableStateOf(empleado.nombre ?: "") }
-    var apellido1 by remember { mutableStateOf(empleado.apellido1 ?: "") }
-    var apellido2 by remember { mutableStateOf(empleado.apellido2 ?: "") }
-    var email by remember { mutableStateOf(empleado.email ?: "") }
-    var direccion by remember { mutableStateOf(empleado.direccion ?: "") }
-    var user by remember { mutableStateOf(empleado.usuario ?: "") }
-    var pass by remember { mutableStateOf(empleado.contrasenya ?: "") }
+    onCancelar: () -> Unit,
+    onGuardar: (Empleado) -> Unit,
+    onCambiar: (Empleado) -> Unit,
+) {
+    val empleado = empleadoViewModel.empleadoLogin
+
+    var nombre by remember { mutableStateOf(empleado?.nombre ?: "") }
+    var apellido1 by remember { mutableStateOf(empleado?.apellido1 ?: "") }
+    var apellido2 by remember { mutableStateOf(empleado?.apellido2 ?: "") }
+    var email by remember { mutableStateOf(empleado?.email ?: "") }
+    var direccion by remember { mutableStateOf(empleado?.direccion ?: "") }
+    var user by remember { mutableStateOf(empleado?.usuario ?: "") }
+    var pass by remember { mutableStateOf(empleado?.contrasenya ?: "") }
     var context = LocalContext.current
     var abrirAlertDialog by remember { mutableStateOf(false) }
 
-    var empeladoEditable by remember { mutableStateOf(empleado) }
+    var empleadoEditable by remember { mutableStateOf(empleado) }
     var mostrarPantallaCambiarContrasenya by remember { mutableStateOf(false) }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
         modifier = modifier
             .fillMaxSize()
             .padding(20.dp)
     ) {
+        Text(
+            text = "${stringResource(R.string.mensaje_bienvenida)} ${empleado?.nombre ?: Empleado}! \n ${
+                stringResource(
+                    R.string.mensaje_mi_perfil
+                )
+            }",
+            fontWeight = FontWeight.Bold
+        )
         TextField(
             value = nombre,
             onValueChange = { nombre = it },
-            label = { Text(text = stringResource(R.string.texto_nombre)) },
+            label = { Text(text = stringResource(R.string.texto_nombre) + " *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
@@ -80,7 +86,7 @@ fun PantallaEditarEmpleados(
         TextField(
             value = apellido1,
             onValueChange = { apellido1 = it },
-            label = { Text(text = stringResource(R.string.texto_primer_apellido)) },
+            label = { Text(text = stringResource(R.string.texto_primer_apellido) + " *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
@@ -128,7 +134,7 @@ fun PantallaEditarEmpleados(
         TextField(
             value = user,
             onValueChange = { user = it },
-            label = { Text(text = stringResource(R.string.editar_empleado_usu)) },
+            label = { Text(text = stringResource(R.string.editar_empleado_usu) + " *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
@@ -137,12 +143,27 @@ fun PantallaEditarEmpleados(
 
         Spacer(modifier = Modifier.height(8.dp))
 
+        OutlinedButton(
+            onClick = {
+                empleado?.let {
+                    onCambiar(it)
+                }
+            },
+        ) {
+            Text(text = stringResource(R.string.cambiar_contrasenya))
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            OutlinedButton(onClick = onCancelar) {
+            OutlinedButton(onClick = {
+                onCancelar()
+                Log.v("NAV MIPERFIL", "INTENTANDO VOLVER ATRAS")
+            }) {
                 Text(stringResource(R.string.cancelar))
             }
 
@@ -158,107 +179,31 @@ fun PantallaEditarEmpleados(
                         Toast.makeText(context, R.string.empleado_obligatorio_3, Toast.LENGTH_SHORT)
                             .show()
                     } else {
-                        val empleadoEditado = empleado.copy(
-                            cod_empleado = empleado.cod_empleado,
-                            nombre = nombre ?: "",
-                            apellido1 = apellido1 ?: "",
-                            apellido2 = apellido2 ?: "",
-                            email = email ?: "",
-                            direccion = direccion ?: "",
-                            usuario = user ?: "",
-                            contrasenya = pass ?: "",
-                        )
-                        onGuardar(empleadoEditado)
-                        Toast.makeText(
-                            context,
-                            R.string.editar_empleado_mensaje_1,
-                            Toast.LENGTH_SHORT
-                        )
-                            .show()
+                        empleado?.let {
+                            val empleadoEditado = it.copy(
+                                cod_empleado = it.cod_empleado,
+                                nombre = nombre ?: "",
+                                apellido1 = apellido1 ?: "",
+                                apellido2 = apellido2 ?: "",
+                                email = email ?: "",
+                                direccion = direccion ?: "",
+                                usuario = user ?: "",
+                                contrasenya = pass ?: "",
+                            )
+                            onGuardar(empleadoEditado)
+                            Log.v("NAV MIPERFIL", "INTENTANDO GUARDAR PERFIL")
+                            Toast.makeText(
+                                context,
+                                R.string.editar_mi_perfil_mensaje_1,
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+                        }
                     }
                 }
             ) {
                 Text(text = stringResource(R.string.btn_guardar))
             }
         }
-        Spacer(modifier = Modifier.height(20.dp))
-        Button(
-            onClick = {
-                abrirAlertDialog = true
-            },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Red,
-                contentColor = Color.White
-            )
-        ) {
-            Text(text = stringResource(R.string.btn_borrar))
-        }
-
-        if (abrirAlertDialog) {
-            AlertDialogEmpleadoConfirmar(
-                onDismissRequest = { abrirAlertDialog = false },
-                onConfirmation = {
-                    abrirAlertDialog = false
-                    val empleadoEditado = empleado.copy(
-                        cod_empleado = empleado.cod_empleado,
-                        nombre = nombre ?: "",
-                        apellido1 = apellido1 ?: "",
-                        apellido2 = apellido2 ?: "",
-                        email = email ?: "",
-                        direccion = direccion ?: "",
-                        usuario = user ?: "",
-                        contrasenya = pass ?: "",
-                    )
-                    onBorrar(empleadoEditado.cod_empleado.toString())
-                    Toast.makeText(context, R.string.editar_empleado_mensaje_2, Toast.LENGTH_SHORT)
-                        .show()
-                },
-                dialogTitle = stringResource(R.string.dialogo_empleado_titulo),
-                dialogText = stringResource(R.string.dialogo_empleado_texto),
-                icon = Icons.Default.Warning
-            )
-        }
     }
-}
-
-@Composable
-fun AlertDialogEmpleadoConfirmar(
-    onDismissRequest: () -> Unit,
-    onConfirmation: () -> Unit,
-    dialogTitle: String,
-    dialogText: String,
-    icon: ImageVector,
-) {
-    AlertDialog(
-        icon = {
-            Icon(icon, contentDescription = "Warning Icon")
-        },
-        title = {
-            Text(text = dialogTitle)
-        },
-        text = {
-            Text(text = dialogText)
-        },
-        onDismissRequest = {
-            onDismissRequest()
-        },
-        confirmButton = {
-            TextButton(
-                onClick = {
-                    onConfirmation()
-                }
-            ) {
-                Text(stringResource(R.string.dialogo_btn_confirmar))
-            }
-        },
-        dismissButton = {
-            TextButton(
-                onClick = {
-                    onDismissRequest()
-                }
-            ) {
-                Text(stringResource(R.string.cancelar))
-            }
-        }
-    )
 }

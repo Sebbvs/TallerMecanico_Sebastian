@@ -4,6 +4,7 @@ import com.example.tallermecanico_sebastian.modelo.Empleado
 import com.example.tallermecanico_sebastian.modelo.Acceso
 import com.example.tallermecanico_sebastian.modelo.Averia
 import com.example.tallermecanico_sebastian.modelo.Cliente
+import com.example.tallermecanico_sebastian.modelo.Pieza
 import com.example.tallermecanico_sebastian.modelo.Rol
 import com.example.tallermecanico_sebastian.modelo.Vehiculo
 import retrofit2.http.Body
@@ -123,4 +124,24 @@ interface ServicioApi {
     suspend fun eliminarVehiculo(
         @Path("id") id: String
     ): Vehiculo
+
+    //PIEZA
+    @GET("piezas")
+    suspend fun obtenerPiezas(): List<Pieza>
+
+    @POST("pieza")
+    suspend fun insertarPieza(
+        @Body pieza: Pieza
+    ): Pieza
+
+    @PUT("pieza/{id}")
+    suspend fun actualizarPieza(
+        @Path("id") id: String,
+        @Body pieza: Pieza
+    ): Pieza
+
+    @DELETE("pieza/{id}")
+    suspend fun eliminarPieza(
+        @Path("id") id: String
+    ): Pieza
 }

@@ -34,22 +34,21 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.tallermecanico_sebastian.R
-import com.example.tallermecanico_sebastian.modelo.Cliente
+import com.example.tallermecanico_sebastian.modelo.Pieza
 
+//TODO PANTALLA EDITAR PIEZAS
 @Composable
-fun PantallaEditarClientes(
-    cliente: Cliente,
+fun PantallaEditarPiezas(
+    pieza: Pieza,
     onCancelar: () -> Unit,
     onBorrar: (String) -> Unit,
-    onGuardar: (Cliente) -> Unit,
+    onGuardar: (Pieza) -> Unit,
     modifier: Modifier = Modifier
 ) {
 
-    var nombre by remember { mutableStateOf(cliente.nombre ?: "") }
-    var apellido1 by remember { mutableStateOf(cliente.apellido1 ?: "") }
-    var apellido2 by remember { mutableStateOf(cliente.apellido2 ?: "") }
-    var email by remember { mutableStateOf(cliente.email ?: "") }
-    var direccion by remember { mutableStateOf(cliente.direccion ?: "") }
+    var descripcion by remember { mutableStateOf(pieza.descripcion ?: "") }
+    var cantidad by remember { mutableStateOf(pieza.cantidad.toString() ?: "") }
+    var tipopieza by remember { mutableStateOf(pieza.tipo_pieza?.nombre ?: "") }
     var context = LocalContext.current
     var abrirAlertDialog by remember { mutableStateOf(false) }
 
@@ -60,9 +59,9 @@ fun PantallaEditarClientes(
             .padding(20.dp)
     ) {
         TextField(
-            value = nombre,
-            onValueChange = { nombre = it },
-            label = { Text(text = stringResource(R.string.texto_nombre) + " *") },
+            value = tipopieza,
+            onValueChange = { tipopieza = it },
+            label = { Text(text = stringResource(R.string.editar_pieza_tipopieza)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
@@ -72,9 +71,9 @@ fun PantallaEditarClientes(
         Spacer(modifier = Modifier.height(8.dp))
 
         TextField(
-            value = apellido1,
-            onValueChange = { apellido1 = it },
-            label = { Text(text = stringResource(R.string.texto_primer_apellido) + " *") },
+            value = descripcion,
+            onValueChange = { descripcion = it },
+            label = { Text(text = stringResource(R.string.averia_descripcion) + " *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
@@ -84,33 +83,9 @@ fun PantallaEditarClientes(
         Spacer(modifier = Modifier.height(8.dp))
 
         TextField(
-            value = apellido2,
-            onValueChange = { apellido2 = it },
-            label = { Text(text = stringResource(R.string.texto_segundo_apellido)) },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        TextField(
-            value = email,
-            onValueChange = { email = it },
-            label = { Text(text = stringResource(R.string.texto_email) + " *") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        TextField(
-            value = direccion,
-            onValueChange = { direccion = it },
-            label = { Text(text = stringResource(R.string.texto_direccion)) },
+            value = cantidad,
+            onValueChange = { cantidad = it },
+            label = { Text(text = stringResource(R.string.editar_pieza_cantidad) + " *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
@@ -130,26 +105,20 @@ fun PantallaEditarClientes(
 
             Button(
                 onClick = {
-                    if (nombre.isEmpty()) {
-                        Toast.makeText(context, R.string.cliente_obligatorio_1, Toast.LENGTH_SHORT)
+                    if (descripcion.isEmpty()) {
+                        Toast.makeText(context, R.string.pieza_obligatorio_1, Toast.LENGTH_SHORT)
                             .show()
-                    } else if (apellido1.isEmpty()) {
-                        Toast.makeText(context, R.string.cliente_obligatorio_2, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (email.isEmpty()) {
-                        Toast.makeText(context, R.string.cliente_obligatorio_3, Toast.LENGTH_SHORT)
+                    } else if (cantidad.isEmpty()) {
+                        Toast.makeText(context, R.string.pieza_obligatorio_2, Toast.LENGTH_SHORT)
                             .show()
                     } else {
-                        val clienteEditado = cliente.copy(
-                            cod_cliente = cliente.cod_cliente,
-                            nombre = nombre ?: "",
-                            apellido1 = apellido1 ?: "",
-                            apellido2 = apellido2 ?: "",
-                            email = email ?: "",
-                            direccion = direccion ?: ""
+                        val piezaEditado = pieza.copy(
+                            cod_pieza = pieza.cod_pieza,
+                            descripcion = descripcion ?: "",
+                            cantidad = cantidad.toInt() ?: 0,
                         )
-                        onGuardar(clienteEditado)
-                        Toast.makeText(context, R.string.editar_cliente_mensaje_1, Toast.LENGTH_SHORT)
+                        onGuardar(piezaEditado)
+                        Toast.makeText(context, R.string.editar_pieza_mensaje_1, Toast.LENGTH_SHORT)
                             .show()
                     }
                 }
@@ -171,24 +140,21 @@ fun PantallaEditarClientes(
         }
 
         if (abrirAlertDialog) {
-            AlertDialogClienteConfirmar(
+            AlertDialogPiezaConfirmar(
                 onDismissRequest = { abrirAlertDialog = false },
                 onConfirmation = {
                     abrirAlertDialog = false
-                    val clienteEditado = cliente.copy(
-                        cod_cliente = cliente.cod_cliente,
-                        nombre = nombre ?: "",
-                        apellido1 = apellido1 ?: "",
-                        apellido2 = apellido2 ?: "",
-                        email = email ?: "",
-                        direccion = direccion ?: ""
+                    val piezaEditado = pieza.copy(
+                        cod_pieza = pieza.cod_pieza,
+                        descripcion = descripcion ?: "",
+                        cantidad = cantidad.toInt() ?: 0,
                     )
-                    onBorrar(clienteEditado.cod_cliente.toString())
-                    Toast.makeText(context, R.string.editar_cliente_mensaje_2, Toast.LENGTH_SHORT)
+                    onBorrar(piezaEditado.cod_pieza.toString())
+                    Toast.makeText(context, R.string.editar_pieza_mensaje_2, Toast.LENGTH_SHORT)
                         .show()
                 },
-                dialogTitle = stringResource(R.string.dialogo_cliente_titulo),
-                dialogText = stringResource(R.string.dialogo_cliente_texto),
+                dialogTitle = stringResource(R.string.dialogo_pieza_titulo),
+                dialogText = stringResource(R.string.dialogo_pieza_texto),
                 icon = Icons.Default.Warning
             )
         }
@@ -196,7 +162,7 @@ fun PantallaEditarClientes(
 }
 
 @Composable
-fun AlertDialogClienteConfirmar(
+fun AlertDialogPiezaConfirmar(
     onDismissRequest: () -> Unit,
     onConfirmation: () -> Unit,
     dialogTitle: String,

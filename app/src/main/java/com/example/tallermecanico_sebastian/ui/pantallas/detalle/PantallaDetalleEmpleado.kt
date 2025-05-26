@@ -59,7 +59,7 @@ fun PantallaDetalleEmpleado(
                 .padding(start = 28.dp, end = 28.dp)
         )
 
-        Spacer(Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         TextField(
             value = "${apellido1} ${apellido2}",
@@ -71,7 +71,7 @@ fun PantallaDetalleEmpleado(
                 .padding(start = 28.dp, end = 28.dp)
         )
 
-        /*        Spacer(Modifier.height(16.dp))
+        /*        Spacer(modifier = Modifier.height(8.dp))
 
                 TextField(
                     value = apellido2,
@@ -80,7 +80,7 @@ fun PantallaDetalleEmpleado(
                     readOnly = true,
                 )*/
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         TextField(
             value = email,
@@ -93,7 +93,7 @@ fun PantallaDetalleEmpleado(
 
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         TextField(
             value = direccion,
@@ -105,7 +105,7 @@ fun PantallaDetalleEmpleado(
                 .padding(start = 28.dp, end = 28.dp)
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         TextField(
             value = user,
@@ -117,7 +117,7 @@ fun PantallaDetalleEmpleado(
                 .padding(start = 28.dp, end = 28.dp)
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         TextField(
             value = rol,
@@ -135,7 +135,7 @@ fun PantallaDetalleEmpleado(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Button(onClick = onAceptar) {
-                Text(stringResource(R.string.btnAceptar))
+                Text(stringResource(R.string.aceptar))
             }
         }
     }

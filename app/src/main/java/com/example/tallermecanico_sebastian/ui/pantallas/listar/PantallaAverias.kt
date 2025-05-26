@@ -34,7 +34,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -103,7 +102,7 @@ fun PantallaExitoAverias(
                     if (chipReparado) chipSinReparar = false
                 },
                 label = {
-                    Text(stringResource(R.string.filtroChipReparado))
+                    Text(stringResource(R.string.filtro_chip_reparado))
                 },
                 selected = chipReparado,
                 leadingIcon = {
@@ -126,7 +125,7 @@ fun PantallaExitoAverias(
                     if (chipSinReparar) chipReparado = false
                 },
                 label = {
-                    Text(stringResource(R.string.filtroChipSinReparar))
+                    Text(stringResource(R.string.filtro_chip_sin_reparar))
                 },
                 selected = chipSinReparar,
                 leadingIcon = {
@@ -165,6 +164,7 @@ fun PantallaExitoAverias(
             }
         }
 
+//TODO AÑADIR TIPO DE AVERÍA.
 
         LazyColumn(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -194,7 +194,7 @@ fun PantallaExitoAverias(
                             fontWeight = FontWeight.Bold
                         )
                         Text(
-                            text = "${stringResource(R.string.averia_vehiculo)}: ${averia.vehiculo?.marca} ${averia.vehiculo?.modelo} [${averia.vehiculo?.matricula}]",
+                            text = "${stringResource(R.string.texto_vehiculo)}: ${averia.vehiculo?.marca} ${averia.vehiculo?.modelo} [${averia.vehiculo?.matricula}]",
                             style = MaterialTheme.typography.titleSmall
                         )
                         Text(
@@ -202,7 +202,7 @@ fun PantallaExitoAverias(
                             style = MaterialTheme.typography.titleSmall
                         )
                         Text(
-                            text = "${stringResource(R.string.averia_cliente)}: ${averia.cliente?.nombre} ${averia.cliente?.apellido1}",
+                            text = "${stringResource(R.string.texto_cliente)}: ${averia.cliente?.nombre} ${averia.cliente?.apellido1}",
                             style = MaterialTheme.typography.titleSmall
                         )
                         Text(

@@ -1,4 +1,4 @@
-package com.example.tallermecanico_sebastian.ui.pantallas
+package com.example.tallermecanico_sebastian.ui.pantallas.modificar
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
@@ -54,11 +54,11 @@ fun PantallaCambiarContrasenya(
             .fillMaxSize()
             .padding(20.dp)
     ) {
-        Text(text = stringResource(R.string.cambiarContrasenya2) + " $nombre $apellido1")
+        Text(text = stringResource(R.string.cambiar_contrasenya) + stringResource(R.string.prep_de) + " $nombre $apellido1")
         TextField(
             value = pass,
             onValueChange = { pass = it },
-            label = { Text(text = stringResource(R.string.editarEmpleado_pass)) },
+            label = { Text(text = stringResource(R.string.editar_empleado_pass)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier
@@ -66,12 +66,12 @@ fun PantallaCambiarContrasenya(
                 .padding(start = 28.dp, end = 28.dp)
         )
 
-        Spacer(Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         TextField(
             value = passConfirm,
             onValueChange = { passConfirm = it },
-            label = { Text(text = stringResource(R.string.editarEmpleado_pass2)) },
+            label = { Text(text = stringResource(R.string.confirmar_contrasenya)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier
@@ -79,7 +79,7 @@ fun PantallaCambiarContrasenya(
                 .padding(start = 28.dp, end = 28.dp)
         )
 
-        Spacer(Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -87,16 +87,16 @@ fun PantallaCambiarContrasenya(
             verticalAlignment = Alignment.CenterVertically
         ) {
             OutlinedButton(onClick = onCancelar) {
-                Text(stringResource(R.string.dialogoBtnCancelar))
+                Text(stringResource(R.string.cancelar))
             }
 
             Button(
                 onClick = {
                     if (pass.isEmpty() || passConfirm.isEmpty()) {
-                        Toast.makeText(context, R.string.warningFormulario, Toast.LENGTH_SHORT)
+                        Toast.makeText(context, R.string.warning_formulario, Toast.LENGTH_SHORT)
                             .show()
                     } else if (!pass.equals(passConfirm)) {
-                        Toast.makeText(context, R.string.matchPassword, Toast.LENGTH_SHORT)
+                        Toast.makeText(context, R.string.coincidir_contrasenya, Toast.LENGTH_SHORT)
                             .show()
                     } else {
                         val nuevaContrasenya = empleado.copy(
@@ -112,14 +112,14 @@ fun PantallaCambiarContrasenya(
                         onCambiar(nuevaContrasenya)
                         Toast.makeText(
                             context,
-                            R.string.nuevaContrasenya_mensaje,
+                            R.string.nueva_contrasenya_mensaje,
                             Toast.LENGTH_SHORT
                         )
                             .show()
                     }
                 }
             ) {
-                Text(text = stringResource(R.string.dialogoBtnConfirmar))
+                Text(text = stringResource(R.string.dialogo_btn_confirmar))
             }
         }
     }

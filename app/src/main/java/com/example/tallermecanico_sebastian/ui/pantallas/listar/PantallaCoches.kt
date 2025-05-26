@@ -99,7 +99,7 @@ fun PantallaExitoVehiculos(
                     }
 
                     Text(
-                        text = "${stringResource(R.string.vehiculo_marca)}: ${vehiculo.marca} ${vehiculo.modelo}",
+                        text = "${stringResource(R.string.texto_marca)}: ${vehiculo.marca} ${vehiculo.modelo}",
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold
                     )
@@ -108,11 +108,11 @@ fun PantallaExitoVehiculos(
                         style = MaterialTheme.typography.titleSmall
                     )
                     Text(
-                        text = "${stringResource(R.string.vehiculo_matricula)}: ${vehiculo.matricula}",
+                        text = "${stringResource(R.string.texto_matricula)}: ${vehiculo.matricula}",
                         style = MaterialTheme.typography.titleSmall
                     )
                     Text(
-                        text = "${stringResource(R.string.vehiculo_cliente)}: ${vehiculo.cliente?.nombre} ${vehiculo.cliente?.apellido1}",
+                        text = "${stringResource(R.string.texto_cliente)}: ${vehiculo.cliente?.nombre} ${vehiculo.cliente?.apellido1}",
                         style = MaterialTheme.typography.titleSmall
                     )
                     Row(

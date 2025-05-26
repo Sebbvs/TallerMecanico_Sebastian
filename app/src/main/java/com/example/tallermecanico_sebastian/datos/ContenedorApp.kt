@@ -7,9 +7,11 @@ import com.example.tallermecanico_sebastian.datos.repos.ClienteRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.ConexionAveriaRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.ConexionClienteRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.ConexionEmpleadoRepositorio
+import com.example.tallermecanico_sebastian.datos.repos.ConexionPiezaRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.ConexionRolRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.ConexionVehiculoRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.EmpleadoRepositorio
+import com.example.tallermecanico_sebastian.datos.repos.PiezaRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.RolRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.VehiculoRepositorio
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
@@ -24,9 +26,11 @@ interface ContenedorApp {
     val empleadoRepositorio: EmpleadoRepositorio
     val rolRepositorio: RolRepositorio
     val vehiculoRepositorio: VehiculoRepositorio
+    val piezaRepositorio: PiezaRepositorio
 }
 
 class TallerContenedorApp(private val context: Context) : ContenedorApp {
+    //    private val baseUrl = "http://192.168.0.244:8000/api/"
     private val baseUrl = "http://192.168.1.106:8000/api/"
 
     @OptIn(ExperimentalSerializationApi::class)
@@ -62,5 +66,9 @@ class TallerContenedorApp(private val context: Context) : ContenedorApp {
 
     override val vehiculoRepositorio: VehiculoRepositorio by lazy {
         ConexionVehiculoRepositorio(servicioRetrofit)
+    }
+
+    override val piezaRepositorio: PiezaRepositorio by lazy {
+        ConexionPiezaRepositorio(servicioRetrofit)
     }
 }

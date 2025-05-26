@@ -29,53 +29,53 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.tallermecanico_sebastian.R
-import com.example.tallermecanico_sebastian.modelo.Cliente
+import com.example.tallermecanico_sebastian.modelo.Pieza
 import com.example.tallermecanico_sebastian.ui.pantallas.PantallaCargando
 import com.example.tallermecanico_sebastian.ui.pantallas.PantallaError
 import com.example.tallermecanico_sebastian.ui.theme.AzulPrincipal
-import com.example.tallermecanico_sebastian.ui.viewmodel.ClienteUIState
+import com.example.tallermecanico_sebastian.ui.viewmodel.PiezaUIState
 
 @Composable
-fun PantallaClientes(
-    clienteUIState: ClienteUIState,
-    onClientesObtenidos: () -> Unit,
-    onClienteClick: (Cliente) -> Unit,
-    onClienteEditar: (Cliente) -> Unit,
-    onClienteInsertar: () -> Unit,
+fun PantallaPiezas(
+    piezaUIState: PiezaUIState,
+    onPiezasObtenidos: () -> Unit,
+    onPiezaClick: (Pieza) -> Unit,
+    onPiezaEditar: (Pieza) -> Unit,
+    onPiezaInsertar: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    when (clienteUIState) {
-        is ClienteUIState.Cargando -> PantallaCargando(modifier = modifier.fillMaxSize())
-        is ClienteUIState.Error -> PantallaError(modifier = modifier.fillMaxWidth())
-        is ClienteUIState.ObtenerExito -> PantallaExitoClientes(
-            lista = clienteUIState.clientes,
+    when (piezaUIState) {
+        is PiezaUIState.Cargando -> PantallaCargando(modifier = modifier.fillMaxSize())
+        is PiezaUIState.Error -> PantallaError(modifier = modifier.fillMaxWidth())
+        is PiezaUIState.ObtenerExito -> PantallaExitoPiezas(
+            lista = piezaUIState.piezas,
             modifier = modifier.fillMaxWidth(),
-            onClienteClick = onClienteClick,
-            onClienteEditar = onClienteEditar,
-            onClienteInsertar = onClienteInsertar
+            onPiezaClick = onPiezaClick,
+            onPiezaEditar = onPiezaEditar,
+            onPiezaInsertar = onPiezaInsertar
         )
 
 
-        is ClienteUIState.CrearExito -> onClientesObtenidos()
-        is ClienteUIState.ActualizarExito -> onClientesObtenidos()
-        is ClienteUIState.EliminarExito -> onClientesObtenidos()
+        is PiezaUIState.CrearExito -> onPiezasObtenidos()
+        is PiezaUIState.ActualizarExito -> onPiezasObtenidos()
+        is PiezaUIState.EliminarExito -> onPiezasObtenidos()
     }
 }
 
 @Composable
-fun PantallaExitoClientes(
-    lista: List<Cliente>,
+fun PantallaExitoPiezas(
+    lista: List<Pieza>,
     modifier: Modifier,
-    onClienteClick: (Cliente) -> Unit,
-    onClienteEditar: (Cliente) -> Unit,
-    onClienteInsertar: () -> Unit,
+    onPiezaClick: (Pieza) -> Unit,
+    onPiezaEditar: (Pieza) -> Unit,
+    onPiezaInsertar: () -> Unit
 ) {
     LazyColumn(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(12.dp),
         modifier = Modifier.padding(8.dp)
     ) {
-        items(lista) { cliente ->
+        items(lista) { pieza ->
             Card(
                 modifier = Modifier
                     .fillMaxSize()
@@ -92,28 +92,23 @@ fun PantallaExitoClientes(
                 Column(
                     modifier = Modifier.padding(start = 9.dp, top = 3.dp, bottom = 3.dp)
                 ) {
-                    val nombreCompleto = if (cliente.apellido2 == null) {
-                        "${stringResource(R.string.texto_nombre)}: ${cliente.nombre} ${cliente.apellido1}"
-                    } else {
-                        "${stringResource(R.string.texto_nombre)}: ${cliente.nombre} ${cliente.apellido1} ${cliente.apellido2}"
-                    }
-                    val direccion = if (cliente.direccion == null) {
-                        "${stringResource(R.string.texto_direccion)}:"
-                    } else {
-                        "${stringResource(R.string.texto_direccion)}: ${cliente.direccion}"
-                    }
-
+                    /*                 val especificaciones = if (pieza.tipo_pieza?.nombre == null) {
+                                         "${stringResource(R.string.vehiculo_especificaciones)}:"
+                                     } else {
+                                         "${stringResource(R.string.vehiculo_especificaciones)}: ${pieza.especificaciones}"
+                                     }*/
+//TODO ARREGLAR R.strings
                     Text(
-                        text = nombreCompleto,
+                        text = "${stringResource(R.string.editar_pieza_tipopieza)}: ${pieza.tipo_pieza?.nombre}",
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = "${stringResource(R.string.texto_email)}: ${cliente.email}",
+                        text = "${stringResource(R.string.averia_descripcion)}: ${pieza.descripcion}",
                         style = MaterialTheme.typography.titleSmall
                     )
                     Text(
-                        text = direccion,
+                        text = "${stringResource(R.string.editar_pieza_cantidad)}: ${pieza.cantidad}",
                         style = MaterialTheme.typography.titleSmall
                     )
                     Row(
@@ -123,7 +118,7 @@ fun PantallaExitoClientes(
                     ) {
                         OutlinedButton(
                             onClick = {
-                                onClienteClick(cliente)
+                                onPiezaClick(pieza)
                             },
                         ) {
                             Icon(
@@ -133,7 +128,7 @@ fun PantallaExitoClientes(
                         }
                         OutlinedButton(
                             onClick = {
-                                onClienteEditar(cliente)
+                                onPiezaEditar(pieza)
                             },
                         ) {
                             Icon(
@@ -154,7 +149,7 @@ fun PantallaExitoClientes(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(16.dp),
-            onClick = { onClienteInsertar() },
+            onClick = { onPiezaInsertar() },
         ) {
             Icon(Icons.Filled.Add, "Insertar")
         }

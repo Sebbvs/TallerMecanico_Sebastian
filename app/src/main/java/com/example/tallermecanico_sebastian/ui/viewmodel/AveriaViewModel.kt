@@ -17,6 +17,7 @@ import com.example.tallermecanico_sebastian.modelo.Averia
 import com.example.tallermecanico_sebastian.modelo.Averiapieza
 import com.example.tallermecanico_sebastian.modelo.Cliente
 import com.example.tallermecanico_sebastian.modelo.Empleado
+import com.example.tallermecanico_sebastian.modelo.Tipoaveria
 import com.example.tallermecanico_sebastian.modelo.Vehiculo
 import kotlinx.coroutines.launch
 import java.io.IOException

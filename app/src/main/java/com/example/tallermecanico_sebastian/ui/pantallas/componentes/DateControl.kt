@@ -100,12 +100,12 @@ fun DatePickerModal(
                 onDateSelected(datePickerState.selectedDateMillis)
                 onDismiss()
             }) {
-                Text(text = stringResource(R.string.calendarioAceptar))
+                Text(text = stringResource(R.string.aceptar))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text(text = stringResource(R.string.calendarioCancelar))
+                Text(text = stringResource(R.string.cancelar))
             }
         }
     ) {
@@ -128,12 +128,12 @@ fun DatePickerModalInput(
                 onDateSelected(datePickerState.selectedDateMillis)
                 onDismiss()
             }) {
-                Text(text = stringResource(R.string.calendarioAceptar))
+                Text(text = stringResource(R.string.aceptar))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text(text = stringResource(R.string.calendarioCancelar))
+                Text(text = stringResource(R.string.cancelar))
             }
         }
     ) {

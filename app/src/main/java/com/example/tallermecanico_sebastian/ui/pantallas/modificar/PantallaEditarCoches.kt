@@ -62,31 +62,31 @@ fun PantallaEditarCoches(
         TextField(
             value = marca,
             onValueChange = { marca = it },
-            label = { Text(text = stringResource(R.string.editarCoche_marca)) },
+            label = { Text(text = stringResource(R.string.texto_marca)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 28.dp, end = 28.dp)
         )
 
-        Spacer(Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         TextField(
             value = modelo,
             onValueChange = { modelo = it },
-            label = { Text(text = stringResource(R.string.editarCoche_modelo)) },
+            label = { Text(text = stringResource(R.string.editar_coche_modelo)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 28.dp, end = 28.dp)
         )
 
-        Spacer(Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         TextField(
             value = especificaciones,
             onValueChange = { especificaciones = it },
-            label = { Text(text = stringResource(R.string.editarCoche_especificaciones)) },
+            label = { Text(text = stringResource(R.string.editar_coche_especificaciones)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
@@ -94,31 +94,31 @@ fun PantallaEditarCoches(
 //                .height(112.dp)
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         TextField(
             value = matricula,
             onValueChange = { matricula = it },
-            label = { Text(text = stringResource(R.string.editarCoche_matricula)) },
+            label = { Text(text = stringResource(R.string.texto_matricula)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 28.dp, end = 28.dp)
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         TextField(
             value = vin,
             onValueChange = { vin = it },
-            label = { Text(text = stringResource(R.string.editarCoche_vin)) },
+            label = { Text(text = stringResource(R.string.editar_coche_vin)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 28.dp, end = 28.dp)
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -126,19 +126,19 @@ fun PantallaEditarCoches(
             verticalAlignment = Alignment.CenterVertically
         ) {
             OutlinedButton(onClick = onCancelar) {
-                Text(stringResource(R.string.dialogoBtnCancelar))
+                Text(stringResource(R.string.cancelar))
             }
 
             Button(
                 onClick = {
                     if (marca.isEmpty()) {
-                        Toast.makeText(context, R.string.cocheObligatorio1, Toast.LENGTH_SHORT)
+                        Toast.makeText(context, R.string.coche_obligatorio_1, Toast.LENGTH_SHORT)
                             .show()
                     } else if (modelo.isEmpty()) {
-                        Toast.makeText(context, R.string.cocheObligatorio2, Toast.LENGTH_SHORT)
+                        Toast.makeText(context, R.string.coche_obligatorio_2, Toast.LENGTH_SHORT)
                             .show()
                     } else if (matricula.isEmpty()) {
-                        Toast.makeText(context, R.string.cocheObligatorio3, Toast.LENGTH_SHORT)
+                        Toast.makeText(context, R.string.coche_obligatorio_3, Toast.LENGTH_SHORT)
                             .show()
                     }
                     val vehiculoEditado = vehiculo.copy(
@@ -150,11 +150,11 @@ fun PantallaEditarCoches(
                         vin = vin ?: ""
                     )
                     onGuardar(vehiculoEditado)
-                    Toast.makeText(context, R.string.editarCoche_mensaje1, Toast.LENGTH_SHORT)
+                    Toast.makeText(context, R.string.editar_coche_mensaje_1, Toast.LENGTH_SHORT)
                         .show()
                 }
             ) {
-                Text(text = stringResource(R.string.btnGuardar))
+                Text(text = stringResource(R.string.btn_guardar))
             }
         }
         Spacer(modifier = Modifier.height(20.dp))
@@ -167,7 +167,7 @@ fun PantallaEditarCoches(
                 contentColor = Color.White
             )
         ) {
-            Text(text = stringResource(R.string.btnBorrar))
+            Text(text = stringResource(R.string.btn_borrar))
         }
 
         if (abrirAlertDialog) {
@@ -184,11 +184,11 @@ fun PantallaEditarCoches(
                         vin = vin ?: ""
                     )
                     onBorrar(vehiculoEditado.cod_vehiculo.toString())
-                    Toast.makeText(context, R.string.editarCoche_mensaje2, Toast.LENGTH_SHORT)
+                    Toast.makeText(context, R.string.editar_coche_mensaje_2, Toast.LENGTH_SHORT)
                         .show()
                 },
-                dialogTitle = stringResource(R.string.dialogoClienteTitulo),
-                dialogText = stringResource(R.string.dialogoClienteTexto),
+                dialogTitle = stringResource(R.string.dialogo_cliente_titulo),
+                dialogText = stringResource(R.string.dialogo_cliente_texto),
                 icon = Icons.Default.Warning
             )
         }
@@ -222,7 +222,7 @@ fun AlertDialogVehiculoConfirmar(
                     onConfirmation()
                 }
             ) {
-                Text(stringResource(R.string.dialogoBtnConfirmar))
+                Text(stringResource(R.string.dialogo_btn_confirmar))
             }
         },
         dismissButton = {
@@ -231,7 +231,7 @@ fun AlertDialogVehiculoConfirmar(
                     onDismissRequest()
                 }
             ) {
-                Text(stringResource(R.string.dialogoBtnCancelar))
+                Text(stringResource(R.string.cancelar))
             }
         }
     )

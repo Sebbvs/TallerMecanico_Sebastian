@@ -57,6 +57,7 @@ fun PantallaEditarAverias(
     modifier: Modifier = Modifier
 ) {
 
+//    var tipoaveria by remember { mutableStateOf(averia.tipo_averias?.nombre ?: "") }
     var descripcion by remember { mutableStateOf(averia.descripcion ?: "") }
     var precio by remember { mutableStateOf(averia.precio ?: "") }
 //    var estado by remember { mutableStateOf(averia.estado ?: "") }
@@ -93,11 +94,10 @@ fun PantallaEditarAverias(
             .fillMaxSize()
             .padding(20.dp)
     ) {
-
         TextField(
             value = descripcion,
             onValueChange = { descripcion = it },
-            label = { Text(text = stringResource(R.string.editarAveria_descripcion)) },
+            label = { Text(text = stringResource(R.string.averia_descripcion)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
@@ -105,12 +105,12 @@ fun PantallaEditarAverias(
 //                .height(112.dp)
         )
 
-        Spacer(Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         /*        TextField(
                     value = estado,
                     onValueChange = { estado = it },
-                    label = { Text(text = stringResource(R.string.editarAveria_estado)) },
+                    label = { Text(text = stringResource(R.string.averia_estado)) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                     modifier = Modifier
                         .fillMaxWidth()
@@ -121,7 +121,7 @@ fun PantallaEditarAverias(
             onEstadoChange = { estado = it }
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         Box(
 //            modifier = Modifier.fillMaxWidth()
@@ -129,13 +129,13 @@ fun PantallaEditarAverias(
             OutlinedTextField(
                 value = fechaRecepcion,
                 onValueChange = { },
-                label = { Text(text = stringResource(R.string.editarAveria_fechaRecepcion)) },
+                label = { Text(text = stringResource(R.string.averia_fecha_recepcion)) },
                 readOnly = true,
                 trailingIcon = {
                     IconButton(onClick = { showDatePicker1 = !showDatePicker1 }) {
                         Icon(
                             imageVector = Icons.Default.DateRange,
-                            contentDescription = stringResource(R.string.editarAveria_seleccionarFecha)
+                            contentDescription = stringResource(R.string.editar_averia_seleccionar_fecha)
                         )
                     }
                 },
@@ -164,7 +164,7 @@ fun PantallaEditarAverias(
             }
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         Box(
 //            modifier = Modifier.fillMaxWidth()
@@ -172,13 +172,13 @@ fun PantallaEditarAverias(
             OutlinedTextField(
                 value = fechaResolucion,
                 onValueChange = { },
-                label = { Text(text = stringResource(R.string.editarAveria_fechaResolucion)) },
+                label = { Text(text = stringResource(R.string.averia_fecha_resolucion)) },
                 readOnly = true,
                 trailingIcon = {
                     IconButton(onClick = { showDatePicker2 = !showDatePicker2 }) {
                         Icon(
                             imageVector = Icons.Default.DateRange,
-                            contentDescription = stringResource(R.string.editarAveria_seleccionarFecha)
+                            contentDescription = stringResource(R.string.editar_averia_seleccionar_fecha)
                         )
                     }
                 },
@@ -198,7 +198,7 @@ fun PantallaEditarAverias(
                             } else {
                                 Toast.makeText(
                                     context,
-                                    R.string.editarAveria_mensajeFecha,
+                                    R.string.editar_averia_mensaje_fecha,
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
@@ -213,19 +213,19 @@ fun PantallaEditarAverias(
             }
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         TextField(
             value = precio,
             onValueChange = { precio = it },
-            label = { Text(text = stringResource(R.string.editarAveria_precio)) },
+            label = { Text(text = stringResource(R.string.averia_precio)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 28.dp, end = 28.dp)
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -233,20 +233,26 @@ fun PantallaEditarAverias(
             verticalAlignment = Alignment.CenterVertically
         ) {
             OutlinedButton(onClick = onCancelar) {
-                Text(stringResource(R.string.dialogoBtnCancelar))
+                Text(stringResource(R.string.cancelar))
             }
             Button(
                 onClick = {
                     if (descripcion.isEmpty()) {
-                        Toast.makeText(context, R.string.averiaObligatorio1, Toast.LENGTH_SHORT)
+                        Toast.makeText(context, R.string.averia_obligatorio_1, Toast.LENGTH_SHORT)
                             .show()
                     } else if (estadoTexto.isEmpty()) {
-                        Toast.makeText(context, R.string.averiaObligatorio2, Toast.LENGTH_SHORT)
+                        Toast.makeText(context, R.string.averia_obligatorio_2, Toast.LENGTH_SHORT)
                             .show()
                     } else if (fechaRecepcion.isEmpty()) {
-                        Toast.makeText(context, R.string.averiaObligatorio3, Toast.LENGTH_SHORT)
+                        Toast.makeText(context, R.string.averia_obligatorio_3, Toast.LENGTH_SHORT)
                             .show()
 //                        TODO ANYADIR CLIENTE, EMPLEADO y VEHICULO
+                    } else if (fechaResolucion.isEmpty() && estado) {
+                        Toast.makeText(context, R.string.averia_obligatorio_4, Toast.LENGTH_SHORT)
+                            .show()
+                    } else if (!fechaResolucion.isEmpty() && !estado) {
+                        Toast.makeText(context, R.string.averia_obligatorio_5, Toast.LENGTH_SHORT)
+                            .show()
                     } else {
                         val averiaEditado = averia.copy(
                             cod_averia = averia.cod_averia,
@@ -260,17 +266,17 @@ fun PantallaEditarAverias(
                         onGuardar(averiaEditado)
                         Toast.makeText(
                             context,
-                            R.string.editarAveria_mensajeAveria1,
+                            R.string.editar_averia_mensaje_averia_1,
                             Toast.LENGTH_SHORT
                         )
                             .show()
                     }
                 }
             ) {
-                Text(text = stringResource(R.string.btnGuardar))
+                Text(text = stringResource(R.string.btn_guardar))
             }
         }
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
         Button(
             onClick = {
                 abrirAlertDialog = true
@@ -280,7 +286,7 @@ fun PantallaEditarAverias(
                 contentColor = Color.White
             )
         ) {
-            Text(text = stringResource(R.string.btnBorrar))
+            Text(text = stringResource(R.string.btn_borrar))
         }
         if (abrirAlertDialog) {
             AlertDialogAveriaConfirmar(
@@ -294,18 +300,19 @@ fun PantallaEditarAverias(
                         estado = estadoTexto ?: "",
                         fecha_recepcion = fechaRecepcion ?: LocalDate.now()
                             .format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString(),
-                        fecha_resolucion = fechaResolucion ?: ""
+                        fecha_resolucion = fechaResolucion ?: "",
+                        tipo_averias = emptyList()
                     )
                     onBorrar(averiaEditado.cod_averia.toString())
                     Toast.makeText(
                         context,
-                        R.string.editarAveria_mensajeAveria2,
+                        R.string.editar_averia_mensaje_averia_2,
                         Toast.LENGTH_SHORT
                     )
                         .show()
                 },
-                dialogTitle = stringResource(R.string.dialogoAveriaTitulo),
-                dialogText = stringResource(R.string.dialogoAveriaTexto),
+                dialogTitle = stringResource(R.string.dialogo_averia_titulo),
+                dialogText = stringResource(R.string.dialogo_averia_texto),
                 icon = Icons.Default.Warning
             )
         }
@@ -339,7 +346,7 @@ fun AlertDialogAveriaConfirmar(
                     onConfirmation()
                 }
             ) {
-                Text(stringResource(R.string.dialogoBtnConfirmar))
+                Text(stringResource(R.string.dialogo_btn_confirmar))
             }
         },
         dismissButton = {
@@ -348,7 +355,7 @@ fun AlertDialogAveriaConfirmar(
                     onDismissRequest()
                 }
             ) {
-                Text(stringResource(R.string.dialogoBtnCancelar))
+                Text(stringResource(R.string.cancelar))
             }
         }
     )

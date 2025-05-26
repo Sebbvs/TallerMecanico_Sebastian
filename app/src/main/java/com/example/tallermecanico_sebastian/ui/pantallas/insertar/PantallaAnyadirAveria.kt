@@ -90,7 +90,7 @@ fun PantallaAnyadirAveria(
         TextField(
             value = descripcion,
             onValueChange = { descripcion = it },
-            label = { Text(text = stringResource(R.string.editarAveria_descripcion) + " *") },
+            label = { Text(text = stringResource(R.string.averia_descripcion) + " *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
@@ -98,24 +98,24 @@ fun PantallaAnyadirAveria(
 //                .height(112.dp)
         )
 
-        Spacer(Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         /*        TextField(
                     value = precio,
                     onValueChange = { precio = it },
-                    label = { Text(text = stringResource(R.string.editarAveria_precio)) },
+                    label = { Text(text = stringResource(R.string.averia_precio)) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(start = 28.dp, end = 28.dp)
                 )*/
 
-        Spacer(Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         /*        TextField(
                     value = estado,
                     onValueChange = { estado = it },
-                    label = { Text(text = stringResource(R.string.editarAveria_estado)) },
+                    label = { Text(text = stringResource(R.string.averia_estado)) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                     modifier = Modifier
                         .fillMaxWidth()
@@ -127,7 +127,7 @@ fun PantallaAnyadirAveria(
         )
 
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         Box(
 //            modifier = Modifier.fillMaxWidth()
@@ -135,13 +135,13 @@ fun PantallaAnyadirAveria(
             OutlinedTextField(
                 value = fechaRecepcion,
                 onValueChange = { },
-                label = { Text(stringResource(R.string.editarAveria_fechaRecepcion) + " +") },
+                label = { Text(stringResource(R.string.averia_fecha_recepcion) + " +") },
                 readOnly = true,
                 trailingIcon = {
                     IconButton(onClick = { showDatePicker1 = !showDatePicker1 }) {
                         Icon(
                             imageVector = Icons.Default.DateRange,
-                            contentDescription = stringResource(R.string.editarAveria_seleccionarFecha)
+                            contentDescription = stringResource(R.string.editar_averia_seleccionar_fecha)
                         )
                     }
                 },
@@ -170,7 +170,7 @@ fun PantallaAnyadirAveria(
             }
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         Box(
 //            modifier = Modifier.fillMaxWidth()
@@ -178,13 +178,13 @@ fun PantallaAnyadirAveria(
             OutlinedTextField(
                 value = fechaResolucion,
                 onValueChange = { },
-                label = { Text(stringResource(R.string.editarAveria_fechaResolucion)) },
+                label = { Text(stringResource(R.string.averia_fecha_resolucion)) },
                 readOnly = true,
                 trailingIcon = {
                     IconButton(onClick = { showDatePicker2 = !showDatePicker2 }) {
                         Icon(
                             imageVector = Icons.Default.DateRange,
-                            contentDescription = stringResource(R.string.editarAveria_seleccionarFecha)
+                            contentDescription = stringResource(R.string.editar_averia_seleccionar_fecha)
                         )
                     }
                 },
@@ -204,7 +204,7 @@ fun PantallaAnyadirAveria(
                             } else {
                                 Toast.makeText(
                                     context,
-                                    R.string.editarAveria_mensajeFecha,
+                                    R.string.editar_averia_mensaje_fecha,
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
@@ -219,7 +219,7 @@ fun PantallaAnyadirAveria(
             }
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         Row(
             modifier = Modifier
@@ -229,7 +229,7 @@ fun PantallaAnyadirAveria(
             horizontalArrangement = Arrangement.Center
         ) {
             OutlinedButton(onClick = onCancelar) {
-                Text(stringResource(R.string.dialogoBtnCancelar))
+                Text(stringResource(R.string.cancelar))
             }
             Spacer(modifier = Modifier.padding(end = 20.dp))
             val context = LocalContext.current
@@ -244,13 +244,13 @@ fun PantallaAnyadirAveria(
                         ).show()
                     }*/
                     if (descripcion.isEmpty()) {
-                        Toast.makeText(context, R.string.averiaObligatorio1, Toast.LENGTH_SHORT)
+                        Toast.makeText(context, R.string.averia_obligatorio_1, Toast.LENGTH_SHORT)
                             .show()
                     } else if (estadoTexto.isEmpty()) {
-                        Toast.makeText(context, R.string.averiaObligatorio2, Toast.LENGTH_SHORT)
+                        Toast.makeText(context, R.string.averia_obligatorio_2, Toast.LENGTH_SHORT)
                             .show()
                     } else if (fechaRecepcion.isEmpty()) {
-                        Toast.makeText(context, R.string.averiaObligatorio3, Toast.LENGTH_SHORT)
+                        Toast.makeText(context, R.string.averia_obligatorio_3, Toast.LENGTH_SHORT)
                             .show()
                     } else {
                         val averia = Averia(
@@ -268,13 +268,13 @@ fun PantallaAnyadirAveria(
                         onInsertar(averia)
                         Toast.makeText(
                             context,
-                            R.string.editarAveria_mensaje3,
+                            R.string.editar_averia_mensaje_3,
                             Toast.LENGTH_SHORT
                         ).show()
                     }
                 }
             ) {
-                Text(stringResource(R.string.btnGuardar))
+                Text(stringResource(R.string.btn_guardar))
             }
         }
     }

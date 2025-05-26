@@ -27,19 +27,19 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.tallermecanico_sebastian.R
-import com.example.tallermecanico_sebastian.modelo.Cliente
+import com.example.tallermecanico_sebastian.modelo.Pieza
+import com.example.tallermecanico_sebastian.modelo.Tipopieza
 
+//TODO ANYADIR PIEZA
 @Composable
-fun PantallaAnyadirCliente(
-    onInsertar: (Cliente) -> Unit,
+fun PantallaAnyadirPieza(
+    onInsertar: (Pieza) -> Unit,
     onCancelar: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var nombre by remember { mutableStateOf("") }
-    var apellido1 by remember { mutableStateOf("") }
-    var apellido2 by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
-    var direccion by remember { mutableStateOf("") }
+    var descripcion by remember { mutableStateOf("") }
+    var cantidad by remember { mutableStateOf("") }
+    var tipopieza by remember { mutableStateOf("") }
     var context = LocalContext.current
     var abrirAlertDialog by remember { mutableStateOf(false) }
 
@@ -50,9 +50,9 @@ fun PantallaAnyadirCliente(
             .padding(20.dp)
     ) {
         TextField(
-            value = nombre,
-            onValueChange = { nombre = it },
-            label = { Text(text = stringResource(R.string.texto_nombre) + " *") },
+            value = descripcion,
+            onValueChange = { descripcion = it },
+            label = { Text(text = stringResource(R.string.averia_descripcion) + " *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
@@ -62,46 +62,10 @@ fun PantallaAnyadirCliente(
         Spacer(modifier = Modifier.height(8.dp))
 
         TextField(
-            value = apellido1,
-            onValueChange = { apellido1 = it },
-            label = { Text(text = stringResource(R.string.texto_primer_apellido) + " *") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        TextField(
-            value = apellido2,
-            onValueChange = { apellido2 = it },
-            label = { Text(text = stringResource(R.string.texto_segundo_apellido)) },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        TextField(
-            value = email,
-            onValueChange = { email = it },
-            label = { Text(text = stringResource(R.string.texto_email) + " *") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        TextField(
-            value = direccion,
-            onValueChange = { direccion = it },
-            label = { Text(text = stringResource(R.string.texto_direccion)) },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+            value = cantidad,
+            onValueChange = { cantidad = it },
+            label = { Text(text = stringResource(R.string.editar_pieza_cantidad) + " *") },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 28.dp, end = 28.dp)
@@ -123,41 +87,28 @@ fun PantallaAnyadirCliente(
             val context = LocalContext.current
             Button(
                 onClick = {
-                    if (nombre.isBlank()) {
+                    if (descripcion.isBlank()) {
                         Toast.makeText(
                             context,
-                            R.string.cliente_obligatorio_1,
+                            R.string.pieza_obligatorio_1,
                             Toast.LENGTH_SHORT
                         ).show()
-                    } else if (apellido1.isBlank()) {
+                    } else if (cantidad.isBlank()) {
                         Toast.makeText(
                             context,
-                            R.string.cliente_obligatorio_2,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    } else if (email.isBlank()) {
-                        Toast.makeText(
-                            context,
-                            R.string.cliente_obligatorio_3,
+                            R.string.pieza_obligatorio_2,
                             Toast.LENGTH_SHORT
                         ).show()
                     } else {
-                        if (apellido2.isBlank()) {
-                            apellido2 = ""
-                        } else if (direccion.isBlank()) {
-                            direccion = ""
-                        }
-                        val cliente = Cliente(
-                            nombre = nombre,
-                            apellido1 = apellido1,
-                            apellido2 = apellido2,
-                            email = email,
-                            direccion = direccion,
+                        val pieza = Pieza(
+                            descripcion = descripcion,
+                            cantidad = cantidad.toInt(),
+                            tipo_pieza = Tipopieza(),
                         )
-                        onInsertar(cliente)
+                        onInsertar(pieza)
                         Toast.makeText(
                             context,
-                            R.string.editar_cliente_mensaje_3,
+                            R.string.editar_pieza_mensaje_3,
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -172,8 +123,8 @@ fun PantallaAnyadirCliente(
 
 @Preview(showBackground = true)
 @Composable
-fun PantallaAnyadirClientePreview() {
-    PantallaAnyadirCliente(
+fun PantallaAnyadirPiezaPreview() {
+    PantallaAnyadirPieza(
         onInsertar = {},
         onCancelar = {},
         modifier = Modifier

@@ -97,14 +97,14 @@ fun PantallaExitoEmpleados(
                     modifier = Modifier.padding(start = 9.dp, top = 3.dp, bottom = 3.dp)
                 ) {
                     val nombreCompleto = if (empleado.apellido2 == null) {
-                        "${stringResource(R.string.empleado_nombre)}: ${empleado.nombre} ${empleado.apellido1}"
+                        "${stringResource(R.string.texto_nombre)}: ${empleado.nombre} ${empleado.apellido1}"
                     } else {
-                        "${stringResource(R.string.empleado_nombre)}: ${empleado.nombre} ${empleado.apellido1} ${empleado.apellido2}"
+                        "${stringResource(R.string.texto_nombre)}: ${empleado.nombre} ${empleado.apellido1} ${empleado.apellido2}"
                     }
                     val direccion = if (empleado.direccion == null) {
-                        "${stringResource(R.string.empleado_direccion)}: "
+                        "${stringResource(R.string.texto_direccion)}: "
                     } else {
-                        "${stringResource(R.string.empleado_direccion)}: ${empleado.direccion}"
+                        "${stringResource(R.string.texto_direccion)}: ${empleado.direccion}"
                     }
 
                     Text(
@@ -113,7 +113,7 @@ fun PantallaExitoEmpleados(
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = "${stringResource(R.string.empleado_email)}: ${empleado.email}",
+                        text = "${stringResource(R.string.texto_email)}: ${empleado.email}",
                         style = MaterialTheme.typography.titleSmall
                     )
                     Text(
@@ -150,7 +150,7 @@ fun PantallaExitoEmpleados(
                                 onEmpleadoContrasenya(empleado)
                             },
                         ) {
-                            Text(text = stringResource(R.string.empleadoContrasenya))
+                            Text(text = stringResource(R.string.cambiar_contrasenya))
                         }
                     }
                 }

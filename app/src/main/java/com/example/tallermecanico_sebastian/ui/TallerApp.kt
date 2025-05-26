@@ -8,7 +8,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.MoreVert
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -43,7 +45,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.tallermecanico_sebastian.R
 import com.example.tallermecanico_sebastian.modelo.Ruta
-import com.example.tallermecanico_sebastian.ui.pantallas.PantallaCambiarContrasenya
+import com.example.tallermecanico_sebastian.ui.pantallas.modificar.PantallaCambiarContrasenya
 import com.example.tallermecanico_sebastian.ui.pantallas.insertar.PantallaAnyadirAveria
 import com.example.tallermecanico_sebastian.ui.pantallas.insertar.PantallaAnyadirCliente
 import com.example.tallermecanico_sebastian.ui.pantallas.insertar.PantallaAnyadirCoche
@@ -62,10 +64,16 @@ import com.example.tallermecanico_sebastian.ui.pantallas.modificar.PantallaEdita
 import com.example.tallermecanico_sebastian.ui.pantallas.listar.PantallaEmpleados
 import com.example.tallermecanico_sebastian.ui.pantallas.PantallaInicio
 import com.example.tallermecanico_sebastian.ui.pantallas.PantallaLogin
+import com.example.tallermecanico_sebastian.ui.pantallas.detalle.PantallaDetallePieza
+import com.example.tallermecanico_sebastian.ui.pantallas.insertar.PantallaAnyadirPieza
+import com.example.tallermecanico_sebastian.ui.pantallas.listar.PantallaPiezas
+import com.example.tallermecanico_sebastian.ui.pantallas.modificar.PantallaEditarPiezas
+import com.example.tallermecanico_sebastian.ui.pantallas.modificar.PantallaMiPerfil
 import com.example.tallermecanico_sebastian.ui.theme.Blanco
 import com.example.tallermecanico_sebastian.ui.viewmodel.AveriaViewModel
 import com.example.tallermecanico_sebastian.ui.viewmodel.ClienteViewModel
 import com.example.tallermecanico_sebastian.ui.viewmodel.EmpleadoViewModel
+import com.example.tallermecanico_sebastian.ui.viewmodel.PiezaViewModel
 import com.example.tallermecanico_sebastian.ui.viewmodel.RolViewModel
 import com.example.tallermecanico_sebastian.ui.viewmodel.VehiculoViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -77,24 +85,29 @@ enum class Pantallas(@StringRes val titulo: Int) {
     Coches(titulo = R.string.pantalla_coches),
     Clientes(titulo = R.string.pantalla_clientes),
     Empleados(titulo = R.string.pantalla_empleados),
+    Piezas(titulo = R.string.pantalla_piezas),
     Facturas(titulo = R.string.pantalla_facturas),
 
     EditarAverias(titulo = R.string.pantalla_editar_averias),
     EditarCoches(titulo = R.string.pantalla_editar_coches),
     EditarClientes(titulo = R.string.pantalla_editar_clientes),
     EditarEmpleados(titulo = R.string.pantalla_editar_empleados),
+    EditarPiezas(titulo = R.string.pantalla_editar_piezas),
 
     AnyadirAveria(titulo = R.string.pantalla_anyadir_averia),
     AnyadirCliente(titulo = R.string.pantalla_anyadir_cliente),
     AnyadirCoche(titulo = R.string.pantalla_anyadir_coche),
     AnyadirEmpleado(titulo = R.string.pantalla_anyadir_empleado),
+    AnyadirPieza(titulo = R.string.pantalla_anyadir_pieza),
 
     DetalleAveria(titulo = R.string.pantalla_detalle_averia),
     DetalleCliente(titulo = R.string.pantalla_detalle_cliente),
     DetalleCoche(titulo = R.string.pantalla_detalle_coche),
     DetalleEmpleado(titulo = R.string.pantalla_detalle_empleado),
+    DetallePieza(titulo = R.string.pantalla_detalle_pieza),
 
     CambioContrasenya(titulo = R.string.pantalla_cambio_contrasenya),
+    MiPerfil(titulo = R.string.texto_miperfil),
 //    EditarFacturas(titulo = R.string.pantalla_editar_facturas),
 
 
@@ -120,11 +133,17 @@ val listaRutas = listOf(
         R.drawable.cliente,
     ),
     Ruta(
-        Pantallas.Empleados.titulo,
-        Pantallas.Empleados.name,
-        R.drawable.empleado,
-        R.drawable.empleado,
+        Pantallas.Piezas.titulo,
+        Pantallas.Piezas.name,
+        R.drawable.pieza,
+        R.drawable.pieza,
     ),
+    /*    Ruta(
+            Pantallas.Empleados.titulo,
+            Pantallas.Empleados.name,
+            R.drawable.empleado,
+            R.drawable.empleado,
+        ),*/
     Ruta(
         Pantallas.Facturas.titulo,
         Pantallas.Facturas.name,
@@ -142,6 +161,7 @@ fun TallerApp(
     viewModelCliente: ClienteViewModel = viewModel(factory = ClienteViewModel.Factory),
     viewModelEmpleado: EmpleadoViewModel = viewModel(factory = EmpleadoViewModel.Factory),
     viewModelRol: RolViewModel = viewModel(factory = RolViewModel.Factory),
+    viewModelPieza: PiezaViewModel = viewModel(factory = PiezaViewModel.Factory),
     viewModelVehiculo: VehiculoViewModel = viewModel(factory = VehiculoViewModel.Factory),
 ) {
     val pilaRetroceso by navController.currentBackStackEntryAsState()
@@ -157,6 +177,7 @@ fun TallerApp(
     val clienteUIState = viewModelCliente.clienteUIState
     val empleadoUIState = viewModelEmpleado.empleadoUIState
     val vehiculoUIState = viewModelVehiculo.vehiculoUIState
+    val piezaUIState = viewModelPieza.piezaUIState
 
     var selectedItem by remember { mutableIntStateOf(0) }
 
@@ -219,12 +240,12 @@ fun TallerApp(
                     modifier = Modifier.fillMaxSize()
                 )
             }
-            composable(route = Pantallas.Inicio.name) {
+            /*composable(route = Pantallas.Inicio.name) {
                 PantallaInicio(
                     empleadoViewModel = viewModelEmpleado,
                     modifier = Modifier
                 )
-            }
+            }*/
             //LISTAS
             composable(route = Pantallas.Averias.name) {
                 PantallaAverias(
@@ -294,6 +315,24 @@ fun TallerApp(
                     modifier = Modifier
                 )
             }
+            composable(route = Pantallas.Piezas.name) {
+                PantallaPiezas(
+                    piezaUIState = piezaUIState,
+                    onPiezasObtenidos = { viewModelPieza.obtenerPiezas() },
+                    onPiezaClick = {
+                        viewModelPieza.actualizarPiezaPulsado(it)
+                        navController.navigate(Pantallas.DetallePieza.name)
+                    },
+                    onPiezaEditar = {
+                        viewModelPieza.actualizarPiezaPulsado(it)
+                        navController.navigate(Pantallas.EditarPiezas.name)
+                    },
+                    onPiezaInsertar = {
+                        navController.navigate(Pantallas.AnyadirPieza.name)
+                    },
+                    modifier = Modifier
+                )
+            }
             //INSERTS
             composable(route = Pantallas.AnyadirAveria.name) {
                 PantallaAnyadirAveria(
@@ -335,6 +374,16 @@ fun TallerApp(
                     modifier = Modifier
                 )
             }
+            composable(route = Pantallas.AnyadirPieza.name) {
+                PantallaAnyadirPieza(
+                    onInsertar = { pieza ->
+                        viewModelPieza.insertarPieza(pieza)
+                        navController.popBackStack()
+                    },
+                    onCancelar = { navController.popBackStack() },
+                    modifier = Modifier
+                )
+            }
             //DETALLE (INFO)
             composable(route = Pantallas.DetalleAveria.name) {
                 PantallaDetalleAveria(
@@ -360,6 +409,13 @@ fun TallerApp(
             composable(route = Pantallas.DetalleEmpleado.name) {
                 PantallaDetalleEmpleado(
                     empleado = viewModelEmpleado.empleadoPulsado,
+                    onAceptar = { navController.popBackStack() },
+                    modifier = Modifier
+                )
+            }
+            composable(route = Pantallas.DetallePieza.name) {
+                PantallaDetallePieza(
+                    pieza = viewModelPieza.piezaPulsado,
                     onAceptar = { navController.popBackStack() },
                     modifier = Modifier
                 )
@@ -393,7 +449,7 @@ fun TallerApp(
                         navController.popBackStack()
                     },
                     onBorrar = { id ->
-                        viewModelAveria.eliminarAveria(id)
+                        viewModelVehiculo.eliminarVehiculo(id)
                         navController.popBackStack()
                     },
                     modifier = Modifier
@@ -410,7 +466,7 @@ fun TallerApp(
                         navController.popBackStack()
                     },
                     onBorrar = { id ->
-                        viewModelAveria.eliminarAveria(id)
+                        viewModelCliente.eliminarCliente(id)
                         navController.popBackStack()
                     },
                     modifier = Modifier
@@ -420,19 +476,33 @@ fun TallerApp(
                 PantallaEditarEmpleados(
                     empleado = viewModelEmpleado.empleadoPulsado,
                     onCancelar = {
-                        navController.popBackStack()
+                        navController.popBackStack(Pantallas.Averias.name, inclusive = false)
                     },
                     onGuardar = {
                         viewModelEmpleado.actualizarEmpleado(it.cod_empleado.toString(), it)
                         navController.popBackStack()
                     },
                     onBorrar = { id ->
-                        viewModelAveria.eliminarAveria(id)
+                        viewModelEmpleado.eliminarEmpleado(id)
+                        navController.popBackStack(Pantallas.Averias.name, inclusive = false)
+                    },
+                    modifier = Modifier
+                )
+            }
+            composable(route = Pantallas.EditarPiezas.name) {
+                PantallaEditarPiezas(
+                    pieza = viewModelPieza.piezaPulsado,
+                    onCancelar = {
                         navController.popBackStack()
                     },
-                    /*                    onCambiar = {
-                                            navController.navigate(Pantallas.CambioContrasenya.name)
-                                        },*/
+                    onGuardar = {
+                        viewModelPieza.actualizarPieza(it.cod_pieza.toString(), it)
+                        navController.popBackStack()
+                    },
+                    onBorrar = { id ->
+                        viewModelPieza.eliminarPieza(id)
+                        navController.popBackStack()
+                    },
                     modifier = Modifier
                 )
             }
@@ -449,14 +519,44 @@ fun TallerApp(
                     }
                 )
             }
+            //EDITADO MIPERFIL
+            composable(route = Pantallas.MiPerfil.name) {
+                PantallaMiPerfil(
+                    modifier = Modifier,
+                    empleadoViewModel = viewModelEmpleado,
+                    onCancelar = { navController.popBackStack() },
+                    onGuardar = {
+                        viewModelEmpleado.actualizarEmpleado(it.cod_empleado.toString(), it)
+                        navController.popBackStack()
+                    },
+                    onCambiar = {
+                        viewModelEmpleado.empleadoLogin?.let { empleado ->
+                            viewModelEmpleado.actualizarEmpleadoPulsado(
+                                empleado
+                            )
+                        }
+                        navController.navigate(Pantallas.CambioContrasenya.name)
+                    },
+                )
+            }
 
 //            TODO: PANTALLA FACTURAS.
-//            composable(route = Pantallas.Facturas.name) {
-//                PantallaInicio(
-//                    empleadoUIState = empleadoUIState,
-//                    modifier = Modifier
-//                )
-//            }
+            composable(route = Pantallas.Facturas.name) {
+                PantallaAverias(
+                    averiaUIState = averiaUIState,
+                    onAveriasObtenidos = { viewModelAveria.obtenerAverias() },
+                    onAveriaClick = {
+                        viewModelAveria.actualizarAveriaPulsado(it)
+                        navController.navigate(Pantallas.DetalleAveria.name)
+                    },
+                    onAveriaEditar = {
+                        viewModelAveria.actualizarAveriaPulsado(it)
+                        navController.navigate(Pantallas.EditarAverias.name)
+                    },
+                    onAveriaInsertar = { navController.navigate(Pantallas.AnyadirAveria.name) },
+                    modifier = Modifier
+                )
+            }
         }
     }
 }
@@ -490,7 +590,7 @@ fun AppTopBar(
         navigationIcon = {
 
             if (puedeNavegarAtras) {
-                if (pantallaActual != Pantallas.Login && pantallaActual != Pantallas.Averias && pantallaActual != Pantallas.Coches && pantallaActual != Pantallas.Clientes && pantallaActual != Pantallas.Inicio) {
+                if (pantallaActual != Pantallas.Login && pantallaActual != Pantallas.Averias && pantallaActual != Pantallas.Coches && pantallaActual != Pantallas.Clientes && pantallaActual != Pantallas.Piezas) {
                     IconButton(
                         onClick = onNavegarAtras
                     ) {
@@ -501,7 +601,7 @@ fun AppTopBar(
                         )
                     }
 
-                } else if (pantallaActual != Pantallas.Login && pantallaActual != Pantallas.Inicio) {
+                } /*else if (pantallaActual != Pantallas.Login && pantallaActual != Pantallas.Inicio) {
                     IconButton(
                         onClick = { navController.navigate(Pantallas.Inicio.name) }
                     ) {
@@ -511,7 +611,7 @@ fun AppTopBar(
                             tint = Blanco
                         )
                     }
-                }
+                }*/
             }
         },
         actions = {
@@ -529,7 +629,51 @@ fun AppTopBar(
                 ) {
                     DropdownMenuItem(
                         text = {
+                            Text(text = stringResource(id = R.string.texto_miperfil))
+                        },
+                        leadingIcon = {
+                            Icon(
+                                imageVector = Icons.Outlined.AccountCircle,
+                                contentDescription = null
+                            )
+                        },
+                        onClick = {
+                            mostrarMenu = false
+                            viewModelEmpleado.empleadoLogin
+                            navController.navigate(Pantallas.MiPerfil.name) {
+                                popUpTo(0) { inclusive = true }
+                                launchSingleTop = true
+                            }
+                        }
+                    )
+                    DropdownMenuItem(
+                        text = {
+                            Text(text = stringResource(id = R.string.administrar))
+                        },
+                        leadingIcon = {
+                            Icon(
+                                imageVector = Icons.Outlined.Settings,
+                                contentDescription = null
+                            )
+                        },
+                        onClick = {
+                            mostrarMenu = false
+                            viewModelEmpleado.obtenerEmpleados()
+                            navController.navigate(Pantallas.Empleados.name) {
+                                popUpTo(0) { inclusive = true }
+                                launchSingleTop = true
+                            }
+                        }
+                    )
+                    DropdownMenuItem(
+                        text = {
                             Text(text = stringResource(id = R.string.log_out))
+                        },
+                        leadingIcon = {
+                            Icon(
+                                painter = painterResource(R.drawable.logout),
+                                contentDescription = null
+                            )
                         },
                         onClick = {
                             mostrarMenu = false

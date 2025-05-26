@@ -49,10 +49,10 @@ fun PantallaLogin(
     var contrasenya by remember { mutableStateOf("") }
     var contrasenyaVisible by remember { mutableStateOf(false) }
 
-    //Este trozo de código ha sido con ayuda del chat
+    //Este trozo de código ha sido con ayuda de chatgpt
     LaunchedEffect(empleadoUIState) {
         if (empleadoUIState is EmpleadoUIState.CrearExito) {
-            navController.navigate(Pantallas.Inicio.name) {
+            navController.navigate(Pantallas.Averias.name) {
                 popUpTo(Pantallas.Login.name) { inclusive = true }
             }
         } else if (empleadoUIState is EmpleadoUIState.ErrorMensaje) {
@@ -76,7 +76,7 @@ fun PantallaLogin(
             fontWeight = FontWeight.Bold
         )
 
-        Spacer(Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         Image(
             painter = painterResource(R.drawable.lift_logo),
@@ -94,7 +94,7 @@ fun PantallaLogin(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
         )
 
-        Spacer(Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         TextField(
             value = contrasenya,
@@ -106,8 +106,11 @@ fun PantallaLogin(
             trailingIcon = {
                 IconButton(onClick = { contrasenyaVisible = !contrasenyaVisible }) {
                     Icon(
-                        imageVector = if (contrasenyaVisible) Icons.Default.Close else Icons.Default.Lock,
-                        contentDescription = if (contrasenyaVisible) stringResource(R.string.contrasenya_oculta) else stringResource(
+                        painter = if (contrasenyaVisible) painterResource(R.drawable.visibility) else painterResource(
+                            R.drawable.visibility_off
+                        ),
+                        contentDescription =
+                        if (contrasenyaVisible) stringResource(R.string.contrasenya_oculta) else stringResource(
                             R.string.contrasenya_visible
                         )
                     )

@@ -66,7 +66,7 @@ fun PantallaDetalleCoche(
                 .padding(start = 28.dp, end = 28.dp)
         )
 
-        /*        Spacer(Modifier.height(16.dp))
+        /*        Spacer(modifier = Modifier.height(8.dp))
 
                 TextField(
                     value = modelo,
@@ -79,7 +79,7 @@ fun PantallaDetalleCoche(
                     )
                 )*/
 
-        Spacer(Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         TextField(
             value = especificaciones,
@@ -96,7 +96,7 @@ fun PantallaDetalleCoche(
 //                .height(112.dp)
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         TextField(
             value = matricula,
@@ -112,7 +112,7 @@ fun PantallaDetalleCoche(
                 .padding(start = 28.dp, end = 28.dp)
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         TextField(
             value = vin,
@@ -128,7 +128,7 @@ fun PantallaDetalleCoche(
                 .padding(start = 28.dp, end = 28.dp)
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         TextField(
             value = "$cliente_nom  $cliente_ape1  $cliente_ape2",
@@ -144,7 +144,7 @@ fun PantallaDetalleCoche(
                 .padding(start = 28.dp, end = 28.dp)
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -152,7 +152,7 @@ fun PantallaDetalleCoche(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Button(onClick = onAceptar) {
-                Text(stringResource(R.string.btnAceptar))
+                Text(stringResource(R.string.aceptar))
             }
         }
     }

@@ -49,68 +49,68 @@ fun PantallaAnyadirEmpleado(
         modifier = modifier
     ) {
 
-        Spacer(Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         TextField(
             value = nombre,
             onValueChange = { nombre = it },
-            label = { Text(text = stringResource(R.string.editarEmpleado_nombre) + " *") },
+            label = { Text(text = stringResource(R.string.texto_nombre) + " *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
         )
 
-        Spacer(Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         TextField(
             value = apellido1,
             onValueChange = { apellido1 = it },
-            label = { Text(text = stringResource(R.string.editarEmpleado_apellido1) + " *") },
+            label = { Text(text = stringResource(R.string.texto_primer_apellido) + " *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
         )
 
-        Spacer(Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         TextField(
             value = apellido2,
             onValueChange = { apellido2 = it },
-            label = { Text(text = stringResource(R.string.editarEmpleado_apellido2)) },
+            label = { Text(text = stringResource(R.string.texto_segundo_apellido)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         TextField(
             value = email,
             onValueChange = { email = it },
-            label = { Text(text = stringResource(R.string.editarEmpleado_email)) },
+            label = { Text(text = stringResource(R.string.texto_email)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         TextField(
             value = direccion,
             onValueChange = { direccion = it },
-            label = { Text(text = stringResource(R.string.editarEmpleado_direccion)) },
+            label = { Text(text = stringResource(R.string.texto_direccion)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         TextField(
             value = usuario,
             onValueChange = { usuario = it },
-            label = { Text(text = stringResource(R.string.editarEmpleado_usu) + " *") },
+            label = { Text(text = stringResource(R.string.editar_empleado_usu) + " *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         TextField(
             value = contrasenya,
             onValueChange = { contrasenya = it },
-            label = { Text(text = stringResource(R.string.editarEmpleado_pass) + " *") },
+            label = { Text(text = stringResource(R.string.editar_empleado_pass) + " *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
         )
 
@@ -122,7 +122,7 @@ fun PantallaAnyadirEmpleado(
             horizontalArrangement = Arrangement.Center
         ) {
             OutlinedButton(onClick = onCancelar) {
-                Text(stringResource(R.string.dialogoBtnCancelar))
+                Text(stringResource(R.string.cancelar))
             }
             Spacer(modifier = Modifier.padding(end = 20.dp))
             val context = LocalContext.current
@@ -131,25 +131,25 @@ fun PantallaAnyadirEmpleado(
                     if (nombre.isEmpty()) {
                         Toast.makeText(
                             context,
-                            R.string.empleadoObligatorio1,
+                            R.string.empleado_obligatorio_1,
                             Toast.LENGTH_SHORT
                         ).show()
                     } else if (apellido1.isEmpty()) {
                         Toast.makeText(
                             context,
-                            R.string.empleadoObligatorio2,
+                            R.string.empleado_obligatorio_2,
                             Toast.LENGTH_SHORT
                         ).show()
                     } else if (usuario.isEmpty()) {
                         Toast.makeText(
                             context,
-                            R.string.empleadoObligatorio3,
+                            R.string.empleado_obligatorio_3,
                             Toast.LENGTH_SHORT
                         ).show()
                     } else if (contrasenya.isEmpty()) {
                         Toast.makeText(
                             context,
-                            R.string.empleadoObligatorio4,
+                            R.string.empleado_obligatorio_4,
                             Toast.LENGTH_SHORT
                         ).show()
                     } else {
@@ -165,13 +165,13 @@ fun PantallaAnyadirEmpleado(
                         onInsertar(empleado)
                         Toast.makeText(
                             context,
-                            R.string.editarEmpleado_mensaje3,
+                            R.string.editar_empleado_mensaje_3,
                             Toast.LENGTH_SHORT
                         ).show()
                     }
                 }
             ) {
-                Text(stringResource(R.string.btnGuardar))
+                Text(stringResource(R.string.btn_guardar))
             }
         }
     }
