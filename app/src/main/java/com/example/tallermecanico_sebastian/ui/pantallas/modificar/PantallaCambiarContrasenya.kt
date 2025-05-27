@@ -57,7 +57,7 @@ fun PantallaCambiarContrasenya(
         Text(text = stringResource(R.string.cambiar_contrasenya) + stringResource(R.string.prep_de) + " $nombre $apellido1")
         TextField(
             value = pass,
-            onValueChange = { pass = it },
+            onValueChange = { if (it.length <= 100) pass = it },
             label = { Text(text = stringResource(R.string.editar_empleado_pass)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             visualTransformation = PasswordVisualTransformation(),
@@ -70,7 +70,7 @@ fun PantallaCambiarContrasenya(
 
         TextField(
             value = passConfirm,
-            onValueChange = { passConfirm = it },
+            onValueChange = { if (it.length <= 100) passConfirm = it },
             label = { Text(text = stringResource(R.string.confirmar_contrasenya)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             visualTransformation = PasswordVisualTransformation(),
@@ -92,7 +92,7 @@ fun PantallaCambiarContrasenya(
 
             Button(
                 onClick = {
-                    if (pass.isEmpty() || passConfirm.isEmpty()) {
+                    if (pass.isBlank() || passConfirm.isBlank()) {
                         Toast.makeText(context, R.string.warning_formulario, Toast.LENGTH_SHORT)
                             .show()
                     } else if (!pass.equals(passConfirm)) {

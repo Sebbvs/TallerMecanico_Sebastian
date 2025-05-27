@@ -44,7 +44,7 @@ import java.util.Date
 import java.util.Locale
 
 @Composable
-fun DateControl() {
+fun ValidacionesControl() {
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -56,8 +56,7 @@ fun DatePickerFieldToModal(modifier: Modifier = Modifier) {
     OutlinedTextField(
         value = selectedDate?.let { convertMillisToDate(it) } ?: "",
         onValueChange = { },
-        label = { Text("DOB") },
-        placeholder = { Text("DD/MM/YYYY") },
+        label = { Text(text = stringResource(R.string.texto_fecha)) },
         trailingIcon = {
             Icon(Icons.Default.DateRange, contentDescription = "Seleccionar fecha")
         },
@@ -144,4 +143,18 @@ fun DatePickerModalInput(
 fun convertMillisToDate(millis: Long): String {
     val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
     return formatter.format(Date(millis))
+}
+
+fun esMatriculaValida(matricula: String): Boolean {
+    val matriculaRegex = "^[0-9]{4}[B-DF-HJ-NP-TV-Z]{3}$|^[A-Z]{1,2}[0-9]{4}[A-Z]{1,2}$"
+    return Regex(matriculaRegex, RegexOption.IGNORE_CASE).matches(matricula)
+}
+
+fun esEmailValido(email: String): Boolean {
+    val emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$"
+    return Regex(emailRegex).matches(email)
+}
+
+fun normalizarMatricula(matricula: String): String {
+    return matricula.uppercase().replace("\\s+".toRegex(), "")
 }

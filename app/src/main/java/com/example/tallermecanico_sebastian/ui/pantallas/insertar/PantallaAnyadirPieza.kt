@@ -51,7 +51,7 @@ fun PantallaAnyadirPieza(
     ) {
         TextField(
             value = descripcion,
-            onValueChange = { descripcion = it },
+            onValueChange = { if (it.length <= 250) descripcion = it },
             label = { Text(text = stringResource(R.string.averia_descripcion) + " *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
@@ -63,7 +63,7 @@ fun PantallaAnyadirPieza(
 
         TextField(
             value = cantidad,
-            onValueChange = { cantidad = it },
+            onValueChange = { if (it.length <= 10) cantidad = it },
             label = { Text(text = stringResource(R.string.editar_pieza_cantidad) + " *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             modifier = Modifier
@@ -99,6 +99,12 @@ fun PantallaAnyadirPieza(
                             R.string.pieza_obligatorio_2,
                             Toast.LENGTH_SHORT
                         ).show()
+                    } else if (descripcion.length > 250) {
+                        Toast.makeText(context, R.string.averia_limite_1, Toast.LENGTH_SHORT)
+                            .show()
+                    } else if (cantidad.length > 11) {
+                        Toast.makeText(context, R.string.pieza_limite_2, Toast.LENGTH_SHORT)
+                            .show()
                     } else {
                         val pieza = Pieza(
                             descripcion = descripcion,

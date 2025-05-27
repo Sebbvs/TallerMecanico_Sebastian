@@ -89,38 +89,18 @@ fun PantallaAnyadirAveria(
     ) {
         TextField(
             value = descripcion,
-            onValueChange = { descripcion = it },
+            onValueChange = {
+                if (it.length <= 250) descripcion = it
+            },
             label = { Text(text = stringResource(R.string.averia_descripcion) + " *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 28.dp, end = 28.dp)
-//                .height(112.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        /*        TextField(
-                    value = precio,
-                    onValueChange = { precio = it },
-                    label = { Text(text = stringResource(R.string.averia_precio)) },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 28.dp, end = 28.dp)
-                )*/
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        /*        TextField(
-                    value = estado,
-                    onValueChange = { estado = it },
-                    label = { Text(text = stringResource(R.string.averia_estado)) },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 28.dp, end = 28.dp)
-                )*/
         EstadoSwitch(
             estado = estado,
             onEstadoChange = { estado = it }
@@ -129,9 +109,7 @@ fun PantallaAnyadirAveria(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        Box(
-//            modifier = Modifier.fillMaxWidth()
-        ) {
+        Box {
             OutlinedTextField(
                 value = fechaRecepcion,
                 onValueChange = { },
@@ -172,9 +150,7 @@ fun PantallaAnyadirAveria(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        Box(
-//            modifier = Modifier.fillMaxWidth()
-        ) {
+        Box {
             OutlinedTextField(
                 value = fechaResolucion,
                 onValueChange = { },
@@ -236,21 +212,20 @@ fun PantallaAnyadirAveria(
             val estadoTexto = if (estado) "Reparado" else "Sin reparar"
             Button(
                 onClick = {
-                    /*if (descripcion.isEmpty() || estadoTexto.isEmpty() || fechaRecepcion.isEmpty()) {
-                        Toast.makeText(
-                            context,
-                            R.string.warningFormulario,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }*/
-                    if (descripcion.isEmpty()) {
+                    if (descripcion.isBlank()) {
                         Toast.makeText(context, R.string.averia_obligatorio_1, Toast.LENGTH_SHORT)
                             .show()
-                    } else if (estadoTexto.isEmpty()) {
+                    } else if (estadoTexto.isBlank()) {
                         Toast.makeText(context, R.string.averia_obligatorio_2, Toast.LENGTH_SHORT)
                             .show()
-                    } else if (fechaRecepcion.isEmpty()) {
+                    } else if (fechaRecepcion.isBlank()) {
                         Toast.makeText(context, R.string.averia_obligatorio_3, Toast.LENGTH_SHORT)
+                            .show()
+                    } else if (descripcion.length > 250) {
+                        Toast.makeText(context, R.string.averia_limite_1, Toast.LENGTH_SHORT)
+                            .show()
+                    } else if (precio.length > 8) {
+                        Toast.makeText(context, R.string.averia_limite_2, Toast.LENGTH_SHORT)
                             .show()
                     } else {
                         val averia = Averia(

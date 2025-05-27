@@ -96,7 +96,7 @@ fun PantallaEditarAverias(
     ) {
         TextField(
             value = descripcion,
-            onValueChange = { descripcion = it },
+            onValueChange = { if (it.length <= 250) descripcion = it },
             label = { Text(text = stringResource(R.string.averia_descripcion)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
@@ -107,15 +107,6 @@ fun PantallaEditarAverias(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        /*        TextField(
-                    value = estado,
-                    onValueChange = { estado = it },
-                    label = { Text(text = stringResource(R.string.averia_estado)) },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 28.dp, end = 28.dp)
-                )*/
         EstadoSwitch(
             estado = estado,
             onEstadoChange = { estado = it }
@@ -123,9 +114,7 @@ fun PantallaEditarAverias(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        Box(
-//            modifier = Modifier.fillMaxWidth()
-        ) {
+        Box {
             OutlinedTextField(
                 value = fechaRecepcion,
                 onValueChange = { },
@@ -166,9 +155,7 @@ fun PantallaEditarAverias(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        Box(
-//            modifier = Modifier.fillMaxWidth()
-        ) {
+        Box {
             OutlinedTextField(
                 value = fechaResolucion,
                 onValueChange = { },
@@ -217,7 +204,7 @@ fun PantallaEditarAverias(
 
         TextField(
             value = precio,
-            onValueChange = { precio = it },
+            onValueChange = { if (it.length <= 7) precio = it },
             label = { Text(text = stringResource(R.string.averia_precio)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
             modifier = Modifier
@@ -237,21 +224,27 @@ fun PantallaEditarAverias(
             }
             Button(
                 onClick = {
-                    if (descripcion.isEmpty()) {
+                    if (descripcion.isBlank()) {
                         Toast.makeText(context, R.string.averia_obligatorio_1, Toast.LENGTH_SHORT)
                             .show()
-                    } else if (estadoTexto.isEmpty()) {
+                    } else if (estadoTexto.isBlank()) {
                         Toast.makeText(context, R.string.averia_obligatorio_2, Toast.LENGTH_SHORT)
                             .show()
-                    } else if (fechaRecepcion.isEmpty()) {
+                    } else if (fechaRecepcion.isBlank()) {
                         Toast.makeText(context, R.string.averia_obligatorio_3, Toast.LENGTH_SHORT)
                             .show()
 //                        TODO ANYADIR CLIENTE, EMPLEADO y VEHICULO
-                    } else if (fechaResolucion.isEmpty() && estado) {
+                    } else if (fechaResolucion.isBlank() && estado) {
                         Toast.makeText(context, R.string.averia_obligatorio_4, Toast.LENGTH_SHORT)
                             .show()
-                    } else if (!fechaResolucion.isEmpty() && !estado) {
+                    } else if (!fechaResolucion.isBlank() && !estado) {
                         Toast.makeText(context, R.string.averia_obligatorio_5, Toast.LENGTH_SHORT)
+                            .show()
+                    } else if (descripcion.length > 250) {
+                        Toast.makeText(context, R.string.averia_limite_1, Toast.LENGTH_SHORT)
+                            .show()
+                    } else if (precio.length > 8) {
+                        Toast.makeText(context, R.string.averia_limite_2, Toast.LENGTH_SHORT)
                             .show()
                     } else {
                         val averiaEditado = averia.copy(

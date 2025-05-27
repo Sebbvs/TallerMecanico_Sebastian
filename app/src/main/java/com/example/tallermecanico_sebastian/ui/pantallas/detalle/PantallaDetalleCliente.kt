@@ -119,7 +119,7 @@ fun PantallaDetalleCliente(
             readOnly = true,
             colors = TextFieldDefaults.colors(
                 disabledLabelColor = Color.Black,
-                disabledTextColor = Color.Black
+                disabledTextColor = Color.Black,
             ),
             modifier = Modifier
                 .fillMaxWidth()

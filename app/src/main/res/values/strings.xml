@@ -10,6 +10,7 @@
     <string name="pantalla_empleados">Administrar empleados</string>
     <string name="pantalla_piezas">Piezas</string>
     <string name="pantalla_facturas">Facturas</string>
+    <string name="pantalla_buscar">Buscar matrícula</string>
 
     <string name="pantalla_editar_averias">Editar averías</string>
     <string name="pantalla_editar_coches">Editar coches</string>
@@ -39,6 +40,7 @@
     <string name="contrasenya_visible">Mostrar</string>
     <string name="lift_logo">App Logo</string>
     <string name="abrir_menu">Abrir menú</string>
+    <string name="soy_cliente">Buscar mi matrícula</string>
 
     <!--    MENU-->
     <string name="log_out">Cerrar sesión</string>
@@ -135,36 +137,61 @@
     <string name="atras">Atrás</string>
     <string name="home">Inicio</string>
 
-    <!--    EXTRAS-->
+    <!--    FILTROS  Y VALIDACIONES-->
     <string name="filtro_chip_todo">Todas</string>
     <string name="filtro_chip_reparado">Reparado</string>
     <string name="filtro_chip_sin_reparar">Sin reparar</string>
     <string name="filtros">Filtros</string>
+
+    <string name="validar_matricula">¡La matrícula debe ser válida!</string>
+    <string name="validar_email">¡El email debe ser válido!</string>
+    <string name="texto_fecha">Fecha</string>
 
     <string name="averia_obligatorio_1">¡La descripción es obligatoria!</string>
     <string name="averia_obligatorio_2">¡El estado es obligatorio!</string>
     <string name="averia_obligatorio_3">¡La fecha de recepción es obligatoria!</string>
     <string name="averia_obligatorio_4">¡Si el vehículo está reparado, debe tener una fecha de resolución!</string>
     <string name="averia_obligatorio_5">¡Si el vehículo tiene fecha de resolución, debe estar reparado!</string>
+    <string name="averia_limite_1">¡La descripción es demasiado larga!</string>
+    <string name="averia_limite_2">¡El precio es demasiado!</string>
 
     <string name="cliente_obligatorio_1">¡El nombre es obligatorio!</string>
     <string name="cliente_obligatorio_2">¡El primer apellido es obligatorio!</string>
     <string name="cliente_obligatorio_3">¡El email es obligatorio!</string>
+    <string name="cliente_limite_1">¡El nombre es demasiado larga!</string>
+    <string name="cliente_limite_2">¡El primer apellido es demasiado largo!</string>
+    <string name="cliente_limite_3">¡El segundo apellido es demasiado largo!</string>
+    <string name="cliente_limite_4">¡El email es demasiado largo!</string>
+    <string name="cliente_limite_5">¡La dirección es demasiado larga!</string>
 
     <string name="coche_obligatorio_1">¡La marca es obligatoria!</string>
     <string name="coche_obligatorio_2">¡El modelo es obligatorio!</string>
     <string name="coche_obligatorio_3">¡La matrícula es obligatoria!</string>
+    <string name="coche_limite_1">¡La marca es demasiado larga!</string>
+    <string name="coche_limite_2">¡El modelo es demasiado largo!</string>
+    <string name="coche_limite_3">¡La especificación es demasiado larga!</string>
+    <string name="coche_limite_4">¡La matrícula es demasiado larga!</string>
+    <string name="coche_limite_5">¡El vin debe tener 17 caracteres!</string>
 
     <string name="empleado_obligatorio_1">¡El nombre es obligatorio!</string>
     <string name="empleado_obligatorio_2">¡El primer apellido es obligatorio!</string>
     <string name="empleado_obligatorio_3">¡El nombre de usuario es obligatorio!</string>
     <string name="empleado_obligatorio_4">¡La contraseña es obligatoria!</string>
+    <string name="empleado_limite_1">¡El nombre es demasiado largo!</string>
+    <string name="empleado_limite_2">¡El primer apellido es demasiado largo!</string>
+    <string name="empleado_limite_3">¡El segundo apellido es demasiado largo!</string>
+    <string name="empleado_limite_4">¡El email es demasiado largo!</string>
+    <string name="empleado_limite_5">¡La dirección es demasiado larga!</string>
+    <string name="empleado_limite_6">¡El usuario es demasiado largo!</string>
+    <string name="empleado_limite_7">¡La contraseña es demasiado larga!</string>
 
     <string name="pieza_obligatorio_1">¡La descripción es obligatoria!</string>
     <string name="pieza_obligatorio_2">¡La cantidad es obligatoria!</string>
+    <string name="pieza_limite_2">¡La cantidad es demasiada!</string>
 
     <string name="cambiar_contrasenya">Cambiar contraseña</string>
     <string name="prep_de">de</string>
+    <string name="prep_y">y</string>
     <string name="confirmar_contrasenya">Confirmar contraseña</string>
     <string name="coincidir_contrasenya">Atención: ¡Las contraseñas no coinciden!</string>
     <string name="nueva_contrasenya_mensaje">Contraseña cambiada correctamente</string>

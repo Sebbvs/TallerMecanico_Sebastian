@@ -45,6 +45,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.tallermecanico_sebastian.R
 import com.example.tallermecanico_sebastian.modelo.Ruta
+import com.example.tallermecanico_sebastian.ui.pantallas.PantallaBuscarPorMatricula
 import com.example.tallermecanico_sebastian.ui.pantallas.modificar.PantallaCambiarContrasenya
 import com.example.tallermecanico_sebastian.ui.pantallas.insertar.PantallaAnyadirAveria
 import com.example.tallermecanico_sebastian.ui.pantallas.insertar.PantallaAnyadirCliente
@@ -87,6 +88,7 @@ enum class Pantallas(@StringRes val titulo: Int) {
     Empleados(titulo = R.string.pantalla_empleados),
     Piezas(titulo = R.string.pantalla_piezas),
     Facturas(titulo = R.string.pantalla_facturas),
+    BuscarMatricula(titulo = R.string.pantalla_buscar),
 
     EditarAverias(titulo = R.string.pantalla_editar_averias),
     EditarCoches(titulo = R.string.pantalla_editar_coches),
@@ -138,12 +140,6 @@ val listaRutas = listOf(
         R.drawable.pieza,
         R.drawable.pieza,
     ),
-    /*    Ruta(
-            Pantallas.Empleados.titulo,
-            Pantallas.Empleados.name,
-            R.drawable.empleado,
-            R.drawable.empleado,
-        ),*/
     Ruta(
         Pantallas.Facturas.titulo,
         Pantallas.Facturas.name,
@@ -192,7 +188,7 @@ fun TallerApp(
             )
         },
         bottomBar = {
-            if (pantallaActual != Pantallas.Login) {
+            if (pantallaActual != Pantallas.Login && pantallaActual != Pantallas.BuscarMatricula) {
                 NavigationBar {
                     listaRutas.forEachIndexed { index, ruta ->
                         NavigationBarItem(
@@ -234,6 +230,9 @@ fun TallerApp(
                 PantallaLogin(
                     onAutenticar = { usuario, contrasenya ->
                         viewModelEmpleado.autenticarUsuario(usuario, contrasenya)
+                    },
+                    onBuscar = {
+                        navController.navigate(Pantallas.BuscarMatricula.name)
                     },
                     empleadoUIState = empleadoUIState,
                     navController = navController,
@@ -539,6 +538,16 @@ fun TallerApp(
                     },
                 )
             }
+            //PANTALLA CLIENTES
+            composable(route = Pantallas.BuscarMatricula.name) {
+                PantallaBuscarPorMatricula(
+                    modifier = Modifier,
+                    viewModel = viewModelAveria,
+                    onAceptar = {
+                        navController.popBackStack()
+                    }
+                )
+            }
 
 //            TODO: PANTALLA FACTURAS.
             composable(route = Pantallas.Facturas.name) {
@@ -590,7 +599,7 @@ fun AppTopBar(
         navigationIcon = {
 
             if (puedeNavegarAtras) {
-                if (pantallaActual != Pantallas.Login && pantallaActual != Pantallas.Averias && pantallaActual != Pantallas.Coches && pantallaActual != Pantallas.Clientes && pantallaActual != Pantallas.Piezas) {
+                if (pantallaActual != Pantallas.Login && pantallaActual != Pantallas.Averias && pantallaActual != Pantallas.Coches && pantallaActual != Pantallas.Clientes && pantallaActual != Pantallas.Piezas && pantallaActual != Pantallas.BuscarMatricula) {
                     IconButton(
                         onClick = onNavegarAtras
                     ) {
@@ -600,22 +609,11 @@ fun AppTopBar(
                             tint = Blanco
                         )
                     }
-
-                } /*else if (pantallaActual != Pantallas.Login && pantallaActual != Pantallas.Inicio) {
-                    IconButton(
-                        onClick = { navController.navigate(Pantallas.Inicio.name) }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Home,
-                            contentDescription = stringResource(id = R.string.home),
-                            tint = Blanco
-                        )
-                    }
-                }*/
+                }
             }
         },
         actions = {
-            if (pantallaActual != Pantallas.Login) {
+            if (pantallaActual != Pantallas.Login && pantallaActual != Pantallas.BuscarMatricula) {
                 IconButton(onClick = { mostrarMenu = true }) {
                     Icon(
                         imageVector = Icons.Outlined.MoreVert,

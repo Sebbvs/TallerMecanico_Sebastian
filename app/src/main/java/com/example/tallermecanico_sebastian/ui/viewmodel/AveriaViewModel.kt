@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import coil.network.HttpException
@@ -19,6 +20,9 @@ import com.example.tallermecanico_sebastian.modelo.Cliente
 import com.example.tallermecanico_sebastian.modelo.Empleado
 import com.example.tallermecanico_sebastian.modelo.Tipoaveria
 import com.example.tallermecanico_sebastian.modelo.Vehiculo
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.io.IOException
 
@@ -67,6 +71,7 @@ class AveriaViewModel(private val averiaRepositorio: AveriaRepositorio) : ViewMo
             averiaUIState = AveriaUIState.Cargando
             averiaUIState = try {
                 val listaAverias = averiaRepositorio.obtenerAverias()
+                cargarAverias(listaAverias) // NUEVA LINEA PARA LA BUSQUEDA DE MATRICULAS
                 AveriaUIState.ObtenerExito(listaAverias)
             } catch (e: IOException) {
                 Log.v("AveriaViewModel IO", "Error de Conexion obtenerAverias", e)
@@ -153,5 +158,31 @@ class AveriaViewModel(private val averiaRepositorio: AveriaRepositorio) : ViewMo
 
     fun actualizarAveriaPulsado(averia: Averia) {
         averiaPulsado = averia
+    }
+
+    //NOTE: PRUEBA
+    // Lista simulada de averías
+    var averiaEncontrada by mutableStateOf<Averia?>(null)
+        private set
+
+    private var listaAverias by mutableStateOf(listOf<Averia>())
+
+    fun buscarPorMatricula(matricula: String) {
+        val input = normalizarMatricula(matricula)
+        Log.v("BUSQUEDAMATRICULA", "Buscando matrícula: $input en ${listaAverias.size} averías")
+
+        averiaEncontrada = listaAverias.find {
+            val m = normalizarMatricula(it.vehiculo?.matricula ?: "")
+            m == input
+        }
+        Log.v("BUSQUEDAMATRICULA", "Resultado: $averiaEncontrada")
+    }
+
+    fun cargarAverias(averias: List<Averia>) {
+        listaAverias = averias
+    }
+
+    fun normalizarMatricula(matricula: String): String {
+        return matricula.uppercase().replace("\\s+".toRegex(), "")
     }
 }

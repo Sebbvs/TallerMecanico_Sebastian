@@ -35,6 +35,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.tallermecanico_sebastian.R
 import com.example.tallermecanico_sebastian.modelo.Vehiculo
+import com.example.tallermecanico_sebastian.ui.pantallas.componentes.esMatriculaValida
+import com.example.tallermecanico_sebastian.ui.pantallas.componentes.normalizarMatricula
 
 @Composable
 fun PantallaEditarCoches(
@@ -53,6 +55,9 @@ fun PantallaEditarCoches(
     var context = LocalContext.current
     var abrirAlertDialog by remember { mutableStateOf(false) }
 
+    //    VALIDACIONES
+    val vinInvalido = vin.length != 17
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
@@ -61,7 +66,7 @@ fun PantallaEditarCoches(
     ) {
         TextField(
             value = marca,
-            onValueChange = { marca = it },
+            onValueChange = { if (it.length <= 50) marca = it },
             label = { Text(text = stringResource(R.string.texto_marca)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
@@ -73,7 +78,7 @@ fun PantallaEditarCoches(
 
         TextField(
             value = modelo,
-            onValueChange = { modelo = it },
+            onValueChange = { if (it.length <= 50) modelo = it },
             label = { Text(text = stringResource(R.string.editar_coche_modelo)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
@@ -85,7 +90,7 @@ fun PantallaEditarCoches(
 
         TextField(
             value = especificaciones,
-            onValueChange = { especificaciones = it },
+            onValueChange = { if (it.length <= 220) especificaciones = it },
             label = { Text(text = stringResource(R.string.editar_coche_especificaciones)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
@@ -98,7 +103,7 @@ fun PantallaEditarCoches(
 
         TextField(
             value = matricula,
-            onValueChange = { matricula = it },
+            onValueChange = { if (it.length <= 15) matricula = it },
             label = { Text(text = stringResource(R.string.texto_matricula)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
@@ -110,7 +115,8 @@ fun PantallaEditarCoches(
 
         TextField(
             value = vin,
-            onValueChange = { vin = it },
+            onValueChange = { if (it.length < 17) vin = it },
+            isError = vinInvalido,
             label = { Text(text = stringResource(R.string.editar_coche_vin)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
@@ -131,27 +137,46 @@ fun PantallaEditarCoches(
 
             Button(
                 onClick = {
-                    if (marca.isEmpty()) {
+                    if (marca.isBlank()) {
                         Toast.makeText(context, R.string.coche_obligatorio_1, Toast.LENGTH_SHORT)
                             .show()
-                    } else if (modelo.isEmpty()) {
+                    } else if (modelo.isBlank()) {
                         Toast.makeText(context, R.string.coche_obligatorio_2, Toast.LENGTH_SHORT)
                             .show()
-                    } else if (matricula.isEmpty()) {
+                    } else if (matricula.isBlank()) {
                         Toast.makeText(context, R.string.coche_obligatorio_3, Toast.LENGTH_SHORT)
                             .show()
+                    } else if (marca.length > 50) {
+                        Toast.makeText(context, R.string.coche_limite_1, Toast.LENGTH_SHORT)
+                            .show()
+                    } else if (modelo.length > 50) {
+                        Toast.makeText(context, R.string.coche_limite_2, Toast.LENGTH_SHORT)
+                            .show()
+                    } else if (especificaciones.length > 220) {
+                        Toast.makeText(context, R.string.coche_limite_3, Toast.LENGTH_SHORT)
+                            .show()
+                    } else if (matricula.length > 15) {
+                        Toast.makeText(context, R.string.coche_limite_4, Toast.LENGTH_SHORT)
+                            .show()
+                    } else if (vin.length > 17 || (vin.length != 17 && vin.isNotBlank())) {
+                        Toast.makeText(context, R.string.coche_limite_5, Toast.LENGTH_SHORT)
+                            .show()
+                    } else if (!esMatriculaValida(normalizarMatricula(matricula))) {
+                        Toast.makeText(context, R.string.validar_matricula, Toast.LENGTH_SHORT)
+                            .show()
+                    } else {
+                        val vehiculoEditado = vehiculo.copy(
+                            cod_vehiculo = vehiculo.cod_vehiculo,
+                            marca = marca ?: "",
+                            modelo = modelo ?: "",
+                            especificaciones = especificaciones ?: "",
+                            matricula = normalizarMatricula(matricula) ?: "",
+                            vin = vin ?: ""
+                        )
+                        onGuardar(vehiculoEditado)
+                        Toast.makeText(context, R.string.editar_coche_mensaje_1, Toast.LENGTH_SHORT)
+                            .show()
                     }
-                    val vehiculoEditado = vehiculo.copy(
-                        cod_vehiculo = vehiculo.cod_vehiculo,
-                        marca = marca ?: "",
-                        modelo = modelo ?: "",
-                        especificaciones = especificaciones ?: "",
-                        matricula = matricula ?: "",
-                        vin = vin ?: ""
-                    )
-                    onGuardar(vehiculoEditado)
-                    Toast.makeText(context, R.string.editar_coche_mensaje_1, Toast.LENGTH_SHORT)
-                        .show()
                 }
             ) {
                 Text(text = stringResource(R.string.btn_guardar))
