@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -50,26 +51,26 @@ fun PantallaBuscarPorMatricula(
 
     var context = LocalContext.current
     var busquedaMatricula by remember { mutableStateOf("") }
-//    var averiaEncontrada = viewModel.averiaEncontrada
     var averiaEncontrada = viewModel.averiaEncontrada
     var busquedaRealizada by remember { mutableStateOf(false) }
     val cliente = averia?.cliente
     val vehiculo = averia?.vehiculo
 
     LaunchedEffect(Unit) {
+        viewModel.limpiarResultado()
         if (viewModel.averiaUIState !is AveriaUIState.ObtenerExito) {
             viewModel.obtenerAverias()
         }
     }
 
-    LaunchedEffect(averiaEncontrada) {
-        if (busquedaRealizada) {
-            if (averiaEncontrada == null) {
-                Toast.makeText(context, "Matricula no encontrada", Toast.LENGTH_SHORT).show()
+    /*    LaunchedEffect(averiaEncontrada) {
+            if (busquedaRealizada) {
+                if (averiaEncontrada == null) {
+                    Toast.makeText(context, "Matricula no encontrada", Toast.LENGTH_SHORT).show()
+                }
+                busquedaRealizada = true
             }
-            busquedaRealizada = true
-        }
-    }
+        }*/
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -82,12 +83,13 @@ fun PantallaBuscarPorMatricula(
             onValueChange = {
                 busquedaMatricula = it
             },
-            label = { Text(text = "Buscador de averías por matrícula") },
+            singleLine = true,
+            label = { Text(text = stringResource(R.string.texto_buscador)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             placeholder = { Text(text = "1589 LLW") },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
+                .padding(horizontal = 28.dp)
         )
 
         Spacer(modifier = Modifier.width(8.dp))
@@ -96,11 +98,16 @@ fun PantallaBuscarPorMatricula(
             onClick = {
                 Log.v("BUSQUEDAMATRICULA", "Mensaje de botón BUSCAR")
                 viewModel.buscarPorMatricula(busquedaMatricula)
+                if (averiaEncontrada == null) Toast.makeText(
+                    context,
+                    R.string.matricula_no_encontrada,
+                    Toast.LENGTH_SHORT
+                ).show()
                 busquedaRealizada = true
             },
             modifier = Modifier.padding(horizontal = 28.dp)
         ) {
-            Text("Buscar")
+            Text(text = stringResource(R.string.buscar))
         }
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -116,7 +123,7 @@ fun PantallaBuscarPorMatricula(
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text(
                         text = stringResource(R.string.averia_descripcion) + ": " + averia.descripcion,
-                        style = MaterialTheme.typography.bodyLarge
+                        style = MaterialTheme.typography.titleMedium
                     )
                     Text(
                         text = stringResource(R.string.averia_fecha_recepcion) + ": " + averia.fecha_recepcion,
@@ -130,15 +137,20 @@ fun PantallaBuscarPorMatricula(
                     vehiculo?.let { vehiculo ->
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
-                            text = stringResource(R.string.texto_vehiculo) + ": ",
+                            text = stringResource(R.string.texto_vehiculo),
                             style = MaterialTheme.typography.titleMedium
                         )
                         Text(
-                            text = stringResource(R.string.texto_marca) + stringResource(R.string.prep_y) + stringResource(
+                            text = stringResource(R.string.texto_marca) + " " + stringResource(R.string.prep_y) + " " + stringResource(
                                 R.string.editar_coche_modelo
-                            ) + ":  ${vehiculo.marca} ${vehiculo.modelo}"
+                            ) + ":  ${vehiculo.marca} ${vehiculo.modelo}",
+                            style = MaterialTheme.typography.bodyMedium
                         )
-                        Text(text = stringResource(R.string.texto_matricula) + ": " + vehiculo.matricula)
+                        Text(
+                            text = stringResource(R.string.texto_matricula) + ": " + vehiculo.matricula,
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+
                     }
 
                     cliente?.let { cliente ->
@@ -147,21 +159,29 @@ fun PantallaBuscarPorMatricula(
                             text = stringResource(R.string.texto_cliente) + ": ",
                             style = MaterialTheme.typography.titleMedium
                         )
-                        Text(text = stringResource(R.string.texto_matricula) + ": ${cliente.nombre} ${cliente.apellido1} ${cliente.apellido2}")
-                        Text(text = stringResource(R.string.texto_matricula) + ": " + cliente.email)
+                        Text(
+                            text = stringResource(R.string.texto_nombre) + ": ${cliente.nombre} ${cliente.apellido1} ${cliente.apellido2}",
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                        Text(
+                            text = stringResource(R.string.texto_email) + ": " + cliente.email,
+                            style = MaterialTheme.typography.bodyMedium
+                        )
                     }
 
                     Spacer(modifier = Modifier.height(8.dp))
                 }
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.Bottom
-                ) {
-                    Button(onClick = onAceptar) {
-                        Text(stringResource(R.string.aceptar))
-                    }
-                }
+            }
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxHeight()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.Bottom
+        ) {
+            Button(onClick = onAceptar) {
+                Text(stringResource(R.string.aceptar))
             }
         }
     }

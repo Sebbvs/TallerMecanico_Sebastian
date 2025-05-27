@@ -143,4 +143,15 @@ class VehiculoViewModel(private val vehiculoRepositorio: VehiculoRepositorio) : 
             }
         }
     }
+
+    var clienteSeleccionado by mutableStateOf<Cliente?>(null)
+        private set
+
+    fun seleccionarCliente(cliente: Cliente) {
+        clienteSeleccionado = cliente
+    }
+
+    fun limpiarCliente() {
+        clienteSeleccionado = null
+    }
 }

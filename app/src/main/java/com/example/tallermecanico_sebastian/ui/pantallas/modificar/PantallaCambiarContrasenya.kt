@@ -46,7 +46,6 @@ fun PantallaCambiarContrasenya(
     var pass by remember { mutableStateOf("") }
     var passConfirm by remember { mutableStateOf("") }
     var context = LocalContext.current
-    var abrirAlertDialog by remember { mutableStateOf(false) }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -58,12 +57,12 @@ fun PantallaCambiarContrasenya(
         TextField(
             value = pass,
             onValueChange = { if (it.length <= 100) pass = it },
-            label = { Text(text = stringResource(R.string.editar_empleado_pass)) },
+            label = { Text(text = stringResource(R.string.texto_contrasenya)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
+                .padding(horizontal = 28.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -76,7 +75,7 @@ fun PantallaCambiarContrasenya(
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
+                .padding(horizontal = 28.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))

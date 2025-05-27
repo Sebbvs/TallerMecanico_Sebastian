@@ -102,7 +102,7 @@ fun PantallaAnyadirEmpleado(
         TextField(
             value = usuario,
             onValueChange = { if (it.length <= 50) usuario = it },
-            label = { Text(text = stringResource(R.string.editar_empleado_usu) + " *") },
+            label = { Text(text = stringResource(R.string.texto_usuario) + " *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
         )
 
@@ -111,7 +111,7 @@ fun PantallaAnyadirEmpleado(
         TextField(
             value = contrasenya,
             onValueChange = { if (it.length <= 100) contrasenya = it },
-            label = { Text(text = stringResource(R.string.editar_empleado_pass) + " *") },
+            label = { Text(text = stringResource(R.string.texto_contrasenya) + " *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
         )
 

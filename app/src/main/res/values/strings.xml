@@ -33,6 +33,8 @@
 
     <string name="pantalla_cambio_contrasenya">Cambiar contraseña</string>
 
+    <string name="seleccionar_vehiculo_cliente">[Coche] Seleccionar Cliente</string>
+
     <!--    PANTALLA LOGIN-->
     <string name="acceso">Acceso</string>
     <string name="boton_login">Acceder</string>
@@ -95,24 +97,22 @@
 
     <!--    PANTALLA VEHICULO-->
     <string name="texto_marca">Marca</string>
-    <string name="vehiculo_especificaciones">Detalle</string>
+    <string name="texto_especificaciones">Especificaciones</string>
     <string name="texto_matricula">Matrícula</string>
-    <string name="vehiculo_vin">Bastidor</string>
+    <string name="texto_vin">Número de bastidor</string>
 
     <!--    PANTALLA EDITAR VEHICULOS-->
     <string name="dialogo_vehiculo_titulo">¡Cuidado! Estás a punto de borrar el vehículo seleccionado</string>
     <string name="dialogo_vehiculo_texto">Esta es una acción permanente y no se puede deshacer. Si deseas borrar este vehículo, pulsa \"Confirmar\".</string>
     <string name="editar_coche_modelo">Modelo</string>
-    <string name="editar_coche_especificaciones">Especificaciones</string>
-    <string name="editar_coche_vin">Vin</string>
     <string name="editar_coche_mensaje_1">Coche modificado correctamente</string>
     <string name="editar_coche_mensaje_2">Coche borrado correctamente</string>
 
     <!--    PANTALLA EDITAR EMPLEADOS-->
     <string name="dialogo_empleado_titulo">¡Cuidado! Estás a punto de borrar al empleado seleccionado</string>
     <string name="dialogo_empleado_texto">Esta es una acción permanente y no se puede deshacer. Si deseas borrar a este empleado, pulsa \"Confirmar\".</string>
-    <string name="editar_empleado_usu">Usuario</string>
-    <string name="editar_empleado_pass">Contraseña</string>
+    <string name="texto_usuario">Usuario</string>
+    <string name="texto_contrasenya">Contraseña</string>
     <string name="editar_empleado_mensaje_1">Empleado modificado correctamente</string>
     <string name="editar_empleado_mensaje_2">Empleado borrado correctamente</string>
 
@@ -130,12 +130,23 @@
     <!--    BOTONES Y DIALOGOS-->
     <string name="dialogo_btn_confirmar">Confirmar</string>
 
+    <!--    PANTALLAS ???-->
+    <string name="texto_apellidos">Apellidos</string>
+    <string name="texto_rol">Rol</string>
+    <string name="texto_buscador">Buscador de averías por matrícula</string>
+    <string name="texto_tipo_averia">Tipo de avería</string>
+    <string name="cliente_seleccionado">Cliente seleccionado</string>
+    <string name="cliente_no_seleccionado">Ningún cliente seleccionado</string>
+    <!--    PANTALLAS ???-->
+
     <string name="btn_guardar">Guardar</string>
     <string name="btn_borrar">Borrar</string>
     <string name="aceptar">Aceptar</string>
     <string name="cancelar">Cancelar</string>
     <string name="atras">Atrás</string>
     <string name="home">Inicio</string>
+    <string name="buscar">Buscar</string>
+    <string name="add_cliente">Añadir cliente</string>
 
     <!--    FILTROS  Y VALIDACIONES-->
     <string name="filtro_chip_todo">Todas</string>
@@ -171,7 +182,8 @@
     <string name="coche_limite_2">¡El modelo es demasiado largo!</string>
     <string name="coche_limite_3">¡La especificación es demasiado larga!</string>
     <string name="coche_limite_4">¡La matrícula es demasiado larga!</string>
-    <string name="coche_limite_5">¡El vin debe tener 17 caracteres!</string>
+    <string name="coche_limite_5">¡El número de bastidor debe tener 17 caracteres!</string>
+    <string name="coche_limite_6">¡El coche debe pertenecer a un cliente!</string>
 
     <string name="empleado_obligatorio_1">¡El nombre es obligatorio!</string>
     <string name="empleado_obligatorio_2">¡El primer apellido es obligatorio!</string>
@@ -195,5 +207,7 @@
     <string name="confirmar_contrasenya">Confirmar contraseña</string>
     <string name="coincidir_contrasenya">Atención: ¡Las contraseñas no coinciden!</string>
     <string name="nueva_contrasenya_mensaje">Contraseña cambiada correctamente</string>
+
+    <string name="matricula_no_encontrada">Matricula no encontrada</string>
 
 </resources>

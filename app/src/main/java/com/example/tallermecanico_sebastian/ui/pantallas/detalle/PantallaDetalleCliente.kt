@@ -51,7 +51,7 @@ fun PantallaDetalleCliente(
         TextField(
             value = nombre,
             onValueChange = { nombre = it },
-            label = { Text(text = "Nombre") },
+            label = { Text(text = stringResource(R.string.texto_nombre)) },
             readOnly = true,
             colors = TextFieldDefaults.colors(
                 disabledLabelColor = Color.Black,
@@ -59,7 +59,7 @@ fun PantallaDetalleCliente(
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
+                .padding(horizontal = 28.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -67,7 +67,7 @@ fun PantallaDetalleCliente(
         TextField(
             value = "$apellido1 $apellido2",
             onValueChange = { apellido1 = it },
-            label = { Text(text = "Apellidos") },
+            label = { Text(text = stringResource(R.string.texto_apellidos)) },
             readOnly = true,
             colors = TextFieldDefaults.colors(
                 disabledLabelColor = Color.Black,
@@ -75,31 +75,15 @@ fun PantallaDetalleCliente(
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
+                .padding(horizontal = 28.dp)
         )
-
-        /*        Spacer(modifier = Modifier.height(8.dp))
-
-                TextField(
-                    value = apellido2,
-                    onValueChange = { apellido2 = it },
-                    label = { Text(text = "Segundo apellido") },
-                    readOnly = true,
-                    colors = TextFieldDefaults.colors(
-                        disabledLabelColor = Color.Black,
-                        disabledTextColor = Color.Black
-                    ),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 28.dp, end = 28.dp)
-                )*/
 
         Spacer(modifier = Modifier.height(8.dp))
 
         TextField(
             value = email,
             onValueChange = { email = it },
-            label = { Text(text = "Email") },
+            label = { Text(text = stringResource(R.string.texto_email)) },
             readOnly = true,
             colors = TextFieldDefaults.colors(
                 disabledLabelColor = Color.Black,
@@ -107,7 +91,7 @@ fun PantallaDetalleCliente(
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
+                .padding(horizontal = 28.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -115,7 +99,7 @@ fun PantallaDetalleCliente(
         TextField(
             value = direccion,
             onValueChange = { direccion = it },
-            label = { Text(text = "Dirección") },
+            label = { Text(text = stringResource(R.string.texto_direccion)) },
             readOnly = true,
             colors = TextFieldDefaults.colors(
                 disabledLabelColor = Color.Black,
@@ -123,7 +107,7 @@ fun PantallaDetalleCliente(
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
+                .padding(horizontal = 28.dp)
 //                .height(112.dp)
         )
 

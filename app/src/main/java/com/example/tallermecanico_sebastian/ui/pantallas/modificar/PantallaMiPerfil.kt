@@ -26,6 +26,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.tallermecanico_sebastian.R
@@ -35,8 +36,8 @@ import com.example.tallermecanico_sebastian.ui.viewmodel.EmpleadoViewModel
 @Composable
 fun PantallaMiPerfil(
     modifier: Modifier,
-    empleadoViewModel: EmpleadoViewModel = viewModel(),
-
+//    empleadoViewModel: EmpleadoViewModel = viewModel(),
+    empleadoViewModel: EmpleadoViewModel,
     onCancelar: () -> Unit,
     onGuardar: (Empleado) -> Unit,
     onCambiar: (Empleado) -> Unit,
@@ -58,7 +59,6 @@ fun PantallaMiPerfil(
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
         modifier = modifier
             .fillMaxSize()
             .padding(20.dp)
@@ -69,8 +69,12 @@ fun PantallaMiPerfil(
                     R.string.mensaje_mi_perfil
                 )
             }",
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center,
         )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
         TextField(
             value = nombre,
             onValueChange = { if (it.length <= 25) nombre = it },
@@ -78,7 +82,7 @@ fun PantallaMiPerfil(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
+                .padding(horizontal = 28.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -90,7 +94,7 @@ fun PantallaMiPerfil(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
+                .padding(horizontal = 28.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -102,7 +106,7 @@ fun PantallaMiPerfil(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
+                .padding(horizontal = 28.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -114,7 +118,7 @@ fun PantallaMiPerfil(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
+                .padding(horizontal = 28.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -126,7 +130,7 @@ fun PantallaMiPerfil(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
+                .padding(horizontal = 28.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -134,11 +138,11 @@ fun PantallaMiPerfil(
         TextField(
             value = user,
             onValueChange = { if (it.length <= 50) user = it },
-            label = { Text(text = stringResource(R.string.editar_empleado_usu) + " *") },
+            label = { Text(text = stringResource(R.string.texto_usuario) + " *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
+                .padding(horizontal = 28.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))

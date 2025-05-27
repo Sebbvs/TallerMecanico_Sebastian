@@ -55,7 +55,7 @@ fun PantallaDetalleCoche(
         TextField(
             value = "${marca} ${modelo}",
             onValueChange = { marca = it },
-            label = { Text(text = "Marca") },
+            label = { Text(text = stringResource(R.string.texto_marca)) },
             readOnly = true,
             colors = TextFieldDefaults.colors(
                 disabledLabelColor = Color.Black,
@@ -63,28 +63,15 @@ fun PantallaDetalleCoche(
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
+                .padding(horizontal = 28.dp)
         )
-
-        /*        Spacer(modifier = Modifier.height(8.dp))
-
-                TextField(
-                    value = modelo,
-                    onValueChange = { modelo = it },
-                    label = { Text(text = "Modelo") },
-                    readOnly = true,
-                    colors = TextFieldDefaults.colors(
-                        disabledLabelColor = Color.Black,
-                        disabledTextColor = Color.Black
-                    )
-                )*/
 
         Spacer(modifier = Modifier.height(8.dp))
 
         TextField(
             value = especificaciones,
             onValueChange = { especificaciones = it },
-            label = { Text(text = "Especificaciones") },
+            label = { Text(text = stringResource(R.string.texto_especificaciones)) },
             readOnly = true,
             colors = TextFieldDefaults.colors(
                 disabledLabelColor = Color.Black,
@@ -92,7 +79,7 @@ fun PantallaDetalleCoche(
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
+                .padding(horizontal = 28.dp)
 //                .height(112.dp)
         )
 
@@ -101,7 +88,7 @@ fun PantallaDetalleCoche(
         TextField(
             value = matricula,
             onValueChange = { matricula = it },
-            label = { Text(text = "Matricula") },
+            label = { Text(text = stringResource(R.string.texto_matricula)) },
             readOnly = true,
             colors = TextFieldDefaults.colors(
                 disabledLabelColor = Color.Black,
@@ -109,7 +96,7 @@ fun PantallaDetalleCoche(
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
+                .padding(horizontal = 28.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -117,7 +104,7 @@ fun PantallaDetalleCoche(
         TextField(
             value = vin,
             onValueChange = { vin = it },
-            label = { Text(text = "Vin") },
+            label = { Text(text = stringResource(R.string.texto_vin)) },
             readOnly = true,
             colors = TextFieldDefaults.colors(
                 disabledLabelColor = Color.Black,
@@ -125,7 +112,7 @@ fun PantallaDetalleCoche(
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
+                .padding(horizontal = 28.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -133,7 +120,7 @@ fun PantallaDetalleCoche(
         TextField(
             value = "$cliente_nom  $cliente_ape1  $cliente_ape2",
             onValueChange = {},
-            label = { Text(text = "Cliente") },
+            label = { Text(text = stringResource(R.string.texto_cliente)) },
             readOnly = true,
             colors = TextFieldDefaults.colors(
                 disabledLabelColor = Color.Black,
@@ -141,7 +128,7 @@ fun PantallaDetalleCoche(
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
+                .padding(horizontal = 28.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))

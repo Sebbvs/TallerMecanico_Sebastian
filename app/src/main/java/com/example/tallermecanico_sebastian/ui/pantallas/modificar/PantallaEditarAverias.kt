@@ -101,7 +101,7 @@ fun PantallaEditarAverias(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
+                .padding(horizontal = 28.dp)
 //                .height(112.dp)
         )
 
@@ -131,7 +131,7 @@ fun PantallaEditarAverias(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(64.dp)
-                    .padding(start = 28.dp, end = 28.dp)
+                    .padding(horizontal = 28.dp)
             )
 
             if (showDatePicker1) {
@@ -172,7 +172,7 @@ fun PantallaEditarAverias(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(64.dp)
-                    .padding(start = 28.dp, end = 28.dp)
+                    .padding(horizontal = 28.dp)
             )
 
             if (showDatePicker2) {
@@ -209,7 +209,7 @@ fun PantallaEditarAverias(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
+                .padding(horizontal = 28.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))

@@ -93,9 +93,9 @@ fun PantallaExitoVehiculos(
                     modifier = Modifier.padding(start = 9.dp, top = 3.dp, bottom = 3.dp)
                 ) {
                     val especificaciones = if (vehiculo.especificaciones == null) {
-                        "${stringResource(R.string.vehiculo_especificaciones)}:"
+                        "${stringResource(R.string.texto_especificaciones)}:"
                     } else {
-                        "${stringResource(R.string.vehiculo_especificaciones)}: ${vehiculo.especificaciones}"
+                        "${stringResource(R.string.texto_especificaciones)}: ${vehiculo.especificaciones}"
                     }
 
                     Text(

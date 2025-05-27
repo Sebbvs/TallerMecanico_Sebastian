@@ -71,7 +71,7 @@ fun PantallaEditarCoches(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
+                .padding(horizontal = 28.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -83,7 +83,7 @@ fun PantallaEditarCoches(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
+                .padding(horizontal = 28.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -91,11 +91,11 @@ fun PantallaEditarCoches(
         TextField(
             value = especificaciones,
             onValueChange = { if (it.length <= 220) especificaciones = it },
-            label = { Text(text = stringResource(R.string.editar_coche_especificaciones)) },
+            label = { Text(text = stringResource(R.string.texto_especificaciones)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
+                .padding(horizontal = 28.dp)
 //                .height(112.dp)
         )
 
@@ -108,7 +108,7 @@ fun PantallaEditarCoches(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
+                .padding(horizontal = 28.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -117,11 +117,11 @@ fun PantallaEditarCoches(
             value = vin,
             onValueChange = { if (it.length < 17) vin = it },
             isError = vinInvalido,
-            label = { Text(text = stringResource(R.string.editar_coche_vin)) },
+            label = { Text(text = stringResource(R.string.texto_vin)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
+                .padding(horizontal = 28.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))

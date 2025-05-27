@@ -100,7 +100,7 @@ fun PantallaLogin(
         TextField(
             value = usuario,
             onValueChange = { usuario = it },
-            label = { Text(text = "Usuario") },
+            label = { Text(text = stringResource(R.string.texto_usuario)) },
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
         )
@@ -110,7 +110,7 @@ fun PantallaLogin(
         TextField(
             value = contrasenya,
             onValueChange = { contrasenya = it },
-            label = { Text(text = "Contraseña") },
+            label = { Text(text = stringResource(R.string.texto_contrasenya)) },
             singleLine = true,
             visualTransformation = if (contrasenyaVisible) VisualTransformation.None else PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),

@@ -185,4 +185,8 @@ class AveriaViewModel(private val averiaRepositorio: AveriaRepositorio) : ViewMo
     fun normalizarMatricula(matricula: String): String {
         return matricula.uppercase().replace("\\s+".toRegex(), "")
     }
+
+    fun limpiarResultado() {
+        averiaEncontrada = null
+    }
 }

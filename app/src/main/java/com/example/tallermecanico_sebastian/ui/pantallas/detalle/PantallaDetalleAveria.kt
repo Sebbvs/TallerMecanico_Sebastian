@@ -82,18 +82,17 @@ fun PantallaDetalleAveria(
         ) {
             items(averia.tipo_averias.orEmpty()) { tipo ->
                 TextField(
-//                    text = tipo.nombre ?: ""
                     value = tipo.nombre ?: "",
                     onValueChange = {},
                     readOnly = true,
-                    label = { Text(text = "Tipo de avería") },
+                    label = { Text(text = stringResource(R.string.texto_tipo_averia)) },
                     colors = TextFieldDefaults.colors(
                         disabledLabelColor = Color.Black,
                         disabledTextColor = Color.Black
                     ),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(start = 28.dp, end = 28.dp)
+                        .padding(horizontal = 28.dp)
                 )
             }
         }
@@ -103,7 +102,7 @@ fun PantallaDetalleAveria(
         TextField(
             value = descripcion,
             onValueChange = { descripcion = it },
-            label = { Text(text = "Descripción") },
+            label = { Text(text = stringResource(R.string.averia_descripcion)) },
             readOnly = true,
             colors = TextFieldDefaults.colors(
                 disabledLabelColor = Color.Black,
@@ -111,7 +110,7 @@ fun PantallaDetalleAveria(
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
+                .padding(horizontal = 28.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -119,7 +118,7 @@ fun PantallaDetalleAveria(
         TextField(
             value = "$vehiculo_marca $vehiculo_modelo",
             onValueChange = { },
-            label = { Text(text = "Vehiculo") },
+            label = { Text(text = stringResource(R.string.texto_vehiculo)) },
             readOnly = true,
             colors = TextFieldDefaults.colors(
                 disabledLabelColor = Color.Black,
@@ -127,7 +126,7 @@ fun PantallaDetalleAveria(
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
+                .padding(horizontal = 28.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -135,7 +134,7 @@ fun PantallaDetalleAveria(
         TextField(
             value = fechaFormatRecepcion,
             onValueChange = { fechaFormatRecepcion = it },
-            label = { Text(text = "Fecha de recepción") },
+            label = { Text(text = stringResource(R.string.averia_fecha_recepcion)) },
             readOnly = true,
             colors = TextFieldDefaults.colors(
                 disabledLabelColor = Color.Black,
@@ -143,7 +142,7 @@ fun PantallaDetalleAveria(
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
+                .padding(horizontal = 28.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -151,7 +150,7 @@ fun PantallaDetalleAveria(
         TextField(
             value = fechaFormatResolucion,
             onValueChange = { fechaFormatResolucion = it },
-            label = { Text(text = "Fecha de resolución") },
+            label = { Text(text = stringResource(R.string.averia_fecha_recepcion)) },
             readOnly = true,
             colors = TextFieldDefaults.colors(
                 disabledLabelColor = Color.Black,
@@ -159,7 +158,7 @@ fun PantallaDetalleAveria(
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
+                .padding(horizontal = 28.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -167,7 +166,7 @@ fun PantallaDetalleAveria(
         TextField(
             value = observaciones,
             onValueChange = { observaciones = it },
-            label = { Text(text = "Observaciones") },
+            label = { Text(text = stringResource(R.string.averia_observaciones)) },
             readOnly = true,
             colors = TextFieldDefaults.colors(
                 disabledLabelColor = Color.Black,
@@ -175,7 +174,7 @@ fun PantallaDetalleAveria(
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
+                .padding(horizontal = 28.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -183,7 +182,7 @@ fun PantallaDetalleAveria(
         TextField(
             value = estado,
             onValueChange = { estado = it },
-            label = { Text(text = "Estado") },
+            label = { Text(text = stringResource(R.string.averia_estado)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             readOnly = true,
             colors = TextFieldDefaults.colors(
@@ -192,31 +191,15 @@ fun PantallaDetalleAveria(
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
+                .padding(horizontal = 28.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        /*        TextField(
-                    value = "$empleado_nom $empleado_ape1 $empleado_ape2",
-                    onValueChange = { },
-                    label = { Text(text = "Empleado") },
-                    readOnly = true,
-                    colors = TextFieldDefaults.colors(
-                        disabledLabelColor = Color.Black,
-                        disabledTextColor = Color.Black
-                    ),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 28.dp, end = 28.dp)
-                )*/
-
-//        Spacer(modifier = Modifier.height(8.dp))
-
         TextField(
             value = "$cliente_nom $cliente_ape1 $cliente_ape2",
             onValueChange = { },
-            label = { Text(text = "Cliente") },
+            label = { Text(text = stringResource(R.string.texto_cliente)) },
             readOnly = true,
             colors = TextFieldDefaults.colors(
                 disabledLabelColor = Color.Black,
@@ -224,7 +207,7 @@ fun PantallaDetalleAveria(
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
+                .padding(horizontal = 28.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))

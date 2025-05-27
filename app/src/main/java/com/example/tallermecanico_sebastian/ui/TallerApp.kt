@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.Settings
@@ -26,6 +25,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -63,13 +63,13 @@ import com.example.tallermecanico_sebastian.ui.pantallas.modificar.PantallaEdita
 import com.example.tallermecanico_sebastian.ui.pantallas.modificar.PantallaEditarCoches
 import com.example.tallermecanico_sebastian.ui.pantallas.modificar.PantallaEditarEmpleados
 import com.example.tallermecanico_sebastian.ui.pantallas.listar.PantallaEmpleados
-import com.example.tallermecanico_sebastian.ui.pantallas.PantallaInicio
 import com.example.tallermecanico_sebastian.ui.pantallas.PantallaLogin
 import com.example.tallermecanico_sebastian.ui.pantallas.detalle.PantallaDetallePieza
 import com.example.tallermecanico_sebastian.ui.pantallas.insertar.PantallaAnyadirPieza
 import com.example.tallermecanico_sebastian.ui.pantallas.listar.PantallaPiezas
 import com.example.tallermecanico_sebastian.ui.pantallas.modificar.PantallaEditarPiezas
 import com.example.tallermecanico_sebastian.ui.pantallas.modificar.PantallaMiPerfil
+import com.example.tallermecanico_sebastian.ui.pantallas.seleccionar.PantallaVehiculoCliente
 import com.example.tallermecanico_sebastian.ui.theme.Blanco
 import com.example.tallermecanico_sebastian.ui.viewmodel.AveriaViewModel
 import com.example.tallermecanico_sebastian.ui.viewmodel.ClienteViewModel
@@ -110,6 +110,8 @@ enum class Pantallas(@StringRes val titulo: Int) {
 
     CambioContrasenya(titulo = R.string.pantalla_cambio_contrasenya),
     MiPerfil(titulo = R.string.texto_miperfil),
+
+    SeleccionarVehiculoCliente(titulo = R.string.seleccionar_vehiculo_cliente)
 //    EditarFacturas(titulo = R.string.pantalla_editar_facturas),
 
 
@@ -345,11 +347,17 @@ fun TallerApp(
             }
             composable(route = Pantallas.AnyadirCoche.name) {
                 PantallaAnyadirCoche(
+                    viewModel = viewModelVehiculo,
                     onInsertar = { vehiculo ->
                         viewModelVehiculo.insertarVehiculo(vehiculo)
+                        viewModelVehiculo.limpiarCliente()
                         navController.popBackStack()
                     },
-                    onCancelar = { navController.popBackStack() },
+                    onCancelar = {
+                        viewModelVehiculo.limpiarCliente()
+                        navController.popBackStack()
+                    },
+                    onSeleccionarCliente = { navController.navigate(Pantallas.SeleccionarVehiculoCliente.name) },
                     modifier = Modifier
                 )
             }
@@ -523,7 +531,9 @@ fun TallerApp(
                 PantallaMiPerfil(
                     modifier = Modifier,
                     empleadoViewModel = viewModelEmpleado,
-                    onCancelar = { navController.popBackStack() },
+                    onCancelar = {
+                        navController.popBackStack()
+                    },
                     onGuardar = {
                         viewModelEmpleado.actualizarEmpleado(it.cod_empleado.toString(), it)
                         navController.popBackStack()
@@ -534,16 +544,32 @@ fun TallerApp(
                                 empleado
                             )
                         }
-                        navController.navigate(Pantallas.CambioContrasenya.name)
+                        navController.navigate(Pantallas.CambioContrasenya.name) {
+                            popUpTo(Pantallas.MiPerfil.name) { inclusive = false }
+                        }
                     },
                 )
             }
-            //PANTALLA CLIENTES
+            //PANTALLA BUSCAR MATRICULA
             composable(route = Pantallas.BuscarMatricula.name) {
                 PantallaBuscarPorMatricula(
                     modifier = Modifier,
                     viewModel = viewModelAveria,
                     onAceptar = {
+                        navController.popBackStack()
+                    }
+                )
+            }
+            //SELECCIONABLES
+            composable(route = Pantallas.SeleccionarVehiculoCliente.name) {
+                LaunchedEffect(Unit) {
+                    viewModelCliente.obtenerClientes()
+                }
+                PantallaVehiculoCliente(
+                    modifier = Modifier,
+                    viewModelVehiculo = viewModelVehiculo,
+                    viewModelCliente = viewModelCliente,
+                    onSeleccionar = {
                         navController.popBackStack()
                     }
                 )
@@ -599,7 +625,7 @@ fun AppTopBar(
         navigationIcon = {
 
             if (puedeNavegarAtras) {
-                if (pantallaActual != Pantallas.Login && pantallaActual != Pantallas.Averias && pantallaActual != Pantallas.Coches && pantallaActual != Pantallas.Clientes && pantallaActual != Pantallas.Piezas && pantallaActual != Pantallas.BuscarMatricula) {
+                if (pantallaActual != Pantallas.Login && pantallaActual != Pantallas.Averias && pantallaActual != Pantallas.Coches && pantallaActual != Pantallas.Clientes && pantallaActual != Pantallas.Piezas) {
                     IconButton(
                         onClick = onNavegarAtras
                     ) {
@@ -639,8 +665,8 @@ fun AppTopBar(
                             mostrarMenu = false
                             viewModelEmpleado.empleadoLogin
                             navController.navigate(Pantallas.MiPerfil.name) {
-                                popUpTo(0) { inclusive = true }
-                                launchSingleTop = true
+                                popUpTo(Pantallas.Averias.name) { inclusive = false }
+//                                launchSingleTop = true
                             }
                         }
                     )

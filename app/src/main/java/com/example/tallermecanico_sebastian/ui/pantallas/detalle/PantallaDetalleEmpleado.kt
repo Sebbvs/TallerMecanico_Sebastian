@@ -52,11 +52,11 @@ fun PantallaDetalleEmpleado(
         TextField(
             value = nombre,
             onValueChange = { nombre = it },
-            label = { Text(text = "Nombre") },
+            label = { Text(text = stringResource(R.string.texto_nombre)) },
             readOnly = true,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
+                .padding(horizontal = 28.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -64,32 +64,23 @@ fun PantallaDetalleEmpleado(
         TextField(
             value = "${apellido1} ${apellido2}",
             onValueChange = { apellido1 = it },
-            label = { Text(text = "Apellidos") },
+            label = { Text(text = stringResource(R.string.texto_apellidos)) },
             readOnly = true,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
+                .padding(horizontal = 28.dp)
         )
-
-        /*        Spacer(modifier = Modifier.height(8.dp))
-
-                TextField(
-                    value = apellido2,
-                    onValueChange = { apellido2 = it },
-                    label = { Text(text = "Segundo apellido") },
-                    readOnly = true,
-                )*/
 
         Spacer(modifier = Modifier.height(8.dp))
 
         TextField(
             value = email,
             onValueChange = { email = it },
-            label = { Text(text = "Email") },
+            label = { Text(text = stringResource(R.string.texto_email)) },
             readOnly = true,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
+                .padding(horizontal = 28.dp)
 
         )
 
@@ -98,11 +89,11 @@ fun PantallaDetalleEmpleado(
         TextField(
             value = direccion,
             onValueChange = { direccion = it },
-            label = { Text(text = "Dirección") },
+            label = { Text(text = stringResource(R.string.texto_direccion)) },
             readOnly = true,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
+                .padding(horizontal = 28.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -110,11 +101,11 @@ fun PantallaDetalleEmpleado(
         TextField(
             value = user,
             onValueChange = { user = it },
-            label = { Text(text = "Usuario") },
+            label = { Text(text = stringResource(R.string.texto_usuario)) },
             readOnly = true,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
+                .padding(horizontal = 28.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -122,11 +113,11 @@ fun PantallaDetalleEmpleado(
         TextField(
             value = rol,
             onValueChange = {},
-            label = { Text(text = "Rol") },
+            label = { Text(text = stringResource(R.string.texto_rol)) },
             readOnly = true,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
+                .padding(horizontal = 28.dp)
         )
 
         Row(

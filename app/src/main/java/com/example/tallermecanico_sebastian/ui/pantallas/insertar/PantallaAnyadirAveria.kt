@@ -42,6 +42,7 @@ import com.example.tallermecanico_sebastian.modelo.Vehiculo
 import com.example.tallermecanico_sebastian.ui.pantallas.componentes.DatePickerModal
 import com.example.tallermecanico_sebastian.ui.pantallas.componentes.EstadoSwitch
 import com.example.tallermecanico_sebastian.ui.pantallas.componentes.convertMillisToDate
+import com.example.tallermecanico_sebastian.ui.viewmodel.VehiculoViewModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -96,7 +97,7 @@ fun PantallaAnyadirAveria(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
+                .padding(horizontal = 28.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -126,7 +127,7 @@ fun PantallaAnyadirAveria(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(64.dp)
-                    .padding(start = 28.dp, end = 28.dp)
+                    .padding(horizontal = 28.dp)
             )
 
             if (showDatePicker1) {
@@ -167,7 +168,7 @@ fun PantallaAnyadirAveria(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(64.dp)
-                    .padding(start = 28.dp, end = 28.dp)
+                    .padding(horizontal = 28.dp)
             )
 
             if (showDatePicker2) {

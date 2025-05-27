@@ -25,20 +25,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.tallermecanico_sebastian.R
+import com.example.tallermecanico_sebastian.modelo.Cliente
 import com.example.tallermecanico_sebastian.modelo.Vehiculo
 import com.example.tallermecanico_sebastian.ui.pantallas.componentes.esMatriculaValida
 import com.example.tallermecanico_sebastian.ui.pantallas.componentes.normalizarMatricula
 import com.example.tallermecanico_sebastian.ui.theme.Rojo
+import com.example.tallermecanico_sebastian.ui.viewmodel.VehiculoViewModel
 
 @Composable
 fun PantallaAnyadirCoche(
+    viewModel: VehiculoViewModel,
     onInsertar: (Vehiculo) -> Unit,
     onCancelar: () -> Unit,
+    onSeleccionarCliente: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var marca by remember { mutableStateOf("") }
@@ -48,6 +54,8 @@ fun PantallaAnyadirCoche(
     var vin by remember { mutableStateOf("") }
     var context = LocalContext.current
     var abrirAlertDialog by remember { mutableStateOf(false) }
+
+    val cliente = viewModel.clienteSeleccionado
 
 //    VALIDACIONES
     val vinInvalido = vin.length != 17
@@ -65,7 +73,7 @@ fun PantallaAnyadirCoche(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
+                .padding(horizontal = 28.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -77,7 +85,7 @@ fun PantallaAnyadirCoche(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
+                .padding(horizontal = 28.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -85,11 +93,11 @@ fun PantallaAnyadirCoche(
         TextField(
             value = especificaciones,
             onValueChange = { if (it.length <= 220) especificaciones = it },
-            label = { Text(text = stringResource(R.string.editar_coche_especificaciones)) },
+            label = { Text(text = stringResource(R.string.texto_especificaciones)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
+                .padding(horizontal = 28.dp)
 //                .height(112.dp)
         )
 
@@ -102,7 +110,7 @@ fun PantallaAnyadirCoche(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
+                .padding(horizontal = 28.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -114,7 +122,7 @@ fun PantallaAnyadirCoche(
                 if (it.length <= 17) vin = it
             },
             isError = vinInvalido,
-            label = { Text(text = stringResource(R.string.editar_coche_vin)) },
+            label = { Text(text = stringResource(R.string.texto_vin)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             supportingText = {
                 Text(
@@ -125,8 +133,35 @@ fun PantallaAnyadirCoche(
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 28.dp, end = 28.dp)
+                .padding(horizontal = 28.dp)
         )
+
+        //TODO Boton para añadir Cliente
+        cliente?.let {
+            val nombreCompleto = if (it.apellido2.isNullOrBlank()) {
+                "${it.nombre} ${it.apellido1}"
+            } else {
+                "${it.nombre} ${it.apellido1} ${it.apellido2}"
+            }
+            Text(
+                text = "${stringResource(R.string.cliente_seleccionado)}: $nombreCompleto",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 28.dp),
+                fontWeight = FontWeight.Bold
+            )
+        } ?: Text(
+            text = stringResource(R.string.cliente_no_seleccionado),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 28.dp),
+            fontStyle = FontStyle.Italic
+        )
+        Button(
+            onClick = onSeleccionarCliente
+        ) {
+            Text(text = stringResource(R.string.add_cliente))
+        }
 
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -180,6 +215,9 @@ fun PantallaAnyadirCoche(
                     } else if (!esMatriculaValida(normalizarMatricula(matricula))) {
                         Toast.makeText(context, R.string.validar_matricula, Toast.LENGTH_SHORT)
                             .show()
+                    } else if (cliente == null) {
+                        Toast.makeText(context, R.string.coche_limite_6, Toast.LENGTH_SHORT)
+                            .show()
                     } else {
                         val coche = Vehiculo(
                             marca = marca,
@@ -187,6 +225,9 @@ fun PantallaAnyadirCoche(
                             especificaciones = especificaciones,
                             matricula = normalizarMatricula(matricula),
                             vin = vin,
+                            //añadir Cliente al guardado
+                            cod_cliente = cliente?.cod_cliente,
+                            cliente = cliente ?: Cliente()
                         )
                         onInsertar(coche)
                         Toast.makeText(
@@ -201,16 +242,4 @@ fun PantallaAnyadirCoche(
             }
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PantallaAnyadirCochePreview() {
-    PantallaAnyadirCoche(
-        onInsertar = {},
-        onCancelar = {},
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    )
 }
