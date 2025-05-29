@@ -36,6 +36,9 @@ class ClienteViewModel(private val clienteRepositorio: ClienteRepositorio) : Vie
     var listaVehiculoClientes by mutableStateOf(listOf<Cliente>())
         private set
 
+    var listaAveriaClientes by mutableStateOf(listOf<Cliente>())
+        private set
+
     var clientePulsado: Cliente by mutableStateOf(
         Cliente(
             0,
@@ -62,6 +65,7 @@ class ClienteViewModel(private val clienteRepositorio: ClienteRepositorio) : Vie
             clienteUIState = try {
                 val listaClientes = clienteRepositorio.obtenerClientes()
                 listaVehiculoClientes = listaClientes
+                listaAveriaClientes = listaClientes
                 ClienteUIState.ObtenerExito(listaClientes)
             } catch (e: IOException) {
                 Log.v("ClienteViewModel IO", "Error de Conexion obtenerClientes", e)

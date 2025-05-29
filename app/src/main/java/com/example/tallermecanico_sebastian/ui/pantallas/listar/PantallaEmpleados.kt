@@ -1,10 +1,12 @@
 package com.example.tallermecanico_sebastian.ui.pantallas.listar
 
+import android.util.Log
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -15,6 +17,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -43,6 +46,7 @@ fun PantallaEmpleados(
     onEmpleadoEditar: (Empleado) -> Unit,
     onEmpleadoInsertar: () -> Unit,
     onEmpleadoContrasenya: (Empleado) -> Unit,
+    onAceptar: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     when (empleadoUIState) {
@@ -54,7 +58,8 @@ fun PantallaEmpleados(
             onEmpleadoClick = onEmpleadoClick,
             onEmpleadoEditar = onEmpleadoEditar,
             onEmpleadoInsertar = onEmpleadoInsertar,
-            onEmpleadoContrasenya = onEmpleadoContrasenya
+            onEmpleadoContrasenya = onEmpleadoContrasenya,
+            onAceptar = onAceptar
         )
 
 
@@ -72,102 +77,121 @@ fun PantallaExitoEmpleados(
     onEmpleadoClick: (Empleado) -> Unit,
     onEmpleadoEditar: (Empleado) -> Unit,
     onEmpleadoInsertar: () -> Unit,
-    onEmpleadoContrasenya: (Empleado) -> Unit
+    onEmpleadoContrasenya: (Empleado) -> Unit,
+    onAceptar: () -> Unit
 ) {
-    LazyColumn(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(12.dp),
-        modifier = Modifier.padding(8.dp)
-    ) {
-        items(lista) { empleado ->
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(3.dp)
-                    .border(
-                        width = 1.dp,
-                        color = AzulPrincipal,
-                        shape = RoundedCornerShape(16.dp)
-                    ),
-                shape = RoundedCornerShape(16.dp),
-                elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+    Box(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(bottom = 72.dp)
+        ) {
+            LazyColumn(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+                modifier = Modifier.padding(8.dp)
             ) {
-                Column(
-                    modifier = Modifier.padding(start = 9.dp, top = 3.dp, bottom = 3.dp)
-                ) {
-                    val nombreCompleto = if (empleado.apellido2 == null) {
-                        "${stringResource(R.string.texto_nombre)}: ${empleado.nombre} ${empleado.apellido1}"
-                    } else {
-                        "${stringResource(R.string.texto_nombre)}: ${empleado.nombre} ${empleado.apellido1} ${empleado.apellido2}"
-                    }
-                    val direccion = if (empleado.direccion == null) {
-                        "${stringResource(R.string.texto_direccion)}: "
-                    } else {
-                        "${stringResource(R.string.texto_direccion)}: ${empleado.direccion}"
-                    }
-
-                    Text(
-                        text = nombreCompleto,
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Text(
-                        text = "${stringResource(R.string.texto_email)}: ${empleado.email}",
-                        style = MaterialTheme.typography.titleSmall
-                    )
-                    Text(
-                        text = direccion,
-                        style = MaterialTheme.typography.titleSmall
-                    )
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceEvenly,
-                        modifier = Modifier.fillMaxWidth()
+                items(lista) { empleado ->
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(3.dp)
+                            .border(
+                                width = 1.dp,
+                                color = AzulPrincipal,
+                                shape = RoundedCornerShape(16.dp)
+                            ),
+                        shape = RoundedCornerShape(16.dp),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
                     ) {
-                        OutlinedButton(
-                            onClick = {
-                                onEmpleadoClick(empleado)
-                            },
+                        Column(
+                            modifier = Modifier.padding(start = 9.dp, top = 3.dp, bottom = 3.dp)
                         ) {
-                            Icon(
-                                imageVector = Icons.Filled.Info,
-                                contentDescription = "Info"
+                            val nombreCompleto = if (empleado.apellido2 == null) {
+                                "${stringResource(R.string.texto_nombre)}: ${empleado.nombre} ${empleado.apellido1}"
+                            } else {
+                                "${stringResource(R.string.texto_nombre)}: ${empleado.nombre} ${empleado.apellido1} ${empleado.apellido2}"
+                            }
+                            val direccion = if (empleado.direccion == null) {
+                                "${stringResource(R.string.texto_direccion)}: "
+                            } else {
+                                "${stringResource(R.string.texto_direccion)}: ${empleado.direccion}"
+                            }
+                            Text(
+                                text = nombreCompleto,
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.Bold
                             )
-                        }
-                        OutlinedButton(
-                            onClick = {
-                                onEmpleadoEditar(empleado)
-                            },
-                        ) {
-                            Icon(
-                                imageVector = Icons.Filled.Create,
-                                contentDescription = "Editar"
+                            Text(
+                                text = "${stringResource(R.string.texto_email)}: ${empleado.email}",
+                                style = MaterialTheme.typography.titleSmall
                             )
-                        }
-                        OutlinedButton(
-                            onClick = {
-                                onEmpleadoContrasenya(empleado)
-                            },
-                        ) {
-                            Text(text = stringResource(R.string.cambiar_contrasenya))
+                            Text(
+                                text = direccion,
+                                style = MaterialTheme.typography.titleSmall
+                            )
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceEvenly,
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                OutlinedButton(
+                                    onClick = {
+                                        onEmpleadoClick(empleado)
+                                    },
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Filled.Info,
+                                        contentDescription = "Info"
+                                    )
+                                }
+                                OutlinedButton(
+                                    onClick = {
+                                        onEmpleadoEditar(empleado)
+                                    },
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Filled.Create,
+                                        contentDescription = "Editar"
+                                    )
+                                }
+                                OutlinedButton(
+                                    onClick = {
+                                        onEmpleadoContrasenya(empleado)
+                                    },
+                                ) {
+                                    Text(text = stringResource(R.string.cambiar_contrasenya))
+                                }
+                            }
                         }
                     }
                 }
             }
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(start = 16.dp, end = 32.dp, top = 8.dp, bottom = 8.dp),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.Bottom
+            ) {
+                Button(onClick = { onAceptar() }) {
+                    Text(stringResource(R.string.volver))
+                }
+            }
         }
-    }
 
-    Box(
-        modifier.fillMaxSize()
-    ) {
-        SmallFloatingActionButton(
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(16.dp),
-            onClick = { onEmpleadoInsertar() },
+        Box(
+            modifier.fillMaxSize()
         ) {
-            Icon(Icons.Filled.Add, "Insertar")
+            SmallFloatingActionButton(
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(16.dp),
+                onClick = { onEmpleadoInsertar() },
+            ) {
+                Icon(Icons.Filled.Add, "Insertar")
+            }
         }
     }
 }

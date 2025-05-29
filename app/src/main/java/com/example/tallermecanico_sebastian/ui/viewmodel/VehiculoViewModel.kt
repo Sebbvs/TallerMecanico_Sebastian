@@ -33,6 +33,9 @@ class VehiculoViewModel(private val vehiculoRepositorio: VehiculoRepositorio) : 
     var vehiculoUIState: VehiculoUIState by mutableStateOf(VehiculoUIState.Cargando)
         private set
 
+    var listaAveriaVehiculos by mutableStateOf(listOf<Vehiculo>())
+        private set
+
     var vehiculoPulsado: Vehiculo by mutableStateOf(
         Vehiculo(
             0,
@@ -60,6 +63,7 @@ class VehiculoViewModel(private val vehiculoRepositorio: VehiculoRepositorio) : 
             vehiculoUIState = VehiculoUIState.Cargando
             vehiculoUIState = try {
                 val listaVehiculos = vehiculoRepositorio.obtenerVehiculos()
+                listaAveriaVehiculos = listaVehiculos
                 VehiculoUIState.ObtenerExito(listaVehiculos)
             } catch (e: IOException) {
                 Log.v("VehiculoViewModel IO", "Error de Conexion obtenerVehiculos", e)
@@ -151,7 +155,22 @@ class VehiculoViewModel(private val vehiculoRepositorio: VehiculoRepositorio) : 
         clienteSeleccionado = cliente
     }
 
-    fun limpiarCliente() {
+    var provisional by mutableStateOf<Vehiculo?>(null)
+        private set
+
+    fun seleccionarProvisional(vehiculo: Vehiculo) {
+        provisional = vehiculo
+    }
+
+    fun ensamblarVehiculo(): Vehiculo? {
+        return provisional?.copy(
+            cod_cliente = clienteSeleccionado?.cod_cliente,
+            cliente = clienteSeleccionado
+        )
+    }
+
+    fun limpiarFormularioVehiculo() {
         clienteSeleccionado = null
+        provisional = null
     }
 }

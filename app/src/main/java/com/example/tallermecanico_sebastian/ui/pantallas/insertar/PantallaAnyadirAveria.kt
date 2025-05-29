@@ -31,6 +31,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -42,6 +44,7 @@ import com.example.tallermecanico_sebastian.modelo.Vehiculo
 import com.example.tallermecanico_sebastian.ui.pantallas.componentes.DatePickerModal
 import com.example.tallermecanico_sebastian.ui.pantallas.componentes.EstadoSwitch
 import com.example.tallermecanico_sebastian.ui.pantallas.componentes.convertMillisToDate
+import com.example.tallermecanico_sebastian.ui.viewmodel.AveriaViewModel
 import com.example.tallermecanico_sebastian.ui.viewmodel.VehiculoViewModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -49,27 +52,36 @@ import java.time.format.DateTimeFormatter
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PantallaAnyadirAveria(
+    viewModel: AveriaViewModel,
     onInsertar: (Averia) -> Unit,
     onCancelar: () -> Unit,
+    onSeleccionarCliente: () -> Unit,
+    onSeleccionarEmpleado: () -> Unit,
+    onSeleccionarVehiculo: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var descripcion by remember { mutableStateOf("") }
-    var precio by remember { mutableStateOf("") }
-//    var estado by remember { mutableStateOf("") }
+    //OBJETOS
+    val cliente = viewModel.clienteSeleccionado
+    val empleado = viewModel.empleadoSeleccionado
+    val vehiculo = viewModel.vehiculoSeleccionado
+    val averiaProvisional = viewModel.provisional
+
+    var descripcion by remember { mutableStateOf(averiaProvisional?.descripcion ?: "") }
+    var precio by remember { mutableStateOf(averiaProvisional?.precio ?: "") }
     var fechaRecepcion by remember {
         mutableStateOf(
-            LocalDate.now()
+            averiaProvisional?.fecha_recepcion ?: LocalDate.now()
                 .format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString()
         )
     }
-    var fechaResolucion by remember { mutableStateOf("") }
-    var observaciones by remember { mutableStateOf("") }
-    var empleado by remember { mutableStateOf("") }
-    var cliente by remember { mutableStateOf("") }
-    var vehiculo by remember { mutableStateOf("") }
+    var fechaResolucion by remember {
+        mutableStateOf(
+            averiaProvisional?.fecha_resolucion ?: LocalDate.now()
+                .format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString()
+        )
+    }
+    var observaciones by remember { mutableStateOf(averiaProvisional?.observaciones ?: "") }
     var context = LocalContext.current
-    var abrirAlertDialog by remember { mutableStateOf("") }
-
     var showDatePicker1 by remember { mutableStateOf(false) }
     var showDatePicker2 by remember { mutableStateOf(false) }
     val datePickerState = rememberDatePickerState()
@@ -80,7 +92,8 @@ fun PantallaAnyadirAveria(
     var comprobarRecepcion by remember { mutableStateOf<Long?>(null) }
     var comprobarResolucion by remember { mutableStateOf<Long?>(null) }
 
-    var estado by remember { mutableStateOf(false) }
+    var estado by remember { mutableStateOf(averiaProvisional?.estado == "Sin reparar") }
+    val estadoTexto = if (estado) "Reparado" else "Sin reparar"
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -196,6 +209,116 @@ fun PantallaAnyadirAveria(
             }
         }
 
+
+
+        Spacer(modifier = Modifier.height(8.dp))
+        //TODO Boton para añadir Cliente
+        cliente?.let {
+            Text(
+                text = "${stringResource(R.string.cliente_seleccionado)}: ${cliente.nombre} ${cliente.apellido1}",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 28.dp),
+                fontWeight = FontWeight.Bold
+            )
+        } ?: Text(
+            text = stringResource(R.string.cliente_no_seleccionado),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 28.dp),
+            fontStyle = FontStyle.Italic
+        )
+        Button(
+            onClick = {
+//                EMPLEADO SIN ROL (NI COD ROL)
+                val averia = Averia(
+                    descripcion = descripcion,
+                    precio = precio,
+                    estado = estadoTexto,
+                    fecha_recepcion = fechaRecepcion,
+                    fecha_resolucion = fechaResolucion,
+                    tipo_averias = emptyList(),
+                    averia_piezas = emptyList(),
+                )
+                viewModel.seleccionarProvisional(averia)
+                onSeleccionarCliente()
+            }
+        ) {
+            Text(text = stringResource(R.string.add_cliente))
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+//TODO Boton para añadir Empleado
+        empleado?.let {
+            Text(
+                text = "${stringResource(R.string.empleado_seleccionado)}: ${empleado.nombre} ${empleado.apellido1}",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 28.dp),
+                fontWeight = FontWeight.Bold
+            )
+        } ?: Text(
+            text = stringResource(R.string.empleado_no_seleccionado),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 28.dp),
+            fontStyle = FontStyle.Italic
+        )
+        Button(
+            onClick = {
+//                AVERIA SIN CLIENTE
+                val averia = Averia(
+                    descripcion = descripcion,
+                    precio = precio,
+                    estado = estadoTexto,
+                    fecha_recepcion = fechaRecepcion,
+                    fecha_resolucion = fechaResolucion,
+                    tipo_averias = emptyList(),
+                    averia_piezas = emptyList(),
+                )
+                viewModel.seleccionarProvisional(averia)
+                onSeleccionarEmpleado()
+            }
+        ) {
+            Text(text = stringResource(R.string.add_empleado))
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+        //TODO Boton para añadir Vehiculo
+        vehiculo?.let {
+            Text(
+                text = "${stringResource(R.string.vehiculo_seleccionado)}: [${vehiculo.matricula}]${vehiculo.marca} ${vehiculo.modelo}",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 28.dp),
+                fontWeight = FontWeight.Bold
+            )
+        } ?: Text(
+            text = stringResource(R.string.vehiculo_no_seleccionado),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 28.dp),
+            fontStyle = FontStyle.Italic
+        )
+        Button(
+            onClick = {
+//                AVERIA SIN VEHICULO
+                val averia = Averia(
+                    descripcion = descripcion,
+                    precio = precio,
+                    estado = estadoTexto,
+                    fecha_recepcion = fechaRecepcion,
+                    fecha_resolucion = fechaResolucion,
+                    tipo_averias = emptyList(),
+                    averia_piezas = emptyList(),
+                )
+                viewModel.seleccionarProvisional(averia)
+                onSeleccionarVehiculo()
+            }
+        ) {
+            Text(text = stringResource(R.string.add_vehiculo))
+        }
+
         Spacer(modifier = Modifier.height(8.dp))
 
         Row(
@@ -210,7 +333,6 @@ fun PantallaAnyadirAveria(
             }
             Spacer(modifier = Modifier.padding(end = 20.dp))
             val context = LocalContext.current
-            val estadoTexto = if (estado) "Reparado" else "Sin reparar"
             Button(
                 onClick = {
                     if (descripcion.isBlank()) {
@@ -228,25 +350,39 @@ fun PantallaAnyadirAveria(
                     } else if (precio.length > 8) {
                         Toast.makeText(context, R.string.averia_limite_2, Toast.LENGTH_SHORT)
                             .show()
+                    } else if (cliente == null) {
+                        Toast.makeText(context, R.string.averia_limite_3, Toast.LENGTH_SHORT).show()
+                    } else if (empleado == null) {
+                        Toast.makeText(context, R.string.averia_limite_4, Toast.LENGTH_SHORT).show()
+                    } else if (vehiculo == null) {
+                        Toast.makeText(context, R.string.averia_limite_5, Toast.LENGTH_SHORT).show()
                     } else {
-                        val averia = Averia(
-                            descripcion = descripcion,
-                            precio = precio,
-                            estado = estadoTexto,
-                            fecha_recepcion = fechaRecepcion,
-                            fecha_resolucion = fechaResolucion,
-                            averia_piezas = emptyList(),
-                            cliente = Cliente(),
-                            empleado = Empleado(),
-                            vehiculo = Vehiculo(),
-                            tipo_averias = emptyList(),
+                        viewModel.seleccionarProvisional(
+                            Averia(
+                                descripcion = descripcion,
+                                precio = precio,
+                                estado = estadoTexto,
+                                fecha_recepcion = fechaRecepcion,
+                                fecha_resolucion = fechaResolucion,
+                                averia_piezas = emptyList(),
+                                tipo_averias = emptyList(),
+                            )
                         )
-                        onInsertar(averia)
-                        Toast.makeText(
-                            context,
-                            R.string.editar_averia_mensaje_3,
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        val averia = viewModel.ensamblarAveria()
+                        if (averia != null) {
+                            onInsertar(averia)
+                            Toast.makeText(
+                                context,
+                                R.string.editar_averia_mensaje_3,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            Toast.makeText(
+                                context,
+                                R.string.averia_limite_6,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     }
                 }
             ) {
@@ -254,16 +390,4 @@ fun PantallaAnyadirAveria(
             }
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PantallaAnyadirAveriaPreview() {
-    PantallaAnyadirAveria(
-        onInsertar = {},
-        onCancelar = {},
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    )
 }

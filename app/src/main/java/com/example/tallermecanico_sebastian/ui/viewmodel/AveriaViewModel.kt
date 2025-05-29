@@ -189,4 +189,47 @@ class AveriaViewModel(private val averiaRepositorio: AveriaRepositorio) : ViewMo
     fun limpiarResultado() {
         averiaEncontrada = null
     }
+
+    var empleadoSeleccionado by mutableStateOf<Empleado?>(null)
+        private set
+    var clienteSeleccionado by mutableStateOf<Cliente?>(null)
+        private set
+    var vehiculoSeleccionado by mutableStateOf<Vehiculo?>(null)
+        private set
+
+    fun seleccionarEmpleado(empleado: Empleado) {
+        empleadoSeleccionado = empleado
+    }
+
+    fun seleccionarCliente(cliente: Cliente) {
+        clienteSeleccionado = cliente
+    }
+
+    fun seleccionarVehiculo(vehiculo: Vehiculo) {
+        vehiculoSeleccionado = vehiculo
+    }
+
+    var provisional by mutableStateOf<Averia?>(null)
+
+    fun seleccionarProvisional(averia: Averia) {
+        provisional = averia
+    }
+
+    fun ensamblarAveria(): Averia? {
+        return provisional?.copy(
+            cod_empleado = empleadoSeleccionado?.cod_empleado,
+            empleado = empleadoSeleccionado,
+            cod_cliente = clienteSeleccionado?.cod_cliente,
+            cliente = clienteSeleccionado,
+            cod_vehiculo = vehiculoSeleccionado?.cod_vehiculo,
+            vehiculo = vehiculoSeleccionado
+        )
+    }
+
+    fun limpiarFormularioAveria() {
+        empleadoSeleccionado = null
+        clienteSeleccionado = null
+        vehiculoSeleccionado = null
+        provisional = null
+    }
 }

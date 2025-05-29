@@ -7,10 +7,12 @@ import com.example.tallermecanico_sebastian.datos.repos.ClienteRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.ConexionAveriaRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.ConexionClienteRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.ConexionEmpleadoRepositorio
+import com.example.tallermecanico_sebastian.datos.repos.ConexionPermisoRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.ConexionPiezaRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.ConexionRolRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.ConexionVehiculoRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.EmpleadoRepositorio
+import com.example.tallermecanico_sebastian.datos.repos.PermisoRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.PiezaRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.RolRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.VehiculoRepositorio
@@ -25,6 +27,7 @@ interface ContenedorApp {
     val clienteRepositorio: ClienteRepositorio
     val empleadoRepositorio: EmpleadoRepositorio
     val rolRepositorio: RolRepositorio
+    val permisoRepositorio: PermisoRepositorio
     val vehiculoRepositorio: VehiculoRepositorio
     val piezaRepositorio: PiezaRepositorio
 }
@@ -62,6 +65,10 @@ class TallerContenedorApp(private val context: Context) : ContenedorApp {
 
     override val rolRepositorio: RolRepositorio by lazy {
         ConexionRolRepositorio(servicioRetrofit)
+    }
+
+    override val permisoRepositorio: PermisoRepositorio by lazy {
+        ConexionPermisoRepositorio(servicioRetrofit)
     }
 
     override val vehiculoRepositorio: VehiculoRepositorio by lazy {

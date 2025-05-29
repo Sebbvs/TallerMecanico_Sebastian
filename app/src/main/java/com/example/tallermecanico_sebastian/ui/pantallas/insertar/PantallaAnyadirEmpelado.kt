@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
@@ -22,26 +23,38 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.tallermecanico_sebastian.R
 import com.example.tallermecanico_sebastian.modelo.Empleado
+import com.example.tallermecanico_sebastian.modelo.Vehiculo
 import com.example.tallermecanico_sebastian.ui.pantallas.componentes.esEmailValido
+import com.example.tallermecanico_sebastian.ui.pantallas.componentes.normalizarMatricula
+import com.example.tallermecanico_sebastian.ui.viewmodel.EmpleadoViewModel
+import com.example.tallermecanico_sebastian.ui.viewmodel.RolViewModel
 
 @Composable
 fun PantallaAnyadirEmpleado(
+    viewModel: EmpleadoViewModel,
     onInsertar: (Empleado) -> Unit,
     onCancelar: () -> Unit,
+    onSeleccionarRol: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var nombre by remember { mutableStateOf("") }
-    var apellido1 by remember { mutableStateOf("") }
-    var apellido2 by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
-    var direccion by remember { mutableStateOf("") }
-    var usuario by remember { mutableStateOf("") }
-    var contrasenya by remember { mutableStateOf("") }
+    // OBJETOS
+    val rol = viewModel.rolSeleccionado
+    val empleadoProvisional = viewModel.provisional
+
+    var nombre by remember { mutableStateOf(empleadoProvisional?.nombre ?: "") }
+    var apellido1 by remember { mutableStateOf(empleadoProvisional?.apellido1 ?: "") }
+    var apellido2 by remember { mutableStateOf(empleadoProvisional?.apellido2 ?: "") }
+    var email by remember { mutableStateOf(empleadoProvisional?.email ?: "") }
+    var direccion by remember { mutableStateOf(empleadoProvisional?.direccion ?: "") }
+    var usuario by remember { mutableStateOf(empleadoProvisional?.usuario ?: "") }
+    var contrasenya by remember { mutableStateOf(empleadoProvisional?.contrasenya ?: "") }
     var context = LocalContext.current
     var abrirAlertDialog by remember { mutableStateOf("") }
 
@@ -97,8 +110,6 @@ fun PantallaAnyadirEmpleado(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        Spacer(modifier = Modifier.height(8.dp))
-
         TextField(
             value = usuario,
             onValueChange = { if (it.length <= 50) usuario = it },
@@ -114,6 +125,45 @@ fun PantallaAnyadirEmpleado(
             label = { Text(text = stringResource(R.string.texto_contrasenya) + " *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
         )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        //TODO Boton para añadir Cliente
+        rol?.let {
+            Text(
+                text = "${stringResource(R.string.rol_seleccionado)}: ${rol.nombre}",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 28.dp),
+                fontWeight = FontWeight.Bold
+            )
+        } ?: Text(
+            text = stringResource(R.string.rol_no_seleccionado),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 28.dp),
+            fontStyle = FontStyle.Italic
+        )
+        Button(
+            onClick = {
+//                EMPLEADO SIN ROL (NI COD ROL)
+                val empleado = Empleado(
+                    nombre = nombre,
+                    apellido1 = apellido1,
+                    apellido2 = apellido2,
+                    email = email,
+                    direccion = direccion,
+                    usuario = usuario,
+                    contrasenya = contrasenya,
+                )
+                viewModel.seleccionarProvisional(empleado)
+                onSeleccionarRol()
+            }
+        ) {
+            Text(text = stringResource(R.string.add_rol))
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
 
         Row(
             modifier = Modifier
@@ -177,22 +227,36 @@ fun PantallaAnyadirEmpleado(
                     } else if (!esEmailValido(email)) {
                         Toast.makeText(context, R.string.validar_email, Toast.LENGTH_SHORT)
                             .show()
+                    } else if (rol == null) {
+                        Toast.makeText(context, R.string.coche_limite_6, Toast.LENGTH_SHORT)
+                            .show()
                     } else {
-                        val empleado = Empleado(
-                            nombre = nombre,
-                            apellido1 = apellido1,
-                            apellido2 = apellido2,
-                            email = email,
-                            direccion = direccion,
-                            usuario = usuario,
-                            contrasenya = contrasenya,
+                        viewModel.seleccionarProvisional(
+                            Empleado(
+                                nombre = nombre,
+                                apellido1 = apellido1,
+                                apellido2 = apellido2,
+                                email = email,
+                                direccion = direccion,
+                                usuario = usuario,
+                                contrasenya = contrasenya,
+                            )
                         )
-                        onInsertar(empleado)
-                        Toast.makeText(
-                            context,
-                            R.string.editar_empleado_mensaje_3,
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        val empleado = viewModel.ensamblarEmpleado()
+                        if (empleado != null) {
+                            onInsertar(empleado)
+                            Toast.makeText(
+                                context,
+                                R.string.editar_empleado_mensaje_3,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            Toast.makeText(
+                                context,
+                                R.string.empleado_obligatorio_5,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     }
                 }
             ) {
@@ -200,16 +264,4 @@ fun PantallaAnyadirEmpleado(
             }
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PantallaAnyadirEmpleadoPreview() {
-    PantallaAnyadirAveria(
-        onInsertar = {},
-        onCancelar = {},
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    )
 }

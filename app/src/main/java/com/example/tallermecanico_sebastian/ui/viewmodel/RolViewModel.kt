@@ -13,6 +13,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import coil.network.HttpException
 import com.example.tallermecanico_sebastian.TallerAplicacion
 import com.example.tallermecanico_sebastian.datos.repos.RolRepositorio
+import com.example.tallermecanico_sebastian.modelo.Cliente
 import com.example.tallermecanico_sebastian.modelo.Rol
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -30,6 +31,9 @@ sealed interface RolUIState {
 
 class RolViewModel(private val rolRepositorio: RolRepositorio) : ViewModel() {
     var rolUIState: RolUIState by mutableStateOf(RolUIState.Cargando)
+        private set
+
+    var listaEmpleadoRoles by mutableStateOf(listOf<Rol>())
         private set
 
     var rolPulsado: Rol by mutableStateOf(
@@ -53,6 +57,7 @@ class RolViewModel(private val rolRepositorio: RolRepositorio) : ViewModel() {
             rolUIState = RolUIState.Cargando
             rolUIState = try {
                 val listaRoles = rolRepositorio.obtenerRoles()
+                listaEmpleadoRoles = listaRoles
                 RolUIState.ObtenerExito(listaRoles)
             } catch (e: IOException) {
                 Log.v("RolViewModel IO", "Error de Conexion obtenerRoles", e)

@@ -30,10 +30,15 @@
     <string name="pantalla_detalle_coche">Detalle coche</string>
     <string name="pantalla_detalle_empleado">Detalle empleado</string>
     <string name="pantalla_detalle_pieza">Detalle pieza</string>
+    <string name="pantalla_info_rol">Info Rol</string>
 
     <string name="pantalla_cambio_contrasenya">Cambiar contraseña</string>
 
     <string name="seleccionar_vehiculo_cliente">[Coche] Seleccionar Cliente</string>
+    <string name="seleccionar_empleado_rol">[Empleado] Seleccionar Rol</string>
+    <string name="seleccionar_averia_cliente">[Avería] Seleccionar Cliente</string>
+    <string name="seleccionar_averia_empleado">[Avería] Seleccionar Empleado</string>
+    <string name="seleccionar_averia_vehiculo">[Avería] Seleccionar Vehiculo</string>
 
     <!--    PANTALLA LOGIN-->
     <string name="acceso">Acceso</string>
@@ -137,16 +142,28 @@
     <string name="texto_tipo_averia">Tipo de avería</string>
     <string name="cliente_seleccionado">Cliente seleccionado</string>
     <string name="cliente_no_seleccionado">Ningún cliente seleccionado</string>
+    <string name="rol_seleccionado">Rol seleccionado</string>
+    <string name="rol_no_seleccionado">Ningún rol seleccionado</string>
+    <string name="empleado_seleccionado">Empleado seleccionado</string>
+    <string name="empleado_no_seleccionado">Ningún empleado seleccionado</string>
+    <string name="vehiculo_seleccionado">Vehiculo seleccionado</string>
+    <string name="vehiculo_no_seleccionado">Ningún vehiculo seleccionado</string>
+    <string name="rol_cargo">Cargo</string>
+    <string name="texto_permisos">Permisos</string>
     <!--    PANTALLAS ???-->
 
     <string name="btn_guardar">Guardar</string>
     <string name="btn_borrar">Borrar</string>
     <string name="aceptar">Aceptar</string>
     <string name="cancelar">Cancelar</string>
+    <string name="volver">Volver</string>
     <string name="atras">Atrás</string>
     <string name="home">Inicio</string>
     <string name="buscar">Buscar</string>
-    <string name="add_cliente">Añadir cliente</string>
+    <string name="add_cliente">Seleccionar cliente</string>
+    <string name="add_rol">Seleccionar rol</string>
+    <string name="add_empleado">Seleccionar empleado</string>
+    <string name="add_vehiculo">Seleccionar vehiculo</string>
 
     <!--    FILTROS  Y VALIDACIONES-->
     <string name="filtro_chip_todo">Todas</string>
@@ -165,6 +182,10 @@
     <string name="averia_obligatorio_5">¡Si el vehículo tiene fecha de resolución, debe estar reparado!</string>
     <string name="averia_limite_1">¡La descripción es demasiado larga!</string>
     <string name="averia_limite_2">¡El precio es demasiado!</string>
+    <string name="averia_limite_3">¡No hay cliente seleccionado!</string>
+    <string name="averia_limite_4">¡No hay empleado seleccionado!</string>
+    <string name="averia_limite_5">¡No hay vehiculo seleccionado!</string>
+    <string name="averia_limite_6">¡Falta completar un seleccionable!</string>
 
     <string name="cliente_obligatorio_1">¡El nombre es obligatorio!</string>
     <string name="cliente_obligatorio_2">¡El primer apellido es obligatorio!</string>
@@ -178,17 +199,19 @@
     <string name="coche_obligatorio_1">¡La marca es obligatoria!</string>
     <string name="coche_obligatorio_2">¡El modelo es obligatorio!</string>
     <string name="coche_obligatorio_3">¡La matrícula es obligatoria!</string>
+    <string name="coche_obligatorio_4">¡El cliente es obligatorio!</string>
     <string name="coche_limite_1">¡La marca es demasiado larga!</string>
     <string name="coche_limite_2">¡El modelo es demasiado largo!</string>
     <string name="coche_limite_3">¡La especificación es demasiado larga!</string>
     <string name="coche_limite_4">¡La matrícula es demasiado larga!</string>
     <string name="coche_limite_5">¡El número de bastidor debe tener 17 caracteres!</string>
-    <string name="coche_limite_6">¡El coche debe pertenecer a un cliente!</string>
+    <string name="coche_limite_6">¡No hay cliente seleccionado!</string>
 
     <string name="empleado_obligatorio_1">¡El nombre es obligatorio!</string>
     <string name="empleado_obligatorio_2">¡El primer apellido es obligatorio!</string>
     <string name="empleado_obligatorio_3">¡El nombre de usuario es obligatorio!</string>
     <string name="empleado_obligatorio_4">¡La contraseña es obligatoria!</string>
+    <string name="empleado_obligatorio_5">¡El Rol es obligatorio!</string>
     <string name="empleado_limite_1">¡El nombre es demasiado largo!</string>
     <string name="empleado_limite_2">¡El primer apellido es demasiado largo!</string>
     <string name="empleado_limite_3">¡El segundo apellido es demasiado largo!</string>
@@ -196,6 +219,7 @@
     <string name="empleado_limite_5">¡La dirección es demasiado larga!</string>
     <string name="empleado_limite_6">¡El usuario es demasiado largo!</string>
     <string name="empleado_limite_7">¡La contraseña es demasiado larga!</string>
+    <string name="empleado_limite_8">¡No hay rol seleccionado!</string>
 
     <string name="pieza_obligatorio_1">¡La descripción es obligatoria!</string>
     <string name="pieza_obligatorio_2">¡La cantidad es obligatoria!</string>
@@ -208,6 +232,6 @@
     <string name="coincidir_contrasenya">Atención: ¡Las contraseñas no coinciden!</string>
     <string name="nueva_contrasenya_mensaje">Contraseña cambiada correctamente</string>
 
-    <string name="matricula_no_encontrada">Matricula no encontrada</string>
+    <string name="matricula_no_encontrada">Vehículo no encontrado o sin averías.</string>
 
 </resources>

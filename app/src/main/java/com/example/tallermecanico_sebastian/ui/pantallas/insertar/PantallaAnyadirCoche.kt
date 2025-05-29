@@ -14,29 +14,25 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.tallermecanico_sebastian.R
-import com.example.tallermecanico_sebastian.modelo.Cliente
 import com.example.tallermecanico_sebastian.modelo.Vehiculo
 import com.example.tallermecanico_sebastian.ui.pantallas.componentes.esMatriculaValida
 import com.example.tallermecanico_sebastian.ui.pantallas.componentes.normalizarMatricula
-import com.example.tallermecanico_sebastian.ui.theme.Rojo
 import com.example.tallermecanico_sebastian.ui.viewmodel.VehiculoViewModel
 
 @Composable
@@ -47,15 +43,19 @@ fun PantallaAnyadirCoche(
     onSeleccionarCliente: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var marca by remember { mutableStateOf("") }
-    var modelo by remember { mutableStateOf("") }
-    var especificaciones by remember { mutableStateOf("") }
-    var matricula by remember { mutableStateOf("") }
-    var vin by remember { mutableStateOf("") }
+//    OBJETOS
+    val cliente = viewModel.clienteSeleccionado
+    val vehiculoProvisional = viewModel.provisional
+
+//    FIELDS RECOMENDACIÓN DE USAR rememberSaveable
+    var marca by remember { mutableStateOf(vehiculoProvisional?.marca ?: "") }
+    var modelo by remember { mutableStateOf(vehiculoProvisional?.modelo ?: "") }
+    var especificaciones by remember { mutableStateOf(vehiculoProvisional?.especificaciones ?: "") }
+    var matricula by remember { mutableStateOf(vehiculoProvisional?.matricula ?: "") }
+    var vin by remember { mutableStateOf(vehiculoProvisional?.vin ?: "") }
+
     var context = LocalContext.current
     var abrirAlertDialog by remember { mutableStateOf(false) }
-
-    val cliente = viewModel.clienteSeleccionado
 
 //    VALIDACIONES
     val vinInvalido = vin.length != 17
@@ -98,7 +98,6 @@ fun PantallaAnyadirCoche(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 28.dp)
-//                .height(112.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -118,7 +117,6 @@ fun PantallaAnyadirCoche(
         TextField(
             value = vin,
             onValueChange = {
-//                if (it.length == 17)
                 if (it.length <= 17) vin = it
             },
             isError = vinInvalido,
@@ -135,6 +133,8 @@ fun PantallaAnyadirCoche(
                 .fillMaxWidth()
                 .padding(horizontal = 28.dp)
         )
+
+        Spacer(modifier = Modifier.height(8.dp))
 
         //TODO Boton para añadir Cliente
         cliente?.let {
@@ -158,7 +158,18 @@ fun PantallaAnyadirCoche(
             fontStyle = FontStyle.Italic
         )
         Button(
-            onClick = onSeleccionarCliente
+            onClick = {
+//                VEHICULO SIN CLIENTE (NI COD CLIENTE)
+                val coche = Vehiculo(
+                    marca = marca,
+                    modelo = modelo,
+                    especificaciones = especificaciones,
+                    matricula = normalizarMatricula(matricula),
+                    vin = vin,
+                )
+                viewModel.seleccionarProvisional(coche)
+                onSeleccionarCliente()
+            }
         ) {
             Text(text = stringResource(R.string.add_cliente))
         }
@@ -219,22 +230,40 @@ fun PantallaAnyadirCoche(
                         Toast.makeText(context, R.string.coche_limite_6, Toast.LENGTH_SHORT)
                             .show()
                     } else {
-                        val coche = Vehiculo(
+                        /*val coche = Vehiculo(
                             marca = marca,
                             modelo = modelo,
                             especificaciones = especificaciones,
                             matricula = normalizarMatricula(matricula),
                             vin = vin,
                             //añadir Cliente al guardado
-                            cod_cliente = cliente?.cod_cliente,
+                            cod_cliente = cliente.cod_cliente,
                             cliente = cliente ?: Cliente()
+                        )*/
+                        viewModel.seleccionarProvisional(
+                            Vehiculo(
+                                marca = marca,
+                                modelo = modelo,
+                                especificaciones = especificaciones,
+                                matricula = normalizarMatricula(matricula),
+                                vin = vin,
+                            )
                         )
-                        onInsertar(coche)
-                        Toast.makeText(
-                            context,
-                            R.string.editar_coche_mensaje_3,
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        val coche = viewModel.ensamblarVehiculo()
+                        if (coche != null) {
+                            onInsertar(coche)
+                            Toast.makeText(
+                                context,
+                                R.string.editar_coche_mensaje_3,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            Toast.makeText(
+                                context,
+                                R.string.coche_obligatorio_4,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     }
                 }
             ) {

@@ -6,8 +6,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.outlined.AccountCircle
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.DropdownMenu
@@ -44,8 +44,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.tallermecanico_sebastian.R
+import com.example.tallermecanico_sebastian.modelo.Averia
 import com.example.tallermecanico_sebastian.modelo.Ruta
-import com.example.tallermecanico_sebastian.ui.pantallas.PantallaBuscarPorMatricula
+import com.example.tallermecanico_sebastian.ui.pantallas.filtros.PantallaBuscarPorMatricula
 import com.example.tallermecanico_sebastian.ui.pantallas.modificar.PantallaCambiarContrasenya
 import com.example.tallermecanico_sebastian.ui.pantallas.insertar.PantallaAnyadirAveria
 import com.example.tallermecanico_sebastian.ui.pantallas.insertar.PantallaAnyadirCliente
@@ -65,6 +66,7 @@ import com.example.tallermecanico_sebastian.ui.pantallas.modificar.PantallaEdita
 import com.example.tallermecanico_sebastian.ui.pantallas.listar.PantallaEmpleados
 import com.example.tallermecanico_sebastian.ui.pantallas.PantallaLogin
 import com.example.tallermecanico_sebastian.ui.pantallas.detalle.PantallaDetallePieza
+import com.example.tallermecanico_sebastian.ui.pantallas.detalle.PantallaDetalleRolPermiso
 import com.example.tallermecanico_sebastian.ui.pantallas.insertar.PantallaAnyadirPieza
 import com.example.tallermecanico_sebastian.ui.pantallas.listar.PantallaPiezas
 import com.example.tallermecanico_sebastian.ui.pantallas.modificar.PantallaEditarPiezas
@@ -75,6 +77,7 @@ import com.example.tallermecanico_sebastian.ui.viewmodel.AveriaViewModel
 import com.example.tallermecanico_sebastian.ui.viewmodel.ClienteViewModel
 import com.example.tallermecanico_sebastian.ui.viewmodel.EmpleadoViewModel
 import com.example.tallermecanico_sebastian.ui.viewmodel.PiezaViewModel
+import com.example.tallermecanico_sebastian.ui.viewmodel.RolUIState
 import com.example.tallermecanico_sebastian.ui.viewmodel.RolViewModel
 import com.example.tallermecanico_sebastian.ui.viewmodel.VehiculoViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -107,11 +110,17 @@ enum class Pantallas(@StringRes val titulo: Int) {
     DetalleCoche(titulo = R.string.pantalla_detalle_coche),
     DetalleEmpleado(titulo = R.string.pantalla_detalle_empleado),
     DetallePieza(titulo = R.string.pantalla_detalle_pieza),
+    InfoRol(titulo = R.string.pantalla_info_rol),
 
     CambioContrasenya(titulo = R.string.pantalla_cambio_contrasenya),
     MiPerfil(titulo = R.string.texto_miperfil),
 
-    SeleccionarVehiculoCliente(titulo = R.string.seleccionar_vehiculo_cliente)
+    SeleccionarVehiculoCliente(titulo = R.string.seleccionar_vehiculo_cliente),
+    SeleccionarEmpleadoRol(titulo = R.string.seleccionar_empleado_rol),
+    SeleccionarAveriaCliente(titulo = R.string.seleccionar_averia_cliente),
+    SeleccionarAveriaEmpleado(titulo = R.string.seleccionar_averia_empleado),
+    SeleccionarAveriaVehiculo(titulo = R.string.seleccionar_averia_vehiculo),
+
 //    EditarFacturas(titulo = R.string.pantalla_editar_facturas),
 
 
@@ -176,6 +185,7 @@ fun TallerApp(
     val empleadoUIState = viewModelEmpleado.empleadoUIState
     val vehiculoUIState = viewModelVehiculo.vehiculoUIState
     val piezaUIState = viewModelPieza.piezaUIState
+    val rolUIState = viewModelRol.rolUIState
 
     var selectedItem by remember { mutableIntStateOf(0) }
 
@@ -183,8 +193,8 @@ fun TallerApp(
         topBar = {
             AppTopBar(
                 pantallaActual = pantallaActual,
-                puedeNavegarAtras = navController.previousBackStackEntry != null,
-                onNavegarAtras = { navController.navigateUp() },
+//                puedeNavegarAtras = navController.previousBackStackEntry != null,
+//                onNavegarAtras = { navController.navigateUp() },
                 navController = navController,
                 scrollBehavior = scrollBehavior,
             )
@@ -241,12 +251,6 @@ fun TallerApp(
                     modifier = Modifier.fillMaxSize()
                 )
             }
-            /*composable(route = Pantallas.Inicio.name) {
-                PantallaInicio(
-                    empleadoViewModel = viewModelEmpleado,
-                    modifier = Modifier
-                )
-            }*/
             //LISTAS
             composable(route = Pantallas.Averias.name) {
                 PantallaAverias(
@@ -313,6 +317,11 @@ fun TallerApp(
                         viewModelEmpleado.actualizarEmpleadoPulsado(it)
                         navController.navigate(Pantallas.CambioContrasenya.name)
                     },
+                    onAceptar = {
+                        navController.navigate(Pantallas.Averias.name) {
+                            popUpTo(Pantallas.Averias.name) { inclusive = false }
+                        }
+                    },
                     modifier = Modifier
                 )
             }
@@ -337,11 +346,19 @@ fun TallerApp(
             //INSERTS
             composable(route = Pantallas.AnyadirAveria.name) {
                 PantallaAnyadirAveria(
+                    viewModel = viewModelAveria,
                     onInsertar = { averia ->
                         viewModelAveria.insertarAveria(averia)
+                        viewModelAveria.limpiarFormularioAveria()
                         navController.popBackStack()
                     },
-                    onCancelar = { navController.popBackStack() },
+                    onCancelar = {
+                        viewModelAveria.limpiarFormularioAveria()
+                        navController.popBackStack()
+                    },
+                    onSeleccionarCliente = { navController.navigate(Pantallas.SeleccionarAveriaCliente.name) },
+                    onSeleccionarEmpleado = { navController.navigate(Pantallas.SeleccionarAveriaEmpleado.name) },
+                    onSeleccionarVehiculo = { navController.navigate(Pantallas.SeleccionarAveriaVehiculo.name) },
                     modifier = Modifier
                 )
             }
@@ -350,11 +367,11 @@ fun TallerApp(
                     viewModel = viewModelVehiculo,
                     onInsertar = { vehiculo ->
                         viewModelVehiculo.insertarVehiculo(vehiculo)
-                        viewModelVehiculo.limpiarCliente()
+                        viewModelVehiculo.limpiarFormularioVehiculo()
                         navController.popBackStack()
                     },
                     onCancelar = {
-                        viewModelVehiculo.limpiarCliente()
+                        viewModelVehiculo.limpiarFormularioVehiculo()
                         navController.popBackStack()
                     },
                     onSeleccionarCliente = { navController.navigate(Pantallas.SeleccionarVehiculoCliente.name) },
@@ -373,11 +390,15 @@ fun TallerApp(
             }
             composable(route = Pantallas.AnyadirEmpleado.name) {
                 PantallaAnyadirEmpleado(
+                    viewModel = viewModelEmpleado,
                     onInsertar = { empleado ->
                         viewModelEmpleado.insertarEmpleado(empleado)
                         navController.popBackStack()
                     },
                     onCancelar = { navController.popBackStack() },
+                    onSeleccionarRol = {
+                        navController.navigate(Pantallas.SeleccionarEmpleadoRol.name)
+                    },
                     modifier = Modifier
                 )
             }
@@ -574,6 +595,17 @@ fun TallerApp(
                     }
                 )
             }
+            //INFO
+            composable(route = Pantallas.InfoRol.name) {
+                PantallaDetalleRolPermiso(
+                    rolUIState = rolUIState,
+                    modifier = Modifier,
+                    onRolesObtenidos = { viewModelRol.obtenerRoles() },
+                    onAceptar = {
+                        navController.popBackStack()
+                    }
+                )
+            }
 
 //            TODO: PANTALLA FACTURAS.
             composable(route = Pantallas.Facturas.name) {
@@ -601,8 +633,8 @@ fun TallerApp(
 @Composable
 fun AppTopBar(
     pantallaActual: Pantallas,
-    puedeNavegarAtras: Boolean,
-    onNavegarAtras: () -> Unit,
+//    puedeNavegarAtras: Boolean,
+//    onNavegarAtras: () -> Unit,
     navController: NavHostController,
     scrollBehavior: TopAppBarScrollBehavior,
     modifier: Modifier = Modifier
@@ -622,24 +654,29 @@ fun AppTopBar(
         colors = TopAppBarDefaults.mediumTopAppBarColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer
         ),
-        navigationIcon = {
+        /*        navigationIcon = {
 
-            if (puedeNavegarAtras) {
-                if (pantallaActual != Pantallas.Login && pantallaActual != Pantallas.Averias && pantallaActual != Pantallas.Coches && pantallaActual != Pantallas.Clientes && pantallaActual != Pantallas.Piezas) {
-                    IconButton(
-                        onClick = onNavegarAtras
-                    ) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = stringResource(id = R.string.atras),
-                            tint = Blanco
-                        )
+                    if (puedeNavegarAtras) {
+                        if (pantallaActual != Pantallas.Login && pantallaActual != Pantallas.Averias && pantallaActual != Pantallas.Coches && pantallaActual != Pantallas.Clientes && pantallaActual != Pantallas.Piezas) {
+                            IconButton(
+                                onClick = onNavegarAtras
+                            ) {
+                                Icon(
+                                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                    contentDescription = stringResource(id = R.string.atras),
+                                    tint = Blanco
+                                )
+                            }
+                        }
                     }
-                }
-            }
-        },
+                },*/
         actions = {
-            if (pantallaActual != Pantallas.Login && pantallaActual != Pantallas.BuscarMatricula) {
+            if (pantallaActual == Pantallas.Averias ||
+                pantallaActual == Pantallas.Coches ||
+                pantallaActual == Pantallas.Clientes ||
+                pantallaActual == Pantallas.Piezas ||
+                pantallaActual == Pantallas.Facturas
+            ) {
                 IconButton(onClick = { mostrarMenu = true }) {
                     Icon(
                         imageVector = Icons.Outlined.MoreVert,
@@ -670,25 +707,27 @@ fun AppTopBar(
                             }
                         }
                     )
-                    DropdownMenuItem(
-                        text = {
-                            Text(text = stringResource(id = R.string.administrar))
-                        },
-                        leadingIcon = {
-                            Icon(
-                                imageVector = Icons.Outlined.Settings,
-                                contentDescription = null
-                            )
-                        },
-                        onClick = {
-                            mostrarMenu = false
-                            viewModelEmpleado.obtenerEmpleados()
-                            navController.navigate(Pantallas.Empleados.name) {
-                                popUpTo(0) { inclusive = true }
-                                launchSingleTop = true
+                    if (viewModelEmpleado.empleadoLogin?.rol?.cod_rol == 1) {
+                        DropdownMenuItem(
+                            text = {
+                                Text(text = stringResource(id = R.string.administrar))
+                            },
+                            leadingIcon = {
+                                Icon(
+                                    imageVector = Icons.Outlined.Settings,
+                                    contentDescription = null
+                                )
+                            },
+                            onClick = {
+                                mostrarMenu = false
+                                viewModelEmpleado.obtenerEmpleados()
+                                navController.navigate(Pantallas.Empleados.name) {
+                                    popUpTo(Pantallas.Averias.name) { inclusive = false }
+//                                launchSingleTop = true
+                                }
                             }
-                        }
-                    )
+                        )
+                    }
                     DropdownMenuItem(
                         text = {
                             Text(text = stringResource(id = R.string.log_out))
@@ -707,6 +746,16 @@ fun AppTopBar(
                                 launchSingleTop = true
                             }
                         }
+                    )
+                }
+            } else if (pantallaActual == Pantallas.Empleados) {
+                IconButton(onClick = {
+                    navController.navigate(Pantallas.InfoRol.name)
+                }) {
+                    Icon(
+                        imageVector = Icons.Outlined.Info,
+                        tint = Blanco,
+                        contentDescription = stringResource(R.string.pantalla_info_rol)
                     )
                 }
             }

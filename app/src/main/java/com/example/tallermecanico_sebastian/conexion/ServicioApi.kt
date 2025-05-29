@@ -4,6 +4,7 @@ import com.example.tallermecanico_sebastian.modelo.Empleado
 import com.example.tallermecanico_sebastian.modelo.Acceso
 import com.example.tallermecanico_sebastian.modelo.Averia
 import com.example.tallermecanico_sebastian.modelo.Cliente
+import com.example.tallermecanico_sebastian.modelo.Permiso
 import com.example.tallermecanico_sebastian.modelo.Pieza
 import com.example.tallermecanico_sebastian.modelo.Rol
 import com.example.tallermecanico_sebastian.modelo.Vehiculo
@@ -144,4 +145,8 @@ interface ServicioApi {
     suspend fun eliminarPieza(
         @Path("id") id: String
     ): Pieza
+
+    //VEHICULO
+    @GET("permisos")
+    suspend fun obtenerPermisos(): List<Permiso>
 }

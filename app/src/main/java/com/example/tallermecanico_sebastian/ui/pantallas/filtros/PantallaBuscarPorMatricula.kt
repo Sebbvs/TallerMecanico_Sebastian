@@ -1,4 +1,4 @@
-package com.example.tallermecanico_sebastian.ui.pantallas
+package com.example.tallermecanico_sebastian.ui.pantallas.filtros
 
 import android.util.Log
 import android.widget.Toast
@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -18,10 +17,8 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -30,16 +27,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.tallermecanico_sebastian.R
-import com.example.tallermecanico_sebastian.modelo.Averia
 import com.example.tallermecanico_sebastian.ui.viewmodel.AveriaUIState
 import com.example.tallermecanico_sebastian.ui.viewmodel.AveriaViewModel
-import java.time.format.DateTimeFormatter
 
 @Composable
 fun PantallaBuscarPorMatricula(
@@ -98,7 +92,7 @@ fun PantallaBuscarPorMatricula(
             onClick = {
                 Log.v("BUSQUEDAMATRICULA", "Mensaje de botón BUSCAR")
                 viewModel.buscarPorMatricula(busquedaMatricula)
-                if (averiaEncontrada == null) Toast.makeText(
+                if (viewModel.averiaEncontrada == null) Toast.makeText(
                     context,
                     R.string.matricula_no_encontrada,
                     Toast.LENGTH_SHORT
@@ -122,8 +116,12 @@ fun PantallaBuscarPorMatricula(
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text(
-                        text = stringResource(R.string.averia_descripcion) + ": " + averia.descripcion,
+                        text = stringResource(R.string.texto_tipo_averia) + ": " + "${averia.tipo_averias?.firstOrNull()?.nombre}",
                         style = MaterialTheme.typography.titleMedium
+                    )
+                    Text(
+                        text = stringResource(R.string.averia_descripcion) + ": " + averia.descripcion,
+                        style = MaterialTheme.typography.bodyMedium
                     )
                     Text(
                         text = stringResource(R.string.averia_fecha_recepcion) + ": " + averia.fecha_recepcion,
@@ -175,7 +173,7 @@ fun PantallaBuscarPorMatricula(
         }
         Row(
             modifier = Modifier
-                .fillMaxHeight()
+                .fillMaxSize()
                 .padding(16.dp),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.Bottom

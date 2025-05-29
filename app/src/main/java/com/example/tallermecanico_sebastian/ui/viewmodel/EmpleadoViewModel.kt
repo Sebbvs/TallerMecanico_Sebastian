@@ -15,6 +15,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import coil.network.HttpException
 import com.example.tallermecanico_sebastian.TallerAplicacion
 import com.example.tallermecanico_sebastian.datos.repos.EmpleadoRepositorio
+import com.example.tallermecanico_sebastian.modelo.Cliente
 import com.example.tallermecanico_sebastian.modelo.Empleado
 import com.example.tallermecanico_sebastian.modelo.Rol
 import kotlinx.coroutines.launch
@@ -33,6 +34,9 @@ sealed interface EmpleadoUIState {
 
 class EmpleadoViewModel(private val empleadoRepositorio: EmpleadoRepositorio) : ViewModel() {
     var empleadoUIState: EmpleadoUIState by mutableStateOf(EmpleadoUIState.Cargando)
+        private set
+
+    var listaAveriaEmpleados by mutableStateOf(listOf<Empleado>())
         private set
 
     // AUTENTICAR USUARIO
@@ -105,6 +109,7 @@ class EmpleadoViewModel(private val empleadoRepositorio: EmpleadoRepositorio) : 
             empleadoUIState = EmpleadoUIState.Cargando
             empleadoUIState = try {
                 val listaEmpleados = empleadoRepositorio.obtenerEmpleados()
+                listaAveriaEmpleados = listaEmpleados
                 EmpleadoUIState.ObtenerExito(listaEmpleados)
             } catch (e: IOException) {
                 Log.v("EmpleadoViewModel IO", "Error de Conexion obtenerEmpleados", e)
@@ -187,5 +192,31 @@ class EmpleadoViewModel(private val empleadoRepositorio: EmpleadoRepositorio) : 
                 EmpleadoViewModel(empleadoRepositorio = empleadoRepositorio)
             }
         }
+    }
+
+    var rolSeleccionado by mutableStateOf<Rol?>(null)
+        private set
+
+    fun seleccionarRol(rol: Rol) {
+        rolSeleccionado = rol
+    }
+
+    var provisional by mutableStateOf<Empleado?>(null)
+        private set
+
+    fun seleccionarProvisional(empleado: Empleado) {
+        provisional = empleado
+    }
+
+    fun ensamblarEmpleado(): Empleado? {
+        return provisional?.copy(
+            cod_rol = rolSeleccionado?.cod_rol,
+            rol = rolSeleccionado
+        )
+    }
+
+    fun limpiarFormularioEmpleado() {
+        rolSeleccionado = null
+        provisional = null
     }
 }

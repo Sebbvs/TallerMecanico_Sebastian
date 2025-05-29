@@ -168,7 +168,7 @@ fun PantallaMiPerfil(
                 onCancelar()
                 Log.v("NAV MIPERFIL", "INTENTANDO VOLVER ATRAS")
             }) {
-                Text(stringResource(R.string.cancelar))
+                Text(stringResource(R.string.volver))
             }
 
             Button(
