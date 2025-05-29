@@ -24,10 +24,7 @@ import com.example.tallermecanico_sebastian.ui.viewmodel.RolViewModel
 
 @Composable
 fun PantallaEmpleadoRol(
-    viewModelEmpleado: EmpleadoViewModel,
-    viewModelRol: RolViewModel,
-    modifier: Modifier,
-    onSeleccionar: () -> Unit
+    viewModelEmpleado: EmpleadoViewModel, viewModelRol: RolViewModel, onSeleccionar: () -> Unit
 ) {
     val lista = viewModelRol.listaEmpleadoRoles
 
@@ -42,9 +39,7 @@ fun PantallaEmpleadoRol(
                     .fillMaxSize()
                     .padding(3.dp)
                     .border(
-                        width = 1.dp,
-                        color = AzulPrincipal,
-                        shape = RoundedCornerShape(16.dp)
+                        width = 1.dp, color = AzulPrincipal, shape = RoundedCornerShape(16.dp)
                     )
                     .clickable {
                         viewModelEmpleado.seleccionarRol(rol)

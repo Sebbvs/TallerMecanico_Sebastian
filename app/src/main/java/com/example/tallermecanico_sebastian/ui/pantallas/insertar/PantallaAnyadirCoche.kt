@@ -18,7 +18,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -54,15 +53,13 @@ fun PantallaAnyadirCoche(
     var matricula by remember { mutableStateOf(vehiculoProvisional?.matricula ?: "") }
     var vin by remember { mutableStateOf(vehiculoProvisional?.vin ?: "") }
 
-    var context = LocalContext.current
-    var abrirAlertDialog by remember { mutableStateOf(false) }
+    val context = LocalContext.current
 
 //    VALIDACIONES
     val vinInvalido = vin.length != 17
 
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier
+        horizontalAlignment = Alignment.CenterHorizontally, modifier = modifier
     ) {
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -136,7 +133,7 @@ fun PantallaAnyadirCoche(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        //TODO Boton para añadir Cliente
+        //Boton para añadir Cliente
         cliente?.let {
             val nombreCompleto = if (it.apellido2.isNullOrBlank()) {
                 "${it.nombre} ${it.apellido1}"
@@ -157,20 +154,18 @@ fun PantallaAnyadirCoche(
                 .padding(horizontal = 28.dp),
             fontStyle = FontStyle.Italic
         )
-        Button(
-            onClick = {
+        Button(onClick = {
 //                VEHICULO SIN CLIENTE (NI COD CLIENTE)
-                val coche = Vehiculo(
-                    marca = marca,
-                    modelo = modelo,
-                    especificaciones = especificaciones,
-                    matricula = normalizarMatricula(matricula),
-                    vin = vin,
-                )
-                viewModel.seleccionarProvisional(coche)
-                onSeleccionarCliente()
-            }
-        ) {
+            val coche = Vehiculo(
+                marca = marca,
+                modelo = modelo,
+                especificaciones = especificaciones,
+                matricula = normalizarMatricula(matricula),
+                vin = vin,
+            )
+            viewModel.seleccionarProvisional(coche)
+            onSeleccionarCliente()
+        }) {
             Text(text = stringResource(R.string.add_cliente))
         }
 
@@ -187,86 +182,57 @@ fun PantallaAnyadirCoche(
                 Text(stringResource(R.string.cancelar))
             }
             Spacer(modifier = Modifier.padding(end = 20.dp))
-            val context = LocalContext.current
-            Button(
-                onClick = {
-                    if (marca.isBlank()) {
-                        Toast.makeText(
-                            context,
-                            R.string.coche_obligatorio_1,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    } else if (modelo.isBlank()) {
-                        Toast.makeText(
-                            context,
-                            R.string.coche_obligatorio_2,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    } else if (matricula.isBlank()) {
-                        Toast.makeText(
-                            context,
-                            R.string.coche_obligatorio_3,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    } else if (marca.length > 50) {
-                        Toast.makeText(context, R.string.coche_limite_1, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (modelo.length > 50) {
-                        Toast.makeText(context, R.string.coche_limite_2, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (especificaciones.length > 220) {
-                        Toast.makeText(context, R.string.coche_limite_3, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (matricula.length > 15) {
-                        Toast.makeText(context, R.string.coche_limite_4, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (vin.length > 17 || (vin.length != 17 && vin.isNotBlank())) {
-                        Toast.makeText(context, R.string.coche_limite_5, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (!esMatriculaValida(normalizarMatricula(matricula))) {
-                        Toast.makeText(context, R.string.validar_matricula, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (cliente == null) {
-                        Toast.makeText(context, R.string.coche_limite_6, Toast.LENGTH_SHORT)
-                            .show()
-                    } else {
-                        /*val coche = Vehiculo(
+//            val context = LocalContext.current
+            Button(onClick = {
+                if (marca.isBlank()) {
+                    Toast.makeText(
+                        context, R.string.coche_obligatorio_1, Toast.LENGTH_SHORT
+                    ).show()
+                } else if (modelo.isBlank()) {
+                    Toast.makeText(
+                        context, R.string.coche_obligatorio_2, Toast.LENGTH_SHORT
+                    ).show()
+                } else if (matricula.isBlank()) {
+                    Toast.makeText(
+                        context, R.string.coche_obligatorio_3, Toast.LENGTH_SHORT
+                    ).show()
+                } else if (marca.length > 50) {
+                    Toast.makeText(context, R.string.coche_limite_1, Toast.LENGTH_SHORT).show()
+                } else if (modelo.length > 50) {
+                    Toast.makeText(context, R.string.coche_limite_2, Toast.LENGTH_SHORT).show()
+                } else if (especificaciones.length > 220) {
+                    Toast.makeText(context, R.string.coche_limite_3, Toast.LENGTH_SHORT).show()
+                } else if (matricula.length > 15) {
+                    Toast.makeText(context, R.string.coche_limite_4, Toast.LENGTH_SHORT).show()
+                } else if (vin.length > 17 || (vin.length != 17 && vin.isNotBlank())) {
+                    Toast.makeText(context, R.string.coche_limite_5, Toast.LENGTH_SHORT).show()
+                } else if (!esMatriculaValida(normalizarMatricula(matricula))) {
+                    Toast.makeText(context, R.string.validar_matricula, Toast.LENGTH_SHORT).show()
+                } else if (cliente == null) {
+                    Toast.makeText(context, R.string.coche_limite_6, Toast.LENGTH_SHORT).show()
+                } else {
+                    viewModel.seleccionarProvisional(
+                        Vehiculo(
                             marca = marca,
                             modelo = modelo,
                             especificaciones = especificaciones,
                             matricula = normalizarMatricula(matricula),
                             vin = vin,
-                            //añadir Cliente al guardado
-                            cod_cliente = cliente.cod_cliente,
-                            cliente = cliente ?: Cliente()
-                        )*/
-                        viewModel.seleccionarProvisional(
-                            Vehiculo(
-                                marca = marca,
-                                modelo = modelo,
-                                especificaciones = especificaciones,
-                                matricula = normalizarMatricula(matricula),
-                                vin = vin,
-                            )
                         )
-                        val coche = viewModel.ensamblarVehiculo()
-                        if (coche != null) {
-                            onInsertar(coche)
-                            Toast.makeText(
-                                context,
-                                R.string.editar_coche_mensaje_3,
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        } else {
-                            Toast.makeText(
-                                context,
-                                R.string.coche_obligatorio_4,
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
+                    )
+                    val coche = viewModel.ensamblarVehiculo()
+                    if (coche != null) {
+                        onInsertar(coche)
+                        Toast.makeText(
+                            context, R.string.editar_coche_mensaje_3, Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        Toast.makeText(
+                            context, R.string.coche_obligatorio_4, Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
-            ) {
+            }) {
                 Text(stringResource(R.string.btn_guardar))
             }
         }

@@ -31,34 +31,38 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.tallermecanico_sebastian.R
 import com.example.tallermecanico_sebastian.modelo.Empleado
 import com.example.tallermecanico_sebastian.ui.pantallas.componentes.esEmailValido
+import com.example.tallermecanico_sebastian.ui.viewmodel.EmpleadoViewModel
 
 @Composable
 fun PantallaEditarEmpleados(
+    viewModel: EmpleadoViewModel,
     empleado: Empleado,
     onCancelar: () -> Unit,
     onBorrar: (String) -> Unit,
     onGuardar: (Empleado) -> Unit,
-//    onCambiar: (Empleado) -> Unit,
+    onSeleccionarRol: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    // OBJETOS
+    val rol = viewModel.rolSeleccionado
+    val empleadoProvisional = viewModel.provisional
 
-    var nombre by remember { mutableStateOf(empleado.nombre ?: "") }
-    var apellido1 by remember { mutableStateOf(empleado.apellido1 ?: "") }
-    var apellido2 by remember { mutableStateOf(empleado.apellido2 ?: "") }
-    var email by remember { mutableStateOf(empleado.email ?: "") }
-    var direccion by remember { mutableStateOf(empleado.direccion ?: "") }
-    var user by remember { mutableStateOf(empleado.usuario ?: "") }
-    var pass by remember { mutableStateOf(empleado.contrasenya ?: "") }
-    var context = LocalContext.current
+    var nombre by remember { mutableStateOf(empleadoProvisional?.nombre ?: "") }
+    var apellido1 by remember { mutableStateOf(empleadoProvisional?.apellido1 ?: "") }
+    var apellido2 by remember { mutableStateOf(empleadoProvisional?.apellido2 ?: "") }
+    var email by remember { mutableStateOf(empleadoProvisional?.email ?: "") }
+    var direccion by remember { mutableStateOf(empleadoProvisional?.direccion ?: "") }
+    var usuario by remember { mutableStateOf(empleadoProvisional?.usuario ?: "") }
+    val contrasenya by remember { mutableStateOf(empleadoProvisional?.contrasenya ?: "") }
+    val context = LocalContext.current
     var abrirAlertDialog by remember { mutableStateOf(false) }
-
-    var empeladoEditable by remember { mutableStateOf(empleado) }
-    var mostrarPantallaCambiarContrasenya by remember { mutableStateOf(false) }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -127,14 +131,49 @@ fun PantallaEditarEmpleados(
         Spacer(modifier = Modifier.height(8.dp))
 
         TextField(
-            value = user,
-            onValueChange = { if (it.length <= 50) user = it },
+            value = usuario,
+            onValueChange = { if (it.length <= 50) usuario = it },
             label = { Text(text = stringResource(R.string.texto_usuario)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 28.dp)
         )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        //Boton para añadir Cliente
+        rol?.let {
+            Text(
+                text = "${stringResource(R.string.rol_seleccionado)}: ${rol.nombre}",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 28.dp),
+                fontWeight = FontWeight.Bold
+            )
+        } ?: Text(
+            text = stringResource(R.string.rol_no_seleccionado),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 28.dp),
+            fontStyle = FontStyle.Italic
+        )
+        Button(onClick = {
+//                EMPLEADO SIN ROL (NI COD ROL)
+            val empleadoEditado = Empleado(
+                nombre = nombre,
+                apellido1 = apellido1,
+                apellido2 = apellido2,
+                email = email,
+                direccion = direccion,
+                usuario = usuario,
+                contrasenya = contrasenya,
+            )
+            viewModel.seleccionarProvisional(empleadoEditado)
+            onSeleccionarRol()
+        }) {
+            Text(text = stringResource(R.string.add_rol))
+        }
 
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -147,61 +186,59 @@ fun PantallaEditarEmpleados(
                 Text(stringResource(R.string.cancelar))
             }
 
-            Button(
-                onClick = {
-                    if (nombre.isBlank()) {
-                        Toast.makeText(context, R.string.empleado_obligatorio_1, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (apellido1.isBlank()) {
-                        Toast.makeText(context, R.string.empleado_obligatorio_2, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (user.isBlank()) {
-                        Toast.makeText(context, R.string.empleado_obligatorio_3, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (nombre.length > 25) {
-                        Toast.makeText(context, R.string.empleado_limite_1, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (apellido1.length > 25) {
-                        Toast.makeText(context, R.string.empleado_limite_2, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (apellido2.length > 25) {
-                        Toast.makeText(context, R.string.empleado_limite_3, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (email.length > 50) {
-                        Toast.makeText(context, R.string.empleado_limite_4, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (direccion.length > 50) {
-                        Toast.makeText(context, R.string.empleado_limite_5, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (user.length > 50) {
-                        Toast.makeText(context, R.string.empleado_limite_6, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (pass.length > 100) {
-                        Toast.makeText(context, R.string.empleado_limite_7, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (!esEmailValido(email)) {
-                        Toast.makeText(context, R.string.validar_email, Toast.LENGTH_SHORT).show()
-                    } else {
-                        val empleadoEditado = empleado.copy(
-                            cod_empleado = empleado.cod_empleado,
-                            nombre = nombre ?: "",
-                            apellido1 = apellido1 ?: "",
-                            apellido2 = apellido2 ?: "",
-                            email = email ?: "",
-                            direccion = direccion ?: "",
-                            usuario = user ?: "",
-                            contrasenya = pass ?: "",
+            Button(onClick = {
+                if (nombre.isBlank()) {
+                    Toast.makeText(context, R.string.empleado_obligatorio_1, Toast.LENGTH_SHORT)
+                        .show()
+                } else if (apellido1.isBlank()) {
+                    Toast.makeText(context, R.string.empleado_obligatorio_2, Toast.LENGTH_SHORT)
+                        .show()
+                } else if (usuario.isBlank()) {
+                    Toast.makeText(context, R.string.empleado_obligatorio_3, Toast.LENGTH_SHORT)
+                        .show()
+                } else if (nombre.length > 25) {
+                    Toast.makeText(context, R.string.empleado_limite_1, Toast.LENGTH_SHORT).show()
+                } else if (apellido1.length > 25) {
+                    Toast.makeText(context, R.string.empleado_limite_2, Toast.LENGTH_SHORT).show()
+                } else if (apellido2.length > 25) {
+                    Toast.makeText(context, R.string.empleado_limite_3, Toast.LENGTH_SHORT).show()
+                } else if (email.length > 50) {
+                    Toast.makeText(context, R.string.empleado_limite_4, Toast.LENGTH_SHORT).show()
+                } else if (direccion.length > 50) {
+                    Toast.makeText(context, R.string.empleado_limite_5, Toast.LENGTH_SHORT).show()
+                } else if (usuario.length > 50) {
+                    Toast.makeText(context, R.string.empleado_limite_6, Toast.LENGTH_SHORT).show()
+                } else if (contrasenya.length > 100) {
+                    Toast.makeText(context, R.string.empleado_limite_7, Toast.LENGTH_SHORT).show()
+                } else if (!esEmailValido(email)) {
+                    Toast.makeText(context, R.string.validar_email, Toast.LENGTH_SHORT).show()
+                } else if (rol == null) {
+                    Toast.makeText(context, R.string.coche_limite_6, Toast.LENGTH_SHORT).show()
+                } else {
+                    viewModel.seleccionarProvisional(
+                        Empleado(
+                            nombre = nombre,
+                            apellido1 = apellido1,
+                            apellido2 = apellido2,
+                            email = email,
+                            direccion = direccion,
+                            usuario = usuario,
+                            contrasenya = contrasenya,
                         )
+                    )
+                    val empleadoEditado = viewModel.ensamblarEmpleado()
+                    if (empleadoEditado != null) {
                         onGuardar(empleadoEditado)
                         Toast.makeText(
-                            context,
-                            R.string.editar_empleado_mensaje_1,
-                            Toast.LENGTH_SHORT
-                        )
-                            .show()
+                            context, R.string.editar_empleado_mensaje_1, Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        Toast.makeText(
+                            context, R.string.empleado_obligatorio_5, Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
-            ) {
+            }) {
                 Text(text = stringResource(R.string.btn_guardar))
             }
         }
@@ -209,10 +246,8 @@ fun PantallaEditarEmpleados(
         Button(
             onClick = {
                 abrirAlertDialog = true
-            },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Red,
-                contentColor = Color.White
+            }, colors = ButtonDefaults.buttonColors(
+                containerColor = Color.Red, contentColor = Color.White
             )
         ) {
             Text(text = stringResource(R.string.btn_borrar))
@@ -224,14 +259,13 @@ fun PantallaEditarEmpleados(
                 onConfirmation = {
                     abrirAlertDialog = false
                     val empleadoEditado = empleado.copy(
-                        cod_empleado = empleado.cod_empleado,
-                        nombre = nombre ?: "",
-                        apellido1 = apellido1 ?: "",
-                        apellido2 = apellido2 ?: "",
-                        email = email ?: "",
-                        direccion = direccion ?: "",
-                        usuario = user ?: "",
-                        contrasenya = pass ?: "",
+                        nombre = nombre,
+                        apellido1 = apellido1,
+                        apellido2 = apellido2,
+                        email = email,
+                        direccion = direccion,
+                        usuario = usuario,
+                        contrasenya = contrasenya,
                     )
                     onBorrar(empleadoEditado.cod_empleado.toString())
                     Toast.makeText(context, R.string.editar_empleado_mensaje_2, Toast.LENGTH_SHORT)
@@ -253,36 +287,25 @@ fun AlertDialogEmpleadoConfirmar(
     dialogText: String,
     icon: ImageVector,
 ) {
-    AlertDialog(
-        icon = {
-            Icon(icon, contentDescription = "Warning Icon")
-        },
-        title = {
-            Text(text = dialogTitle)
-        },
-        text = {
-            Text(text = dialogText)
-        },
-        onDismissRequest = {
-            onDismissRequest()
-        },
-        confirmButton = {
-            TextButton(
-                onClick = {
-                    onConfirmation()
-                }
-            ) {
-                Text(stringResource(R.string.dialogo_btn_confirmar))
-            }
-        },
-        dismissButton = {
-            TextButton(
-                onClick = {
-                    onDismissRequest()
-                }
-            ) {
-                Text(stringResource(R.string.cancelar))
-            }
+    AlertDialog(icon = {
+        Icon(icon, contentDescription = "Warning Icon")
+    }, title = {
+        Text(text = dialogTitle)
+    }, text = {
+        Text(text = dialogText)
+    }, onDismissRequest = {
+        onDismissRequest()
+    }, confirmButton = {
+        TextButton(onClick = {
+            onConfirmation()
+        }) {
+            Text(stringResource(R.string.dialogo_btn_confirmar))
         }
-    )
+    }, dismissButton = {
+        TextButton(onClick = {
+            onDismissRequest()
+        }) {
+            Text(stringResource(R.string.cancelar))
+        }
+    })
 }

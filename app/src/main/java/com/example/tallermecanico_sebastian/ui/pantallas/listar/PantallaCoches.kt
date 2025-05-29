@@ -30,8 +30,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.tallermecanico_sebastian.R
 import com.example.tallermecanico_sebastian.modelo.Vehiculo
-import com.example.tallermecanico_sebastian.ui.pantallas.PantallaCargando
-import com.example.tallermecanico_sebastian.ui.pantallas.PantallaError
+import com.example.tallermecanico_sebastian.ui.pantallas.componentes.PantallaCargando
+import com.example.tallermecanico_sebastian.ui.pantallas.componentes.PantallaError
 import com.example.tallermecanico_sebastian.ui.theme.AzulPrincipal
 import com.example.tallermecanico_sebastian.ui.viewmodel.VehiculoUIState
 
@@ -81,9 +81,7 @@ fun PantallaExitoVehiculos(
                     .fillMaxSize()
                     .padding(3.dp)
                     .border(
-                        width = 1.dp,
-                        color = AzulPrincipal,
-                        shape = RoundedCornerShape(16.dp)
+                        width = 1.dp, color = AzulPrincipal, shape = RoundedCornerShape(16.dp)
                     ),
                 shape = RoundedCornerShape(16.dp),
                 elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
@@ -104,8 +102,7 @@ fun PantallaExitoVehiculos(
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = especificaciones,
-                        style = MaterialTheme.typography.titleSmall
+                        text = especificaciones, style = MaterialTheme.typography.titleSmall
                     )
                     Text(
                         text = "${stringResource(R.string.texto_matricula)}: ${vehiculo.matricula}",
@@ -126,8 +123,7 @@ fun PantallaExitoVehiculos(
                             },
                         ) {
                             Icon(
-                                imageVector = Icons.Filled.Info,
-                                contentDescription = "Info"
+                                imageVector = Icons.Filled.Info, contentDescription = "Info"
                             )
                         }
                         OutlinedButton(
@@ -136,8 +132,7 @@ fun PantallaExitoVehiculos(
                             },
                         ) {
                             Icon(
-                                imageVector = Icons.Filled.Create,
-                                contentDescription = "Editar"
+                                imageVector = Icons.Filled.Create, contentDescription = "Editar"
                             )
                         }
                     }

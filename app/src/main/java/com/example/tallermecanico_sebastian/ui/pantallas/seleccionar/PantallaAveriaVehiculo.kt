@@ -20,14 +20,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.tallermecanico_sebastian.ui.theme.AzulPrincipal
 import com.example.tallermecanico_sebastian.ui.viewmodel.AveriaViewModel
-import com.example.tallermecanico_sebastian.ui.viewmodel.EmpleadoViewModel
 import com.example.tallermecanico_sebastian.ui.viewmodel.VehiculoViewModel
 
 @Composable
 fun PantallaAveriaVehiculo(
     viewModelAveria: AveriaViewModel,
     viewModelVehiculo: VehiculoViewModel,
-    modifier: Modifier,
     onSeleccionar: () -> Unit
 ) {
     val lista = viewModelVehiculo.listaAveriaVehiculos
@@ -43,9 +41,7 @@ fun PantallaAveriaVehiculo(
                     .fillMaxSize()
                     .padding(3.dp)
                     .border(
-                        width = 1.dp,
-                        color = AzulPrincipal,
-                        shape = RoundedCornerShape(16.dp)
+                        width = 1.dp, color = AzulPrincipal, shape = RoundedCornerShape(16.dp)
                     )
                     .clickable {
                         viewModelAveria.seleccionarVehiculo(vehiculo)

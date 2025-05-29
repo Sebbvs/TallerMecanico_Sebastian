@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import coil.network.HttpException
@@ -104,8 +103,7 @@ class ClienteViewModel(private val clienteRepositorio: ClienteRepositorio) : Vie
             clienteUIState = ClienteUIState.Cargando
             clienteUIState = try {
                 val clienteActualizado = clienteRepositorio.actualizarCliente(
-                    id = id,
-                    cliente = cliente
+                    id = id, cliente = cliente
                 )
                 ClienteUIState.ActualizarExito(clienteActualizado)
             } catch (e: IOException) {

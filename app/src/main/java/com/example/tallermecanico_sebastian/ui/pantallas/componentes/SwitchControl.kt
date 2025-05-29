@@ -23,13 +23,8 @@ import com.example.tallermecanico_sebastian.ui.theme.Rojo
 import com.example.tallermecanico_sebastian.ui.theme.Verde
 
 @Composable
-fun SwitchControl() {
-}
-
-@Composable
 fun EstadoSwitch(
-    estado: Boolean,
-    onEstadoChange: (Boolean) -> Unit
+    estado: Boolean, onEstadoChange: (Boolean) -> Unit
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically
@@ -44,37 +39,30 @@ fun EstadoSwitch(
         Spacer(modifier = Modifier.width(8.dp))
 
         Box(modifier = Modifier.width(110.dp)) {
-            Switch(
-                checked = estado,
-                onCheckedChange = onEstadoChange,
-                thumbContent = if (estado) {
-                    {
-                        Icon(
-                            imageVector = Icons.Filled.Check,
-                            contentDescription = null,
-                            modifier = Modifier.size(SwitchDefaults.IconSize),
-                            tint = NegroCarbon
-                        )
-                        Text(text = " *")
-                    }
-                } else {
-                    {
-                        Icon(
-                            imageVector = Icons.Filled.Close,
-                            contentDescription = null,
-                            modifier = Modifier.size(SwitchDefaults.IconSize),
-                            tint = NegroCarbon
-                        )
-                        Text(text = " *")
-                    }
-                },
-                colors = SwitchDefaults.colors(
-                    checkedThumbColor = Blanco,
-                    checkedTrackColor = Verde,
-                    uncheckedThumbColor = Blanco,
-                    uncheckedTrackColor = Rojo
-                )
-            )
+            Switch(checked = estado, onCheckedChange = onEstadoChange, thumbContent = if (estado) {
+                {
+                    Icon(
+                        imageVector = Icons.Filled.Check,
+                        contentDescription = null,
+                        modifier = Modifier.size(SwitchDefaults.IconSize),
+                        tint = NegroCarbon
+                    )
+                }
+            } else {
+                {
+                    Icon(
+                        imageVector = Icons.Filled.Close,
+                        contentDescription = null,
+                        modifier = Modifier.size(SwitchDefaults.IconSize),
+                        tint = NegroCarbon
+                    )
+                }
+            }, colors = SwitchDefaults.colors(
+                checkedThumbColor = Blanco,
+                checkedTrackColor = Verde,
+                uncheckedThumbColor = Blanco,
+                uncheckedTrackColor = Rojo
+            ))
         }
     }
 }

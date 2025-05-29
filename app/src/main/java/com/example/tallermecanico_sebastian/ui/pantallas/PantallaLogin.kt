@@ -9,18 +9,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -33,7 +28,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -43,9 +37,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.tallermecanico_sebastian.R
 import com.example.tallermecanico_sebastian.ui.Pantallas
-import com.example.tallermecanico_sebastian.ui.theme.Blanco
 import com.example.tallermecanico_sebastian.ui.theme.Rojo
-import com.example.tallermecanico_sebastian.ui.theme.Verde
 import com.example.tallermecanico_sebastian.ui.viewmodel.EmpleadoUIState
 
 @Composable
@@ -68,9 +60,7 @@ fun PantallaLogin(
             }
         } else if (empleadoUIState is EmpleadoUIState.ErrorMensaje) {
             Toast.makeText(
-                navController.context,
-                empleadoUIState.mensaje,
-                Toast.LENGTH_SHORT
+                navController.context, empleadoUIState.mensaje, Toast.LENGTH_SHORT
             ).show()
         }
     }
@@ -107,8 +97,7 @@ fun PantallaLogin(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        TextField(
-            value = contrasenya,
+        TextField(value = contrasenya,
             onValueChange = { contrasenya = it },
             label = { Text(text = stringResource(R.string.texto_contrasenya)) },
             singleLine = true,
@@ -120,22 +109,18 @@ fun PantallaLogin(
                         painter = if (contrasenyaVisible) painterResource(R.drawable.visibility) else painterResource(
                             R.drawable.visibility_off
                         ),
-                        contentDescription =
-                        if (contrasenyaVisible) stringResource(R.string.contrasenya_oculta) else stringResource(
+                        contentDescription = if (contrasenyaVisible) stringResource(R.string.contrasenya_oculta) else stringResource(
                             R.string.contrasenya_visible
                         )
                     )
                 }
-            }
-        )
+            })
 
         Spacer(Modifier.height(32.dp))
 
-        Button(
-            onClick = {
-                onAutenticar(usuario, contrasenya)
-            }
-        ) {
+        Button(onClick = {
+            onAutenticar(usuario, contrasenya)
+        }) {
             Text(text = stringResource(R.string.boton_login), fontSize = 16.sp)
         }
 
@@ -146,8 +131,7 @@ fun PantallaLogin(
                 onBuscar()
             },
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Transparent,
-                contentColor = Rojo
+                containerColor = Color.Transparent, contentColor = Rojo
             ),
         ) {
             Text(

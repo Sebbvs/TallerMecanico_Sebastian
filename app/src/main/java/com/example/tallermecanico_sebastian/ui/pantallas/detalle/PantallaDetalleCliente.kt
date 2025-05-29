@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -21,7 +20,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.tallermecanico_sebastian.R
@@ -29,18 +27,14 @@ import com.example.tallermecanico_sebastian.modelo.Cliente
 
 @Composable
 fun PantallaDetalleCliente(
-    cliente: Cliente,
-    onAceptar: () -> Unit,
-    modifier: Modifier = Modifier
+    cliente: Cliente, onAceptar: () -> Unit, modifier: Modifier = Modifier
 ) {
 
     var nombre by remember { mutableStateOf(cliente.nombre ?: "") }
     var apellido1 by remember { mutableStateOf(cliente.apellido1 ?: "") }
-    var apellido2 by remember { mutableStateOf(cliente.apellido2 ?: "") }
+    val apellido2 by remember { mutableStateOf(cliente.apellido2 ?: "") }
     var email by remember { mutableStateOf(cliente.email ?: "") }
     var direccion by remember { mutableStateOf(cliente.direccion ?: "") }
-    var context = LocalContext.current
-    var abrirAlertDialog by remember { mutableStateOf(false) }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -54,8 +48,7 @@ fun PantallaDetalleCliente(
             label = { Text(text = stringResource(R.string.texto_nombre)) },
             readOnly = true,
             colors = TextFieldDefaults.colors(
-                disabledLabelColor = Color.Black,
-                disabledTextColor = Color.Black
+                disabledLabelColor = Color.Black, disabledTextColor = Color.Black
             ),
             modifier = Modifier
                 .fillMaxWidth()
@@ -70,8 +63,7 @@ fun PantallaDetalleCliente(
             label = { Text(text = stringResource(R.string.texto_apellidos)) },
             readOnly = true,
             colors = TextFieldDefaults.colors(
-                disabledLabelColor = Color.Black,
-                disabledTextColor = Color.Black
+                disabledLabelColor = Color.Black, disabledTextColor = Color.Black
             ),
             modifier = Modifier
                 .fillMaxWidth()
@@ -86,8 +78,7 @@ fun PantallaDetalleCliente(
             label = { Text(text = stringResource(R.string.texto_email)) },
             readOnly = true,
             colors = TextFieldDefaults.colors(
-                disabledLabelColor = Color.Black,
-                disabledTextColor = Color.Black
+                disabledLabelColor = Color.Black, disabledTextColor = Color.Black
             ),
             modifier = Modifier
                 .fillMaxWidth()
@@ -108,7 +99,6 @@ fun PantallaDetalleCliente(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 28.dp)
-//                .height(112.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))

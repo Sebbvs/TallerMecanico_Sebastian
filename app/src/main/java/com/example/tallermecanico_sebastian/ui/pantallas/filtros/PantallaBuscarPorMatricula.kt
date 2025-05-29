@@ -2,6 +2,7 @@ package com.example.tallermecanico_sebastian.ui.pantallas.filtros
 
 import android.util.Log
 import android.widget.Toast
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -32,6 +34,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.tallermecanico_sebastian.R
+import com.example.tallermecanico_sebastian.ui.theme.Rojo
+import com.example.tallermecanico_sebastian.ui.theme.Verde
 import com.example.tallermecanico_sebastian.ui.viewmodel.AveriaUIState
 import com.example.tallermecanico_sebastian.ui.viewmodel.AveriaViewModel
 
@@ -43,9 +47,8 @@ fun PantallaBuscarPorMatricula(
 ) {
     val averia = viewModel.averiaEncontrada
 
-    var context = LocalContext.current
+    val context = LocalContext.current
     var busquedaMatricula by remember { mutableStateOf("") }
-    var averiaEncontrada = viewModel.averiaEncontrada
     var busquedaRealizada by remember { mutableStateOf(false) }
     val cliente = averia?.cliente
     val vehiculo = averia?.vehiculo
@@ -108,11 +111,21 @@ fun PantallaBuscarPorMatricula(
 
         viewModel.averiaEncontrada?.let { averia ->
 
+            val borderColor = if (averia.estado.equals("Reparado")) Verde else Rojo
+            val cardMod = Modifier
+                .fillMaxWidth()
+                .padding(8.dp)
+                .border(
+                    width = 2.dp,
+                    color = borderColor, // <- COLOR PARA BORDE DE AVERÍAS MOSTRADAS
+                    shape = RoundedCornerShape(12.dp)
+                )
+
             Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp),
-                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+                modifier = cardMod,
+                shape = RoundedCornerShape(12.dp),
+                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text(

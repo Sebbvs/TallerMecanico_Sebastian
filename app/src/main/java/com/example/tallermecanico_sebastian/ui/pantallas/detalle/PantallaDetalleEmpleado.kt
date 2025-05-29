@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -19,7 +18,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.tallermecanico_sebastian.R
@@ -27,21 +25,16 @@ import com.example.tallermecanico_sebastian.modelo.Empleado
 
 @Composable
 fun PantallaDetalleEmpleado(
-    empleado: Empleado,
-    onAceptar: () -> Unit,
-    modifier: Modifier = Modifier
+    empleado: Empleado, onAceptar: () -> Unit, modifier: Modifier = Modifier
 ) {
 
     var nombre by remember { mutableStateOf(empleado.nombre ?: "") }
-    var apellido1 by remember { mutableStateOf(empleado.apellido1 ?: "") }
-    var apellido2 by remember { mutableStateOf(empleado.apellido2 ?: "") }
-    var email by remember { mutableStateOf(empleado.email ?: "") }
-    var direccion by remember { mutableStateOf(empleado.direccion ?: "") }
-    var user by remember { mutableStateOf(empleado.usuario ?: "") }
-    var pass by remember { mutableStateOf(empleado.contrasenya ?: "") }
-    var rol by remember { mutableStateOf(empleado.rol?.nombre ?: "") }
-    var context = LocalContext.current
-    var abrirAlertDialog by remember { mutableStateOf(false) }
+    val apellido1 by remember { mutableStateOf(empleado.apellido1 ?: "") }
+    val apellido2 by remember { mutableStateOf(empleado.apellido2 ?: "") }
+    val email by remember { mutableStateOf(empleado.email ?: "") }
+    val direccion by remember { mutableStateOf(empleado.direccion ?: "") }
+    val user by remember { mutableStateOf(empleado.usuario ?: "") }
+    val rol by remember { mutableStateOf(empleado.rol?.nombre ?: "") }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -63,7 +56,7 @@ fun PantallaDetalleEmpleado(
 
         TextField(
             value = "${apellido1} ${apellido2}",
-            onValueChange = { apellido1 = it },
+            onValueChange = { },
             label = { Text(text = stringResource(R.string.texto_apellidos)) },
             readOnly = true,
             modifier = Modifier
@@ -75,7 +68,7 @@ fun PantallaDetalleEmpleado(
 
         TextField(
             value = email,
-            onValueChange = { email = it },
+            onValueChange = { },
             label = { Text(text = stringResource(R.string.texto_email)) },
             readOnly = true,
             modifier = Modifier
@@ -88,7 +81,7 @@ fun PantallaDetalleEmpleado(
 
         TextField(
             value = direccion,
-            onValueChange = { direccion = it },
+            onValueChange = { },
             label = { Text(text = stringResource(R.string.texto_direccion)) },
             readOnly = true,
             modifier = Modifier
@@ -100,7 +93,7 @@ fun PantallaDetalleEmpleado(
 
         TextField(
             value = user,
-            onValueChange = { user = it },
+            onValueChange = { },
             label = { Text(text = stringResource(R.string.texto_usuario)) },
             readOnly = true,
             modifier = Modifier
@@ -112,7 +105,7 @@ fun PantallaDetalleEmpleado(
 
         TextField(
             value = rol,
-            onValueChange = {},
+            onValueChange = { },
             label = { Text(text = stringResource(R.string.texto_rol)) },
             readOnly = true,
             modifier = Modifier

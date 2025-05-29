@@ -37,6 +37,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.tallermecanico_sebastian.R
@@ -44,49 +46,56 @@ import com.example.tallermecanico_sebastian.modelo.Averia
 import com.example.tallermecanico_sebastian.ui.pantallas.componentes.DatePickerModal
 import com.example.tallermecanico_sebastian.ui.pantallas.componentes.EstadoSwitch
 import com.example.tallermecanico_sebastian.ui.pantallas.componentes.convertMillisToDate
+import com.example.tallermecanico_sebastian.ui.viewmodel.AveriaViewModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PantallaEditarAverias(
+    viewModel: AveriaViewModel,
     averia: Averia,
     onCancelar: () -> Unit,
     onBorrar: (String) -> Unit,
     onGuardar: (Averia) -> Unit,
+    onSeleccionarCliente: () -> Unit,
+    onSeleccionarEmpleado: () -> Unit,
+    onSeleccionarVehiculo: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-
-//    var tipoaveria by remember { mutableStateOf(averia.tipo_averias?.nombre ?: "") }
-    var descripcion by remember { mutableStateOf(averia.descripcion ?: "") }
-    var precio by remember { mutableStateOf(averia.precio ?: "") }
-//    var estado by remember { mutableStateOf(averia.estado ?: "") }
-//    var cod_empleado by remember { mutableStateOf(averia.cod_empleado) }
-    var fechaRecepcion by remember { mutableStateOf(averia.fecha_recepcion ?: "") }
-    var fechaResolucion by remember { mutableStateOf(averia.fecha_resolucion ?: "") }
-//    var cod_cliente by remember { mutableStateOf(averia.cod_cliente) }
-    var observaciones by remember { mutableStateOf(averia.observaciones ?: "") }
-//    var cod_vehiculo by remember { mutableStateOf(averia.cod_vehiculo) }
-    var empleado by remember { mutableStateOf(averia.empleado ?: "") }
-    var cliente by remember { mutableStateOf(averia.cliente ?: "") }
-    var vehiculo by remember { mutableStateOf(averia.vehiculo ?: "") }
-//    var averia_piezas by remember { mutableStateOf(averia.averia_piezas) }
-//    var tipo_averias by remember { mutableStateOf(averia.tipo_averias) }
-    var context = LocalContext.current
-    var abrirAlertDialog by remember { mutableStateOf(false) }
-
+    // OBJETOS
+    val cliente = viewModel.clienteSeleccionado
+    val empleado = viewModel.empleadoSeleccionado
+    val vehiculo = viewModel.vehiculoSeleccionado
+    val averiaProvisional = viewModel.provisional
+    var descripcion by remember { mutableStateOf(averiaProvisional?.descripcion ?: "") }
+    var precio by remember { mutableStateOf(averiaProvisional?.precio ?: "") }
+    var fechaRecepcion by remember {
+        mutableStateOf(
+            averiaProvisional?.fecha_recepcion ?: LocalDate.now()
+                .format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString()
+        )
+    }
+    var fechaResolucion by remember {
+        mutableStateOf(
+            averiaProvisional?.fecha_resolucion ?: ""
+        )
+    }
+    var observaciones by remember { mutableStateOf(averiaProvisional?.observaciones ?: "") }
+    val context = LocalContext.current
     var showDatePicker1 by remember { mutableStateOf(false) }
     var showDatePicker2 by remember { mutableStateOf(false) }
-    val datePickerState = rememberDatePickerState()
-    val selectedDate = datePickerState.selectedDateMillis?.let {
-        convertMillisToDate(it)
-    } ?: ""
 
-    var comprobarRecepcion by remember { mutableStateOf<Long?>(null) }
+    val datePickerStateRecepcion = rememberDatePickerState()
+    val datePickerStateResolucion = rememberDatePickerState()
+
+    val comprobarRecepcion by remember { mutableStateOf<Long?>(null) }
     var comprobarResolucion by remember { mutableStateOf<Long?>(null) }
 
-    var estado by remember { mutableStateOf(false) }
-    val estadoTexto = if (estado) "Reparado" else "No reparado"
+    var estado by remember { mutableStateOf(averiaProvisional?.estado == "Sin reparar") }
+    val estadoTexto = if (estado) "Reparado" else "Sin reparar"
+
+    var abrirAlertDialog by remember { mutableStateOf(false) }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -94,29 +103,31 @@ fun PantallaEditarAverias(
             .fillMaxSize()
             .padding(20.dp)
     ) {
-        TextField(
-            value = descripcion,
+        TextField(value = descripcion,
             onValueChange = { if (it.length <= 250) descripcion = it },
             label = { Text(text = stringResource(R.string.averia_descripcion)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 28.dp)
-//                .height(112.dp)
+        )
+        TextField(value = observaciones,
+            onValueChange = { if (it.length <= 220) observaciones = it },
+            label = { Text(text = stringResource(R.string.averia_observaciones)) },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 28.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        EstadoSwitch(
-            estado = estado,
-            onEstadoChange = { estado = it }
-        )
+        EstadoSwitch(estado = estado, onEstadoChange = { estado = it })
 
         Spacer(modifier = Modifier.height(8.dp))
 
         Box {
-            OutlinedTextField(
-                value = fechaRecepcion,
+            OutlinedTextField(value = fechaRecepcion,
                 onValueChange = { },
                 label = { Text(text = stringResource(R.string.averia_fecha_recepcion)) },
                 readOnly = true,
@@ -135,29 +146,25 @@ fun PantallaEditarAverias(
             )
 
             if (showDatePicker1) {
-                DatePickerModal(
-                    onDateSelected = {
-                        if (it != null) {
-                            fechaRecepcion = convertMillisToDate(it)
-                            if (comprobarResolucion != null && comprobarResolucion!! < it) {
-                                comprobarResolucion = null
-                                fechaResolucion = ""
-                            }
+                DatePickerModal(datePickerState = datePickerStateRecepcion, onDateSelected = {
+                    if (it != null) {
+                        fechaRecepcion = convertMillisToDate(it)
+                        if (comprobarResolucion != null && comprobarResolucion!! < it) {
+                            comprobarResolucion = null
+                            fechaResolucion = ""
                         }
-                        showDatePicker1 = false
-                    },
-                    onDismiss = {
-                        showDatePicker1 = false
                     }
-                )
+                    showDatePicker1 = false
+                }, onDismiss = {
+                    showDatePicker1 = false
+                })
             }
         }
 
         Spacer(modifier = Modifier.height(8.dp))
 
         Box {
-            OutlinedTextField(
-                value = fechaResolucion,
+            OutlinedTextField(value = fechaResolucion,
                 onValueChange = { },
                 label = { Text(text = stringResource(R.string.averia_fecha_resolucion)) },
                 readOnly = true,
@@ -176,34 +183,28 @@ fun PantallaEditarAverias(
             )
 
             if (showDatePicker2) {
-                DatePickerModal(
-                    onDateSelected = {
-                        if (it != null) {
-                            if (comprobarResolucion == null || it >= comprobarRecepcion!!) {
-                                comprobarResolucion = it
-                                fechaResolucion = convertMillisToDate(it)
-                            } else {
-                                Toast.makeText(
-                                    context,
-                                    R.string.editar_averia_mensaje_fecha,
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
+                DatePickerModal(datePickerState = datePickerStateResolucion, onDateSelected = {
+                    if (it != null) {
+                        if (comprobarResolucion == null || it >= comprobarRecepcion!!) {
+                            comprobarResolucion = it
                             fechaResolucion = convertMillisToDate(it)
+                        } else {
+                            Toast.makeText(
+                                context, R.string.editar_averia_mensaje_fecha, Toast.LENGTH_SHORT
+                            ).show()
                         }
-                        showDatePicker2 = false
-                    },
-                    onDismiss = {
-                        showDatePicker2 = false
+                        fechaResolucion = convertMillisToDate(it)
                     }
-                )
+                    showDatePicker2 = false
+                }, onDismiss = {
+                    showDatePicker2 = false
+                })
             }
         }
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        TextField(
-            value = precio,
+        TextField(value = precio,
             onValueChange = { if (it.length <= 7) precio = it },
             label = { Text(text = stringResource(R.string.averia_precio)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
@@ -211,6 +212,109 @@ fun PantallaEditarAverias(
                 .fillMaxWidth()
                 .padding(horizontal = 28.dp)
         )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        //Boton para añadir Cliente
+        cliente?.let {
+            Text(
+                text = "${stringResource(R.string.cliente_seleccionado)}: ${cliente.nombre} ${cliente.apellido1}",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 28.dp),
+                fontWeight = FontWeight.Bold
+            )
+        } ?: Text(
+            text = stringResource(R.string.cliente_no_seleccionado),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 28.dp),
+            fontStyle = FontStyle.Italic
+        )
+        Button(onClick = {
+//                EMPLEADO SIN ROL (NI COD ROL)
+            val averiaEditada = Averia(
+                descripcion = descripcion,
+                precio = precio,
+                estado = estadoTexto,
+                fecha_recepcion = fechaRecepcion,
+                fecha_resolucion = fechaResolucion,
+                tipo_averias = emptyList(),
+                averia_piezas = emptyList(),
+            )
+            viewModel.seleccionarProvisional(averiaEditada)
+            onSeleccionarCliente()
+        }) {
+            Text(text = stringResource(R.string.add_cliente))
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+//Boton para añadir Empleado
+        empleado?.let {
+            Text(
+                text = "${stringResource(R.string.empleado_seleccionado)}: ${empleado.nombre} ${empleado.apellido1}",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 28.dp),
+                fontWeight = FontWeight.Bold
+            )
+        } ?: Text(
+            text = stringResource(R.string.empleado_no_seleccionado),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 28.dp),
+            fontStyle = FontStyle.Italic
+        )
+        Button(onClick = {
+//                AVERIA SIN CLIENTE
+            val averiaEditada = Averia(
+                descripcion = descripcion,
+                precio = precio,
+                estado = estadoTexto,
+                fecha_recepcion = fechaRecepcion,
+                fecha_resolucion = fechaResolucion,
+                tipo_averias = emptyList(),
+                averia_piezas = emptyList(),
+            )
+            viewModel.seleccionarProvisional(averiaEditada)
+            onSeleccionarEmpleado()
+        }) {
+            Text(text = stringResource(R.string.add_empleado))
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+        //Boton para añadir Vehiculo
+        vehiculo?.let {
+            Text(
+                text = "${stringResource(R.string.vehiculo_seleccionado)}: [${vehiculo.matricula}]${vehiculo.marca} ${vehiculo.modelo}",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 28.dp),
+                fontWeight = FontWeight.Bold
+            )
+        } ?: Text(
+            text = stringResource(R.string.vehiculo_no_seleccionado),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 28.dp),
+            fontStyle = FontStyle.Italic
+        )
+        Button(onClick = {
+//                AVERIA SIN VEHICULO
+            val averiaEditada = Averia(
+                descripcion = descripcion,
+                precio = precio,
+                estado = estadoTexto,
+                fecha_recepcion = fechaRecepcion,
+                fecha_resolucion = fechaResolucion,
+                tipo_averias = emptyList(),
+                averia_piezas = emptyList(),
+            )
+            viewModel.seleccionarProvisional(averiaEditada)
+            onSeleccionarVehiculo()
+        }) {
+            Text(text = stringResource(R.string.add_vehiculo))
+        }
 
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -222,50 +326,58 @@ fun PantallaEditarAverias(
             OutlinedButton(onClick = onCancelar) {
                 Text(stringResource(R.string.cancelar))
             }
-            Button(
-                onClick = {
-                    if (descripcion.isBlank()) {
-                        Toast.makeText(context, R.string.averia_obligatorio_1, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (estadoTexto.isBlank()) {
-                        Toast.makeText(context, R.string.averia_obligatorio_2, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (fechaRecepcion.isBlank()) {
-                        Toast.makeText(context, R.string.averia_obligatorio_3, Toast.LENGTH_SHORT)
-                            .show()
-//                        TODO ANYADIR CLIENTE, EMPLEADO y VEHICULO
-                    } else if (fechaResolucion.isBlank() && estado) {
-                        Toast.makeText(context, R.string.averia_obligatorio_4, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (!fechaResolucion.isBlank() && !estado) {
-                        Toast.makeText(context, R.string.averia_obligatorio_5, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (descripcion.length > 250) {
-                        Toast.makeText(context, R.string.averia_limite_1, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (precio.length > 8) {
-                        Toast.makeText(context, R.string.averia_limite_2, Toast.LENGTH_SHORT)
-                            .show()
-                    } else {
-                        val averiaEditado = averia.copy(
-                            cod_averia = averia.cod_averia,
-                            descripcion = descripcion ?: "",
-                            precio = precio ?: "",
-                            estado = estadoTexto ?: "",
-                            fecha_recepcion = fechaRecepcion ?: LocalDate.now()
-                                .format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString(),
-                            fecha_resolucion = fechaResolucion ?: ""
+            Button(onClick = {
+                if (descripcion.isBlank()) {
+                    Toast.makeText(context, R.string.averia_obligatorio_1, Toast.LENGTH_SHORT)
+                        .show()
+                } else if (estadoTexto.isBlank()) {
+                    Toast.makeText(context, R.string.averia_obligatorio_2, Toast.LENGTH_SHORT)
+                        .show()
+                } else if (fechaRecepcion.isBlank()) {
+                    Toast.makeText(context, R.string.averia_obligatorio_3, Toast.LENGTH_SHORT)
+                        .show()
+                } else if (fechaResolucion.isBlank() && estado) {
+                    Toast.makeText(context, R.string.averia_obligatorio_4, Toast.LENGTH_SHORT)
+                        .show()
+                } else if (!fechaResolucion.isBlank() && !estado) {
+                    Toast.makeText(context, R.string.averia_obligatorio_5, Toast.LENGTH_SHORT)
+                        .show()
+                } else if (descripcion.length > 250) {
+                    Toast.makeText(context, R.string.averia_limite_1, Toast.LENGTH_SHORT).show()
+                } else if (precio.length > 8) {
+                    Toast.makeText(context, R.string.averia_limite_2, Toast.LENGTH_SHORT).show()
+                } else if (cliente == null) {
+                    Toast.makeText(context, R.string.averia_limite_3, Toast.LENGTH_SHORT).show()
+                } else if (empleado == null) {
+                    Toast.makeText(context, R.string.averia_limite_4, Toast.LENGTH_SHORT).show()
+                } else if (vehiculo == null) {
+                    Toast.makeText(context, R.string.averia_limite_5, Toast.LENGTH_SHORT).show()
+                } else {
+                    viewModel.seleccionarProvisional(
+                        Averia(
+                            descripcion = descripcion,
+                            precio = precio,
+                            estado = estadoTexto,
+                            fecha_recepcion = fechaRecepcion,
+                            fecha_resolucion = fechaResolucion,
+                            observaciones = observaciones,
+                            averia_piezas = emptyList(),
+                            tipo_averias = emptyList(),
                         )
-                        onGuardar(averiaEditado)
+                    )
+                    val averiaEditada = viewModel.ensamblarAveria()
+                    if (averiaEditada != null) {
+                        onGuardar(averiaEditada)
                         Toast.makeText(
-                            context,
-                            R.string.editar_averia_mensaje_averia_1,
-                            Toast.LENGTH_SHORT
-                        )
-                            .show()
+                            context, R.string.editar_averia_mensaje_averia_1, Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        Toast.makeText(
+                            context, R.string.averia_limite_6, Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
-            ) {
+            }) {
                 Text(text = stringResource(R.string.btn_guardar))
             }
         }
@@ -273,36 +385,29 @@ fun PantallaEditarAverias(
         Button(
             onClick = {
                 abrirAlertDialog = true
-            },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Red,
-                contentColor = Color.White
+            }, colors = ButtonDefaults.buttonColors(
+                containerColor = Color.Red, contentColor = Color.White
             )
         ) {
             Text(text = stringResource(R.string.btn_borrar))
         }
         if (abrirAlertDialog) {
-            AlertDialogAveriaConfirmar(
-                onDismissRequest = { abrirAlertDialog = false },
+            AlertDialogAveriaConfirmar(onDismissRequest = { abrirAlertDialog = false },
                 onConfirmation = {
                     abrirAlertDialog = false
                     val averiaEditado = averia.copy(
-                        cod_averia = averia.cod_averia,
-                        descripcion = descripcion ?: "",
-                        precio = precio ?: "",
-                        estado = estadoTexto ?: "",
-                        fecha_recepcion = fechaRecepcion ?: LocalDate.now()
-                            .format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString(),
-                        fecha_resolucion = fechaResolucion ?: "",
-                        tipo_averias = emptyList()
+                        descripcion = descripcion,
+                        precio = precio,
+                        estado = estadoTexto,
+                        fecha_recepcion = fechaRecepcion,
+                        fecha_resolucion = fechaResolucion,
+                        tipo_averias = emptyList(),
+                        averia_piezas = emptyList(),
                     )
                     onBorrar(averiaEditado.cod_averia.toString())
                     Toast.makeText(
-                        context,
-                        R.string.editar_averia_mensaje_averia_2,
-                        Toast.LENGTH_SHORT
-                    )
-                        .show()
+                        context, R.string.editar_averia_mensaje_averia_2, Toast.LENGTH_SHORT
+                    ).show()
                 },
                 dialogTitle = stringResource(R.string.dialogo_averia_titulo),
                 dialogText = stringResource(R.string.dialogo_averia_texto),
@@ -320,36 +425,25 @@ fun AlertDialogAveriaConfirmar(
     dialogText: String,
     icon: ImageVector,
 ) {
-    AlertDialog(
-        icon = {
-            Icon(icon, contentDescription = "Warning Icon")
-        },
-        title = {
-            Text(text = dialogTitle)
-        },
-        text = {
-            Text(text = dialogText)
-        },
-        onDismissRequest = {
-            onDismissRequest()
-        },
-        confirmButton = {
-            TextButton(
-                onClick = {
-                    onConfirmation()
-                }
-            ) {
-                Text(stringResource(R.string.dialogo_btn_confirmar))
-            }
-        },
-        dismissButton = {
-            TextButton(
-                onClick = {
-                    onDismissRequest()
-                }
-            ) {
-                Text(stringResource(R.string.cancelar))
-            }
+    AlertDialog(icon = {
+        Icon(icon, contentDescription = "Warning Icon")
+    }, title = {
+        Text(text = dialogTitle)
+    }, text = {
+        Text(text = dialogText)
+    }, onDismissRequest = {
+        onDismissRequest()
+    }, confirmButton = {
+        TextButton(onClick = {
+            onConfirmation()
+        }) {
+            Text(stringResource(R.string.dialogo_btn_confirmar))
         }
-    )
+    }, dismissButton = {
+        TextButton(onClick = {
+            onDismissRequest()
+        }) {
+            Text(stringResource(R.string.cancelar))
+        }
+    })
 }

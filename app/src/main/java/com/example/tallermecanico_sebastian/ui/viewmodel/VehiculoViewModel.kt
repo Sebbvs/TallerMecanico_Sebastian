@@ -102,8 +102,7 @@ class VehiculoViewModel(private val vehiculoRepositorio: VehiculoRepositorio) : 
             vehiculoUIState = VehiculoUIState.Cargando
             vehiculoUIState = try {
                 val vehiculoActualizado = vehiculoRepositorio.actualizarVehiculo(
-                    id = id,
-                    vehiculo = vehiculo
+                    id = id, vehiculo = vehiculo
                 )
                 VehiculoUIState.ActualizarExito(vehiculoActualizado)
             } catch (e: IOException) {
@@ -164,8 +163,7 @@ class VehiculoViewModel(private val vehiculoRepositorio: VehiculoRepositorio) : 
 
     fun ensamblarVehiculo(): Vehiculo? {
         return provisional?.copy(
-            cod_cliente = clienteSeleccionado?.cod_cliente,
-            cliente = clienteSeleccionado
+            cod_cliente = clienteSeleccionado?.cod_cliente, cliente = clienteSeleccionado
         )
     }
 

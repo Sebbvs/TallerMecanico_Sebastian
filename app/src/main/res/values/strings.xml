@@ -47,7 +47,7 @@
     <string name="contrasenya_visible">Mostrar</string>
     <string name="lift_logo">App Logo</string>
     <string name="abrir_menu">Abrir menú</string>
-    <string name="soy_cliente">Buscar mi matrícula</string>
+    <string name="soy_cliente">Histórico averías por matrícula</string>
 
     <!--    MENU-->
     <string name="log_out">Cerrar sesión</string>

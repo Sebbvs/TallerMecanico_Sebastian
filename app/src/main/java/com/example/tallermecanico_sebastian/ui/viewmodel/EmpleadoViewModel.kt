@@ -4,8 +4,6 @@ import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
@@ -15,7 +13,6 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import coil.network.HttpException
 import com.example.tallermecanico_sebastian.TallerAplicacion
 import com.example.tallermecanico_sebastian.datos.repos.EmpleadoRepositorio
-import com.example.tallermecanico_sebastian.modelo.Cliente
 import com.example.tallermecanico_sebastian.modelo.Empleado
 import com.example.tallermecanico_sebastian.modelo.Rol
 import kotlinx.coroutines.launch
@@ -82,16 +79,7 @@ class EmpleadoViewModel(private val empleadoRepositorio: EmpleadoRepositorio) : 
 
     var empleadoPulsado: Empleado by mutableStateOf(
         Empleado(
-            0,
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            0,
-            Rol()
+            0, "", "", "", "", "", "", "", 0, Rol()
         )
     )
         private set
@@ -148,8 +136,7 @@ class EmpleadoViewModel(private val empleadoRepositorio: EmpleadoRepositorio) : 
             empleadoUIState = EmpleadoUIState.Cargando
             empleadoUIState = try {
                 val empleadoActualizado = empleadoRepositorio.actualizarEmpleado(
-                    id = id,
-                    empleado = empleado
+                    id = id, empleado = empleado
                 )
                 EmpleadoUIState.ActualizarExito(empleadoActualizado)
             } catch (e: IOException) {
@@ -210,8 +197,7 @@ class EmpleadoViewModel(private val empleadoRepositorio: EmpleadoRepositorio) : 
 
     fun ensamblarEmpleado(): Empleado? {
         return provisional?.copy(
-            cod_rol = rolSeleccionado?.cod_rol,
-            rol = rolSeleccionado
+            cod_rol = rolSeleccionado?.cod_rol, rol = rolSeleccionado
         )
     }
 

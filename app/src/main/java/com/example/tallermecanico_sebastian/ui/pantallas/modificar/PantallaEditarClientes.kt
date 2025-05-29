@@ -51,7 +51,7 @@ fun PantallaEditarClientes(
     var apellido2 by remember { mutableStateOf(cliente.apellido2 ?: "") }
     var email by remember { mutableStateOf(cliente.email ?: "") }
     var direccion by remember { mutableStateOf(cliente.direccion ?: "") }
-    var context = LocalContext.current
+    val context = LocalContext.current
     var abrirAlertDialog by remember { mutableStateOf(false) }
 
     Column(
@@ -129,54 +129,42 @@ fun PantallaEditarClientes(
                 Text(stringResource(R.string.cancelar))
             }
 
-            Button(
-                onClick = {
-                    if (nombre.isBlank()) {
-                        Toast.makeText(context, R.string.cliente_obligatorio_1, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (apellido1.isBlank()) {
-                        Toast.makeText(context, R.string.cliente_obligatorio_2, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (email.isBlank()) {
-                        Toast.makeText(context, R.string.cliente_obligatorio_3, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (nombre.length > 25) {
-                        Toast.makeText(context, R.string.cliente_limite_1, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (apellido1.length > 25) {
-                        Toast.makeText(context, R.string.cliente_limite_2, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (apellido2.length > 25) {
-                        Toast.makeText(context, R.string.cliente_limite_3, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (email.length > 50) {
-                        Toast.makeText(context, R.string.cliente_limite_4, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (direccion.length > 100) {
-                        Toast.makeText(context, R.string.cliente_limite_5, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (!esEmailValido(email)) {
-                        Toast.makeText(context, R.string.validar_email, Toast.LENGTH_SHORT)
-                            .show()
-                    } else {
-                        val clienteEditado = cliente.copy(
-                            cod_cliente = cliente.cod_cliente,
-                            nombre = nombre ?: "",
-                            apellido1 = apellido1 ?: "",
-                            apellido2 = apellido2 ?: "",
-                            email = email ?: "",
-                            direccion = direccion ?: ""
-                        )
-                        onGuardar(clienteEditado)
-                        Toast.makeText(
-                            context,
-                            R.string.editar_cliente_mensaje_1,
-                            Toast.LENGTH_SHORT
-                        )
-                            .show()
-                    }
+            Button(onClick = {
+                if (nombre.isBlank()) {
+                    Toast.makeText(context, R.string.cliente_obligatorio_1, Toast.LENGTH_SHORT)
+                        .show()
+                } else if (apellido1.isBlank()) {
+                    Toast.makeText(context, R.string.cliente_obligatorio_2, Toast.LENGTH_SHORT)
+                        .show()
+                } else if (email.isBlank()) {
+                    Toast.makeText(context, R.string.cliente_obligatorio_3, Toast.LENGTH_SHORT)
+                        .show()
+                } else if (nombre.length > 25) {
+                    Toast.makeText(context, R.string.cliente_limite_1, Toast.LENGTH_SHORT).show()
+                } else if (apellido1.length > 25) {
+                    Toast.makeText(context, R.string.cliente_limite_2, Toast.LENGTH_SHORT).show()
+                } else if (apellido2.length > 25) {
+                    Toast.makeText(context, R.string.cliente_limite_3, Toast.LENGTH_SHORT).show()
+                } else if (email.length > 50) {
+                    Toast.makeText(context, R.string.cliente_limite_4, Toast.LENGTH_SHORT).show()
+                } else if (direccion.length > 100) {
+                    Toast.makeText(context, R.string.cliente_limite_5, Toast.LENGTH_SHORT).show()
+                } else if (!esEmailValido(email)) {
+                    Toast.makeText(context, R.string.validar_email, Toast.LENGTH_SHORT).show()
+                } else {
+                    val clienteEditado = cliente.copy(
+                        nombre = nombre,
+                        apellido1 = apellido1,
+                        apellido2 = apellido2,
+                        email = email,
+                        direccion = direccion,
+                    )
+                    onGuardar(clienteEditado)
+                    Toast.makeText(
+                        context, R.string.editar_cliente_mensaje_1, Toast.LENGTH_SHORT
+                    ).show()
                 }
-            ) {
+            }) {
                 Text(text = stringResource(R.string.btn_guardar))
             }
         }
@@ -184,10 +172,8 @@ fun PantallaEditarClientes(
         Button(
             onClick = {
                 abrirAlertDialog = true
-            },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Red,
-                contentColor = Color.White
+            }, colors = ButtonDefaults.buttonColors(
+                containerColor = Color.Red, contentColor = Color.White
             )
         ) {
             Text(text = stringResource(R.string.btn_borrar))
@@ -199,12 +185,11 @@ fun PantallaEditarClientes(
                 onConfirmation = {
                     abrirAlertDialog = false
                     val clienteEditado = cliente.copy(
-                        cod_cliente = cliente.cod_cliente,
-                        nombre = nombre ?: "",
-                        apellido1 = apellido1 ?: "",
-                        apellido2 = apellido2 ?: "",
-                        email = email ?: "",
-                        direccion = direccion ?: ""
+                        nombre = nombre,
+                        apellido1 = apellido1,
+                        apellido2 = apellido2,
+                        email = email,
+                        direccion = direccion,
                     )
                     onBorrar(clienteEditado.cod_cliente.toString())
                     Toast.makeText(context, R.string.editar_cliente_mensaje_2, Toast.LENGTH_SHORT)
@@ -226,36 +211,25 @@ fun AlertDialogClienteConfirmar(
     dialogText: String,
     icon: ImageVector,
 ) {
-    AlertDialog(
-        icon = {
-            Icon(icon, contentDescription = "Warning Icon")
-        },
-        title = {
-            Text(text = dialogTitle)
-        },
-        text = {
-            Text(text = dialogText)
-        },
-        onDismissRequest = {
-            onDismissRequest()
-        },
-        confirmButton = {
-            TextButton(
-                onClick = {
-                    onConfirmation()
-                }
-            ) {
-                Text(stringResource(R.string.dialogo_btn_confirmar))
-            }
-        },
-        dismissButton = {
-            TextButton(
-                onClick = {
-                    onDismissRequest()
-                }
-            ) {
-                Text(stringResource(R.string.cancelar))
-            }
+    AlertDialog(icon = {
+        Icon(icon, contentDescription = "Warning Icon")
+    }, title = {
+        Text(text = dialogTitle)
+    }, text = {
+        Text(text = dialogText)
+    }, onDismissRequest = {
+        onDismissRequest()
+    }, confirmButton = {
+        TextButton(onClick = {
+            onConfirmation()
+        }) {
+            Text(stringResource(R.string.dialogo_btn_confirmar))
         }
-    )
+    }, dismissButton = {
+        TextButton(onClick = {
+            onDismissRequest()
+        }) {
+            Text(stringResource(R.string.cancelar))
+        }
+    })
 }

@@ -26,15 +26,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import com.example.tallermecanico_sebastian.R
 import com.example.tallermecanico_sebastian.modelo.Empleado
-import com.example.tallermecanico_sebastian.modelo.Vehiculo
 import com.example.tallermecanico_sebastian.ui.pantallas.componentes.esEmailValido
-import com.example.tallermecanico_sebastian.ui.pantallas.componentes.normalizarMatricula
 import com.example.tallermecanico_sebastian.ui.viewmodel.EmpleadoViewModel
-import com.example.tallermecanico_sebastian.ui.viewmodel.RolViewModel
 
 @Composable
 fun PantallaAnyadirEmpleado(
@@ -55,12 +52,10 @@ fun PantallaAnyadirEmpleado(
     var direccion by remember { mutableStateOf(empleadoProvisional?.direccion ?: "") }
     var usuario by remember { mutableStateOf(empleadoProvisional?.usuario ?: "") }
     var contrasenya by remember { mutableStateOf(empleadoProvisional?.contrasenya ?: "") }
-    var context = LocalContext.current
-    var abrirAlertDialog by remember { mutableStateOf("") }
+    val context = LocalContext.current
 
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier
+        horizontalAlignment = Alignment.CenterHorizontally, modifier = modifier
     ) {
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -123,6 +118,7 @@ fun PantallaAnyadirEmpleado(
             value = contrasenya,
             onValueChange = { if (it.length <= 100) contrasenya = it },
             label = { Text(text = stringResource(R.string.texto_contrasenya) + " *") },
+            visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
         )
 
@@ -144,22 +140,20 @@ fun PantallaAnyadirEmpleado(
                 .padding(horizontal = 28.dp),
             fontStyle = FontStyle.Italic
         )
-        Button(
-            onClick = {
+        Button(onClick = {
 //                EMPLEADO SIN ROL (NI COD ROL)
-                val empleado = Empleado(
-                    nombre = nombre,
-                    apellido1 = apellido1,
-                    apellido2 = apellido2,
-                    email = email,
-                    direccion = direccion,
-                    usuario = usuario,
-                    contrasenya = contrasenya,
-                )
-                viewModel.seleccionarProvisional(empleado)
-                onSeleccionarRol()
-            }
-        ) {
+            val empleado = Empleado(
+                nombre = nombre,
+                apellido1 = apellido1,
+                apellido2 = apellido2,
+                email = email,
+                direccion = direccion,
+                usuario = usuario,
+                contrasenya = contrasenya,
+            )
+            viewModel.seleccionarProvisional(empleado)
+            onSeleccionarRol()
+        }) {
             Text(text = stringResource(R.string.add_rol))
         }
 
@@ -176,90 +170,67 @@ fun PantallaAnyadirEmpleado(
                 Text(stringResource(R.string.cancelar))
             }
             Spacer(modifier = Modifier.padding(end = 20.dp))
-            val context = LocalContext.current
-            Button(
-                onClick = {
-                    if (nombre.isBlank()) {
-                        Toast.makeText(
-                            context,
-                            R.string.empleado_obligatorio_1,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    } else if (apellido1.isBlank()) {
-                        Toast.makeText(
-                            context,
-                            R.string.empleado_obligatorio_2,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    } else if (usuario.isBlank()) {
-                        Toast.makeText(
-                            context,
-                            R.string.empleado_obligatorio_3,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    } else if (contrasenya.isBlank()) {
-                        Toast.makeText(
-                            context,
-                            R.string.empleado_obligatorio_4,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    } else if (nombre.length > 25) {
-                        Toast.makeText(context, R.string.empleado_limite_1, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (apellido1.length > 25) {
-                        Toast.makeText(context, R.string.empleado_limite_2, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (apellido2.length > 25) {
-                        Toast.makeText(context, R.string.empleado_limite_3, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (email.length > 50) {
-                        Toast.makeText(context, R.string.empleado_limite_4, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (direccion.length > 50) {
-                        Toast.makeText(context, R.string.empleado_limite_5, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (usuario.length > 50) {
-                        Toast.makeText(context, R.string.empleado_limite_6, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (contrasenya.length > 100) {
-                        Toast.makeText(context, R.string.empleado_limite_7, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (!esEmailValido(email)) {
-                        Toast.makeText(context, R.string.validar_email, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (rol == null) {
-                        Toast.makeText(context, R.string.coche_limite_6, Toast.LENGTH_SHORT)
-                            .show()
-                    } else {
-                        viewModel.seleccionarProvisional(
-                            Empleado(
-                                nombre = nombre,
-                                apellido1 = apellido1,
-                                apellido2 = apellido2,
-                                email = email,
-                                direccion = direccion,
-                                usuario = usuario,
-                                contrasenya = contrasenya,
-                            )
+//            val context = LocalContext.current
+            Button(onClick = {
+                if (nombre.isBlank()) {
+                    Toast.makeText(
+                        context, R.string.empleado_obligatorio_1, Toast.LENGTH_SHORT
+                    ).show()
+                } else if (apellido1.isBlank()) {
+                    Toast.makeText(
+                        context, R.string.empleado_obligatorio_2, Toast.LENGTH_SHORT
+                    ).show()
+                } else if (usuario.isBlank()) {
+                    Toast.makeText(
+                        context, R.string.empleado_obligatorio_3, Toast.LENGTH_SHORT
+                    ).show()
+                } else if (contrasenya.isBlank()) {
+                    Toast.makeText(
+                        context, R.string.empleado_obligatorio_4, Toast.LENGTH_SHORT
+                    ).show()
+                } else if (nombre.length > 25) {
+                    Toast.makeText(context, R.string.empleado_limite_1, Toast.LENGTH_SHORT).show()
+                } else if (apellido1.length > 25) {
+                    Toast.makeText(context, R.string.empleado_limite_2, Toast.LENGTH_SHORT).show()
+                } else if (apellido2.length > 25) {
+                    Toast.makeText(context, R.string.empleado_limite_3, Toast.LENGTH_SHORT).show()
+                } else if (email.length > 50) {
+                    Toast.makeText(context, R.string.empleado_limite_4, Toast.LENGTH_SHORT).show()
+                } else if (direccion.length > 50) {
+                    Toast.makeText(context, R.string.empleado_limite_5, Toast.LENGTH_SHORT).show()
+                } else if (usuario.length > 50) {
+                    Toast.makeText(context, R.string.empleado_limite_6, Toast.LENGTH_SHORT).show()
+                } else if (contrasenya.length > 100) {
+                    Toast.makeText(context, R.string.empleado_limite_7, Toast.LENGTH_SHORT).show()
+                } else if (!esEmailValido(email)) {
+                    Toast.makeText(context, R.string.validar_email, Toast.LENGTH_SHORT).show()
+                } else if (rol == null) {
+                    Toast.makeText(context, R.string.coche_limite_6, Toast.LENGTH_SHORT).show()
+                } else {
+                    viewModel.seleccionarProvisional(
+                        Empleado(
+                            nombre = nombre,
+                            apellido1 = apellido1,
+                            apellido2 = apellido2,
+                            email = email,
+                            direccion = direccion,
+                            usuario = usuario,
+                            contrasenya = contrasenya,
                         )
-                        val empleado = viewModel.ensamblarEmpleado()
-                        if (empleado != null) {
-                            onInsertar(empleado)
-                            Toast.makeText(
-                                context,
-                                R.string.editar_empleado_mensaje_3,
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        } else {
-                            Toast.makeText(
-                                context,
-                                R.string.empleado_obligatorio_5,
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
+                    )
+                    val empleado = viewModel.ensamblarEmpleado()
+                    if (empleado != null) {
+                        onInsertar(empleado)
+                        Toast.makeText(
+                            context, R.string.editar_empleado_mensaje_3, Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        Toast.makeText(
+                            context, R.string.empleado_obligatorio_5, Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
-            ) {
+            }) {
                 Text(stringResource(R.string.btn_guardar))
             }
         }

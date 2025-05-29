@@ -28,7 +28,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.tallermecanico_sebastian.R
 import com.example.tallermecanico_sebastian.modelo.Empleado
 import com.example.tallermecanico_sebastian.ui.viewmodel.EmpleadoViewModel
@@ -36,7 +35,6 @@ import com.example.tallermecanico_sebastian.ui.viewmodel.EmpleadoViewModel
 @Composable
 fun PantallaMiPerfil(
     modifier: Modifier,
-//    empleadoViewModel: EmpleadoViewModel = viewModel(),
     empleadoViewModel: EmpleadoViewModel,
     onCancelar: () -> Unit,
     onGuardar: (Empleado) -> Unit,
@@ -50,12 +48,8 @@ fun PantallaMiPerfil(
     var email by remember { mutableStateOf(empleado?.email ?: "") }
     var direccion by remember { mutableStateOf(empleado?.direccion ?: "") }
     var user by remember { mutableStateOf(empleado?.usuario ?: "") }
-    var pass by remember { mutableStateOf(empleado?.contrasenya ?: "") }
-    var context = LocalContext.current
-    var abrirAlertDialog by remember { mutableStateOf(false) }
-
-    var empleadoEditable by remember { mutableStateOf(empleado) }
-    var mostrarPantallaCambiarContrasenya by remember { mutableStateOf(false) }
+    val pass by remember { mutableStateOf(empleado?.contrasenya ?: "") }
+    val context = LocalContext.current
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -171,62 +165,49 @@ fun PantallaMiPerfil(
                 Text(stringResource(R.string.volver))
             }
 
-            Button(
-                onClick = {
-                    if (nombre.isBlank()) {
-                        Toast.makeText(context, R.string.empleado_obligatorio_1, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (apellido1.isBlank()) {
-                        Toast.makeText(context, R.string.empleado_obligatorio_2, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (user.isBlank()) {
-                        Toast.makeText(context, R.string.empleado_obligatorio_3, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (nombre.length > 25) {
-                        Toast.makeText(context, R.string.empleado_limite_1, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (apellido1.length > 25) {
-                        Toast.makeText(context, R.string.empleado_limite_2, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (apellido2.length > 25) {
-                        Toast.makeText(context, R.string.empleado_limite_3, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (email.length > 50) {
-                        Toast.makeText(context, R.string.empleado_limite_4, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (direccion.length > 50) {
-                        Toast.makeText(context, R.string.empleado_limite_5, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (user.length > 50) {
-                        Toast.makeText(context, R.string.empleado_limite_6, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (pass.length > 100) {
-                        Toast.makeText(context, R.string.empleado_limite_7, Toast.LENGTH_SHORT)
-                            .show()
-                    } else {
-                        empleado?.let {
-                            val empleadoEditado = it.copy(
-                                cod_empleado = it.cod_empleado,
-                                nombre = nombre ?: "",
-                                apellido1 = apellido1 ?: "",
-                                apellido2 = apellido2 ?: "",
-                                email = email ?: "",
-                                direccion = direccion ?: "",
-                                usuario = user ?: "",
-                                contrasenya = pass ?: "",
-                            )
-                            onGuardar(empleadoEditado)
-                            Log.v("NAV MIPERFIL", "INTENTANDO GUARDAR PERFIL")
-                            Toast.makeText(
-                                context,
-                                R.string.editar_mi_perfil_mensaje_1,
-                                Toast.LENGTH_SHORT
-                            )
-                                .show()
-                        }
+            Button(onClick = {
+                if (nombre.isBlank()) {
+                    Toast.makeText(context, R.string.empleado_obligatorio_1, Toast.LENGTH_SHORT)
+                        .show()
+                } else if (apellido1.isBlank()) {
+                    Toast.makeText(context, R.string.empleado_obligatorio_2, Toast.LENGTH_SHORT)
+                        .show()
+                } else if (user.isBlank()) {
+                    Toast.makeText(context, R.string.empleado_obligatorio_3, Toast.LENGTH_SHORT)
+                        .show()
+                } else if (nombre.length > 25) {
+                    Toast.makeText(context, R.string.empleado_limite_1, Toast.LENGTH_SHORT).show()
+                } else if (apellido1.length > 25) {
+                    Toast.makeText(context, R.string.empleado_limite_2, Toast.LENGTH_SHORT).show()
+                } else if (apellido2.length > 25) {
+                    Toast.makeText(context, R.string.empleado_limite_3, Toast.LENGTH_SHORT).show()
+                } else if (email.length > 50) {
+                    Toast.makeText(context, R.string.empleado_limite_4, Toast.LENGTH_SHORT).show()
+                } else if (direccion.length > 50) {
+                    Toast.makeText(context, R.string.empleado_limite_5, Toast.LENGTH_SHORT).show()
+                } else if (user.length > 50) {
+                    Toast.makeText(context, R.string.empleado_limite_6, Toast.LENGTH_SHORT).show()
+                } else if (pass.length > 100) {
+                    Toast.makeText(context, R.string.empleado_limite_7, Toast.LENGTH_SHORT).show()
+                } else {
+                    empleado?.let {
+                        val empleadoEditado = it.copy(
+                            nombre = nombre,
+                            apellido1 = apellido1,
+                            apellido2 = apellido2,
+                            email = email,
+                            direccion = direccion,
+                            usuario = user,
+                            contrasenya = pass,
+                        )
+                        onGuardar(empleadoEditado)
+                        Log.v("NAV MIPERFIL", "INTENTANDO GUARDAR PERFIL")
+                        Toast.makeText(
+                            context, R.string.editar_mi_perfil_mensaje_1, Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
-            ) {
+            }) {
                 Text(text = stringResource(R.string.btn_guardar))
             }
         }

@@ -39,8 +39,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.tallermecanico_sebastian.R
 import com.example.tallermecanico_sebastian.modelo.Averia
-import com.example.tallermecanico_sebastian.ui.pantallas.PantallaCargando
-import com.example.tallermecanico_sebastian.ui.pantallas.PantallaError
+import com.example.tallermecanico_sebastian.ui.pantallas.componentes.PantallaCargando
+import com.example.tallermecanico_sebastian.ui.pantallas.componentes.PantallaError
 import com.example.tallermecanico_sebastian.ui.theme.AzulPrincipal
 import com.example.tallermecanico_sebastian.ui.theme.Rojo
 import com.example.tallermecanico_sebastian.ui.theme.Verde
@@ -96,29 +96,24 @@ fun PantallaExitoAverias(
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(text = stringResource(R.string.filtros) + ": ")
-            FilterChip(
-                onClick = {
-                    chipReparado = !chipReparado
-                    if (chipReparado) chipSinReparar = false
-                },
-                label = {
-                    Text(stringResource(R.string.filtro_chip_reparado))
-                },
-                selected = chipReparado,
-                leadingIcon = {
-                    if (chipReparado) {
+            FilterChip(onClick = {
+                chipReparado = !chipReparado
+                if (chipReparado) chipSinReparar = false
+            }, label = {
+                Text(stringResource(R.string.filtro_chip_reparado))
+            }, selected = chipReparado, leadingIcon = {
+                if (chipReparado) {
 
-                        Icon(
-                            imageVector = Icons.Filled.Done,
-                            contentDescription = "Done icon",
-                            modifier = Modifier.size(FilterChipDefaults.IconSize)
-                        )
+                    Icon(
+                        imageVector = Icons.Filled.Done,
+                        contentDescription = "Done icon",
+                        modifier = Modifier.size(FilterChipDefaults.IconSize)
+                    )
 
-                    } else {
-                        Spacer(modifier = Modifier.size(FilterChipDefaults.IconSize))
-                    }
+                } else {
+                    Spacer(modifier = Modifier.size(FilterChipDefaults.IconSize))
                 }
-            )
+            })
             FilterChip(
                 onClick = {
                     chipSinReparar = !chipSinReparar
@@ -148,15 +143,13 @@ fun PantallaExitoAverias(
             when {
                 chipReparado -> lista.filter {
                     it.estado?.equals(
-                        "Reparado",
-                        ignoreCase = true
+                        "Reparado", ignoreCase = true
                     ) == true
                 }
 
                 chipSinReparar -> lista.filter {
                     it.estado?.equals(
-                        "Reparado",
-                        ignoreCase = true
+                        "Reparado", ignoreCase = true
                     ) == false
                 }
 
@@ -164,8 +157,7 @@ fun PantallaExitoAverias(
             }
         }
 
-//TODO AÑADIR TIPO DE AVERÍA.
-
+//AÑADIR TIPO DE AVERÍA.
         LazyColumn(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -177,9 +169,7 @@ fun PantallaExitoAverias(
                         .fillMaxWidth()
                         .padding(3.dp)
                         .border(
-                            width = 1.dp,
-                            color = AzulPrincipal,
-                            shape = RoundedCornerShape(16.dp)
+                            width = 1.dp, color = AzulPrincipal, shape = RoundedCornerShape(16.dp)
                         ),
                     shape = RoundedCornerShape(16.dp),
                     elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
@@ -224,8 +214,7 @@ fun PantallaExitoAverias(
                                 },
                             ) {
                                 Icon(
-                                    imageVector = Icons.Filled.Info,
-                                    contentDescription = "Info"
+                                    imageVector = Icons.Filled.Info, contentDescription = "Info"
                                 )
                             }
                             OutlinedButton(
@@ -234,8 +223,7 @@ fun PantallaExitoAverias(
                                 },
                             ) {
                                 Icon(
-                                    imageVector = Icons.Filled.Create,
-                                    contentDescription = "Editar"
+                                    imageVector = Icons.Filled.Create, contentDescription = "Editar"
                                 )
                             }
                         }

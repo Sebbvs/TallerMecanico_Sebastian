@@ -30,7 +30,6 @@ import com.example.tallermecanico_sebastian.R
 import com.example.tallermecanico_sebastian.modelo.Pieza
 import com.example.tallermecanico_sebastian.modelo.Tipopieza
 
-//TODO ANYADIR PIEZA
 @Composable
 fun PantallaAnyadirPieza(
     onInsertar: (Pieza) -> Unit,
@@ -39,9 +38,7 @@ fun PantallaAnyadirPieza(
 ) {
     var descripcion by remember { mutableStateOf("") }
     var cantidad by remember { mutableStateOf("") }
-    var tipopieza by remember { mutableStateOf("") }
-    var context = LocalContext.current
-    var abrirAlertDialog by remember { mutableStateOf(false) }
+    val context = LocalContext.current
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -49,8 +46,7 @@ fun PantallaAnyadirPieza(
             .fillMaxSize()
             .padding(20.dp)
     ) {
-        TextField(
-            value = descripcion,
+        TextField(value = descripcion,
             onValueChange = { if (it.length <= 250) descripcion = it },
             label = { Text(text = stringResource(R.string.averia_descripcion) + " *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
@@ -61,8 +57,7 @@ fun PantallaAnyadirPieza(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        TextField(
-            value = cantidad,
+        TextField(value = cantidad,
             onValueChange = { if (it.length <= 10) cantidad = it },
             label = { Text(text = stringResource(R.string.editar_pieza_cantidad) + " *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -84,42 +79,31 @@ fun PantallaAnyadirPieza(
                 Text(stringResource(R.string.cancelar))
             }
             Spacer(modifier = Modifier.padding(end = 20.dp))
-            val context = LocalContext.current
-            Button(
-                onClick = {
-                    if (descripcion.isBlank()) {
-                        Toast.makeText(
-                            context,
-                            R.string.pieza_obligatorio_1,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    } else if (cantidad.isBlank()) {
-                        Toast.makeText(
-                            context,
-                            R.string.pieza_obligatorio_2,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    } else if (descripcion.length > 250) {
-                        Toast.makeText(context, R.string.averia_limite_1, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (cantidad.length > 11) {
-                        Toast.makeText(context, R.string.pieza_limite_2, Toast.LENGTH_SHORT)
-                            .show()
-                    } else {
-                        val pieza = Pieza(
-                            descripcion = descripcion,
-                            cantidad = cantidad.toInt(),
-                            tipo_pieza = Tipopieza(),
-                        )
-                        onInsertar(pieza)
-                        Toast.makeText(
-                            context,
-                            R.string.editar_pieza_mensaje_3,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+            Button(onClick = {
+                if (descripcion.isBlank()) {
+                    Toast.makeText(
+                        context, R.string.pieza_obligatorio_1, Toast.LENGTH_SHORT
+                    ).show()
+                } else if (cantidad.isBlank()) {
+                    Toast.makeText(
+                        context, R.string.pieza_obligatorio_2, Toast.LENGTH_SHORT
+                    ).show()
+                } else if (descripcion.length > 250) {
+                    Toast.makeText(context, R.string.averia_limite_1, Toast.LENGTH_SHORT).show()
+                } else if (cantidad.length > 11) {
+                    Toast.makeText(context, R.string.pieza_limite_2, Toast.LENGTH_SHORT).show()
+                } else {
+                    val pieza = Pieza(
+                        descripcion = descripcion,
+                        cantidad = cantidad.toInt(),
+                        tipo_pieza = Tipopieza(),
+                    )
+                    onInsertar(pieza)
+                    Toast.makeText(
+                        context, R.string.editar_pieza_mensaje_3, Toast.LENGTH_SHORT
+                    ).show()
                 }
-            ) {
+            }) {
                 Text(stringResource(R.string.btn_guardar))
             }
         }
@@ -130,8 +114,7 @@ fun PantallaAnyadirPieza(
 @Preview(showBackground = true)
 @Composable
 fun PantallaAnyadirPiezaPreview() {
-    PantallaAnyadirPieza(
-        onInsertar = {},
+    PantallaAnyadirPieza(onInsertar = {},
         onCancelar = {},
         modifier = Modifier
             .fillMaxSize()

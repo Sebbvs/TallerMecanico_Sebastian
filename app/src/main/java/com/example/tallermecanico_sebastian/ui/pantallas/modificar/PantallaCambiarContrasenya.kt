@@ -37,15 +37,15 @@ fun PantallaCambiarContrasenya(
     modifier: Modifier = Modifier,
 ) {
 
-    var nombre by remember { mutableStateOf(empleado.nombre ?: "") }
-    var apellido1 by remember { mutableStateOf(empleado.apellido1 ?: "") }
-    var apellido2 by remember { mutableStateOf(empleado.apellido2 ?: "") }
-    var email by remember { mutableStateOf(empleado.email ?: "") }
-    var direccion by remember { mutableStateOf(empleado.direccion ?: "") }
-    var user by remember { mutableStateOf(empleado.usuario ?: "") }
+    val nombre by remember { mutableStateOf(empleado.nombre ?: "") }
+    val apellido1 by remember { mutableStateOf(empleado.apellido1 ?: "") }
+    val apellido2 by remember { mutableStateOf(empleado.apellido2 ?: "") }
+    val email by remember { mutableStateOf(empleado.email ?: "") }
+    val direccion by remember { mutableStateOf(empleado.direccion ?: "") }
+    val user by remember { mutableStateOf(empleado.usuario ?: "") }
     var pass by remember { mutableStateOf("") }
     var passConfirm by remember { mutableStateOf("") }
-    var context = LocalContext.current
+    val context = LocalContext.current
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -89,35 +89,29 @@ fun PantallaCambiarContrasenya(
                 Text(stringResource(R.string.cancelar))
             }
 
-            Button(
-                onClick = {
-                    if (pass.isBlank() || passConfirm.isBlank()) {
-                        Toast.makeText(context, R.string.warning_formulario, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (!pass.equals(passConfirm)) {
-                        Toast.makeText(context, R.string.coincidir_contrasenya, Toast.LENGTH_SHORT)
-                            .show()
-                    } else {
-                        val nuevaContrasenya = empleado.copy(
-                            cod_empleado = empleado.cod_empleado,
-                            nombre = nombre ?: "",
-                            apellido1 = apellido1 ?: "",
-                            apellido2 = apellido2 ?: "",
-                            email = email ?: "",
-                            direccion = direccion ?: "",
-                            usuario = user ?: "",
-                            contrasenya = pass ?: "",
-                        )
-                        onCambiar(nuevaContrasenya)
-                        Toast.makeText(
-                            context,
-                            R.string.nueva_contrasenya_mensaje,
-                            Toast.LENGTH_SHORT
-                        )
-                            .show()
-                    }
+            Button(onClick = {
+                if (pass.isBlank() || passConfirm.isBlank()) {
+                    Toast.makeText(context, R.string.warning_formulario, Toast.LENGTH_SHORT).show()
+                } else if (pass != passConfirm) {
+                    Toast.makeText(context, R.string.coincidir_contrasenya, Toast.LENGTH_SHORT)
+                        .show()
+                } else {
+                    val nuevaContrasenya = empleado.copy(
+                        cod_empleado = empleado.cod_empleado,
+                        nombre = nombre,
+                        apellido1 = apellido1,
+                        apellido2 = apellido2,
+                        email = email,
+                        direccion = direccion,
+                        usuario = user,
+                        contrasenya = pass,
+                    )
+                    onCambiar(nuevaContrasenya)
+                    Toast.makeText(
+                        context, R.string.nueva_contrasenya_mensaje, Toast.LENGTH_SHORT
+                    ).show()
                 }
-            ) {
+            }) {
                 Text(text = stringResource(R.string.dialogo_btn_confirmar))
             }
         }

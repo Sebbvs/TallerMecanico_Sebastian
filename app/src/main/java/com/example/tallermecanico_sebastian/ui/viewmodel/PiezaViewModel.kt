@@ -95,8 +95,7 @@ class PiezaViewModel(private val piezaRepositorio: PiezaRepositorio) : ViewModel
             piezaUIState = PiezaUIState.Cargando
             piezaUIState = try {
                 val piezaActualizado = piezaRepositorio.actualizarPieza(
-                    id = id,
-                    pieza = pieza
+                    id = id, pieza = pieza
                 )
                 PiezaUIState.ActualizarExito(piezaActualizado)
             } catch (e: IOException) {

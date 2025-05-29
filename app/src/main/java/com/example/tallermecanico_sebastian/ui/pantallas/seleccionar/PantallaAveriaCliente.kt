@@ -21,15 +21,10 @@ import androidx.compose.ui.unit.dp
 import com.example.tallermecanico_sebastian.ui.theme.AzulPrincipal
 import com.example.tallermecanico_sebastian.ui.viewmodel.AveriaViewModel
 import com.example.tallermecanico_sebastian.ui.viewmodel.ClienteViewModel
-import com.example.tallermecanico_sebastian.ui.viewmodel.EmpleadoViewModel
-import com.example.tallermecanico_sebastian.ui.viewmodel.RolViewModel
 
 @Composable
 fun PantallaAveriaCliente(
-    viewModelAveria: AveriaViewModel,
-    viewModelCliente: ClienteViewModel,
-    modifier: Modifier,
-    onSeleccionar: () -> Unit
+    viewModelAveria: AveriaViewModel, viewModelCliente: ClienteViewModel, onSeleccionar: () -> Unit
 ) {
     val lista = viewModelCliente.listaAveriaClientes
 
@@ -44,9 +39,7 @@ fun PantallaAveriaCliente(
                     .fillMaxSize()
                     .padding(3.dp)
                     .border(
-                        width = 1.dp,
-                        color = AzulPrincipal,
-                        shape = RoundedCornerShape(16.dp)
+                        width = 1.dp, color = AzulPrincipal, shape = RoundedCornerShape(16.dp)
                     )
                     .clickable {
                         viewModelAveria.seleccionarCliente(cliente)

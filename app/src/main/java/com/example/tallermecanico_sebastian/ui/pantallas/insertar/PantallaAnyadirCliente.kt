@@ -41,8 +41,7 @@ fun PantallaAnyadirCliente(
     var apellido2 by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var direccion by remember { mutableStateOf("") }
-    var context = LocalContext.current
-    var abrirAlertDialog by remember { mutableStateOf(false) }
+    val context = LocalContext.current
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -50,8 +49,7 @@ fun PantallaAnyadirCliente(
             .fillMaxSize()
             .padding(20.dp)
     ) {
-        TextField(
-            value = nombre,
+        TextField(value = nombre,
             onValueChange = {
                 if (it.length <= 25) nombre = it
             },
@@ -64,8 +62,7 @@ fun PantallaAnyadirCliente(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        TextField(
-            value = apellido1,
+        TextField(value = apellido1,
             onValueChange = { if (it.length <= 25) apellido1 = it },
             label = { Text(text = stringResource(R.string.texto_primer_apellido) + " *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
@@ -76,8 +73,7 @@ fun PantallaAnyadirCliente(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        TextField(
-            value = apellido2,
+        TextField(value = apellido2,
             onValueChange = { if (it.length <= 25) apellido2 = it },
             label = { Text(text = stringResource(R.string.texto_segundo_apellido)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
@@ -88,8 +84,7 @@ fun PantallaAnyadirCliente(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        TextField(
-            value = email,
+        TextField(value = email,
             onValueChange = { if (it.length <= 50) email = it },
             label = { Text(text = stringResource(R.string.texto_email) + " *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
@@ -100,8 +95,7 @@ fun PantallaAnyadirCliente(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        TextField(
-            value = direccion,
+        TextField(value = direccion,
             onValueChange = { if (it.length <= 150) direccion = it },
             label = { Text(text = stringResource(R.string.texto_direccion)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
@@ -123,67 +117,50 @@ fun PantallaAnyadirCliente(
                 Text(stringResource(R.string.cancelar))
             }
             Spacer(modifier = Modifier.padding(end = 20.dp))
-            val context = LocalContext.current
-            Button(
-                onClick = {
-                    if (nombre.isBlank()) {
-                        Toast.makeText(
-                            context,
-                            R.string.cliente_obligatorio_1,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    } else if (apellido1.isBlank()) {
-                        Toast.makeText(
-                            context,
-                            R.string.cliente_obligatorio_2,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    } else if (email.isBlank()) {
-                        Toast.makeText(
-                            context,
-                            R.string.cliente_obligatorio_3,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    } else if (nombre.length > 25) {
-                        Toast.makeText(context, R.string.cliente_limite_1, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (apellido1.length > 25) {
-                        Toast.makeText(context, R.string.cliente_limite_2, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (apellido2.length > 25) {
-                        Toast.makeText(context, R.string.cliente_limite_3, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (email.length > 50) {
-                        Toast.makeText(context, R.string.cliente_limite_4, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (direccion.length > 100) {
-                        Toast.makeText(context, R.string.cliente_limite_5, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (!esEmailValido(email)) {
-                        Toast.makeText(context, R.string.validar_email, Toast.LENGTH_SHORT)
-                            .show()
-                    } else {
-                        if (apellido2.isBlank()) {
-                            apellido2 = ""
-                        } else if (direccion.isBlank()) {
-                            direccion = ""
-                        }
-                        val cliente = Cliente(
-                            nombre = nombre,
-                            apellido1 = apellido1,
-                            apellido2 = apellido2,
-                            email = email,
-                            direccion = direccion,
-                        )
-                        onInsertar(cliente)
-                        Toast.makeText(
-                            context,
-                            R.string.editar_cliente_mensaje_3,
-                            Toast.LENGTH_SHORT
-                        ).show()
+            Button(onClick = {
+                if (nombre.isBlank()) {
+                    Toast.makeText(
+                        context, R.string.cliente_obligatorio_1, Toast.LENGTH_SHORT
+                    ).show()
+                } else if (apellido1.isBlank()) {
+                    Toast.makeText(
+                        context, R.string.cliente_obligatorio_2, Toast.LENGTH_SHORT
+                    ).show()
+                } else if (email.isBlank()) {
+                    Toast.makeText(
+                        context, R.string.cliente_obligatorio_3, Toast.LENGTH_SHORT
+                    ).show()
+                } else if (nombre.length > 25) {
+                    Toast.makeText(context, R.string.cliente_limite_1, Toast.LENGTH_SHORT).show()
+                } else if (apellido1.length > 25) {
+                    Toast.makeText(context, R.string.cliente_limite_2, Toast.LENGTH_SHORT).show()
+                } else if (apellido2.length > 25) {
+                    Toast.makeText(context, R.string.cliente_limite_3, Toast.LENGTH_SHORT).show()
+                } else if (email.length > 50) {
+                    Toast.makeText(context, R.string.cliente_limite_4, Toast.LENGTH_SHORT).show()
+                } else if (direccion.length > 100) {
+                    Toast.makeText(context, R.string.cliente_limite_5, Toast.LENGTH_SHORT).show()
+                } else if (!esEmailValido(email)) {
+                    Toast.makeText(context, R.string.validar_email, Toast.LENGTH_SHORT).show()
+                } else {
+                    if (apellido2.isBlank()) {
+                        apellido2 = ""
+                    } else if (direccion.isBlank()) {
+                        direccion = ""
                     }
+                    val cliente = Cliente(
+                        nombre = nombre,
+                        apellido1 = apellido1,
+                        apellido2 = apellido2,
+                        email = email,
+                        direccion = direccion,
+                    )
+                    onInsertar(cliente)
+                    Toast.makeText(
+                        context, R.string.editar_cliente_mensaje_3, Toast.LENGTH_SHORT
+                    ).show()
                 }
-            ) {
+            }) {
                 Text(stringResource(R.string.btn_guardar))
             }
         }
@@ -194,8 +171,7 @@ fun PantallaAnyadirCliente(
 @Preview(showBackground = true)
 @Composable
 fun PantallaAnyadirClientePreview() {
-    PantallaAnyadirCliente(
-        onInsertar = {},
+    PantallaAnyadirCliente(onInsertar = {},
         onCancelar = {},
         modifier = Modifier
             .fillMaxSize()

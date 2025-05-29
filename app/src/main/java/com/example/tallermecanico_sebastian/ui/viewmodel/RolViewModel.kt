@@ -13,7 +13,6 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import coil.network.HttpException
 import com.example.tallermecanico_sebastian.TallerAplicacion
 import com.example.tallermecanico_sebastian.datos.repos.RolRepositorio
-import com.example.tallermecanico_sebastian.modelo.Cliente
 import com.example.tallermecanico_sebastian.modelo.Rol
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -36,17 +35,17 @@ class RolViewModel(private val rolRepositorio: RolRepositorio) : ViewModel() {
     var listaEmpleadoRoles by mutableStateOf(listOf<Rol>())
         private set
 
-    var rolPulsado: Rol by mutableStateOf(
-        Rol(
-            0,
-            "",
+    /*    var rolPulsado: Rol by mutableStateOf(
+            Rol(
+                0,
+                "",
+            )
         )
-    )
-        private set
+            private set*/
 
-    fun actualizarRol(rol: Rol) {
+    /*fun actualizarRol(rol: Rol) {
         rolPulsado = rol
-    }
+    }*/
 
     init {
         obtenerRoles()
@@ -72,65 +71,64 @@ class RolViewModel(private val rolRepositorio: RolRepositorio) : ViewModel() {
         }
     }
 
-    fun insertarRol(rol: Rol) {
-        viewModelScope.launch {
-            rolUIState = RolUIState.Cargando
-            rolUIState = try {
-                val rolInsertado = rolRepositorio.insertarRol(rol)
-                RolUIState.CrearExito(rolInsertado)
-            } catch (e: IOException) {
-                Log.v("RolViewModel IO", "Error de Conexion insertarRol", e)
-                RolUIState.Error
-            } catch (e: HttpException) {
-                Log.v("RolViewModel HTTP", "Error HTTP %{e.code()} insertarRol", e)
-                RolUIState.Error
-            } catch (e: IOException) {
-                Log.v("RolViewModel E", "Error desconocido insertarRol", e)
-                RolUIState.Error
+    /*    fun insertarRol(rol: Rol) {
+            viewModelScope.launch {
+                rolUIState = RolUIState.Cargando
+                rolUIState = try {
+                    val rolInsertado = rolRepositorio.insertarRol(rol)
+                    RolUIState.CrearExito(rolInsertado)
+                } catch (e: IOException) {
+                    Log.v("RolViewModel IO", "Error de Conexion insertarRol", e)
+                    RolUIState.Error
+                } catch (e: HttpException) {
+                    Log.v("RolViewModel HTTP", "Error HTTP %{e.code()} insertarRol", e)
+                    RolUIState.Error
+                } catch (e: IOException) {
+                    Log.v("RolViewModel E", "Error desconocido insertarRol", e)
+                    RolUIState.Error
+                }
             }
-        }
-    }
+        }*/
 
-    fun actualizarRol(id: String, rol: Rol) {
-        viewModelScope.launch {
-            rolUIState = RolUIState.Cargando
-            rolUIState = try {
-                val rolActualizado = rolRepositorio.actualizarRol(
-                    id = id,
-                    rol = rol
-                )
-                RolUIState.ActualizarExito(rolActualizado)
-            } catch (e: IOException) {
-                Log.v("RolViewModel IO", "Error de Conexion actualizarRol", e)
-                RolUIState.Error
-            } catch (e: HttpException) {
-                Log.v("RolViewModel HTTP", "Error HTTP %{e.code()} actualizarRol", e)
-                RolUIState.Error
-            } catch (e: IOException) {
-                Log.v("RolViewModel E", "Error desconocido actualizarRol", e)
-                RolUIState.Error
+    /*    fun actualizarRol(id: String, rol: Rol) {
+            viewModelScope.launch {
+                rolUIState = RolUIState.Cargando
+                rolUIState = try {
+                    val rolActualizado = rolRepositorio.actualizarRol(
+                        id = id, rol = rol
+                    )
+                    RolUIState.ActualizarExito(rolActualizado)
+                } catch (e: IOException) {
+                    Log.v("RolViewModel IO", "Error de Conexion actualizarRol", e)
+                    RolUIState.Error
+                } catch (e: HttpException) {
+                    Log.v("RolViewModel HTTP", "Error HTTP %{e.code()} actualizarRol", e)
+                    RolUIState.Error
+                } catch (e: IOException) {
+                    Log.v("RolViewModel E", "Error desconocido actualizarRol", e)
+                    RolUIState.Error
+                }
             }
-        }
-    }
+        }*/
 
-    fun eliminarRol(id: String) {
-        viewModelScope.launch {
-            rolUIState = RolUIState.Cargando
-            rolUIState = try {
-                rolRepositorio.eliminarRol(id)
-                RolUIState.EliminarExito(id)
-            } catch (e: IOException) {
-                Log.v("RolViewModel IO", "Error de Conexion eliminarRol", e)
-                RolUIState.Error
-            } catch (e: HttpException) {
-                Log.v("RolViewModel HTTP", "Error HTTP %{e.code()} eliminarRol", e)
-                RolUIState.Error
-            } catch (e: IOException) {
-                Log.v("RolViewModel E", "Error desconocido eliminarRol", e)
-                RolUIState.Error
+    /*    fun eliminarRol(id: String) {
+            viewModelScope.launch {
+                rolUIState = RolUIState.Cargando
+                rolUIState = try {
+                    rolRepositorio.eliminarRol(id)
+                    RolUIState.EliminarExito(id)
+                } catch (e: IOException) {
+                    Log.v("RolViewModel IO", "Error de Conexion eliminarRol", e)
+                    RolUIState.Error
+                } catch (e: HttpException) {
+                    Log.v("RolViewModel HTTP", "Error HTTP %{e.code()} eliminarRol", e)
+                    RolUIState.Error
+                } catch (e: IOException) {
+                    Log.v("RolViewModel E", "Error desconocido eliminarRol", e)
+                    RolUIState.Error
+                }
             }
-        }
-    }
+        }*/
 
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {

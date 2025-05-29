@@ -16,11 +16,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.tallermecanico_sebastian.R
@@ -28,16 +26,12 @@ import com.example.tallermecanico_sebastian.modelo.Pieza
 
 @Composable
 fun PantallaDetallePieza(
-    pieza: Pieza,
-    onAceptar: () -> Unit,
-    modifier: Modifier = Modifier
+    pieza: Pieza, onAceptar: () -> Unit, modifier: Modifier = Modifier
 ) {
 
-    var descripcion by remember { mutableStateOf(pieza.descripcion ?: "") }
-    var cantidad by remember { mutableStateOf(pieza.cantidad.toString() ?: "") }
-    var tipopieza by remember { mutableStateOf(pieza.tipo_pieza?.nombre ?: "") }
-    var context = LocalContext.current
-    var abrirAlertDialog by remember { mutableStateOf(false) }
+    val descripcion by remember { mutableStateOf(pieza.descripcion ?: "") }
+    val cantidad by remember { mutableStateOf(pieza.cantidad.toString()) }
+    val tipopieza by remember { mutableStateOf(pieza.tipo_pieza?.nombre ?: "") }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -47,12 +41,11 @@ fun PantallaDetallePieza(
     ) {
         TextField(
             value = descripcion,
-            onValueChange = { descripcion = it },
+            onValueChange = { },
             label = { Text(text = stringResource(R.string.averia_descripcion)) },
             readOnly = true,
             colors = TextFieldDefaults.colors(
-                disabledLabelColor = Color.Black,
-                disabledTextColor = Color.Black
+                disabledLabelColor = Color.Black, disabledTextColor = Color.Black
             ),
             modifier = Modifier
                 .fillMaxWidth()
@@ -63,12 +56,11 @@ fun PantallaDetallePieza(
 
         TextField(
             value = cantidad,
-            onValueChange = { cantidad = it },
+            onValueChange = { },
             label = { Text(text = stringResource(R.string.editar_pieza_cantidad)) },
             readOnly = true,
             colors = TextFieldDefaults.colors(
-                disabledLabelColor = Color.Black,
-                disabledTextColor = Color.Black
+                disabledLabelColor = Color.Black, disabledTextColor = Color.Black
             ),
             modifier = Modifier
                 .fillMaxWidth()
@@ -79,12 +71,11 @@ fun PantallaDetallePieza(
 
         TextField(
             value = tipopieza,
-            onValueChange = { tipopieza = it },
+            onValueChange = { },
             label = { Text(text = stringResource(R.string.editar_pieza_tipopieza)) },
             readOnly = true,
             colors = TextFieldDefaults.colors(
-                disabledLabelColor = Color.Black,
-                disabledTextColor = Color.Black
+                disabledLabelColor = Color.Black, disabledTextColor = Color.Black
             ),
             modifier = Modifier
                 .fillMaxWidth()

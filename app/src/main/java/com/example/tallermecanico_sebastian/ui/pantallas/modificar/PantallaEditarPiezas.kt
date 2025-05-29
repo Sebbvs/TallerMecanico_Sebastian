@@ -36,7 +36,7 @@ import androidx.compose.ui.unit.dp
 import com.example.tallermecanico_sebastian.R
 import com.example.tallermecanico_sebastian.modelo.Pieza
 
-//TODO PANTALLA EDITAR PIEZAS
+//TODO PANTALLA EDITAR PIEZAS (Añadir pantallas seleccionables)
 @Composable
 fun PantallaEditarPiezas(
     pieza: Pieza,
@@ -47,9 +47,9 @@ fun PantallaEditarPiezas(
 ) {
 
     var descripcion by remember { mutableStateOf(pieza.descripcion ?: "") }
-    var cantidad by remember { mutableStateOf(pieza.cantidad.toString() ?: "") }
+    var cantidad by remember { mutableStateOf(pieza.cantidad.toString()) }
     var tipopieza by remember { mutableStateOf(pieza.tipo_pieza?.nombre ?: "") }
-    var context = LocalContext.current
+    val context = LocalContext.current
     var abrirAlertDialog by remember { mutableStateOf(false) }
 
     Column(
@@ -58,8 +58,7 @@ fun PantallaEditarPiezas(
             .fillMaxSize()
             .padding(20.dp)
     ) {
-        TextField(
-            value = tipopieza,
+        TextField(value = tipopieza,
             onValueChange = { tipopieza = it },
             label = { Text(text = stringResource(R.string.editar_pieza_tipopieza)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
@@ -70,8 +69,7 @@ fun PantallaEditarPiezas(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        TextField(
-            value = descripcion,
+        TextField(value = descripcion,
             onValueChange = { if (it.length <= 250) descripcion = it },
             label = { Text(text = stringResource(R.string.averia_descripcion) + " *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
@@ -82,8 +80,7 @@ fun PantallaEditarPiezas(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        TextField(
-            value = cantidad,
+        TextField(value = cantidad,
             onValueChange = { if (it.length <= 11) cantidad = it },
             label = { Text(text = stringResource(R.string.editar_pieza_cantidad) + " *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
@@ -103,32 +100,25 @@ fun PantallaEditarPiezas(
                 Text(stringResource(R.string.cancelar))
             }
 
-            Button(
-                onClick = {
-                    if (descripcion.isBlank()) {
-                        Toast.makeText(context, R.string.pieza_obligatorio_1, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (cantidad.isBlank()) {
-                        Toast.makeText(context, R.string.pieza_obligatorio_2, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (descripcion.length > 250) {
-                        Toast.makeText(context, R.string.averia_limite_1, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (cantidad.length > 11) {
-                        Toast.makeText(context, R.string.pieza_limite_2, Toast.LENGTH_SHORT)
-                            .show()
-                    } else {
-                        val piezaEditado = pieza.copy(
-                            cod_pieza = pieza.cod_pieza,
-                            descripcion = descripcion ?: "",
-                            cantidad = cantidad.toInt() ?: 0,
-                        )
-                        onGuardar(piezaEditado)
-                        Toast.makeText(context, R.string.editar_pieza_mensaje_1, Toast.LENGTH_SHORT)
-                            .show()
-                    }
+            Button(onClick = {
+                if (descripcion.isBlank()) {
+                    Toast.makeText(context, R.string.pieza_obligatorio_1, Toast.LENGTH_SHORT).show()
+                } else if (cantidad.isBlank()) {
+                    Toast.makeText(context, R.string.pieza_obligatorio_2, Toast.LENGTH_SHORT).show()
+                } else if (descripcion.length > 250) {
+                    Toast.makeText(context, R.string.averia_limite_1, Toast.LENGTH_SHORT).show()
+                } else if (cantidad.length > 11) {
+                    Toast.makeText(context, R.string.pieza_limite_2, Toast.LENGTH_SHORT).show()
+                } else {
+                    val piezaEditado = pieza.copy(
+                        descripcion = descripcion,
+                        cantidad = cantidad.toInt(),
+                    )
+                    onGuardar(piezaEditado)
+                    Toast.makeText(context, R.string.editar_pieza_mensaje_1, Toast.LENGTH_SHORT)
+                        .show()
                 }
-            ) {
+            }) {
                 Text(text = stringResource(R.string.btn_guardar))
             }
         }
@@ -136,24 +126,20 @@ fun PantallaEditarPiezas(
         Button(
             onClick = {
                 abrirAlertDialog = true
-            },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Red,
-                contentColor = Color.White
+            }, colors = ButtonDefaults.buttonColors(
+                containerColor = Color.Red, contentColor = Color.White
             )
         ) {
             Text(text = stringResource(R.string.btn_borrar))
         }
 
         if (abrirAlertDialog) {
-            AlertDialogPiezaConfirmar(
-                onDismissRequest = { abrirAlertDialog = false },
+            AlertDialogPiezaConfirmar(onDismissRequest = { abrirAlertDialog = false },
                 onConfirmation = {
                     abrirAlertDialog = false
                     val piezaEditado = pieza.copy(
-                        cod_pieza = pieza.cod_pieza,
-                        descripcion = descripcion ?: "",
-                        cantidad = cantidad.toInt() ?: 0,
+                        descripcion = descripcion,
+                        cantidad = cantidad.toInt(),
                     )
                     onBorrar(piezaEditado.cod_pieza.toString())
                     Toast.makeText(context, R.string.editar_pieza_mensaje_2, Toast.LENGTH_SHORT)
@@ -175,36 +161,25 @@ fun AlertDialogPiezaConfirmar(
     dialogText: String,
     icon: ImageVector,
 ) {
-    AlertDialog(
-        icon = {
-            Icon(icon, contentDescription = "Warning Icon")
-        },
-        title = {
-            Text(text = dialogTitle)
-        },
-        text = {
-            Text(text = dialogText)
-        },
-        onDismissRequest = {
-            onDismissRequest()
-        },
-        confirmButton = {
-            TextButton(
-                onClick = {
-                    onConfirmation()
-                }
-            ) {
-                Text(stringResource(R.string.dialogo_btn_confirmar))
-            }
-        },
-        dismissButton = {
-            TextButton(
-                onClick = {
-                    onDismissRequest()
-                }
-            ) {
-                Text(stringResource(R.string.cancelar))
-            }
+    AlertDialog(icon = {
+        Icon(icon, contentDescription = "Warning Icon")
+    }, title = {
+        Text(text = dialogTitle)
+    }, text = {
+        Text(text = dialogText)
+    }, onDismissRequest = {
+        onDismissRequest()
+    }, confirmButton = {
+        TextButton(onClick = {
+            onConfirmation()
+        }) {
+            Text(stringResource(R.string.dialogo_btn_confirmar))
         }
-    )
+    }, dismissButton = {
+        TextButton(onClick = {
+            onDismissRequest()
+        }) {
+            Text(stringResource(R.string.cancelar))
+        }
+    })
 }

@@ -30,8 +30,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.tallermecanico_sebastian.R
 import com.example.tallermecanico_sebastian.modelo.Pieza
-import com.example.tallermecanico_sebastian.ui.pantallas.PantallaCargando
-import com.example.tallermecanico_sebastian.ui.pantallas.PantallaError
+import com.example.tallermecanico_sebastian.ui.pantallas.componentes.PantallaCargando
+import com.example.tallermecanico_sebastian.ui.pantallas.componentes.PantallaError
 import com.example.tallermecanico_sebastian.ui.theme.AzulPrincipal
 import com.example.tallermecanico_sebastian.ui.viewmodel.PiezaUIState
 
@@ -81,9 +81,7 @@ fun PantallaExitoPiezas(
                     .fillMaxSize()
                     .padding(3.dp)
                     .border(
-                        width = 1.dp,
-                        color = AzulPrincipal,
-                        shape = RoundedCornerShape(16.dp)
+                        width = 1.dp, color = AzulPrincipal, shape = RoundedCornerShape(16.dp)
                     ),
                 shape = RoundedCornerShape(16.dp),
                 elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
@@ -92,12 +90,6 @@ fun PantallaExitoPiezas(
                 Column(
                     modifier = Modifier.padding(start = 9.dp, top = 3.dp, bottom = 3.dp)
                 ) {
-                    /*                 val especificaciones = if (pieza.tipo_pieza?.nombre == null) {
-                                         "${stringResource(R.string.vehiculo_especificaciones)}:"
-                                     } else {
-                                         "${stringResource(R.string.vehiculo_especificaciones)}: ${pieza.especificaciones}"
-                                     }*/
-//TODO ARREGLAR R.strings
                     Text(
                         text = "${stringResource(R.string.editar_pieza_tipopieza)}: ${pieza.tipo_pieza?.nombre}",
                         style = MaterialTheme.typography.titleMedium,
@@ -122,8 +114,7 @@ fun PantallaExitoPiezas(
                             },
                         ) {
                             Icon(
-                                imageVector = Icons.Filled.Info,
-                                contentDescription = "Info"
+                                imageVector = Icons.Filled.Info, contentDescription = "Info"
                             )
                         }
                         OutlinedButton(
@@ -132,8 +123,7 @@ fun PantallaExitoPiezas(
                             },
                         ) {
                             Icon(
-                                imageVector = Icons.Filled.Create,
-                                contentDescription = "Editar"
+                                imageVector = Icons.Filled.Create, contentDescription = "Editar"
                             )
                         }
                     }

@@ -16,12 +16,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.tallermecanico_sebastian.R
-import com.example.tallermecanico_sebastian.modelo.Cliente
 import com.example.tallermecanico_sebastian.ui.theme.AzulPrincipal
 import com.example.tallermecanico_sebastian.ui.viewmodel.ClienteViewModel
 import com.example.tallermecanico_sebastian.ui.viewmodel.VehiculoViewModel
@@ -30,7 +26,6 @@ import com.example.tallermecanico_sebastian.ui.viewmodel.VehiculoViewModel
 fun PantallaVehiculoCliente(
     viewModelVehiculo: VehiculoViewModel,
     viewModelCliente: ClienteViewModel,
-    modifier: Modifier,
     onSeleccionar: () -> Unit,
 ) {
     val lista = viewModelCliente.listaVehiculoClientes
@@ -46,9 +41,7 @@ fun PantallaVehiculoCliente(
                     .fillMaxSize()
                     .padding(3.dp)
                     .border(
-                        width = 1.dp,
-                        color = AzulPrincipal,
-                        shape = RoundedCornerShape(16.dp)
+                        width = 1.dp, color = AzulPrincipal, shape = RoundedCornerShape(16.dp)
                     )
                     .clickable {
                         viewModelVehiculo.seleccionarCliente(cliente)

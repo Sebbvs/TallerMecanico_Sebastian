@@ -31,28 +31,36 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.tallermecanico_sebastian.R
 import com.example.tallermecanico_sebastian.modelo.Vehiculo
 import com.example.tallermecanico_sebastian.ui.pantallas.componentes.esMatriculaValida
 import com.example.tallermecanico_sebastian.ui.pantallas.componentes.normalizarMatricula
+import com.example.tallermecanico_sebastian.ui.viewmodel.VehiculoViewModel
 
 @Composable
 fun PantallaEditarCoches(
+    viewModel: VehiculoViewModel,
     vehiculo: Vehiculo,
     onCancelar: () -> Unit,
     onBorrar: (String) -> Unit,
     onGuardar: (Vehiculo) -> Unit,
+    onSeleccionarCliente: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+//OBJETOS
+    val cliente = viewModel.clienteSeleccionado
+    val vehiculoProvisional = viewModel.provisional
 
-    var marca by remember { mutableStateOf(vehiculo.marca ?: "") }
-    var modelo by remember { mutableStateOf(vehiculo.modelo ?: "") }
-    var especificaciones by remember { mutableStateOf(vehiculo.especificaciones ?: "") }
-    var matricula by remember { mutableStateOf(vehiculo.matricula ?: "") }
-    var vin by remember { mutableStateOf(vehiculo.vin ?: "") }
-    var context = LocalContext.current
+    var marca by remember { mutableStateOf(vehiculoProvisional?.marca ?: "") }
+    var modelo by remember { mutableStateOf(vehiculoProvisional?.modelo ?: "") }
+    var especificaciones by remember { mutableStateOf(vehiculoProvisional?.especificaciones ?: "") }
+    var matricula by remember { mutableStateOf(vehiculoProvisional?.matricula ?: "") }
+    var vin by remember { mutableStateOf(vehiculoProvisional?.vin ?: "") }
+    val context = LocalContext.current
     var abrirAlertDialog by remember { mutableStateOf(false) }
 
     //    VALIDACIONES
@@ -64,8 +72,7 @@ fun PantallaEditarCoches(
             .fillMaxSize()
             .padding(20.dp)
     ) {
-        TextField(
-            value = marca,
+        TextField(value = marca,
             onValueChange = { if (it.length <= 50) marca = it },
             label = { Text(text = stringResource(R.string.texto_marca)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
@@ -76,8 +83,7 @@ fun PantallaEditarCoches(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        TextField(
-            value = modelo,
+        TextField(value = modelo,
             onValueChange = { if (it.length <= 50) modelo = it },
             label = { Text(text = stringResource(R.string.editar_coche_modelo)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
@@ -101,8 +107,7 @@ fun PantallaEditarCoches(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        TextField(
-            value = matricula,
+        TextField(value = matricula,
             onValueChange = { if (it.length <= 15) matricula = it },
             label = { Text(text = stringResource(R.string.texto_matricula)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
@@ -113,8 +118,7 @@ fun PantallaEditarCoches(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        TextField(
-            value = vin,
+        TextField(value = vin,
             onValueChange = { if (it.length < 17) vin = it },
             isError = vinInvalido,
             label = { Text(text = stringResource(R.string.texto_vin)) },
@@ -123,6 +127,44 @@ fun PantallaEditarCoches(
                 .fillMaxWidth()
                 .padding(horizontal = 28.dp)
         )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        //Boton para añadir Cliente
+        cliente?.let {
+            val nombreCompleto = if (it.apellido2.isNullOrBlank()) {
+                "${it.nombre} ${it.apellido1}"
+            } else {
+                "${it.nombre} ${it.apellido1} ${it.apellido2}"
+            }
+            Text(
+                text = "${stringResource(R.string.cliente_seleccionado)}: $nombreCompleto",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 28.dp),
+                fontWeight = FontWeight.Bold
+            )
+        } ?: Text(
+            text = stringResource(R.string.cliente_no_seleccionado),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 28.dp),
+            fontStyle = FontStyle.Italic
+        )
+        Button(onClick = {
+//                VEHICULO SIN CLIENTE (NI COD CLIENTE)
+            val coche = Vehiculo(
+                marca = marca,
+                modelo = modelo,
+                especificaciones = especificaciones,
+                matricula = normalizarMatricula(matricula),
+                vin = vin,
+            )
+            viewModel.seleccionarProvisional(coche)
+            onSeleccionarCliente()
+        }) {
+            Text(text = stringResource(R.string.add_cliente))
+        }
 
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -135,50 +177,60 @@ fun PantallaEditarCoches(
                 Text(stringResource(R.string.cancelar))
             }
 
-            Button(
-                onClick = {
-                    if (marca.isBlank()) {
-                        Toast.makeText(context, R.string.coche_obligatorio_1, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (modelo.isBlank()) {
-                        Toast.makeText(context, R.string.coche_obligatorio_2, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (matricula.isBlank()) {
-                        Toast.makeText(context, R.string.coche_obligatorio_3, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (marca.length > 50) {
-                        Toast.makeText(context, R.string.coche_limite_1, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (modelo.length > 50) {
-                        Toast.makeText(context, R.string.coche_limite_2, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (especificaciones.length > 220) {
-                        Toast.makeText(context, R.string.coche_limite_3, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (matricula.length > 15) {
-                        Toast.makeText(context, R.string.coche_limite_4, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (vin.length > 17 || (vin.length != 17 && vin.isNotBlank())) {
-                        Toast.makeText(context, R.string.coche_limite_5, Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (!esMatriculaValida(normalizarMatricula(matricula))) {
-                        Toast.makeText(context, R.string.validar_matricula, Toast.LENGTH_SHORT)
-                            .show()
-                    } else {
-                        val vehiculoEditado = vehiculo.copy(
-                            cod_vehiculo = vehiculo.cod_vehiculo,
-                            marca = marca ?: "",
-                            modelo = modelo ?: "",
-                            especificaciones = especificaciones ?: "",
-                            matricula = normalizarMatricula(matricula) ?: "",
-                            vin = vin ?: ""
+            Button(onClick = {
+                if (marca.isBlank()) {
+                    Toast.makeText(context, R.string.coche_obligatorio_1, Toast.LENGTH_SHORT).show()
+                } else if (modelo.isBlank()) {
+                    Toast.makeText(context, R.string.coche_obligatorio_2, Toast.LENGTH_SHORT).show()
+                } else if (matricula.isBlank()) {
+                    Toast.makeText(context, R.string.coche_obligatorio_3, Toast.LENGTH_SHORT).show()
+                } else if (marca.length > 50) {
+                    Toast.makeText(context, R.string.coche_limite_1, Toast.LENGTH_SHORT).show()
+                } else if (modelo.length > 50) {
+                    Toast.makeText(context, R.string.coche_limite_2, Toast.LENGTH_SHORT).show()
+                } else if (especificaciones.length > 220) {
+                    Toast.makeText(context, R.string.coche_limite_3, Toast.LENGTH_SHORT).show()
+                } else if (matricula.length > 15) {
+                    Toast.makeText(context, R.string.coche_limite_4, Toast.LENGTH_SHORT).show()
+                } else if (vin.length > 17 || (vin.length != 17 && vin.isNotBlank())) {
+                    Toast.makeText(context, R.string.coche_limite_5, Toast.LENGTH_SHORT).show()
+                } else if (!esMatriculaValida(normalizarMatricula(matricula))) {
+                    Toast.makeText(context, R.string.validar_matricula, Toast.LENGTH_SHORT).show()
+                } else if (cliente == null) {
+                    Toast.makeText(context, R.string.coche_limite_6, Toast.LENGTH_SHORT).show()
+                } else {
+                    viewModel.seleccionarProvisional(
+                        Vehiculo(
+                            marca = marca,
+                            modelo = modelo,
+                            especificaciones = especificaciones,
+                            matricula = normalizarMatricula(matricula),
+                            vin = vin,
                         )
-                        onGuardar(vehiculoEditado)
-                        Toast.makeText(context, R.string.editar_coche_mensaje_1, Toast.LENGTH_SHORT)
-                            .show()
-                    }
+                    )
+                    val coche = viewModel.ensamblarVehiculo()
+                    if (coche != null) {
+                        onGuardar(coche)
+                        Toast.makeText(
+                            context, R.string.editar_coche_mensaje_1, Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        Toast.makeText(
+                            context, R.string.coche_obligatorio_4, Toast.LENGTH_SHORT
+                        ).show()
+                    }/*         val vehiculoEditado = vehiculo.copy(
+                                     cod_vehiculo = vehiculo.cod_vehiculo,
+                                     marca = marca ?: "",
+                                     modelo = modelo ?: "",
+                                     especificaciones = especificaciones ?: "",
+                                     matricula = normalizarMatricula(matricula) ?: "",
+                                     vin = vin ?: ""
+                                 )
+                                 onGuardar(vehiculoEditado)
+                                 Toast.makeText(context, R.string.editar_coche_mensaje_1, Toast.LENGTH_SHORT)
+                                     .show()*/
                 }
-            ) {
+            }) {
                 Text(text = stringResource(R.string.btn_guardar))
             }
         }
@@ -186,27 +238,23 @@ fun PantallaEditarCoches(
         Button(
             onClick = {
                 abrirAlertDialog = true
-            },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Red,
-                contentColor = Color.White
+            }, colors = ButtonDefaults.buttonColors(
+                containerColor = Color.Red, contentColor = Color.White
             )
         ) {
             Text(text = stringResource(R.string.btn_borrar))
         }
 
         if (abrirAlertDialog) {
-            AlertDialogVehiculoConfirmar(
-                onDismissRequest = { abrirAlertDialog = false },
+            AlertDialogVehiculoConfirmar(onDismissRequest = { abrirAlertDialog = false },
                 onConfirmation = {
                     abrirAlertDialog = false
                     val vehiculoEditado = vehiculo.copy(
-                        cod_vehiculo = vehiculo.cod_vehiculo,
-                        marca = marca ?: "",
-                        modelo = modelo ?: "",
-                        especificaciones = especificaciones ?: "",
-                        matricula = matricula ?: "",
-                        vin = vin ?: ""
+                        marca = marca,
+                        modelo = modelo,
+                        especificaciones = especificaciones,
+                        matricula = matricula,
+                        vin = vin,
                     )
                     onBorrar(vehiculoEditado.cod_vehiculo.toString())
                     Toast.makeText(context, R.string.editar_coche_mensaje_2, Toast.LENGTH_SHORT)
@@ -228,36 +276,25 @@ fun AlertDialogVehiculoConfirmar(
     dialogText: String,
     icon: ImageVector,
 ) {
-    AlertDialog(
-        icon = {
-            Icon(icon, contentDescription = "Warning Icon")
-        },
-        title = {
-            Text(text = dialogTitle)
-        },
-        text = {
-            Text(text = dialogText)
-        },
-        onDismissRequest = {
-            onDismissRequest()
-        },
-        confirmButton = {
-            TextButton(
-                onClick = {
-                    onConfirmation()
-                }
-            ) {
-                Text(stringResource(R.string.dialogo_btn_confirmar))
-            }
-        },
-        dismissButton = {
-            TextButton(
-                onClick = {
-                    onDismissRequest()
-                }
-            ) {
-                Text(stringResource(R.string.cancelar))
-            }
+    AlertDialog(icon = {
+        Icon(icon, contentDescription = "Warning Icon")
+    }, title = {
+        Text(text = dialogTitle)
+    }, text = {
+        Text(text = dialogText)
+    }, onDismissRequest = {
+        onDismissRequest()
+    }, confirmButton = {
+        TextButton(onClick = {
+            onConfirmation()
+        }) {
+            Text(stringResource(R.string.dialogo_btn_confirmar))
         }
-    )
+    }, dismissButton = {
+        TextButton(onClick = {
+            onDismissRequest()
+        }) {
+            Text(stringResource(R.string.cancelar))
+        }
+    })
 }

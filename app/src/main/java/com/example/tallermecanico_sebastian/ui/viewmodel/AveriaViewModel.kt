@@ -8,21 +8,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import coil.network.HttpException
 import com.example.tallermecanico_sebastian.TallerAplicacion
 import com.example.tallermecanico_sebastian.datos.repos.AveriaRepositorio
 import com.example.tallermecanico_sebastian.modelo.Averia
-import com.example.tallermecanico_sebastian.modelo.Averiapieza
 import com.example.tallermecanico_sebastian.modelo.Cliente
 import com.example.tallermecanico_sebastian.modelo.Empleado
-import com.example.tallermecanico_sebastian.modelo.Tipoaveria
 import com.example.tallermecanico_sebastian.modelo.Vehiculo
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.io.IOException
 
@@ -110,8 +104,7 @@ class AveriaViewModel(private val averiaRepositorio: AveriaRepositorio) : ViewMo
             averiaUIState = AveriaUIState.Cargando
             averiaUIState = try {
                 val averiaActualizado = averiaRepositorio.actualizarAveria(
-                    id = id,
-                    averia = averia
+                    id = id, averia = averia
                 )
                 AveriaUIState.ActualizarExito(averiaActualizado)
             } catch (e: IOException) {

@@ -1,12 +1,10 @@
 package com.example.tallermecanico_sebastian.ui.pantallas.listar
 
-import android.util.Log
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -33,8 +31,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.tallermecanico_sebastian.R
 import com.example.tallermecanico_sebastian.modelo.Empleado
-import com.example.tallermecanico_sebastian.ui.pantallas.PantallaCargando
-import com.example.tallermecanico_sebastian.ui.pantallas.PantallaError
+import com.example.tallermecanico_sebastian.ui.pantallas.componentes.PantallaCargando
+import com.example.tallermecanico_sebastian.ui.pantallas.componentes.PantallaError
 import com.example.tallermecanico_sebastian.ui.theme.AzulPrincipal
 import com.example.tallermecanico_sebastian.ui.viewmodel.EmpleadoUIState
 
@@ -128,8 +126,7 @@ fun PantallaExitoEmpleados(
                                 style = MaterialTheme.typography.titleSmall
                             )
                             Text(
-                                text = direccion,
-                                style = MaterialTheme.typography.titleSmall
+                                text = direccion, style = MaterialTheme.typography.titleSmall
                             )
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,
@@ -142,8 +139,7 @@ fun PantallaExitoEmpleados(
                                     },
                                 ) {
                                     Icon(
-                                        imageVector = Icons.Filled.Info,
-                                        contentDescription = "Info"
+                                        imageVector = Icons.Filled.Info, contentDescription = "Info"
                                     )
                                 }
                                 OutlinedButton(
