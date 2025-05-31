@@ -32,7 +32,7 @@ data class Averia(
     @SerialName(value = "vehiculo")
     val vehiculo: Vehiculo? = Vehiculo(),
     @SerialName(value = "averia_piezas")
-    val averia_piezas: List<Averiapieza>?,
+    val averia_piezas: List<Averiapieza>? =listOf(),
     @SerialName(value = "tipo_averias")
-    val tipo_averias: List<Tipoaveria>?,
+    val tipo_averias: List<Tipoaveria>? = listOf()
 )

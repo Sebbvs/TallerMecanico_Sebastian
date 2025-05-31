@@ -1,5 +1,6 @@
 package com.example.tallermecanico_sebastian.ui.pantallas.modificar
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -22,6 +23,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -55,6 +57,7 @@ fun PantallaEditarCoches(
     val cliente = viewModel.clienteSeleccionado
     val vehiculoProvisional = viewModel.provisional
 
+    val cod by remember { mutableIntStateOf(vehiculoProvisional?.cod_vehiculo ?: 0) }
     var marca by remember { mutableStateOf(vehiculoProvisional?.marca ?: "") }
     var modelo by remember { mutableStateOf(vehiculoProvisional?.modelo ?: "") }
     var especificaciones by remember { mutableStateOf(vehiculoProvisional?.especificaciones ?: "") }
@@ -72,7 +75,8 @@ fun PantallaEditarCoches(
             .fillMaxSize()
             .padding(20.dp)
     ) {
-        TextField(value = marca,
+        TextField(
+            value = marca,
             onValueChange = { if (it.length <= 50) marca = it },
             label = { Text(text = stringResource(R.string.texto_marca)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
@@ -83,7 +87,8 @@ fun PantallaEditarCoches(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        TextField(value = modelo,
+        TextField(
+            value = modelo,
             onValueChange = { if (it.length <= 50) modelo = it },
             label = { Text(text = stringResource(R.string.editar_coche_modelo)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
@@ -107,7 +112,8 @@ fun PantallaEditarCoches(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        TextField(value = matricula,
+        TextField(
+            value = matricula,
             onValueChange = { if (it.length <= 15) matricula = it },
             label = { Text(text = stringResource(R.string.texto_matricula)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
@@ -118,7 +124,8 @@ fun PantallaEditarCoches(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        TextField(value = vin,
+        TextField(
+            value = vin,
             onValueChange = { if (it.length < 17) vin = it },
             isError = vinInvalido,
             label = { Text(text = stringResource(R.string.texto_vin)) },
@@ -154,6 +161,7 @@ fun PantallaEditarCoches(
         Button(onClick = {
 //                VEHICULO SIN CLIENTE (NI COD CLIENTE)
             val coche = Vehiculo(
+                cod_vehiculo = cod,
                 marca = marca,
                 modelo = modelo,
                 especificaciones = especificaciones,
@@ -201,6 +209,7 @@ fun PantallaEditarCoches(
                 } else {
                     viewModel.seleccionarProvisional(
                         Vehiculo(
+                            cod_vehiculo = cod,
                             marca = marca,
                             modelo = modelo,
                             especificaciones = especificaciones,
@@ -209,6 +218,7 @@ fun PantallaEditarCoches(
                         )
                     )
                     val coche = viewModel.ensamblarVehiculo()
+                    Log.v("EDITARCOCHE", "Se esta intentando guardar el objeto: $coche")
                     if (coche != null) {
                         onGuardar(coche)
                         Toast.makeText(
@@ -246,7 +256,8 @@ fun PantallaEditarCoches(
         }
 
         if (abrirAlertDialog) {
-            AlertDialogVehiculoConfirmar(onDismissRequest = { abrirAlertDialog = false },
+            AlertDialogVehiculoConfirmar(
+                onDismissRequest = { abrirAlertDialog = false },
                 onConfirmation = {
                     abrirAlertDialog = false
                     val vehiculoEditado = vehiculo.copy(

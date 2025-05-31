@@ -52,34 +52,6 @@ fun PantallaExitoRoles(
     lista: List<Rol>,
     onAceptar: () -> Unit,
 ) {
-    val permisosGerente = listOf(
-        "Introducir averías",
-        "Resolución averías",
-        "Anular averías",
-        "Introducción cobro",
-        "Devolución cobro",
-        "Introducción piezas",
-        "Modificar piezas / Eliminar piezas",
-        "Planificar trabajos",
-        "Gestionar usuarios",
-        "Edición de permisos",
-        "Cambiar contraseñas",
-        "Edición de roles"
-    )
-    val permisosEncargado = listOf(
-        "Introducir averías",
-        "Resolución averías",
-        "Anular averías",
-        "Introducción cobro",
-        "Devolución cobro",
-        "Introducción piezas",
-        "Modificar piezas / Eliminar piezas",
-        "Planificar trabajos",
-        "Cambiar contraseñas"
-    )
-    val permisosEmpleado = listOf(
-        "Introducir averías", "Resolución averías", "Introducción piezas"
-    )
 
     Box(
         modifier = modifier.fillMaxSize()
@@ -92,11 +64,6 @@ fun PantallaExitoRoles(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             items(lista) { rol ->
-                val permisos = when (rol.cod_rol) {
-                    3 -> permisosGerente
-                    2 -> permisosEncargado
-                    else -> permisosEmpleado
-                }
 
                 Card(
                     modifier = Modifier
@@ -120,12 +87,14 @@ fun PantallaExitoRoles(
                             style = MaterialTheme.typography.titleMedium,
                             textAlign = TextAlign.Center
                         )
-                        permisos.forEach { permiso ->
-                            Text(
-                                text = permiso,
-                                style = MaterialTheme.typography.bodyMedium,
-                                textAlign = TextAlign.Center
-                            )
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            rol.permisos.forEach { permiso ->
+                                Text(
+                                    text = permiso?.descripcion ?: "",
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    textAlign = TextAlign.Center
+                                )
+                            }
                         }
                     }
                 }

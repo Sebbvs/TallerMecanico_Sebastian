@@ -84,7 +84,9 @@ class AveriaViewModel(private val averiaRepositorio: AveriaRepositorio) : ViewMo
         viewModelScope.launch {
             averiaUIState = AveriaUIState.Cargando
             averiaUIState = try {
+                Log.v("VIEWMODEL", averia.toString())
                 val averiaInsertado = averiaRepositorio.insertarAveria(averia)
+
                 AveriaUIState.CrearExito(averiaInsertado)
             } catch (e: IOException) {
                 Log.v("AveriaViewModel IO", "Error de Conexion insertarAveria", e)

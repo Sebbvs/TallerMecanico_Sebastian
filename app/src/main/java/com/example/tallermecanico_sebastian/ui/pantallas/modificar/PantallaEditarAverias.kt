@@ -28,6 +28,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -68,6 +69,8 @@ fun PantallaEditarAverias(
     val empleado = viewModel.empleadoSeleccionado
     val vehiculo = viewModel.vehiculoSeleccionado
     val averiaProvisional = viewModel.provisional
+
+    var cod by remember { mutableIntStateOf(averiaProvisional?.cod_averia ?: 0) }
     var descripcion by remember { mutableStateOf(averiaProvisional?.descripcion ?: "") }
     var precio by remember { mutableStateOf(averiaProvisional?.precio ?: "") }
     var fechaRecepcion by remember {
@@ -103,7 +106,8 @@ fun PantallaEditarAverias(
             .fillMaxSize()
             .padding(20.dp)
     ) {
-        TextField(value = descripcion,
+        TextField(
+            value = descripcion,
             onValueChange = { if (it.length <= 250) descripcion = it },
             label = { Text(text = stringResource(R.string.averia_descripcion)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
@@ -111,7 +115,8 @@ fun PantallaEditarAverias(
                 .fillMaxWidth()
                 .padding(horizontal = 28.dp)
         )
-        TextField(value = observaciones,
+        TextField(
+            value = observaciones,
             onValueChange = { if (it.length <= 220) observaciones = it },
             label = { Text(text = stringResource(R.string.averia_observaciones)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
@@ -127,7 +132,8 @@ fun PantallaEditarAverias(
         Spacer(modifier = Modifier.height(8.dp))
 
         Box {
-            OutlinedTextField(value = fechaRecepcion,
+            OutlinedTextField(
+                value = fechaRecepcion,
                 onValueChange = { },
                 label = { Text(text = stringResource(R.string.averia_fecha_recepcion)) },
                 readOnly = true,
@@ -164,7 +170,8 @@ fun PantallaEditarAverias(
         Spacer(modifier = Modifier.height(8.dp))
 
         Box {
-            OutlinedTextField(value = fechaResolucion,
+            OutlinedTextField(
+                value = fechaResolucion,
                 onValueChange = { },
                 label = { Text(text = stringResource(R.string.averia_fecha_resolucion)) },
                 readOnly = true,
@@ -204,16 +211,16 @@ fun PantallaEditarAverias(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        TextField(value = precio,
-            onValueChange = { if (it.length <= 7) precio = it },
-            label = { Text(text = stringResource(R.string.averia_precio)) },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 28.dp)
-        )
+//        TextField(value = precio,
+//            onValueChange = { if (it.length <= 7) precio = it },
+//            label = { Text(text = stringResource(R.string.averia_precio)) },
+//            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .padding(horizontal = 28.dp)
+//        )
 
-        Spacer(modifier = Modifier.height(8.dp))
+//        Spacer(modifier = Modifier.height(8.dp))
 
         //Boton para añadir Cliente
         cliente?.let {
@@ -234,6 +241,7 @@ fun PantallaEditarAverias(
         Button(onClick = {
 //                EMPLEADO SIN ROL (NI COD ROL)
             val averiaEditada = Averia(
+                cod_averia = cod,
                 descripcion = descripcion,
                 precio = precio,
                 estado = estadoTexto,
@@ -268,6 +276,7 @@ fun PantallaEditarAverias(
         Button(onClick = {
 //                AVERIA SIN CLIENTE
             val averiaEditada = Averia(
+                cod_averia = cod,
                 descripcion = descripcion,
                 precio = precio,
                 estado = estadoTexto,
@@ -302,6 +311,7 @@ fun PantallaEditarAverias(
         Button(onClick = {
 //                AVERIA SIN VEHICULO
             val averiaEditada = Averia(
+                cod_averia = cod,
                 descripcion = descripcion,
                 precio = precio,
                 estado = estadoTexto,
@@ -355,6 +365,7 @@ fun PantallaEditarAverias(
                 } else {
                     viewModel.seleccionarProvisional(
                         Averia(
+                            cod_averia = cod,
                             descripcion = descripcion,
                             precio = precio,
                             estado = estadoTexto,
@@ -392,7 +403,8 @@ fun PantallaEditarAverias(
             Text(text = stringResource(R.string.btn_borrar))
         }
         if (abrirAlertDialog) {
-            AlertDialogAveriaConfirmar(onDismissRequest = { abrirAlertDialog = false },
+            AlertDialogAveriaConfirmar(
+                onDismissRequest = { abrirAlertDialog = false },
                 onConfirmation = {
                     abrirAlertDialog = false
                     val averiaEditado = averia.copy(

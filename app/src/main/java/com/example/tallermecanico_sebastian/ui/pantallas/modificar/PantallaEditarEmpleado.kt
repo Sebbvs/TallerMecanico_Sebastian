@@ -22,6 +22,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -54,6 +55,7 @@ fun PantallaEditarEmpleados(
     val rol = viewModel.rolSeleccionado
     val empleadoProvisional = viewModel.provisional
 
+    var cod by remember { mutableIntStateOf(empleadoProvisional?.cod_empleado ?: 0) }
     var nombre by remember { mutableStateOf(empleadoProvisional?.nombre ?: "") }
     var apellido1 by remember { mutableStateOf(empleadoProvisional?.apellido1 ?: "") }
     var apellido2 by remember { mutableStateOf(empleadoProvisional?.apellido2 ?: "") }
@@ -161,6 +163,7 @@ fun PantallaEditarEmpleados(
         Button(onClick = {
 //                EMPLEADO SIN ROL (NI COD ROL)
             val empleadoEditado = Empleado(
+                cod_empleado = cod,
                 nombre = nombre,
                 apellido1 = apellido1,
                 apellido2 = apellido2,
@@ -217,6 +220,7 @@ fun PantallaEditarEmpleados(
                 } else {
                     viewModel.seleccionarProvisional(
                         Empleado(
+                            cod_empleado = cod,
                             nombre = nombre,
                             apellido1 = apellido1,
                             apellido2 = apellido2,

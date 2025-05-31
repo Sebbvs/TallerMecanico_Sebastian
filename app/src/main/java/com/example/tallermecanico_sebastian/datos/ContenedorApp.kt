@@ -44,8 +44,7 @@ class TallerContenedorApp(private val context: Context) : ContenedorApp {
 
     private val retrofit = Retrofit.Builder()
         .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
-        .baseUrl(baseUrl)
-        .build()
+        .baseUrl(baseUrl).build()
 
     private val servicioRetrofit: ServicioApi by lazy {
         retrofit.create(ServicioApi::class.java)

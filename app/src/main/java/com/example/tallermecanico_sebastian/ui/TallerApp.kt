@@ -87,49 +87,45 @@ enum class Pantallas(@StringRes val titulo: Int) {
     Login(titulo = R.string.pantalla_login),
 
     //LISTAS
-    Averias(
-        titulo = R.string.pantalla_averias
-    ),
-    Coches(titulo = R.string.pantalla_coches), Clientes(titulo = R.string.pantalla_clientes), Empleados(
-        titulo = R.string.pantalla_empleados
-    ),
+    Averias(titulo = R.string.pantalla_averias),
+    Coches(titulo = R.string.pantalla_coches), Clientes(titulo = R.string.pantalla_clientes),
+    Empleados(titulo = R.string.pantalla_empleados),
     Piezas(titulo = R.string.pantalla_piezas), Facturas(titulo = R.string.pantalla_facturas),
 
     //FILTRO MATRICULA
-    BuscarMatricula(
-        titulo = R.string.pantalla_buscar
-    ),
+    BuscarMatricula(titulo = R.string.pantalla_buscar),
 
     //EDITAR
-    EditarAverias(titulo = R.string.pantalla_editar_averias), EditarCoches(titulo = R.string.pantalla_editar_coches), EditarClientes(
-        titulo = R.string.pantalla_editar_clientes
-    ),
-    EditarEmpleados(titulo = R.string.pantalla_editar_empleados), EditarPiezas(titulo = R.string.pantalla_editar_piezas),
+    EditarAverias(titulo = R.string.pantalla_editar_averias),
+    EditarCoches(titulo = R.string.pantalla_editar_coches),
+    EditarClientes(titulo = R.string.pantalla_editar_clientes),
+    EditarEmpleados(titulo = R.string.pantalla_editar_empleados),
+    EditarPiezas(titulo = R.string.pantalla_editar_piezas),
 
     //INSERTAR
-    AnyadirAveria(titulo = R.string.pantalla_anyadir_averia), AnyadirCliente(titulo = R.string.pantalla_anyadir_cliente), AnyadirCoche(
-        titulo = R.string.pantalla_anyadir_coche
-    ),
-    AnyadirEmpleado(titulo = R.string.pantalla_anyadir_empleado), AnyadirPieza(titulo = R.string.pantalla_anyadir_pieza),
+    AnyadirAveria(titulo = R.string.pantalla_anyadir_averia),
+    AnyadirCliente(titulo = R.string.pantalla_anyadir_cliente),
+    AnyadirCoche(titulo = R.string.pantalla_anyadir_coche),
+    AnyadirEmpleado(titulo = R.string.pantalla_anyadir_empleado),
+    AnyadirPieza(titulo = R.string.pantalla_anyadir_pieza),
 
     //MOSTRAR
-    DetalleAveria(titulo = R.string.pantalla_detalle_averia), DetalleCliente(titulo = R.string.pantalla_detalle_cliente), DetalleCoche(
-        titulo = R.string.pantalla_detalle_coche
-    ),
-    DetalleEmpleado(titulo = R.string.pantalla_detalle_empleado), DetallePieza(titulo = R.string.pantalla_detalle_pieza), InfoRol(
-        titulo = R.string.pantalla_info_rol
-    ),
+    DetalleAveria(titulo = R.string.pantalla_detalle_averia),
+    DetalleCliente(titulo = R.string.pantalla_detalle_cliente),
+    DetalleCoche(titulo = R.string.pantalla_detalle_coche),
+    DetalleEmpleado(titulo = R.string.pantalla_detalle_empleado),
+    DetallePieza(titulo = R.string.pantalla_detalle_pieza),
+    InfoRol(titulo = R.string.pantalla_info_rol),
 
     //EDITAR PASS
-    CambioContrasenya(titulo = R.string.pantalla_cambio_contrasenya), MiPerfil(titulo = R.string.texto_miperfil),
+    CambioContrasenya(titulo = R.string.pantalla_cambio_contrasenya),
+    MiPerfil(titulo = R.string.texto_miperfil),
 
     //SELECCIONADORES
-    SeleccionarVehiculoCliente(titulo = R.string.seleccionar_vehiculo_cliente), SeleccionarEmpleadoRol(
-        titulo = R.string.seleccionar_empleado_rol
-    ),
-    SeleccionarAveriaCliente(titulo = R.string.seleccionar_averia_cliente), SeleccionarAveriaEmpleado(
-        titulo = R.string.seleccionar_averia_empleado
-    ),
+    SeleccionarVehiculoCliente(titulo = R.string.seleccionar_vehiculo_cliente),
+    SeleccionarEmpleadoRol(titulo = R.string.seleccionar_empleado_rol),
+    SeleccionarAveriaCliente(titulo = R.string.seleccionar_averia_cliente),
+    SeleccionarAveriaEmpleado(titulo = R.string.seleccionar_averia_empleado),
     SeleccionarAveriaVehiculo(titulo = R.string.seleccionar_averia_vehiculo),
 
 //    EditarFacturas(titulo = R.string.pantalla_editar_facturas),
@@ -243,9 +239,10 @@ fun TallerApp(
         ) {
 //            GRAFO DE LAS RUTAS
             composable(route = Pantallas.Login.name) {
-                PantallaLogin(onAutenticar = { usuario, contrasenya ->
-                    viewModelEmpleado.autenticarUsuario(usuario, contrasenya)
-                },
+                PantallaLogin(
+                    onAutenticar = { usuario, contrasenya ->
+                        viewModelEmpleado.autenticarUsuario(usuario, contrasenya)
+                    },
                     onBuscar = {
                         navController.navigate(Pantallas.BuscarMatricula.name)
                     },
@@ -264,8 +261,11 @@ fun TallerApp(
                         navController.navigate(Pantallas.DetalleAveria.name)
                     },
                     onAveriaEditar = {
-                        viewModelAveria.actualizarAveriaPulsado(it)
                         viewModelAveria.seleccionarProvisional(it)
+                        viewModelAveria.seleccionarCliente(it.cliente!!)
+                        viewModelAveria.seleccionarEmpleado(it.empleado!!)
+                        viewModelAveria.seleccionarVehiculo(it.vehiculo!!)
+                        viewModelAveria.actualizarAveriaPulsado(it)
                         navController.navigate(Pantallas.EditarAverias.name)
                     },
                     onAveriaInsertar = { navController.navigate(Pantallas.AnyadirAveria.name) },
@@ -281,8 +281,9 @@ fun TallerApp(
                         navController.navigate(Pantallas.DetalleCoche.name)
                     },
                     onVehiculoEditar = {
-                        viewModelVehiculo.actualizarVehiculoPulsado(it)
                         viewModelVehiculo.seleccionarProvisional(it)
+                        viewModelVehiculo.seleccionarCliente(it.cliente!!)
+                        viewModelVehiculo.actualizarVehiculoPulsado(it)
                         navController.navigate(Pantallas.EditarCoches.name)
                     },
                     onVehiculoInsertar = { navController.navigate(Pantallas.AnyadirCoche.name) },
@@ -314,8 +315,9 @@ fun TallerApp(
                         navController.navigate(Pantallas.DetalleEmpleado.name)
                     },
                     onEmpleadoEditar = {
-                        viewModelEmpleado.actualizarEmpleadoPulsado(it)
                         viewModelEmpleado.seleccionarProvisional(it)
+                        viewModelEmpleado.seleccionarRol(it.rol!!)
+                        viewModelEmpleado.actualizarEmpleadoPulsado(it)
                         navController.navigate(Pantallas.EditarEmpleados.name)
                     },
                     onEmpleadoInsertar = { navController.navigate(Pantallas.AnyadirEmpleado.name) },
@@ -351,7 +353,8 @@ fun TallerApp(
             }
             //INSERTS
             composable(route = Pantallas.AnyadirAveria.name) {
-                PantallaAnyadirAveria(viewModel = viewModelAveria,
+                PantallaAnyadirAveria(
+                    viewModel = viewModelAveria,
                     onInsertar = { averia ->
                         viewModelAveria.insertarAveria(averia)
                         viewModelAveria.limpiarFormularioAveria()
@@ -368,7 +371,8 @@ fun TallerApp(
                 )
             }
             composable(route = Pantallas.AnyadirCoche.name) {
-                PantallaAnyadirCoche(viewModel = viewModelVehiculo,
+                PantallaAnyadirCoche(
+                    viewModel = viewModelVehiculo,
                     onInsertar = { vehiculo ->
                         viewModelVehiculo.insertarVehiculo(vehiculo)
                         viewModelVehiculo.limpiarFormularioVehiculo()
@@ -486,7 +490,7 @@ fun TallerApp(
                         viewModelVehiculo.eliminarVehiculo(id)
                         navController.popBackStack()
                     },
-                    onSeleccionarCliente = { navController.navigate(Pantallas.SeleccionarVehiculoCliente) },
+                    onSeleccionarCliente = { navController.navigate(Pantallas.SeleccionarVehiculoCliente.name) },
                     modifier = Modifier
                 )
             }
@@ -519,7 +523,7 @@ fun TallerApp(
                         viewModelEmpleado.eliminarEmpleado(id)
                         navController.popBackStack(Pantallas.Averias.name, inclusive = false)
                     },
-                    onSeleccionarRol = { navController.navigate(Pantallas.SeleccionarEmpleadoRol) },
+                    onSeleccionarRol = { navController.navigate(Pantallas.SeleccionarEmpleadoRol.name) },
                     modifier = Modifier
                 )
             }

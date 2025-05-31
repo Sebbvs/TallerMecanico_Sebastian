@@ -39,7 +39,6 @@ import androidx.compose.ui.unit.dp
 import com.example.tallermecanico_sebastian.R
 import com.example.tallermecanico_sebastian.modelo.Averia
 import com.example.tallermecanico_sebastian.ui.pantallas.componentes.DatePickerModal
-import com.example.tallermecanico_sebastian.ui.pantallas.componentes.EstadoSwitch
 import com.example.tallermecanico_sebastian.ui.pantallas.componentes.convertMillisToDate
 import com.example.tallermecanico_sebastian.ui.viewmodel.AveriaViewModel
 import java.time.LocalDate
@@ -63,11 +62,11 @@ fun PantallaAnyadirAveria(
     val averiaProvisional = viewModel.provisional
 
     var descripcion by remember { mutableStateOf(averiaProvisional?.descripcion ?: "") }
-    var precio by remember { mutableStateOf(averiaProvisional?.precio ?: "0.00") }
+    val precio by remember { mutableStateOf(averiaProvisional?.precio ?: "0.00") }
     var fechaRecepcion by remember {
         mutableStateOf(
             averiaProvisional?.fecha_recepcion ?: LocalDate.now()
-                .format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString()
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")).toString()
         )
     }
     var fechaResolucion by remember {
@@ -86,7 +85,7 @@ fun PantallaAnyadirAveria(
     val comprobarRecepcion by remember { mutableStateOf<Long?>(null) }
     var comprobarResolucion by remember { mutableStateOf<Long?>(null) }
 
-    var estado by remember { mutableStateOf(averiaProvisional?.estado == "Sin reparar") }
+    val estado by remember { mutableStateOf(averiaProvisional?.estado == "Sin reparar") }
     val estadoTexto = if (estado) "Reparado" else "Sin reparar"
 
     Column(
@@ -121,9 +120,9 @@ fun PantallaAnyadirAveria(
                 .padding(horizontal = 28.dp)
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+//        Spacer(modifier = Modifier.height(8.dp))
 
-        EstadoSwitch(estado = estado, onEstadoChange = { estado = it })
+//        EstadoSwitch(estado = estado, onEstadoChange = { estado = it })
 
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -164,7 +163,7 @@ fun PantallaAnyadirAveria(
             }
         }
 
-        Spacer(modifier = Modifier.height(8.dp))
+        /*Spacer(modifier = Modifier.height(8.dp))
 
         Box {
             OutlinedTextField(
@@ -194,9 +193,7 @@ fun PantallaAnyadirAveria(
                             fechaResolucion = convertMillisToDate(it)
                         } else {
                             Toast.makeText(
-                                context,
-                                R.string.editar_averia_mensaje_fecha,
-                                Toast.LENGTH_SHORT
+                                context, R.string.editar_averia_mensaje_fecha, Toast.LENGTH_SHORT
                             ).show()
                         }
                         fechaResolucion = convertMillisToDate(it)
@@ -206,9 +203,7 @@ fun PantallaAnyadirAveria(
                     showDatePicker2 = false
                 })
             }
-        }
-
-
+        }*/
 
         Spacer(modifier = Modifier.height(8.dp))
         //Boton para añadir Cliente
@@ -313,19 +308,18 @@ fun PantallaAnyadirAveria(
             Text(text = stringResource(R.string.add_vehiculo))
         }
 
-        Spacer(modifier = Modifier.height(8.dp))
-
-        TextField(
-            value = precio,
-            onValueChange = {
-                if (it.length <= 220) precio = it
-            },
-            label = { Text(text = stringResource(R.string.averia_precio) + " *") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 28.dp)
-        )
+        Spacer(modifier = Modifier.height(8.dp))/*
+                TextField(
+                    value = precio,
+                    onValueChange = {
+                        if (it.length <= 220) precio = it
+                    },
+                    label = { Text(text = stringResource(R.string.averia_precio) + " *") },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 28.dp)
+                )*/
 
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -370,8 +364,8 @@ fun PantallaAnyadirAveria(
                             fecha_recepcion = fechaRecepcion,
                             fecha_resolucion = fechaResolucion,
                             observaciones = observaciones,
-                            averia_piezas = emptyList(),
-                            tipo_averias = emptyList(),
+                            averia_piezas = listOf(),
+                            tipo_averias = listOf(),
                         )
                     )
                     val averia = viewModel.ensamblarAveria()
