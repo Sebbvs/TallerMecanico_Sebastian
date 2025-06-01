@@ -40,6 +40,7 @@ import com.example.tallermecanico_sebastian.R
 import com.example.tallermecanico_sebastian.modelo.Averia
 import com.example.tallermecanico_sebastian.ui.pantallas.componentes.DatePickerModal
 import com.example.tallermecanico_sebastian.ui.pantallas.componentes.convertMillisToDate
+import com.example.tallermecanico_sebastian.ui.pantallas.componentes.formatFechaParaMostrar
 import com.example.tallermecanico_sebastian.ui.viewmodel.AveriaViewModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -77,16 +78,12 @@ fun PantallaAnyadirAveria(
     var observaciones by remember { mutableStateOf(averiaProvisional?.observaciones ?: "") }
     val context = LocalContext.current
     var showDatePicker1 by remember { mutableStateOf(false) }
-    var showDatePicker2 by remember { mutableStateOf(false) }
 
     val datePickerStateRecepcion = rememberDatePickerState()
-    val datePickerStateResolucion = rememberDatePickerState()
 
-    val comprobarRecepcion by remember { mutableStateOf<Long?>(null) }
-    var comprobarResolucion by remember { mutableStateOf<Long?>(null) }
+    var comprobarAnteriorOIgualAHoy by remember { mutableStateOf<Long?>(null) }
 
-    val estado by remember { mutableStateOf(averiaProvisional?.estado == "Sin reparar") }
-    val estadoTexto = if (estado) "Reparado" else "Sin reparar"
+    val estadoTexto = "Sin reparar"
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -129,7 +126,7 @@ fun PantallaAnyadirAveria(
 
         Box {
             OutlinedTextField(
-                value = fechaRecepcion,
+                value = formatFechaParaMostrar(fechaRecepcion),
                 onValueChange = { },
                 label = { Text(stringResource(R.string.averia_fecha_recepcion) + " *") },
                 readOnly = true,
@@ -150,10 +147,16 @@ fun PantallaAnyadirAveria(
             if (showDatePicker1) {
                 DatePickerModal(datePickerState = datePickerStateRecepcion, onDateSelected = {
                     if (it != null) {
-                        fechaRecepcion = convertMillisToDate(it)
-                        if (comprobarResolucion != null && comprobarResolucion!! < it) {
-                            comprobarResolucion = null
-                            fechaResolucion = ""
+                        val hoy = LocalDate.now().toEpochDay() * 24 * 60 * 60 * 1000
+                        if (it > hoy) {
+                            Toast.makeText(context, R.string.fecha_futura, Toast.LENGTH_SHORT)
+                                .show()
+                        } else {
+                            fechaRecepcion = convertMillisToDate(it)
+                            if (comprobarAnteriorOIgualAHoy != null && comprobarAnteriorOIgualAHoy!! < it) {
+                                comprobarAnteriorOIgualAHoy = null
+                                fechaResolucion = ""
+                            }
                         }
                     }
                     showDatePicker1 = false
@@ -162,48 +165,6 @@ fun PantallaAnyadirAveria(
                 })
             }
         }
-
-        /*Spacer(modifier = Modifier.height(8.dp))
-
-        Box {
-            OutlinedTextField(
-                value = fechaResolucion,
-                onValueChange = { },
-                label = { Text(stringResource(R.string.averia_fecha_resolucion)) },
-                readOnly = true,
-                trailingIcon = {
-                    IconButton(onClick = { showDatePicker2 = !showDatePicker2 }) {
-                        Icon(
-                            imageVector = Icons.Default.DateRange,
-                            contentDescription = stringResource(R.string.editar_averia_seleccionar_fecha)
-                        )
-                    }
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(64.dp)
-                    .padding(horizontal = 28.dp)
-            )
-
-            if (showDatePicker2) {
-                DatePickerModal(datePickerState = datePickerStateResolucion, onDateSelected = {
-                    if (it != null) {
-                        if (comprobarResolucion == null || it >= comprobarRecepcion!!) {
-                            comprobarResolucion = it
-                            fechaResolucion = convertMillisToDate(it)
-                        } else {
-                            Toast.makeText(
-                                context, R.string.editar_averia_mensaje_fecha, Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                        fechaResolucion = convertMillisToDate(it)
-                    }
-                    showDatePicker2 = false
-                }, onDismiss = {
-                    showDatePicker2 = false
-                })
-            }
-        }*/
 
         Spacer(modifier = Modifier.height(8.dp))
         //Boton para añadir Cliente
@@ -307,19 +268,6 @@ fun PantallaAnyadirAveria(
         }) {
             Text(text = stringResource(R.string.add_vehiculo))
         }
-
-        Spacer(modifier = Modifier.height(8.dp))/*
-                TextField(
-                    value = precio,
-                    onValueChange = {
-                        if (it.length <= 220) precio = it
-                    },
-                    label = { Text(text = stringResource(R.string.averia_precio) + " *") },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 28.dp)
-                )*/
 
         Spacer(modifier = Modifier.height(8.dp))
 

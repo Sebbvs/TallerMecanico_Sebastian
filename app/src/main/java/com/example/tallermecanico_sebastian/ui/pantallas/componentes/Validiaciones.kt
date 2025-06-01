@@ -1,15 +1,35 @@
 package com.example.tallermecanico_sebastian.ui.pantallas.componentes
 
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.DatePickerState
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextField
+import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.unit.dp
 import com.example.tallermecanico_sebastian.R
 import java.text.SimpleDateFormat
+import java.time.Instant
+import java.time.LocalDate
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.Locale
 
@@ -41,16 +61,125 @@ fun convertMillisToDate(millis: Long): String {
     return formatter.format(Date(millis))
 }
 
-fun esMatriculaValida(matricula: String): Boolean {
-    val matriculaRegex = "^[0-9]{4}[B-DF-HJ-NP-TV-Z]{3}$|^[A-Z]{1,2}[0-9]{4}[A-Z]{1,2}$"
-    return Regex(matriculaRegex, RegexOption.IGNORE_CASE).matches(matricula)
+fun millisToLocalDate(millis: Long): LocalDate {
+    return Instant.ofEpochMilli(millis).atZone(ZoneId.systemDefault()).toLocalDate()
 }
 
+/**
+ * Format de fecha, para mostrar al usuario, con dd/MM/yyyy (mejor legibilidad)
+ */
+fun formatFechaParaMostrar(fecha: String): String {
+    return try {
+        val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val outputFormatter =
+            DateTimeFormatter.ofPattern("dd/MM/yyyy") // Así se muestra al usuario, sin embargo se mantiene internamente yyyy-MM-dd (sql)
+        val date = LocalDate.parse(fecha, inputFormatter)
+        outputFormatter.format(date)
+    } catch (e: Exception) {
+        fecha // Si algo falla, muestra la original
+    }
+}
+
+/**
+ * Formateo de un email válido, permitiendo dominios y subdominios
+ */
 fun esEmailValido(email: String): Boolean {
     val emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$"
     return Regex(emailRegex).matches(email)
 }
 
+/**
+ * Valida si la matrícula es válida, aceptando formatos tanto antiguos como nuevos, por ej: '9376 JBL', 'PO 9385 BH' ó 'M 6814 ZX'.
+ */
+fun esMatriculaValida(matricula: String): Boolean {
+    val matriculaRegex = "^[0-9]{4}[B-DF-HJ-NP-TV-Z]{3}$|^[A-Z]{1,2}[0-9]{4}[A-Z]{2}$"
+    return Regex(matriculaRegex, RegexOption.IGNORE_CASE).matches(matricula)
+}
+
+/**
+ * Función que permite usar la matricula para validar o hacer filtros, ya que recorta todos los espacios, y utiliza todas las letras en este caso en mayusculas.
+ */
 fun normalizarMatricula(matricula: String): String {
     return matricula.uppercase().replace("\\s+".toRegex(), "")
+}
+
+/**
+ * Formateo dinámico para TextField, lo cual hace que se 'autoformateé' en caso de cualquier matricula (ya sea el antiguo formato, o el nuevo).
+ */
+fun formatearMatriculaVisual(matricula: String): String {
+    val limpio = matricula.uppercase().replace("\\s+".toRegex(), "")
+    return when {
+        // Formato actual
+        limpio.matches(Regex("^[0-9]{0,4}[A-Z]{0,3}$")) -> {
+            if (limpio.length <= 4) limpio
+            else "${limpio.take(4)} ${limpio.drop(4)}"
+        }
+        // Formato antiguo (1-2 letras + 4 números + 1-2 letras)
+        limpio.matches(Regex("^[A-Z]{1,2}[0-9]{0,4}[A-Z]{0,2}$")) -> {
+            val letrasInicio = limpio.takeWhile { it.isLetter() }
+            val resto = limpio.drop(letrasInicio.length)
+            val numeros = resto.takeWhile { it.isDigit() }
+            val letrasFinal = resto.drop(numeros.length)
+            "$letrasInicio $numeros $letrasFinal".trim()
+        }
+
+        else -> limpio
+    }
+}
+
+/**
+ * Función de prueba, se supone que esto valida las matriculas en tiempo real
+ */
+@Composable
+fun MatriculaTextField(
+    matricula: TextFieldValue,
+    onMatriculaChange: (TextFieldValue) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    var error by remember { mutableStateOf<String?>(null) }
+    val matriculaError = stringResource(R.string.matricula_no_valida)
+    val matriculaTexto = stringResource(R.string.texto_matricula)
+
+    TextField(
+        value = matricula,
+        onValueChange = { input ->
+            val limpio = normalizarMatricula(input.text).filter { it.isLetterOrDigit() }
+            val soloLetrasYNumeros = limpio.filter { it.isLetterOrDigit() }
+
+            val esNumeroInicio = limpio.firstOrNull()?.isDigit() == true
+
+            val longitudMax = if (esNumeroInicio) 7 else 8
+
+            val restringido = limpio.take(longitudMax)
+
+            val textoFormateado = formatearMatriculaVisual(restringido)
+
+            val cursorPos = textoFormateado.length
+
+            onMatriculaChange(
+                TextFieldValue(
+                    text = textoFormateado,
+                    selection = TextRange(cursorPos)
+                )
+            )
+
+            error = if (esMatriculaValida(restringido)) null
+            else matriculaError
+        },
+        label = { Text(text = matriculaTexto) },
+        isError = error != null,
+        supportingText = {
+            if (error != null) {
+                Text(
+                    text = error!!,
+                    color = MaterialTheme.colorScheme.error
+                )
+            }
+        },
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Ascii),
+        singleLine = true,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 28.dp),
+    )
 }

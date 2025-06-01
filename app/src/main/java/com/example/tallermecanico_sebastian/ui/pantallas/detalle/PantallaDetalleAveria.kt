@@ -38,14 +38,14 @@ fun PantallaDetalleAveria(
     val fechaRecepcion by remember { mutableStateOf(averia.fecha_recepcion ?: "") }
     val fechaResolucion by remember { mutableStateOf(averia.fecha_resolucion ?: "") }
     val observaciones by remember { mutableStateOf(averia.observaciones ?: "") }
-    val cliente_nom by remember { mutableStateOf(averia.cliente?.nombre ?: "") }
-    val cliente_ape1 by remember { mutableStateOf(averia.cliente?.apellido1 ?: "") }
-    val cliente_ape2 by remember { mutableStateOf(averia.cliente?.apellido2 ?: "") }
-    val vehiculo_marca by remember { mutableStateOf(averia.vehiculo?.marca ?: "") }
-    val vehiculo_modelo by remember { mutableStateOf(averia.vehiculo?.modelo ?: "") }
+    val clienteNom by remember { mutableStateOf(averia.cliente?.nombre ?: "") }
+    val clienteApe1 by remember { mutableStateOf(averia.cliente?.apellido1 ?: "") }
+    val clienteApe2 by remember { mutableStateOf(averia.cliente?.apellido2 ?: "") }
+    val vehiculoMarca by remember { mutableStateOf(averia.vehiculo?.marca ?: "") }
+    val vehiculoModelo by remember { mutableStateOf(averia.vehiculo?.modelo ?: "") }
 
-    val fechaFormatRecepcion = fechaRecepcion.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
-    val fechaFormatResolucion = fechaResolucion.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+    val fechaFormatRecepcion = fechaRecepcion.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+    val fechaFormatResolucion = fechaResolucion.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -90,7 +90,7 @@ fun PantallaDetalleAveria(
         Spacer(modifier = Modifier.height(8.dp))
 
         TextField(
-            value = "$vehiculo_marca $vehiculo_modelo",
+            value = "$vehiculoMarca $vehiculoModelo",
             onValueChange = { },
             label = { Text(text = stringResource(R.string.texto_vehiculo)) },
             readOnly = true,
@@ -166,7 +166,7 @@ fun PantallaDetalleAveria(
         Spacer(modifier = Modifier.height(8.dp))
 
         TextField(
-            value = "$cliente_nom $cliente_ape1 $cliente_ape2",
+            value = "$clienteNom $clienteApe1 $clienteApe2",
             onValueChange = { },
             label = { Text(text = stringResource(R.string.texto_cliente)) },
             readOnly = true,

@@ -36,9 +36,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.example.tallermecanico_sebastian.R
 import com.example.tallermecanico_sebastian.modelo.Vehiculo
+import com.example.tallermecanico_sebastian.ui.pantallas.componentes.MatriculaTextField
 import com.example.tallermecanico_sebastian.ui.pantallas.componentes.esMatriculaValida
 import com.example.tallermecanico_sebastian.ui.pantallas.componentes.normalizarMatricula
 import com.example.tallermecanico_sebastian.ui.viewmodel.VehiculoViewModel
@@ -61,7 +63,15 @@ fun PantallaEditarCoches(
     var marca by remember { mutableStateOf(vehiculoProvisional?.marca ?: "") }
     var modelo by remember { mutableStateOf(vehiculoProvisional?.modelo ?: "") }
     var especificaciones by remember { mutableStateOf(vehiculoProvisional?.especificaciones ?: "") }
-    var matricula by remember { mutableStateOf(vehiculoProvisional?.matricula ?: "") }
+//    var matricula by remember { mutableStateOf(vehiculoProvisional?.matricula ?: "") }
+    var matriculaValue by remember {
+        mutableStateOf(
+            TextFieldValue(
+                vehiculoProvisional?.matricula ?: ""
+            )
+        )
+    }
+    val matricula = matriculaValue.text
     var vin by remember { mutableStateOf(vehiculoProvisional?.vin ?: "") }
     val context = LocalContext.current
     var abrirAlertDialog by remember { mutableStateOf(false) }
@@ -112,14 +122,18 @@ fun PantallaEditarCoches(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        TextField(
-            value = matricula,
-            onValueChange = { if (it.length <= 15) matricula = it },
-            label = { Text(text = stringResource(R.string.texto_matricula)) },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 28.dp)
+        /*        TextField(
+                    value = matricula,
+                    onValueChange = { if (it.length <= 15) matricula = it },
+                    label = { Text(text = stringResource(R.string.texto_matricula)) },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 28.dp)
+                )*/
+        MatriculaTextField(
+            matricula = matriculaValue,
+            onMatriculaChange = { matriculaValue = it }
         )
 
         Spacer(modifier = Modifier.height(8.dp))

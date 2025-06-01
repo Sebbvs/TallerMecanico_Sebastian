@@ -32,8 +32,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.example.tallermecanico_sebastian.R
+import com.example.tallermecanico_sebastian.ui.pantallas.componentes.MatriculaTextField
 import com.example.tallermecanico_sebastian.ui.theme.Rojo
 import com.example.tallermecanico_sebastian.ui.theme.Verde
 import com.example.tallermecanico_sebastian.ui.viewmodel.AveriaUIState
@@ -48,7 +50,7 @@ fun PantallaBuscarPorMatricula(
     val averia = viewModel.averiaEncontrada
 
     val context = LocalContext.current
-    var busquedaMatricula by remember { mutableStateOf("") }
+    var busquedaMatricula by remember { mutableStateOf(TextFieldValue("")) }
     var busquedaRealizada by remember { mutableStateOf(false) }
     val cliente = averia?.cliente
     val vehiculo = averia?.vehiculo
@@ -75,26 +77,30 @@ fun PantallaBuscarPorMatricula(
             .fillMaxSize()
             .padding(20.dp)
     ) {
-        TextField(
-            value = busquedaMatricula,
-            onValueChange = {
-                busquedaMatricula = it
-            },
-            singleLine = true,
-            label = { Text(text = stringResource(R.string.texto_buscador)) },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            placeholder = { Text(text = "1589 LLW") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 28.dp)
+        MatriculaTextField(
+            matricula = busquedaMatricula,
+            onMatriculaChange = { busquedaMatricula = it }
         )
+        /*        TextField(
+                    value = busquedaMatricula,
+                    onValueChange = {
+                        busquedaMatricula = it
+                    },
+                    singleLine = true,
+                    label = { Text(text = stringResource(R.string.texto_buscador)) },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                    placeholder = { Text(text = "1589 LLW") },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 28.dp)
+                )*/
 
         Spacer(modifier = Modifier.width(8.dp))
 
         OutlinedButton(
             onClick = {
                 Log.v("BUSQUEDAMATRICULA", "Mensaje de botón BUSCAR")
-                viewModel.buscarPorMatricula(busquedaMatricula)
+                viewModel.buscarPorMatricula(busquedaMatricula.text)
                 if (viewModel.averiaEncontrada == null) Toast.makeText(
                     context,
                     R.string.matricula_no_encontrada,

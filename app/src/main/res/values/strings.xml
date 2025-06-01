@@ -150,6 +150,10 @@
     <string name="vehiculo_no_seleccionado">Ningún vehiculo seleccionado</string>
     <string name="rol_cargo">Cargo</string>
     <string name="texto_permisos">Permisos</string>
+    <string name="fecha_futura">La fecha de recepción no puede ser posterior a hoy</string>
+    <string name="fecha_resolucion_anterior">Primero debes seleccionar una fecha de recepción</string>
+    <string name="fecha_recepcion_primero">La fecha de resolución no puede ser anterior a la de recepción</string>
+    <string name="matricula_no_valida">La matrícula no es válida</string>
     <!--    PANTALLAS ???-->
 
     <string name="btn_guardar">Guardar</string>
