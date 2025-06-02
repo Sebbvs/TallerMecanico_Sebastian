@@ -56,6 +56,7 @@ import com.example.tallermecanico_sebastian.ui.viewmodel.AveriaViewModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
+//TODO Añadir seleccionables de averiapieza y tipoaveria (listas)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PantallaEditarAverias(

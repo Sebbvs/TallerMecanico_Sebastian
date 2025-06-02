@@ -41,7 +41,6 @@ import com.example.tallermecanico_sebastian.modelo.Vehiculo
 import com.example.tallermecanico_sebastian.ui.pantallas.componentes.normalizarMatricula
 import com.example.tallermecanico_sebastian.ui.viewmodel.PiezaViewModel
 
-//TODO PANTALLA EDITAR PIEZAS (Añadir pantallas seleccionables)
 @Composable
 fun PantallaEditarPiezas(
     viewModel: PiezaViewModel,
