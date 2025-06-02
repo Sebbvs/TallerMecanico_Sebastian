@@ -23,21 +23,32 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.tallermecanico_sebastian.R
 import com.example.tallermecanico_sebastian.modelo.Pieza
 import com.example.tallermecanico_sebastian.modelo.Tipopieza
+import com.example.tallermecanico_sebastian.modelo.Vehiculo
+import com.example.tallermecanico_sebastian.ui.pantallas.componentes.normalizarMatricula
+import com.example.tallermecanico_sebastian.ui.viewmodel.PiezaViewModel
 
 @Composable
 fun PantallaAnyadirPieza(
+    viewModel: PiezaViewModel,
     onInsertar: (Pieza) -> Unit,
     onCancelar: () -> Unit,
+    onSeleccionarTipopieza: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var descripcion by remember { mutableStateOf("") }
-    var cantidad by remember { mutableStateOf("") }
+    //OBJETOS
+    val tipopieza = viewModel.tipopiezaSeleccionado
+    val piezaProvisional = viewModel.provisional
+
+    var descripcion by remember { mutableStateOf(piezaProvisional?.descripcion ?: "") }
+    var cantidad by remember { mutableStateOf(piezaProvisional?.cantidad.toString()) }
     val context = LocalContext.current
 
     Column(
@@ -46,7 +57,8 @@ fun PantallaAnyadirPieza(
             .fillMaxSize()
             .padding(20.dp)
     ) {
-        TextField(value = descripcion,
+        TextField(
+            value = descripcion,
             onValueChange = { if (it.length <= 250) descripcion = it },
             label = { Text(text = stringResource(R.string.averia_descripcion) + " *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
@@ -57,7 +69,8 @@ fun PantallaAnyadirPieza(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        TextField(value = cantidad,
+        TextField(
+            value = cantidad,
             onValueChange = { if (it.length <= 10) cantidad = it },
             label = { Text(text = stringResource(R.string.editar_pieza_cantidad) + " *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -65,6 +78,36 @@ fun PantallaAnyadirPieza(
                 .fillMaxWidth()
                 .padding(horizontal = 28.dp)
         )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        //Boton para añadir Tipopieza
+        tipopieza?.let {
+            Text(
+                text = "${stringResource(R.string.tipopieza_seleccionado)}: ${tipopieza.nombre}",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 28.dp),
+                fontWeight = FontWeight.Bold
+            )
+        } ?: Text(
+            text = stringResource(R.string.tipopieza_no_seleccionado),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 28.dp),
+            fontStyle = FontStyle.Italic
+        )
+        Button(onClick = {
+//                PIEZA SIN TIPOPIEZA
+            val pieza = Pieza(
+                descripcion = descripcion,
+                cantidad = cantidad.toInt(),
+            )
+            viewModel.seleccionarProvisional(pieza)
+            onSeleccionarTipopieza()
+        }) {
+            Text(text = stringResource(R.string.add_tipopieza))
+        }
 
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -93,31 +136,27 @@ fun PantallaAnyadirPieza(
                 } else if (cantidad.length > 11) {
                     Toast.makeText(context, R.string.pieza_limite_2, Toast.LENGTH_SHORT).show()
                 } else {
-                    val pieza = Pieza(
-                        descripcion = descripcion,
-                        cantidad = cantidad.toInt(),
-                        tipo_pieza = Tipopieza(),
+                    viewModel.seleccionarProvisional(
+                        Pieza(
+                            descripcion = descripcion,
+                            cantidad = cantidad.toInt(),
+                        )
                     )
-                    onInsertar(pieza)
-                    Toast.makeText(
-                        context, R.string.editar_pieza_mensaje_3, Toast.LENGTH_SHORT
-                    ).show()
+                    val pieza = viewModel.ensamblarPieza()
+                    if (pieza != null) {
+                        onInsertar(pieza)
+                        Toast.makeText(
+                            context, R.string.editar_pieza_mensaje_3, Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        Toast.makeText(
+                            context, R.string.pieza_obligatorio_3, Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             }) {
                 Text(stringResource(R.string.btn_guardar))
             }
         }
     }
-
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PantallaAnyadirPiezaPreview() {
-    PantallaAnyadirPieza(onInsertar = {},
-        onCancelar = {},
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    )
 }

@@ -169,7 +169,7 @@ fun PantallaEditarClientes(
             }
         }
         Spacer(modifier = Modifier.height(8.dp))
-        Button(
+/*        Button(
             onClick = {
                 abrirAlertDialog = true
             }, colors = ButtonDefaults.buttonColors(
@@ -177,7 +177,7 @@ fun PantallaEditarClientes(
             )
         ) {
             Text(text = stringResource(R.string.btn_borrar))
-        }
+        }*/
 
         if (abrirAlertDialog) {
             AlertDialogClienteConfirmar(

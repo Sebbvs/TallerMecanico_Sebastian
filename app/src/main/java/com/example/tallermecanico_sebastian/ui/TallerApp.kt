@@ -73,6 +73,7 @@ import com.example.tallermecanico_sebastian.ui.pantallas.seleccionar.PantallaAve
 import com.example.tallermecanico_sebastian.ui.pantallas.seleccionar.PantallaAveriaEmpleado
 import com.example.tallermecanico_sebastian.ui.pantallas.seleccionar.PantallaAveriaVehiculo
 import com.example.tallermecanico_sebastian.ui.pantallas.seleccionar.PantallaEmpleadoRol
+import com.example.tallermecanico_sebastian.ui.pantallas.seleccionar.PantallaPiezaTipopieza
 import com.example.tallermecanico_sebastian.ui.pantallas.seleccionar.PantallaVehiculoCliente
 import com.example.tallermecanico_sebastian.ui.theme.Blanco
 import com.example.tallermecanico_sebastian.ui.viewmodel.AveriaViewModel
@@ -80,6 +81,7 @@ import com.example.tallermecanico_sebastian.ui.viewmodel.ClienteViewModel
 import com.example.tallermecanico_sebastian.ui.viewmodel.EmpleadoViewModel
 import com.example.tallermecanico_sebastian.ui.viewmodel.PiezaViewModel
 import com.example.tallermecanico_sebastian.ui.viewmodel.RolViewModel
+import com.example.tallermecanico_sebastian.ui.viewmodel.TipopiezaViewModel
 import com.example.tallermecanico_sebastian.ui.viewmodel.VehiculoViewModel
 
 enum class Pantallas(@StringRes val titulo: Int) {
@@ -127,6 +129,7 @@ enum class Pantallas(@StringRes val titulo: Int) {
     SeleccionarAveriaCliente(titulo = R.string.seleccionar_averia_cliente),
     SeleccionarAveriaEmpleado(titulo = R.string.seleccionar_averia_empleado),
     SeleccionarAveriaVehiculo(titulo = R.string.seleccionar_averia_vehiculo),
+    SeleccionarPiezaTipopieza(titulo = R.string.seleccionar_pieza_tipopieza),
 
 //    EditarFacturas(titulo = R.string.pantalla_editar_facturas),
 
@@ -176,6 +179,7 @@ fun TallerApp(
     viewModelRol: RolViewModel = viewModel(factory = RolViewModel.Factory),
     viewModelPieza: PiezaViewModel = viewModel(factory = PiezaViewModel.Factory),
     viewModelVehiculo: VehiculoViewModel = viewModel(factory = VehiculoViewModel.Factory),
+    viewModelTipopieza: TipopiezaViewModel = viewModel(factory = TipopiezaViewModel.Factory),
 ) {
     val pilaRetroceso by navController.currentBackStackEntryAsState()
 
@@ -204,7 +208,7 @@ fun TallerApp(
             scrollBehavior = scrollBehavior,
         )
     }, bottomBar = {
-        if (pantallaActual != Pantallas.Login && pantallaActual != Pantallas.BuscarMatricula) {
+        if (pantallaActual == Pantallas.Averias || pantallaActual == Pantallas.Coches || pantallaActual == Pantallas.Clientes || pantallaActual == Pantallas.Piezas || pantallaActual == Pantallas.Facturas) {
             NavigationBar {
                 listaRutas.forEachIndexed { index, ruta ->
                     NavigationBarItem(icon = {
@@ -342,6 +346,8 @@ fun TallerApp(
                         navController.navigate(Pantallas.DetallePieza.name)
                     },
                     onPiezaEditar = {
+                        viewModelPieza.seleccionarProvisional(it)
+                        viewModelPieza.seleccionarTipopieza(it.tipo_pieza!!)
                         viewModelPieza.actualizarPiezaPulsado(it)
                         navController.navigate(Pantallas.EditarPiezas.name)
                     },
@@ -407,10 +413,15 @@ fun TallerApp(
                 )
             }
             composable(route = Pantallas.AnyadirPieza.name) {
-                PantallaAnyadirPieza(onInsertar = { pieza ->
+                PantallaAnyadirPieza(viewModel = viewModelPieza, onInsertar = { pieza ->
                     viewModelPieza.insertarPieza(pieza)
                     navController.popBackStack()
-                }, onCancelar = { navController.popBackStack() }, modifier = Modifier
+                }, onCancelar = {
+                    viewModelPieza.limpiarFormularioPieza()
+                    navController.popBackStack()
+                },
+                    onSeleccionarTipopieza = { navController.navigate(Pantallas.SeleccionarPiezaTipopieza.name) },
+                    modifier = Modifier
                 )
             }
             //DETALLE (INFO)
@@ -528,15 +539,24 @@ fun TallerApp(
                 )
             }
             composable(route = Pantallas.EditarPiezas.name) {
-                PantallaEditarPiezas(pieza = viewModelPieza.piezaPulsado, onCancelar = {
-                    navController.popBackStack()
-                }, onGuardar = {
-                    viewModelPieza.actualizarPieza(it.cod_pieza.toString(), it)
-                    navController.popBackStack()
-                }, onBorrar = { id ->
-                    viewModelPieza.eliminarPieza(id)
-                    navController.popBackStack()
-                }, modifier = Modifier
+                PantallaEditarPiezas(
+                    viewModel = viewModelPieza,
+                    pieza = viewModelPieza.piezaPulsado,
+                    onCancelar = {
+                        viewModelPieza.limpiarFormularioPieza()
+                        navController.popBackStack()
+                    },
+                    onGuardar = {
+                        viewModelPieza.actualizarPieza(it.cod_pieza.toString(), it)
+                        viewModelPieza.limpiarFormularioPieza()
+                        navController.popBackStack()
+                    },
+                    onBorrar = { id ->
+                        viewModelPieza.eliminarPieza(id)
+                        navController.popBackStack()
+                    },
+                    onSeleccionarTipopieza = { navController.navigate(Pantallas.SeleccionarPiezaTipopieza.name) },
+                    modifier = Modifier
                 )
             }
             //CAMBIO DE CONTRASENYA
@@ -633,6 +653,16 @@ fun TallerApp(
                         navController.popBackStack()
                     })
             }
+            composable(route = Pantallas.SeleccionarPiezaTipopieza.name) {
+                LaunchedEffect(Unit) {
+                    viewModelTipopieza.obtenerTipospieza()
+                }
+                PantallaPiezaTipopieza(viewModelPieza = viewModelPieza,
+                    viewModelTipopieza = viewModelTipopieza,
+                    onSeleccionar = {
+                        navController.popBackStack()
+                    })
+            }
             //INFO
             composable(route = Pantallas.InfoRol.name) {
                 PantallaDetalleRolPermiso(rolUIState = rolUIState, modifier = Modifier,
@@ -708,7 +738,8 @@ fun AppTopBar(
 //                                launchSingleTop = true
                         }
                     })
-                    if (viewModelEmpleado.empleadoLogin?.rol?.cod_rol == 1) {
+                    // 1 == empleado, 2 == encargado, 3 == gerente (admin)
+                    if (viewModelEmpleado.empleadoLogin?.rol?.cod_rol == 3) {
                         DropdownMenuItem(text = {
                             Text(text = stringResource(id = R.string.administrar))
                         }, leadingIcon = {

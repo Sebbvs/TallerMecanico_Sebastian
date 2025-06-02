@@ -5,7 +5,7 @@
     <string name="pantalla_login">Login</string>
     <string name="pantalla_inicio">Inicio</string>
     <string name="pantalla_averias">Averias</string>
-    <string name="pantalla_coches">Coches</string>
+    <string name="pantalla_coches">Vehículos</string>
     <string name="pantalla_clientes">Clientes</string>
     <string name="pantalla_empleados">Administrar empleados</string>
     <string name="pantalla_piezas">Piezas</string>
@@ -13,7 +13,7 @@
     <string name="pantalla_buscar">Buscar matrícula</string>
 
     <string name="pantalla_editar_averias">Editar averías</string>
-    <string name="pantalla_editar_coches">Editar coches</string>
+    <string name="pantalla_editar_coches">Editar vehículo</string>
     <string name="pantalla_editar_clientes">Editar clientes</string>
     <string name="pantalla_editar_empleados">Editar empleados</string>
     <string name="pantalla_editar_piezas">Editar piezas</string>
@@ -27,18 +27,19 @@
 
     <string name="pantalla_detalle_averia">Detalle avería</string>
     <string name="pantalla_detalle_cliente">Detalle cliente</string>
-    <string name="pantalla_detalle_coche">Detalle coche</string>
+    <string name="pantalla_detalle_coche">Detalle vehículo</string>
     <string name="pantalla_detalle_empleado">Detalle empleado</string>
     <string name="pantalla_detalle_pieza">Detalle pieza</string>
     <string name="pantalla_info_rol">Info Rol</string>
 
     <string name="pantalla_cambio_contrasenya">Cambiar contraseña</string>
 
-    <string name="seleccionar_vehiculo_cliente">[Coche] Seleccionar Cliente</string>
+    <string name="seleccionar_vehiculo_cliente">[Vehículo] Seleccionar Cliente</string>
     <string name="seleccionar_empleado_rol">[Empleado] Seleccionar Rol</string>
     <string name="seleccionar_averia_cliente">[Avería] Seleccionar Cliente</string>
     <string name="seleccionar_averia_empleado">[Avería] Seleccionar Empleado</string>
     <string name="seleccionar_averia_vehiculo">[Avería] Seleccionar Vehiculo</string>
+    <string name="seleccionar_pieza_tipopieza">[Pieza] Seleccionar Tipo</string>
 
     <!--    PANTALLA LOGIN-->
     <string name="acceso">Acceso</string>
@@ -83,7 +84,7 @@
     <string name="warning_formulario">¡Cuidado! \nFaltan campos por completar.</string>
     <string name="editar_averia_mensaje_3">Avería guardada correctamente</string>
     <string name="editar_cliente_mensaje_3">Cliente guardado correctamente</string>
-    <string name="editar_coche_mensaje_3">Coche guardado correctamente</string>
+    <string name="editar_coche_mensaje_3">Vehículo guardado correctamente</string>
     <string name="editar_empleado_mensaje_3">Empleado guardado correctamente</string>
     <string name="editar_pieza_mensaje_3">Pieza guardada correctamente</string>
 
@@ -110,8 +111,8 @@
     <string name="dialogo_vehiculo_titulo">¡Cuidado! Estás a punto de borrar el vehículo seleccionado</string>
     <string name="dialogo_vehiculo_texto">Esta es una acción permanente y no se puede deshacer. Si deseas borrar este vehículo, pulsa \"Confirmar\".</string>
     <string name="editar_coche_modelo">Modelo</string>
-    <string name="editar_coche_mensaje_1">Coche modificado correctamente</string>
-    <string name="editar_coche_mensaje_2">Coche borrado correctamente</string>
+    <string name="editar_coche_mensaje_1">Vehículo modificado correctamente</string>
+    <string name="editar_coche_mensaje_2">Vehículo borrado correctamente</string>
 
     <!--    PANTALLA EDITAR EMPLEADOS-->
     <string name="dialogo_empleado_titulo">¡Cuidado! Estás a punto de borrar al empleado seleccionado</string>
@@ -148,6 +149,8 @@
     <string name="empleado_no_seleccionado">Ningún empleado seleccionado</string>
     <string name="vehiculo_seleccionado">Vehiculo seleccionado</string>
     <string name="vehiculo_no_seleccionado">Ningún vehiculo seleccionado</string>
+    <string name="tipopieza_seleccionado">Pieza seleccionada</string>
+    <string name="tipopieza_no_seleccionado">Ninguna pieza seleccionada</string>
     <string name="rol_cargo">Cargo</string>
     <string name="texto_permisos">Permisos</string>
     <string name="fecha_futura">La fecha de recepción no puede ser posterior a hoy</string>
@@ -168,6 +171,7 @@
     <string name="add_rol">Seleccionar rol</string>
     <string name="add_empleado">Seleccionar empleado</string>
     <string name="add_vehiculo">Seleccionar vehiculo</string>
+    <string name="add_tipopieza">Seleccionar tipo</string>
 
     <!--    FILTROS  Y VALIDACIONES-->
     <string name="filtro_chip_todo">Todas</string>
@@ -227,6 +231,7 @@
 
     <string name="pieza_obligatorio_1">¡La descripción es obligatoria!</string>
     <string name="pieza_obligatorio_2">¡La cantidad es obligatoria!</string>
+    <string name="pieza_obligatorio_3">¡El tipo es obligatorio!</string>
     <string name="pieza_limite_2">¡La cantidad es demasiada!</string>
 
     <string name="cambiar_contrasenya">Cambiar contraseña</string>

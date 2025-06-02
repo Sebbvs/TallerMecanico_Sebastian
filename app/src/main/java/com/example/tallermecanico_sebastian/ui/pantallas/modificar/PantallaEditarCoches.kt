@@ -242,24 +242,14 @@ fun PantallaEditarCoches(
                         Toast.makeText(
                             context, R.string.coche_obligatorio_4, Toast.LENGTH_SHORT
                         ).show()
-                    }/*         val vehiculoEditado = vehiculo.copy(
-                                     cod_vehiculo = vehiculo.cod_vehiculo,
-                                     marca = marca ?: "",
-                                     modelo = modelo ?: "",
-                                     especificaciones = especificaciones ?: "",
-                                     matricula = normalizarMatricula(matricula) ?: "",
-                                     vin = vin ?: ""
-                                 )
-                                 onGuardar(vehiculoEditado)
-                                 Toast.makeText(context, R.string.editar_coche_mensaje_1, Toast.LENGTH_SHORT)
-                                     .show()*/
+                    }
                 }
             }) {
                 Text(text = stringResource(R.string.btn_guardar))
             }
         }
         Spacer(modifier = Modifier.height(20.dp))
-        Button(
+/*        Button(
             onClick = {
                 abrirAlertDialog = true
             }, colors = ButtonDefaults.buttonColors(
@@ -267,7 +257,7 @@ fun PantallaEditarCoches(
             )
         ) {
             Text(text = stringResource(R.string.btn_borrar))
-        }
+        }*/
 
         if (abrirAlertDialog) {
             AlertDialogVehiculoConfirmar(

@@ -28,6 +28,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -50,6 +51,7 @@ import com.example.tallermecanico_sebastian.ui.pantallas.componentes.EstadoSwitc
 import com.example.tallermecanico_sebastian.ui.pantallas.componentes.convertMillisToDate
 import com.example.tallermecanico_sebastian.ui.pantallas.componentes.formatFechaParaMostrar
 import com.example.tallermecanico_sebastian.ui.pantallas.componentes.millisToLocalDate
+import com.example.tallermecanico_sebastian.ui.viewmodel.AveriaUIState
 import com.example.tallermecanico_sebastian.ui.viewmodel.AveriaViewModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -300,6 +302,7 @@ fun PantallaEditarAverias(
                 estado = estadoTexto,
                 fecha_recepcion = fechaRecepcion,
                 fecha_resolucion = fechaResolucion,
+                observaciones = observaciones,
                 tipo_averias = emptyList(),
                 averia_piezas = emptyList(),
             )
@@ -448,7 +451,7 @@ fun PantallaEditarAverias(
             }
         }
         Spacer(modifier = Modifier.height(8.dp))
-        Button(
+/*        Button(
             onClick = {
                 abrirAlertDialog = true
             }, colors = ButtonDefaults.buttonColors(
@@ -456,7 +459,7 @@ fun PantallaEditarAverias(
             )
         ) {
             Text(text = stringResource(R.string.btn_borrar))
-        }
+        }*/
         if (abrirAlertDialog) {
             AlertDialogAveriaConfirmar(
                 onDismissRequest = { abrirAlertDialog = false },

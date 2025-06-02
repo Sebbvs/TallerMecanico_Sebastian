@@ -10,11 +10,13 @@ import com.example.tallermecanico_sebastian.datos.repos.ConexionEmpleadoReposito
 import com.example.tallermecanico_sebastian.datos.repos.ConexionPermisoRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.ConexionPiezaRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.ConexionRolRepositorio
+import com.example.tallermecanico_sebastian.datos.repos.ConexionTipopiezaRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.ConexionVehiculoRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.EmpleadoRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.PermisoRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.PiezaRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.RolRepositorio
+import com.example.tallermecanico_sebastian.datos.repos.TipopiezaRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.VehiculoRepositorio
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -30,6 +32,7 @@ interface ContenedorApp {
     val permisoRepositorio: PermisoRepositorio
     val vehiculoRepositorio: VehiculoRepositorio
     val piezaRepositorio: PiezaRepositorio
+    val tipopiezaRepositorio: TipopiezaRepositorio
 }
 
 class TallerContenedorApp(private val context: Context) : ContenedorApp {
@@ -76,5 +79,9 @@ class TallerContenedorApp(private val context: Context) : ContenedorApp {
 
     override val piezaRepositorio: PiezaRepositorio by lazy {
         ConexionPiezaRepositorio(servicioRetrofit)
+    }
+
+    override val tipopiezaRepositorio: TipopiezaRepositorio by lazy {
+        ConexionTipopiezaRepositorio(servicioRetrofit)
     }
 }

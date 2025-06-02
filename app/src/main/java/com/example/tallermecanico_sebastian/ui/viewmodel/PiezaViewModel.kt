@@ -13,7 +13,9 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import coil.network.HttpException
 import com.example.tallermecanico_sebastian.TallerAplicacion
 import com.example.tallermecanico_sebastian.datos.repos.PiezaRepositorio
+import com.example.tallermecanico_sebastian.modelo.Empleado
 import com.example.tallermecanico_sebastian.modelo.Pieza
+import com.example.tallermecanico_sebastian.modelo.Rol
 import com.example.tallermecanico_sebastian.modelo.Tipopieza
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -138,5 +140,30 @@ class PiezaViewModel(private val piezaRepositorio: PiezaRepositorio) : ViewModel
                 PiezaViewModel(piezaRepositorio = piezaRepositorio)
             }
         }
+    }
+
+    var tipopiezaSeleccionado by mutableStateOf<Tipopieza?>(null)
+        private set
+
+    fun seleccionarTipopieza(tipopieza: Tipopieza) {
+        tipopiezaSeleccionado = tipopieza
+    }
+
+    var provisional by mutableStateOf<Pieza?>(null)
+        private set
+
+    fun seleccionarProvisional(pieza: Pieza) {
+        provisional = pieza
+    }
+
+    fun ensamblarPieza(): Pieza? {
+        return provisional?.copy(
+            cod_tipo = tipopiezaSeleccionado?.cod_tipo_pieza, tipo_pieza = tipopiezaSeleccionado
+        )
+    }
+
+    fun limpiarFormularioPieza() {
+        tipopiezaSeleccionado = null
+        provisional = null
     }
 }

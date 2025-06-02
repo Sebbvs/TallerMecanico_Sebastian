@@ -247,7 +247,7 @@ fun PantallaEditarEmpleados(
             }
         }
         Spacer(modifier = Modifier.height(20.dp))
-        Button(
+/*        Button(
             onClick = {
                 abrirAlertDialog = true
             }, colors = ButtonDefaults.buttonColors(
@@ -255,7 +255,7 @@ fun PantallaEditarEmpleados(
             )
         ) {
             Text(text = stringResource(R.string.btn_borrar))
-        }
+        }*/
 
         if (abrirAlertDialog) {
             AlertDialogEmpleadoConfirmar(

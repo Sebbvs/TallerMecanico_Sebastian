@@ -31,24 +31,34 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.tallermecanico_sebastian.R
 import com.example.tallermecanico_sebastian.modelo.Pieza
+import com.example.tallermecanico_sebastian.modelo.Vehiculo
+import com.example.tallermecanico_sebastian.ui.pantallas.componentes.normalizarMatricula
+import com.example.tallermecanico_sebastian.ui.viewmodel.PiezaViewModel
 
 //TODO PANTALLA EDITAR PIEZAS (Añadir pantallas seleccionables)
 @Composable
 fun PantallaEditarPiezas(
+    viewModel: PiezaViewModel,
     pieza: Pieza,
     onCancelar: () -> Unit,
     onBorrar: (String) -> Unit,
     onGuardar: (Pieza) -> Unit,
+    onSeleccionarTipopieza: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+// OBJETOS
+    val tipopieza = viewModel.tipopiezaSeleccionado
+    val piezaProvisional = viewModel.provisional
 
-    var descripcion by remember { mutableStateOf(pieza.descripcion ?: "") }
-    var cantidad by remember { mutableStateOf(pieza.cantidad.toString()) }
-    var tipopieza by remember { mutableStateOf(pieza.tipo_pieza?.nombre ?: "") }
+    val cod by remember { mutableStateOf(piezaProvisional?.cod_pieza ?: 0) }
+    var descripcion by remember { mutableStateOf(piezaProvisional?.descripcion ?: "") }
+    var cantidad by remember { mutableStateOf(piezaProvisional?.cantidad.toString()) }
     val context = LocalContext.current
     var abrirAlertDialog by remember { mutableStateOf(false) }
 
@@ -58,17 +68,6 @@ fun PantallaEditarPiezas(
             .fillMaxSize()
             .padding(20.dp)
     ) {
-        TextField(
-            value = tipopieza,
-            onValueChange = { tipopieza = it },
-            label = { Text(text = stringResource(R.string.editar_pieza_tipopieza)) },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 28.dp)
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
 
         TextField(
             value = descripcion,
@@ -94,6 +93,37 @@ fun PantallaEditarPiezas(
 
         Spacer(modifier = Modifier.height(8.dp))
 
+        //Boton para añadir Tipopieza
+        tipopieza?.let {
+            Text(
+                text = "${stringResource(R.string.tipopieza_seleccionado)}: ${tipopieza.nombre}",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 28.dp),
+                fontWeight = FontWeight.Bold
+            )
+        } ?: Text(
+            text = stringResource(R.string.tipopieza_no_seleccionado),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 28.dp),
+            fontStyle = FontStyle.Italic
+        )
+        Button(onClick = {
+//                PIEZA SIN TIPOPIEZA (NI COD TIPOPIEZA)
+            val pieza = Pieza(
+                cod_pieza = cod,
+                descripcion = descripcion,
+                cantidad = cantidad.toInt(),
+            )
+            viewModel.seleccionarProvisional(pieza)
+            onSeleccionarTipopieza()
+        }) {
+            Text(text = stringResource(R.string.add_tipopieza))
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly,
@@ -112,29 +142,37 @@ fun PantallaEditarPiezas(
                     Toast.makeText(context, R.string.averia_limite_1, Toast.LENGTH_SHORT).show()
                 } else if (cantidad.length > 11) {
                     Toast.makeText(context, R.string.pieza_limite_2, Toast.LENGTH_SHORT).show()
+                } else if (tipopieza != null) {
+                    Toast.makeText(context, R.string.pieza_obligatorio_3, Toast.LENGTH_SHORT).show()
                 } else {
-                    val piezaEditado = pieza.copy(
-                        descripcion = descripcion,
-                        cantidad = cantidad.toInt(),
+                    viewModel.seleccionarProvisional(
+                        Pieza(
+                            cod_pieza = cod,
+                            descripcion = descripcion,
+                            cantidad = cantidad.toInt(),
+                        )
                     )
-                    onGuardar(piezaEditado)
-                    Toast.makeText(context, R.string.editar_pieza_mensaje_1, Toast.LENGTH_SHORT)
-                        .show()
+                    val piezaEditado = viewModel.ensamblarPieza()
+                    if (piezaEditado != null) {
+                        onGuardar(piezaEditado)
+                        Toast.makeText(context, R.string.editar_pieza_mensaje_1, Toast.LENGTH_SHORT)
+                            .show()
+                    }
                 }
             }) {
                 Text(text = stringResource(R.string.btn_guardar))
             }
         }
         Spacer(modifier = Modifier.height(8.dp))
-        Button(
-            onClick = {
-                abrirAlertDialog = true
-            }, colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Red, contentColor = Color.White
-            )
-        ) {
-            Text(text = stringResource(R.string.btn_borrar))
-        }
+        /*        Button(
+                    onClick = {
+                        abrirAlertDialog = true
+                    }, colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Red, contentColor = Color.White
+                    )
+                ) {
+                    Text(text = stringResource(R.string.btn_borrar))
+                }*/
 
         if (abrirAlertDialog) {
             AlertDialogPiezaConfirmar(

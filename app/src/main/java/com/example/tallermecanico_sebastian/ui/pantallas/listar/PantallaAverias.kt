@@ -28,6 +28,7 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,6 +38,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.tallermecanico_sebastian.R
 import com.example.tallermecanico_sebastian.modelo.Averia
 import com.example.tallermecanico_sebastian.ui.pantallas.componentes.PantallaCargando
@@ -45,6 +47,7 @@ import com.example.tallermecanico_sebastian.ui.theme.AzulPrincipal
 import com.example.tallermecanico_sebastian.ui.theme.Rojo
 import com.example.tallermecanico_sebastian.ui.theme.Verde
 import com.example.tallermecanico_sebastian.ui.viewmodel.AveriaUIState
+import com.example.tallermecanico_sebastian.ui.viewmodel.AveriaViewModel
 
 @Composable
 fun PantallaAverias(
@@ -63,7 +66,7 @@ fun PantallaAverias(
             modifier = modifier.fillMaxWidth(),
             onAveriaClick = onAveriaClick,
             onAveriaEditar = onAveriaEditar,
-            onAveriaInsertar = onAveriaInsertar
+            onAveriaInsertar = onAveriaInsertar,
         )
 
 
