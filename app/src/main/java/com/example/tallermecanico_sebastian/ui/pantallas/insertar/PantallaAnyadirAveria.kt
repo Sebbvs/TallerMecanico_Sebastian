@@ -226,6 +226,7 @@ fun PantallaAnyadirAveria(
                 estado = estadoTexto,
                 fecha_recepcion = fechaRecepcion,
                 fecha_resolucion = fechaResolucion,
+                observaciones = observaciones,
                 tipo_averias = emptyList(),
                 averia_piezas = emptyList(),
             )
@@ -260,6 +261,7 @@ fun PantallaAnyadirAveria(
                 estado = estadoTexto,
                 fecha_recepcion = fechaRecepcion,
                 fecha_resolucion = fechaResolucion,
+                observaciones = observaciones,
                 tipo_averias = emptyList(),
                 averia_piezas = emptyList(),
             )

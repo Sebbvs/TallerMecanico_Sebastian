@@ -124,7 +124,7 @@ fun PantallaAnyadirEmpleado(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        //TODO Boton para añadir Cliente
+        //Boton para añadir Cliente
         rol?.let {
             Text(
                 text = "${stringResource(R.string.rol_seleccionado)}: ${rol.nombre}",

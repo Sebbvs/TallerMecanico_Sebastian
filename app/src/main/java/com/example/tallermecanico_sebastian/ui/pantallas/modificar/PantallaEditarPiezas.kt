@@ -43,7 +43,7 @@ fun PantallaEditarPiezas(
     onCancelar: () -> Unit,
     onBorrar: (String) -> Unit,
     onGuardar: (Pieza) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
 
     var descripcion by remember { mutableStateOf(pieza.descripcion ?: "") }
@@ -58,7 +58,8 @@ fun PantallaEditarPiezas(
             .fillMaxSize()
             .padding(20.dp)
     ) {
-        TextField(value = tipopieza,
+        TextField(
+            value = tipopieza,
             onValueChange = { tipopieza = it },
             label = { Text(text = stringResource(R.string.editar_pieza_tipopieza)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
@@ -69,7 +70,8 @@ fun PantallaEditarPiezas(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        TextField(value = descripcion,
+        TextField(
+            value = descripcion,
             onValueChange = { if (it.length <= 250) descripcion = it },
             label = { Text(text = stringResource(R.string.averia_descripcion) + " *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
@@ -80,7 +82,8 @@ fun PantallaEditarPiezas(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        TextField(value = cantidad,
+        TextField(
+            value = cantidad,
             onValueChange = { if (it.length <= 11) cantidad = it },
             label = { Text(text = stringResource(R.string.editar_pieza_cantidad) + " *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
@@ -134,7 +137,8 @@ fun PantallaEditarPiezas(
         }
 
         if (abrirAlertDialog) {
-            AlertDialogPiezaConfirmar(onDismissRequest = { abrirAlertDialog = false },
+            AlertDialogPiezaConfirmar(
+                onDismissRequest = { abrirAlertDialog = false },
                 onConfirmation = {
                     abrirAlertDialog = false
                     val piezaEditado = pieza.copy(

@@ -128,13 +128,12 @@ fun formatearMatriculaVisual(matricula: String): String {
 }
 
 /**
- * Función de prueba, se supone que esto valida las matriculas en tiempo real
+ * Función de prueba, se supone que esto valida Y FORMATEA (Ya que llama a formatearMatriculaVisual()) las matriculas en tiempo real
  */
 @Composable
 fun MatriculaTextField(
     matricula: TextFieldValue,
     onMatriculaChange: (TextFieldValue) -> Unit,
-    modifier: Modifier = Modifier
 ) {
     var error by remember { mutableStateOf<String?>(null) }
     val matriculaError = stringResource(R.string.matricula_no_valida)
@@ -144,7 +143,6 @@ fun MatriculaTextField(
         value = matricula,
         onValueChange = { input ->
             val limpio = normalizarMatricula(input.text).filter { it.isLetterOrDigit() }
-            val soloLetrasYNumeros = limpio.filter { it.isLetterOrDigit() }
 
             val esNumeroInicio = limpio.firstOrNull()?.isDigit() == true
 

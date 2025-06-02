@@ -22,27 +22,6 @@ interface ServicioApi {
         @Body acceso: Acceso,
     ): Empleado
 
-    //EMPLEADO
-    @GET("empleados")
-    suspend fun obtenerEmpleados(): List<Empleado>
-
-    @POST("empleado")
-    suspend fun insertarEmpleado(
-        @Body empleado: Empleado
-    ): Empleado
-
-    @PUT("empleado/{id}")
-    suspend fun actualizarEmpleado(
-        @Path("id") id: String,
-        @Body empleado: Empleado
-    ): Empleado
-
-    @DELETE("empleado/{id}")
-    suspend fun eliminarEmpleado(
-        @Path("id") id: String
-    ): Empleado
-
-
     //AVERIA
     @GET("averias")
     suspend fun obtenerAverias(): List<Averia>
@@ -54,14 +33,32 @@ interface ServicioApi {
 
     @PUT("averia/{id}")
     suspend fun actualizarAveria(
-        @Path("id") id: String,
-        @Body averia: Averia
+        @Path("id") id: String, @Body averia: Averia
     ): Averia
 
     @DELETE("averia/{id}")
     suspend fun eliminarAveria(
         @Path("id") id: String
     ): Averia
+
+    //EMPLEADO
+    @GET("empleados")
+    suspend fun obtenerEmpleados(): List<Empleado>
+
+    @POST("empleado")
+    suspend fun insertarEmpleado(
+        @Body empleado: Empleado
+    ): Empleado
+
+    @PUT("empleado/{id}")
+    suspend fun actualizarEmpleado(
+        @Path("id") id: String, @Body empleado: Empleado
+    ): Empleado
+
+    @DELETE("empleado/{id}")
+    suspend fun eliminarEmpleado(
+        @Path("id") id: String
+    ): Empleado
 
 
     //CLIENTE
@@ -75,8 +72,7 @@ interface ServicioApi {
 
     @PUT("cliente/{id}")
     suspend fun actualizarCliente(
-        @Path("id") id: String,
-        @Body cliente: Cliente
+        @Path("id") id: String, @Body cliente: Cliente
     ): Cliente
 
     @DELETE("cliente/{id}")
@@ -96,8 +92,7 @@ interface ServicioApi {
 
     @PUT("rol/{id}")
     suspend fun actualizarRol(
-        @Path("id") id: String,
-        @Body rol: Rol
+        @Path("id") id: String, @Body rol: Rol
     ): Rol
 
     @DELETE("rol/{id}")
@@ -117,8 +112,7 @@ interface ServicioApi {
 
     @PUT("vehiculo/{id}")
     suspend fun actualizarVehiculo(
-        @Path("id") id: String,
-        @Body vehiculo: Vehiculo
+        @Path("id") id: String, @Body vehiculo: Vehiculo
     ): Vehiculo
 
     @DELETE("vehiculo/{id}")
@@ -137,8 +131,7 @@ interface ServicioApi {
 
     @PUT("pieza/{id}")
     suspend fun actualizarPieza(
-        @Path("id") id: String,
-        @Body pieza: Pieza
+        @Path("id") id: String, @Body pieza: Pieza
     ): Pieza
 
     @DELETE("pieza/{id}")
