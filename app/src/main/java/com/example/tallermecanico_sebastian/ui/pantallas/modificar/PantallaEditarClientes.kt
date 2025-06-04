@@ -22,6 +22,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -46,6 +47,7 @@ fun PantallaEditarClientes(
     modifier: Modifier = Modifier
 ) {
 
+    val cod by remember { mutableIntStateOf(cliente.cod_cliente ?: 0) }
     var nombre by remember { mutableStateOf(cliente.nombre ?: "") }
     var apellido1 by remember { mutableStateOf(cliente.apellido1 ?: "") }
     var apellido2 by remember { mutableStateOf(cliente.apellido2 ?: "") }
@@ -67,7 +69,7 @@ fun PantallaEditarClientes(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 28.dp)
+                .padding(horizontal = 16.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -79,7 +81,7 @@ fun PantallaEditarClientes(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 28.dp)
+                .padding(horizontal = 16.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -91,7 +93,7 @@ fun PantallaEditarClientes(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 28.dp)
+                .padding(horizontal = 16.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -103,7 +105,7 @@ fun PantallaEditarClientes(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 28.dp)
+                .padding(horizontal = 16.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -115,7 +117,7 @@ fun PantallaEditarClientes(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 28.dp)
+                .padding(horizontal = 16.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -153,6 +155,7 @@ fun PantallaEditarClientes(
                     Toast.makeText(context, R.string.validar_email, Toast.LENGTH_SHORT).show()
                 } else {
                     val clienteEditado = cliente.copy(
+                        cod_cliente = cod,
                         nombre = nombre,
                         apellido1 = apellido1,
                         apellido2 = apellido2,
@@ -169,15 +172,15 @@ fun PantallaEditarClientes(
             }
         }
         Spacer(modifier = Modifier.height(8.dp))
-/*        Button(
-            onClick = {
-                abrirAlertDialog = true
-            }, colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Red, contentColor = Color.White
-            )
-        ) {
-            Text(text = stringResource(R.string.btn_borrar))
-        }*/
+        /*        Button(
+                    onClick = {
+                        abrirAlertDialog = true
+                    }, colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Red, contentColor = Color.White
+                    )
+                ) {
+                    Text(text = stringResource(R.string.btn_borrar))
+                }*/
 
         if (abrirAlertDialog) {
             AlertDialogClienteConfirmar(

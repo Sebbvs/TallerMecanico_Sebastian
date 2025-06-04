@@ -21,7 +21,7 @@ sealed interface ClienteUIState {
     data class ObtenerExito(val clientes: List<Cliente>) : ClienteUIState
     data class CrearExito(val cliente: Cliente) : ClienteUIState
     data class ActualizarExito(val cliente: Cliente) : ClienteUIState
-    data class EliminarExito(val id: String) : ClienteUIState
+    data class EliminarExito(val id: Int) : ClienteUIState
 
     object Error : ClienteUIState
     object Cargando : ClienteUIState
@@ -98,7 +98,7 @@ class ClienteViewModel(private val clienteRepositorio: ClienteRepositorio) : Vie
         }
     }
 
-    fun actualizarCliente(id: String, cliente: Cliente) {
+    fun actualizarCliente(id: Int, cliente: Cliente) {
         viewModelScope.launch {
             clienteUIState = ClienteUIState.Cargando
             clienteUIState = try {
@@ -119,7 +119,7 @@ class ClienteViewModel(private val clienteRepositorio: ClienteRepositorio) : Vie
         }
     }
 
-    fun eliminarCliente(id: String) {
+    fun eliminarCliente(id: Int) {
         viewModelScope.launch {
             clienteUIState = ClienteUIState.Cargando
             clienteUIState = try {

@@ -29,53 +29,50 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.tallermecanico_sebastian.R
-import com.example.tallermecanico_sebastian.modelo.Pieza
+import com.example.tallermecanico_sebastian.modelo.Tipopieza
 import com.example.tallermecanico_sebastian.ui.pantallas.componentes.PantallaCargando
 import com.example.tallermecanico_sebastian.ui.pantallas.componentes.PantallaError
 import com.example.tallermecanico_sebastian.ui.theme.AzulPrincipal
-import com.example.tallermecanico_sebastian.ui.viewmodel.PiezaUIState
+import com.example.tallermecanico_sebastian.ui.viewmodel.TipopiezaUIState
 
 @Composable
-fun PantallaPiezas(
-    piezaUIState: PiezaUIState,
-    onPiezasObtenidos: () -> Unit,
-    onPiezaClick: (Pieza) -> Unit,
-    onPiezaEditar: (Pieza) -> Unit,
-    onPiezaInsertar: () -> Unit,
+fun PantallaTipopiezas(
+    tipopiezaUIState: TipopiezaUIState,
+    onTipopiezasObtenidos: () -> Unit,
+    onTipopiezaEditar: (Tipopieza) -> Unit,
+    onTipopiezaInsertar: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    when (piezaUIState) {
-        is PiezaUIState.Cargando -> PantallaCargando(modifier = modifier.fillMaxSize())
-        is PiezaUIState.Error -> PantallaError(modifier = modifier.fillMaxWidth())
-        is PiezaUIState.ObtenerExito -> PantallaExitoPiezas(
-            lista = piezaUIState.piezas,
+    when (tipopiezaUIState) {
+        is TipopiezaUIState.Cargando -> PantallaCargando(modifier = modifier.fillMaxSize())
+        is TipopiezaUIState.Error -> PantallaError(modifier = modifier.fillMaxWidth())
+        is TipopiezaUIState.ObtenerExito -> PantallaExitoTipopieza(
+            lista = tipopiezaUIState.tipopieza,
             modifier = modifier.fillMaxWidth(),
-            onPiezaClick = onPiezaClick,
-            onPiezaEditar = onPiezaEditar,
-            onPiezaInsertar = onPiezaInsertar
+            onTipopiezaEditar = onTipopiezaEditar,
+            onTipopiezaInsertar = onTipopiezaInsertar
         )
 
 
-        is PiezaUIState.CrearExito -> onPiezasObtenidos()
-        is PiezaUIState.ActualizarExito -> onPiezasObtenidos()
-        is PiezaUIState.EliminarExito -> onPiezasObtenidos()
+        is TipopiezaUIState.CrearExito -> onTipopiezasObtenidos()
+        is TipopiezaUIState.ActualizarExito -> onTipopiezasObtenidos()
+        is TipopiezaUIState.EliminarExito -> onTipopiezasObtenidos()
     }
 }
 
 @Composable
-fun PantallaExitoPiezas(
-    lista: List<Pieza>,
+fun PantallaExitoTipopieza(
+    lista: List<Tipopieza>,
     modifier: Modifier,
-    onPiezaClick: (Pieza) -> Unit,
-    onPiezaEditar: (Pieza) -> Unit,
-    onPiezaInsertar: () -> Unit
+    onTipopiezaEditar: (Tipopieza) -> Unit,
+    onTipopiezaInsertar: () -> Unit
 ) {
     LazyColumn(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(12.dp),
         modifier = Modifier.padding(8.dp)
     ) {
-        items(lista) { pieza ->
+        items(lista) { tipopieza ->
             Card(
                 modifier = Modifier
                     .fillMaxSize()
@@ -87,45 +84,34 @@ fun PantallaExitoPiezas(
                 elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
             ) {
-                Column(
-                    modifier = Modifier.padding(start = 9.dp, top = 3.dp, bottom = 3.dp)
+                Row(
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(
-                        text = "${stringResource(R.string.texto_tipo)}: ${pieza.tipo_pieza?.nombre}",
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Text(
-                        text = "${stringResource(R.string.averia_descripcion)}: ${pieza.descripcion}",
-                        style = MaterialTheme.typography.titleSmall
-                    )
-                    Text(
-                        text = "${stringResource(R.string.editar_pieza_cantidad)}: ${pieza.cantidad}",
-                        style = MaterialTheme.typography.titleSmall
-                    )
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceEvenly,
-                        modifier = Modifier.fillMaxWidth()
+                    Column {
+                        Text(
+                            text = "${stringResource(R.string.texto_tipo)}: ${tipopieza.nombre}",
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.SpaceEvenly,
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                        }
+                    }
+                    OutlinedButton(
+                        onClick = {
+                            onTipopiezaEditar(tipopieza)
+                        },
                     ) {
-                        OutlinedButton(
-                            onClick = {
-                                onPiezaClick(pieza)
-                            },
-                        ) {
-                            Icon(
-                                imageVector = Icons.Filled.Info, contentDescription = "Info"
-                            )
-                        }
-                        OutlinedButton(
-                            onClick = {
-                                onPiezaEditar(pieza)
-                            },
-                        ) {
-                            Icon(
-                                imageVector = Icons.Filled.Create, contentDescription = "Editar"
-                            )
-                        }
+                        Icon(
+                            imageVector = Icons.Filled.Create, contentDescription = "Editar"
+                        )
                     }
                 }
             }
@@ -139,7 +125,7 @@ fun PantallaExitoPiezas(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(16.dp),
-            onClick = { onPiezaInsertar() },
+            onClick = { onTipopiezaInsertar() },
         ) {
             Icon(Icons.Filled.Add, "Insertar")
         }

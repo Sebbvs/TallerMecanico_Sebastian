@@ -22,6 +22,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -55,7 +56,7 @@ fun PantallaEditarPiezas(
     val tipopieza = viewModel.tipopiezaSeleccionado
     val piezaProvisional = viewModel.provisional
 
-    val cod by remember { mutableStateOf(piezaProvisional?.cod_pieza ?: 0) }
+    val cod by remember { mutableIntStateOf(piezaProvisional?.cod_pieza ?: 0) }
     var descripcion by remember { mutableStateOf(piezaProvisional?.descripcion ?: "") }
     var cantidad by remember { mutableStateOf(piezaProvisional?.cantidad.toString()) }
     val context = LocalContext.current
@@ -75,7 +76,7 @@ fun PantallaEditarPiezas(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 28.dp)
+                .padding(horizontal = 16.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -87,7 +88,7 @@ fun PantallaEditarPiezas(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 28.dp)
+                .padding(horizontal = 16.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -98,24 +99,24 @@ fun PantallaEditarPiezas(
                 text = "${stringResource(R.string.tipopieza_seleccionado)}: ${tipopieza.nombre}",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 28.dp),
+                    .padding(horizontal = 16.dp),
                 fontWeight = FontWeight.Bold
             )
         } ?: Text(
             text = stringResource(R.string.tipopieza_no_seleccionado),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 28.dp),
+                .padding(horizontal = 16.dp),
             fontStyle = FontStyle.Italic
         )
         Button(onClick = {
 //                PIEZA SIN TIPOPIEZA (NI COD TIPOPIEZA)
-            val pieza = Pieza(
+            val piezaEditada = Pieza(
                 cod_pieza = cod,
                 descripcion = descripcion,
                 cantidad = cantidad.toInt(),
             )
-            viewModel.seleccionarProvisional(pieza)
+            viewModel.seleccionarProvisional(piezaEditada)
             onSeleccionarTipopieza()
         }) {
             Text(text = stringResource(R.string.add_tipopieza))
@@ -151,9 +152,9 @@ fun PantallaEditarPiezas(
                             cantidad = cantidad.toInt(),
                         )
                     )
-                    val piezaEditado = viewModel.ensamblarPieza()
-                    if (piezaEditado != null) {
-                        onGuardar(piezaEditado)
+                    val piezaEditada = viewModel.ensamblarPieza()
+                    if (piezaEditada != null) {
+                        onGuardar(piezaEditada)
                         Toast.makeText(context, R.string.editar_pieza_mensaje_1, Toast.LENGTH_SHORT)
                             .show()
                     }

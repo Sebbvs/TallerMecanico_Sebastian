@@ -3,6 +3,7 @@ package com.example.tallermecanico_sebastian.conexion
 import com.example.tallermecanico_sebastian.modelo.Empleado
 import com.example.tallermecanico_sebastian.modelo.Acceso
 import com.example.tallermecanico_sebastian.modelo.Averia
+import com.example.tallermecanico_sebastian.modelo.Averiapieza
 import com.example.tallermecanico_sebastian.modelo.Cliente
 import com.example.tallermecanico_sebastian.modelo.Permiso
 import com.example.tallermecanico_sebastian.modelo.Pieza
@@ -30,7 +31,7 @@ interface ServicioApi {
 
     @GET("averias/{id}")
     suspend fun obtenerAveriaId(
-        @Path("id") id: String
+        @Path("id") id: Int
     ): Averia
 
     @POST("averia")
@@ -40,12 +41,12 @@ interface ServicioApi {
 
     @PUT("averia/{id}")
     suspend fun actualizarAveria(
-        @Path("id") id: String, @Body averia: Averia
+        @Path("id") id: Int, @Body averia: Averia
     ): Averia
 
     @DELETE("averia/{id}")
     suspend fun eliminarAveria(
-        @Path("id") id: String
+        @Path("id") id: Int
     ): Averia
 
     //EMPLEADO
@@ -54,7 +55,7 @@ interface ServicioApi {
 
     @GET("empleados/{id}")
     suspend fun obtenerEmpeladoId(
-        @Path("id") id: String
+        @Path("id") id: Int
     ): Empleado
 
     @POST("empleado")
@@ -64,12 +65,12 @@ interface ServicioApi {
 
     @PUT("empleado/{id}")
     suspend fun actualizarEmpleado(
-        @Path("id") id: String, @Body empleado: Empleado
+        @Path("id") id: Int, @Body empleado: Empleado
     ): Empleado
 
     @DELETE("empleado/{id}")
     suspend fun eliminarEmpleado(
-        @Path("id") id: String
+        @Path("id") id: Int
     ): Empleado
 
 
@@ -79,7 +80,7 @@ interface ServicioApi {
 
     @GET("clientes/{id}")
     suspend fun obtenerClienteId(
-        @Path("id") id: String
+        @Path("id") id: Int
     ): Cliente
 
     @POST("cliente")
@@ -89,12 +90,12 @@ interface ServicioApi {
 
     @PUT("cliente/{id}")
     suspend fun actualizarCliente(
-        @Path("id") id: String, @Body cliente: Cliente
+        @Path("id") id: Int, @Body cliente: Cliente
     ): Cliente
 
     @DELETE("cliente/{id}")
     suspend fun eliminarCliente(
-        @Path("id") id: String
+        @Path("id") id: Int
     ): Cliente
 
 
@@ -104,7 +105,7 @@ interface ServicioApi {
 
     @GET("roles/{id}")
     suspend fun obtenerRolId(
-        @Path("id") id: String
+        @Path("id") id: Int
     ): Rol
 
     @POST("rol")
@@ -114,12 +115,12 @@ interface ServicioApi {
 
     @PUT("rol/{id}")
     suspend fun actualizarRol(
-        @Path("id") id: String, @Body rol: Rol
+        @Path("id") id: Int, @Body rol: Rol
     ): Rol
 
     @DELETE("rol/{id}")
     suspend fun eliminarRol(
-        @Path("id") id: String
+        @Path("id") id: Int
     ): Rol
 
 
@@ -129,7 +130,7 @@ interface ServicioApi {
 
     @GET("vehiculos/{id}")
     suspend fun obtenerVehiculoId(
-        @Path("id") id: String
+        @Path("id") id: Int
     ): Vehiculo
 
     @POST("vehiculo")
@@ -139,12 +140,12 @@ interface ServicioApi {
 
     @PUT("vehiculo/{id}")
     suspend fun actualizarVehiculo(
-        @Path("id") id: String, @Body vehiculo: Vehiculo
+        @Path("id") id: Int, @Body vehiculo: Vehiculo
     ): Vehiculo
 
     @DELETE("vehiculo/{id}")
     suspend fun eliminarVehiculo(
-        @Path("id") id: String
+        @Path("id") id: Int
     ): Vehiculo
 
     //PIEZA
@@ -153,7 +154,7 @@ interface ServicioApi {
 
     @GET("piezas/{id}")
     suspend fun obtenerPiezaId(
-        @Path("id") id: String
+        @Path("id") id: Int
     ): Pieza
 
     @POST("pieza")
@@ -163,12 +164,12 @@ interface ServicioApi {
 
     @PUT("pieza/{id}")
     suspend fun actualizarPieza(
-        @Path("id") id: String, @Body pieza: Pieza
+        @Path("id") id: Int, @Body pieza: Pieza
     ): Pieza
 
     @DELETE("pieza/{id}")
     suspend fun eliminarPieza(
-        @Path("id") id: String
+        @Path("id") id: Int
     ): Pieza
 
     //TIPOPIEZA
@@ -177,7 +178,7 @@ interface ServicioApi {
 
     @GET("tipospieza/{id}")
     suspend fun obtenerTipospiezaId(
-        @Path("id") id: String
+        @Path("id") id: Int
     ): Tipopieza
 
     @POST("tipospieza")
@@ -187,12 +188,12 @@ interface ServicioApi {
 
     @PUT("tipospieza/{id}")
     suspend fun actualizarTipopieza(
-        @Path("id") id: String, @Body tipopieza: Tipopieza
+        @Path("id") id: Int, @Body tipopieza: Tipopieza
     ): Tipopieza
 
     @DELETE("tipospieza/{id}")
     suspend fun eliminarTipopieza(
-        @Path("id") id: String
+        @Path("id") id: Int
     ): Tipopieza
 
     //TIPOSAVERIA
@@ -201,7 +202,7 @@ interface ServicioApi {
 
     @GET("tiposaveria/{id}")
     suspend fun obtenerTipoaveriaId(
-        @Path("id") id: String
+        @Path("id") id: Int
     ): Tipoaveria
 
     @POST("tiposaveria")
@@ -211,13 +212,37 @@ interface ServicioApi {
 
     @PUT("tiposaveria/{id}")
     suspend fun actualizarTipoaveria(
-        @Path("id") id: String, @Body tipoaveria: Tipoaveria
+        @Path("id") id: Int, @Body tipoaveria: Tipoaveria
     ): Tipoaveria
 
     @DELETE("tiposaveria/{id}")
     suspend fun eliminarTipoaveria(
-        @Path("id") id: String
+        @Path("id") id: Int
     ): Tipoaveria
+
+    //AVERIAPIEZA
+    @GET("averiapieza")
+    suspend fun obtenerAveriapieza(): List<Averiapieza>
+
+    @GET("averiapieza/{id}")
+    suspend fun obtenerAveriapiezaId(
+        @Path("id") id: Int
+    ): Averiapieza
+
+    @POST("averiapieza")
+    suspend fun insertarAveriapieza(
+        @Body averiapieza: Averiapieza
+    ): Averiapieza
+
+    @PUT("averiapieza/{id}")
+    suspend fun actualizarAveriapieza(
+        @Path("id") id: Int, @Body averiapieza: Averiapieza
+    ): Averiapieza
+
+    @DELETE("averiapieza/{id}")
+    suspend fun eliminarAveriapieza(
+        @Path("id") id: Int
+    ): Averiapieza
 
     //PERMISOS
     @GET("permisos")

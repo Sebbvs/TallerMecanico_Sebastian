@@ -178,6 +178,6 @@ fun MatriculaTextField(
         singleLine = true,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 28.dp),
+            .padding(horizontal = 16.dp),
     )
 }

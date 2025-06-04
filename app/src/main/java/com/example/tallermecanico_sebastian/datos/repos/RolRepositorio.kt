@@ -6,8 +6,8 @@ import com.example.tallermecanico_sebastian.modelo.Rol
 interface RolRepositorio {
     suspend fun obtenerRoles(): List<Rol>
     suspend fun insertarRol(rol: Rol): Rol
-    suspend fun actualizarRol(id: String, rol: Rol): Rol
-    suspend fun eliminarRol(id: String): Rol
+    suspend fun actualizarRol(id: Int, rol: Rol): Rol
+    suspend fun eliminarRol(id: Int): Rol
 }
 
 class ConexionRolRepositorio(
@@ -17,8 +17,8 @@ class ConexionRolRepositorio(
 
     override suspend fun insertarRol(rol: Rol): Rol = servicioApi.insertarRol(rol)
 
-    override suspend fun actualizarRol(id: String, rol: Rol): Rol = actualizarRol(id, rol)
+    override suspend fun actualizarRol(id: Int, rol: Rol): Rol = actualizarRol(id, rol)
 
-    override suspend fun eliminarRol(id: String): Rol = eliminarRol(id)
+    override suspend fun eliminarRol(id: Int): Rol = eliminarRol(id)
 
 }

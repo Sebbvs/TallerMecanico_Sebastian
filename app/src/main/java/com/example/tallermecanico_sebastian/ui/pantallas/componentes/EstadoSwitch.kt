@@ -31,7 +31,7 @@ fun EstadoSwitch(
     ) {
         Box(modifier = Modifier.width(110.dp)) {
             Text(
-                text = if (estado) "Reparado" else "No reparado",
+                text = if (estado) "Reparado" else "Sin reparar",
                 style = MaterialTheme.typography.bodyLarge
             )
         }

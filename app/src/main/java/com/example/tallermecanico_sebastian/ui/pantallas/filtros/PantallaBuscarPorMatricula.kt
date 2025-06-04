@@ -92,7 +92,7 @@ fun PantallaBuscarPorMatricula(
                     placeholder = { Text(text = "1589 LLW") },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 28.dp)
+                        .padding(horizontal = 16.dp)
                 )*/
 
         Spacer(modifier = Modifier.width(8.dp))
@@ -108,7 +108,7 @@ fun PantallaBuscarPorMatricula(
                 ).show()
                 busquedaRealizada = true
             },
-            modifier = Modifier.padding(horizontal = 28.dp)
+            modifier = Modifier.padding(horizontal = 16.dp)
         ) {
             Text(text = stringResource(R.string.buscar))
         }

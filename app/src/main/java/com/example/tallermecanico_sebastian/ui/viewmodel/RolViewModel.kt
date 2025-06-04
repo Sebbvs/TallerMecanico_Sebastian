@@ -21,7 +21,7 @@ sealed interface RolUIState {
     data class ObtenerExito(val roles: List<Rol>) : RolUIState
     data class CrearExito(val rol: Rol) : RolUIState
     data class ActualizarExito(val rol: Rol) : RolUIState
-    data class EliminarExito(val id: String) : RolUIState
+    data class EliminarExito(val id: Int) : RolUIState
 
     object Error : RolUIState
     object Cargando : RolUIState

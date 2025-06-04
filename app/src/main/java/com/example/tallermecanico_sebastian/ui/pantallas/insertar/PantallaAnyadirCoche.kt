@@ -80,7 +80,7 @@ fun PantallaAnyadirCoche(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 28.dp)
+                .padding(horizontal = 16.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -92,7 +92,7 @@ fun PantallaAnyadirCoche(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 28.dp)
+                .padding(horizontal = 16.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -104,7 +104,7 @@ fun PantallaAnyadirCoche(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 28.dp)
+                .padding(horizontal = 16.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -116,7 +116,7 @@ fun PantallaAnyadirCoche(
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 28.dp)
+                        .padding(horizontal = 16.dp)
                 )*/
         MatriculaTextField(
             matricula = matriculaValue,
@@ -142,7 +142,7 @@ fun PantallaAnyadirCoche(
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 28.dp)
+                .padding(horizontal = 16.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -158,14 +158,14 @@ fun PantallaAnyadirCoche(
                 text = "${stringResource(R.string.cliente_seleccionado)}: $nombreCompleto",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 28.dp),
+                    .padding(horizontal = 16.dp),
                 fontWeight = FontWeight.Bold
             )
         } ?: Text(
             text = stringResource(R.string.cliente_no_seleccionado),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 28.dp),
+                .padding(horizontal = 16.dp),
             fontStyle = FontStyle.Italic
         )
         Button(onClick = {

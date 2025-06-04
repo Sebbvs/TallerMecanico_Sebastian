@@ -22,7 +22,7 @@ sealed interface VehiculoUIState {
     data class ObtenerExito(val vehiculos: List<Vehiculo>) : VehiculoUIState
     data class CrearExito(val vehiculo: Vehiculo) : VehiculoUIState
     data class ActualizarExito(val vehiculo: Vehiculo) : VehiculoUIState
-    data class EliminarExito(val id: String) : VehiculoUIState
+    data class EliminarExito(val id: Int) : VehiculoUIState
 
     object Error : VehiculoUIState
     object Cargando : VehiculoUIState
@@ -97,7 +97,7 @@ class VehiculoViewModel(private val vehiculoRepositorio: VehiculoRepositorio) : 
         }
     }
 
-    fun actualizarVehiculo(id: String, vehiculo: Vehiculo) {
+    fun actualizarVehiculo(id: Int, vehiculo: Vehiculo) {
         viewModelScope.launch {
             vehiculoUIState = VehiculoUIState.Cargando
             vehiculoUIState = try {
@@ -118,7 +118,7 @@ class VehiculoViewModel(private val vehiculoRepositorio: VehiculoRepositorio) : 
         }
     }
 
-    fun eliminarVehiculo(id: String) {
+    fun eliminarVehiculo(id: Int) {
         viewModelScope.launch {
             vehiculoUIState = VehiculoUIState.Cargando
             vehiculoUIState = try {

@@ -64,7 +64,7 @@ fun PantallaAnyadirPieza(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 28.dp)
+                .padding(horizontal = 16.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -76,7 +76,7 @@ fun PantallaAnyadirPieza(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 28.dp)
+                .padding(horizontal = 16.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -87,14 +87,14 @@ fun PantallaAnyadirPieza(
                 text = "${stringResource(R.string.tipopieza_seleccionado)}: ${tipopieza.nombre}",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 28.dp),
+                    .padding(horizontal = 16.dp),
                 fontWeight = FontWeight.Bold
             )
         } ?: Text(
             text = stringResource(R.string.tipopieza_no_seleccionado),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 28.dp),
+                .padding(horizontal = 16.dp),
             fontStyle = FontStyle.Italic
         )
         Button(onClick = {

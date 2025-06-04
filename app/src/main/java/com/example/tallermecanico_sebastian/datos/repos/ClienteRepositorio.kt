@@ -6,8 +6,8 @@ import com.example.tallermecanico_sebastian.modelo.Cliente
 interface ClienteRepositorio {
     suspend fun obtenerClientes(): List<Cliente>
     suspend fun insertarCliente(cliente: Cliente): Cliente
-    suspend fun actualizarCliente(id: String, cliente: Cliente): Cliente
-    suspend fun eliminarCliente(id: String): Cliente
+    suspend fun actualizarCliente(id: Int, cliente: Cliente): Cliente
+    suspend fun eliminarCliente(id: Int): Cliente
 }
 
 class ConexionClienteRepositorio(
@@ -18,9 +18,9 @@ class ConexionClienteRepositorio(
     override suspend fun insertarCliente(cliente: Cliente): Cliente =
         servicioApi.insertarCliente(cliente)
 
-    override suspend fun actualizarCliente(id: String, cliente: Cliente): Cliente =
+    override suspend fun actualizarCliente(id: Int, cliente: Cliente): Cliente =
         servicioApi.actualizarCliente(id, cliente)
 
-    override suspend fun eliminarCliente(id: String): Cliente = servicioApi.eliminarCliente(id)
+    override suspend fun eliminarCliente(id: Int): Cliente = servicioApi.eliminarCliente(id)
 
 }

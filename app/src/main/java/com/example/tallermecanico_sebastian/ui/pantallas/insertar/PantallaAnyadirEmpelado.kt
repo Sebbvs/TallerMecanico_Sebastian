@@ -130,14 +130,14 @@ fun PantallaAnyadirEmpleado(
                 text = "${stringResource(R.string.rol_seleccionado)}: ${rol.nombre}",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 28.dp),
+                    .padding(horizontal = 16.dp),
                 fontWeight = FontWeight.Bold
             )
         } ?: Text(
             text = stringResource(R.string.rol_no_seleccionado),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 28.dp),
+                .padding(horizontal = 16.dp),
             fontStyle = FontStyle.Italic
         )
         Button(onClick = {

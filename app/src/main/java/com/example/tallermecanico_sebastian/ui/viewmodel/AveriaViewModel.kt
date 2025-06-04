@@ -24,7 +24,7 @@ sealed interface AveriaUIState {
     data class ObtenerExito(val averias: List<Averia>) : AveriaUIState
     data class CrearExito(val averia: Averia) : AveriaUIState
     data class ActualizarExito(val averia: Averia) : AveriaUIState
-    data class EliminarExito(val id: String) : AveriaUIState
+    data class EliminarExito(val id: Int) : AveriaUIState
 
     object Error : AveriaUIState
     object Cargando : AveriaUIState
@@ -101,7 +101,7 @@ class AveriaViewModel(private val averiaRepositorio: AveriaRepositorio) : ViewMo
         }
     }
 
-    fun actualizarAveria(id: String, averia: Averia) {
+    fun actualizarAveria(id: Int, averia: Averia) {
         viewModelScope.launch {
             averiaUIState = AveriaUIState.Cargando
             averiaUIState = try {
@@ -122,7 +122,7 @@ class AveriaViewModel(private val averiaRepositorio: AveriaRepositorio) : ViewMo
         }
     }
 
-    fun eliminarAveria(id: String) {
+    fun eliminarAveria(id: Int) {
         viewModelScope.launch {
             averiaUIState = AveriaUIState.Cargando
             averiaUIState = try {

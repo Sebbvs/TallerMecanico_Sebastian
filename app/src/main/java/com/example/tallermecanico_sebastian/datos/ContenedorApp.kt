@@ -3,21 +3,26 @@ package com.example.tallermecanico_sebastian.datos
 import android.content.Context
 import com.example.tallermecanico_sebastian.conexion.ServicioApi
 import com.example.tallermecanico_sebastian.datos.repos.AveriaRepositorio
+import com.example.tallermecanico_sebastian.datos.repos.AveriapiezaRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.ClienteRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.ConexionAveriaRepositorio
+import com.example.tallermecanico_sebastian.datos.repos.ConexionAveriapiezaRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.ConexionClienteRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.ConexionEmpleadoRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.ConexionPermisoRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.ConexionPiezaRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.ConexionRolRepositorio
+import com.example.tallermecanico_sebastian.datos.repos.ConexionTipoaveriaRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.ConexionTipopiezaRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.ConexionVehiculoRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.EmpleadoRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.PermisoRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.PiezaRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.RolRepositorio
+import com.example.tallermecanico_sebastian.datos.repos.TipoaveriaRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.TipopiezaRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.VehiculoRepositorio
+import com.example.tallermecanico_sebastian.modelo.Tipoaveria
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
@@ -33,11 +38,14 @@ interface ContenedorApp {
     val vehiculoRepositorio: VehiculoRepositorio
     val piezaRepositorio: PiezaRepositorio
     val tipopiezaRepositorio: TipopiezaRepositorio
+    val averiapiezaRepositorio: AveriapiezaRepositorio
+    val tipoaveriaRepositorio: TipoaveriaRepositorio
 }
 
-class TallerContenedorApp(private val context: Context) : ContenedorApp {
+class TallerContenedorApp : ContenedorApp {
     //    private val baseUrl = "http://192.168.0.244:8000/api/"
     private val baseUrl = "http://192.168.1.106:8000/api/"
+//    private val baseUrl = "http://192.168.0.102:8000/api/"
 
     @OptIn(ExperimentalSerializationApi::class)
     private val json = Json {
@@ -83,5 +91,11 @@ class TallerContenedorApp(private val context: Context) : ContenedorApp {
 
     override val tipopiezaRepositorio: TipopiezaRepositorio by lazy {
         ConexionTipopiezaRepositorio(servicioRetrofit)
+    }
+    override val averiapiezaRepositorio: AveriapiezaRepositorio by lazy {
+        ConexionAveriapiezaRepositorio(servicioRetrofit)
+    }
+    override val tipoaveriaRepositorio: TipoaveriaRepositorio by lazy {
+        ConexionTipoaveriaRepositorio(servicioRetrofit)
     }
 }

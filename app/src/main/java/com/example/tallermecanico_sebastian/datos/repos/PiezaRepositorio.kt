@@ -7,8 +7,8 @@ import com.example.tallermecanico_sebastian.modelo.Pieza
 interface PiezaRepositorio {
     suspend fun obtenerPiezas(): List<Pieza>
     suspend fun insertarPieza(pieza: Pieza): Pieza
-    suspend fun actualizarPieza(id: String, pieza: Pieza): Pieza
-    suspend fun eliminarPieza(id: String): Pieza
+    suspend fun actualizarPieza(id: Int, pieza: Pieza): Pieza
+    suspend fun eliminarPieza(id: Int): Pieza
 }
 
 class ConexionPiezaRepositorio(
@@ -19,9 +19,9 @@ class ConexionPiezaRepositorio(
     override suspend fun insertarPieza(pieza: Pieza): Pieza =
         servicioApi.insertarPieza(pieza)
 
-    override suspend fun actualizarPieza(id: String, pieza: Pieza): Pieza =
+    override suspend fun actualizarPieza(id: Int, pieza: Pieza): Pieza =
         servicioApi.actualizarPieza(id, pieza)
 
-    override suspend fun eliminarPieza(id: String): Pieza = servicioApi.eliminarPieza(id)
+    override suspend fun eliminarPieza(id: Int): Pieza = servicioApi.eliminarPieza(id)
 
 }

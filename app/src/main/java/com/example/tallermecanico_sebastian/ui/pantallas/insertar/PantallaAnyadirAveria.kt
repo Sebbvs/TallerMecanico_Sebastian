@@ -100,7 +100,7 @@ fun PantallaAnyadirAveria(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 28.dp)
+                .padding(horizontal = 16.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -110,11 +110,11 @@ fun PantallaAnyadirAveria(
             onValueChange = {
                 if (it.length <= 220) observaciones = it
             },
-            label = { Text(text = stringResource(R.string.averia_observaciones) + " *") },
+            label = { Text(text = stringResource(R.string.averia_observaciones)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 28.dp)
+                .padding(horizontal = 16.dp)
         )
 
 //        Spacer(modifier = Modifier.height(8.dp))
@@ -141,7 +141,7 @@ fun PantallaAnyadirAveria(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(64.dp)
-                    .padding(horizontal = 28.dp)
+                    .padding(horizontal = 16.dp)
             )
 
             if (showDatePicker1) {
@@ -167,108 +167,123 @@ fun PantallaAnyadirAveria(
         }
 
         Spacer(modifier = Modifier.height(8.dp))
-        //Boton para añadir Cliente
-        cliente?.let {
-            Text(
-                text = "${stringResource(R.string.cliente_seleccionado)}: ${cliente.nombre} ${cliente.apellido1}",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 28.dp),
-                fontWeight = FontWeight.Bold
-            )
-        } ?: Text(
-            text = stringResource(R.string.cliente_no_seleccionado),
+
+        Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 28.dp),
-            fontStyle = FontStyle.Italic
-        )
-        Button(onClick = {
+                .padding(16.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            //Boton para añadir Cliente
+            cliente?.let {
+                Text(
+                    text = "${stringResource(R.string.cliente_seleccionado)}: ${cliente.nombre} ${cliente.apellido1}",
+                    modifier = Modifier,
+                    fontWeight = FontWeight.Bold
+                )
+            } ?: Text(
+                text = stringResource(R.string.cliente_no_seleccionado),
+                modifier = Modifier,
+                fontStyle = FontStyle.Italic
+            )
+
+            Button(onClick = {
 //                EMPLEADO SIN ROL (NI COD ROL)
-            val averia = Averia(
-                descripcion = descripcion,
-                precio = precio,
-                estado = estadoTexto,
-                fecha_recepcion = fechaRecepcion,
-                fecha_resolucion = fechaResolucion,
-                observaciones = observaciones,
-                tipo_averias = emptyList(),
-                averia_piezas = emptyList(),
-            )
-            viewModel.seleccionarProvisional(averia)
-            onSeleccionarCliente()
-        }) {
-            Text(text = stringResource(R.string.add_cliente))
+                val averia = Averia(
+                    descripcion = descripcion,
+                    precio = precio,
+                    estado = estadoTexto,
+                    fecha_recepcion = fechaRecepcion,
+                    fecha_resolucion = fechaResolucion,
+                    observaciones = observaciones,
+                    tipo_averias = emptyList(),
+                    averia_piezas = emptyList(),
+                )
+                viewModel.seleccionarProvisional(averia)
+                onSeleccionarCliente()
+            }) {
+                Text(text = stringResource(R.string.add_cliente))
+            }
         }
 
+
         Spacer(modifier = Modifier.height(8.dp))
-//Boton para añadir Empleado
-        empleado?.let {
-            Text(
-                text = "${stringResource(R.string.empleado_seleccionado)}: ${empleado.nombre} ${empleado.apellido1}",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 28.dp),
-                fontWeight = FontWeight.Bold
-            )
-        } ?: Text(
-            text = stringResource(R.string.empleado_no_seleccionado),
+
+        Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 28.dp),
-            fontStyle = FontStyle.Italic
-        )
-        Button(onClick = {
+                .padding(16.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            //Boton para añadir Empleado
+            empleado?.let {
+                Text(
+                    text = "${stringResource(R.string.empleado_seleccionado)}: ${empleado.nombre} ${empleado.apellido1}",
+                    fontWeight = FontWeight.Bold
+                )
+            } ?: Text(
+                text = stringResource(R.string.empleado_no_seleccionado),
+                fontStyle = FontStyle.Italic
+            )
+
+            Button(onClick = {
 //                AVERIA SIN CLIENTE
-            val averia = Averia(
-                descripcion = descripcion,
-                precio = precio,
-                estado = estadoTexto,
-                fecha_recepcion = fechaRecepcion,
-                fecha_resolucion = fechaResolucion,
-                observaciones = observaciones,
-                tipo_averias = emptyList(),
-                averia_piezas = emptyList(),
-            )
-            viewModel.seleccionarProvisional(averia)
-            onSeleccionarEmpleado()
-        }) {
-            Text(text = stringResource(R.string.add_empleado))
+                val averia = Averia(
+                    descripcion = descripcion,
+                    precio = precio,
+                    estado = estadoTexto,
+                    fecha_recepcion = fechaRecepcion,
+                    fecha_resolucion = fechaResolucion,
+                    observaciones = observaciones,
+                    tipo_averias = emptyList(),
+                    averia_piezas = emptyList(),
+                )
+                viewModel.seleccionarProvisional(averia)
+                onSeleccionarEmpleado()
+            }) {
+                Text(text = stringResource(R.string.add_empleado))
+            }
         }
 
         Spacer(modifier = Modifier.height(8.dp))
-        //Boton para añadir Vehiculo
-        vehiculo?.let {
-            Text(
-                text = "${stringResource(R.string.vehiculo_seleccionado)}: [${vehiculo.matricula}]${vehiculo.marca} ${vehiculo.modelo}",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 28.dp),
-                fontWeight = FontWeight.Bold
-            )
-        } ?: Text(
-            text = stringResource(R.string.vehiculo_no_seleccionado),
+
+        Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 28.dp),
-            fontStyle = FontStyle.Italic
-        )
-        Button(onClick = {
-//                AVERIA SIN VEHICULO
-            val averia = Averia(
-                descripcion = descripcion,
-                precio = precio,
-                estado = estadoTexto,
-                fecha_recepcion = fechaRecepcion,
-                fecha_resolucion = fechaResolucion,
-                observaciones = observaciones,
-                tipo_averias = emptyList(),
-                averia_piezas = emptyList(),
+                .padding(16.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            //Boton para añadir Vehiculo
+            vehiculo?.let {
+                Text(
+                    text = "${stringResource(R.string.vehiculo_seleccionado)}: ${vehiculo.matricula}", //${vehiculo.marca} ${vehiculo.modelo}",
+                    fontWeight = FontWeight.Bold
+                )
+            } ?: Text(
+                text = stringResource(R.string.vehiculo_no_seleccionado),
+                fontStyle = FontStyle.Italic
             )
-            viewModel.seleccionarProvisional(averia)
-            onSeleccionarVehiculo()
-        }) {
-            Text(text = stringResource(R.string.add_vehiculo))
+
+            Button(onClick = {
+//                AVERIA SIN VEHICULO
+                val averia = Averia(
+                    descripcion = descripcion,
+                    precio = precio,
+                    estado = estadoTexto,
+                    fecha_recepcion = fechaRecepcion,
+                    fecha_resolucion = fechaResolucion,
+                    observaciones = observaciones,
+                    tipo_averias = emptyList(),
+                    averia_piezas = emptyList(),
+                )
+                viewModel.seleccionarProvisional(averia)
+                onSeleccionarVehiculo()
+            }) {
+                Text(text = stringResource(R.string.add_vehiculo))
+            }
         }
 
         Spacer(modifier = Modifier.height(8.dp))

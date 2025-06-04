@@ -49,7 +49,7 @@ fun PantallaDetallePieza(
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 28.dp)
+                .padding(horizontal = 16.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -64,7 +64,7 @@ fun PantallaDetallePieza(
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 28.dp)
+                .padding(horizontal = 16.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -72,14 +72,14 @@ fun PantallaDetallePieza(
         TextField(
             value = tipopieza,
             onValueChange = { },
-            label = { Text(text = stringResource(R.string.editar_pieza_tipopieza)) },
+            label = { Text(text = stringResource(R.string.texto_tipo)) },
             readOnly = true,
             colors = TextFieldDefaults.colors(
                 disabledLabelColor = Color.Black, disabledTextColor = Color.Black
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 28.dp)
+                .padding(horizontal = 16.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))

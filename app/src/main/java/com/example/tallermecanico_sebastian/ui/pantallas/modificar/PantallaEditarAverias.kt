@@ -1,6 +1,7 @@
 package com.example.tallermecanico_sebastian.ui.pantallas.modificar
 
 import android.util.Log
+import android.widget.Space
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
@@ -129,7 +131,7 @@ fun PantallaEditarAverias(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 28.dp)
+                .padding(horizontal = 16.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -141,7 +143,7 @@ fun PantallaEditarAverias(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 28.dp)
+                .padding(horizontal = 16.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -156,109 +158,92 @@ fun PantallaEditarAverias(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        Box {
-            OutlinedTextField(
-                value = formatFechaParaMostrar(fechaRecepcion),
-                onValueChange = { },
-                label = { Text(text = stringResource(R.string.averia_fecha_recepcion)) },
-                readOnly = true,
-                trailingIcon = {
-                    IconButton(onClick = { showDatePicker1 = !showDatePicker1 }) {
-                        Icon(
-                            imageVector = Icons.Default.DateRange,
-                            contentDescription = stringResource(R.string.editar_averia_seleccionar_fecha)
-                        )
-                    }
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(64.dp)
-                    .padding(horizontal = 28.dp)
-            )
+        Row(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth()
+                .height(65.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Box(modifier = Modifier.weight(1f)) {
+                OutlinedTextField(
+                    value = formatFechaParaMostrar(fechaRecepcion),
+                    onValueChange = { },
+                    label = { Text(text = stringResource(R.string.averia_fecha_recepcion)) },
+                    readOnly = true,
+                    trailingIcon = {
+                        IconButton(onClick = { showDatePicker1 = !showDatePicker1 }) {
+                            Icon(
+                                imageVector = Icons.Default.DateRange,
+                                contentDescription = stringResource(R.string.editar_averia_seleccionar_fecha)
+                            )
+                        }
+                    },
+                    modifier = Modifier
+                        .height(64.dp)
+                )
 
-            if (showDatePicker1) {
-                DatePickerModal(datePickerState = datePickerStateRecepcion, onDateSelected = {
-                    if (it != null) {
-                        val hoy = LocalDate.now().toEpochDay() * 24 * 60 * 60 * 1000
-                        if (it > hoy) {
-                            Toast.makeText(context, R.string.fecha_futura, Toast.LENGTH_SHORT)
-                                .show()
-                        } else {
-                            fechaRecepcion = convertMillisToDate(it)
-                            comprobarPosteriorOIgualARecepcion = it
-                            if (comprobarAnteriorOIgualAHoy != null && comprobarAnteriorOIgualAHoy!! <= it) {
-                                comprobarAnteriorOIgualAHoy = null
-                                fechaResolucion = ""
+                if (showDatePicker1) {
+                    DatePickerModal(datePickerState = datePickerStateRecepcion, onDateSelected = {
+                        if (it != null) {
+                            val hoy = LocalDate.now().toEpochDay() * 24 * 60 * 60 * 1000
+                            if (it > hoy) {
+                                Toast.makeText(context, R.string.fecha_futura, Toast.LENGTH_SHORT)
+                                    .show()
+                            } else {
+                                fechaRecepcion = convertMillisToDate(it)
+                                comprobarPosteriorOIgualARecepcion = it
+                                if (comprobarAnteriorOIgualAHoy != null && comprobarAnteriorOIgualAHoy!! <= it) {
+                                    comprobarAnteriorOIgualAHoy = null
+                                    fechaResolucion = ""
+                                }
                             }
                         }
-                    }
-                    showDatePicker1 = false
-                }, onDismiss = {
-                    showDatePicker1 = false
-                })
+                        showDatePicker1 = false
+                    }, onDismiss = {
+                        showDatePicker1 = false
+                    })
+                }
             }
-        }
 
-        Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.width(8.dp))
 
-        Box {
-            OutlinedTextField(
-                value = formatFechaParaMostrar(fechaResolucion),
-                onValueChange = { },
-                label = { Text(text = stringResource(R.string.averia_fecha_resolucion)) },
-                readOnly = true,
-                enabled = estado,
-                trailingIcon = {
-                    IconButton(onClick = { showDatePicker2 = !showDatePicker2 }, enabled = estado) {
-                        Icon(
-                            imageVector = Icons.Default.DateRange,
-                            contentDescription = stringResource(R.string.editar_averia_seleccionar_fecha)
-                        )
-                    }
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(64.dp)
-                    .padding(horizontal = 28.dp)
-            )
-
-            if (showDatePicker2) {
-                DatePickerModal(datePickerState = datePickerStateResolucion, onDateSelected = {
-                    /*if (it != null) {
-                        if (comprobarPosteriorOIgualARecepcion == null) {
-                            Toast.makeText(
-                                context,
-                                R.string.fecha_recepcion_primero,
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        } else if (it < comprobarPosteriorOIgualARecepcion!!) {
-                            Toast.makeText(
-                                context,
-                                R.string.fecha_resolucion_anterior,
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        } else {
-                            comprobarAnteriorOIgualAHoy = it
-                            fechaResolucion = convertMillisToDate(it)
-                            estado = true // Marca como reparado automáticamente
+            Box(modifier = Modifier.weight(1f)) {
+                OutlinedTextField(
+                    value = formatFechaParaMostrar(fechaResolucion),
+                    onValueChange = { },
+                    label = { Text(text = stringResource(R.string.averia_fecha_resolucion)) },
+                    readOnly = true,
+                    enabled = estado,
+                    trailingIcon = {
+                        IconButton(
+                            onClick = { showDatePicker2 = !showDatePicker2 },
+                            enabled = estado
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.DateRange,
+                                contentDescription = stringResource(R.string.editar_averia_seleccionar_fecha)
+                            )
                         }
-                    }*/
+                    },
+                    modifier = Modifier
+                        .height(64.dp)
+                )
 
-                    if (it != null) {
-                        if (comprobarPosteriorOIgualARecepcion == null) {
-                            Toast.makeText(
-                                context,
-                                R.string.fecha_resolucion_anterior,
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        } else {
-                            val fechaRecepcionDate =
-                                millisToLocalDate(comprobarPosteriorOIgualARecepcion!!)
-                            val fechaResolucionDate = millisToLocalDate(it)
-                            if (fechaResolucionDate.isBefore(fechaRecepcionDate)) {
+                if (showDatePicker2) {
+                    DatePickerModal(datePickerState = datePickerStateResolucion, onDateSelected = {
+                        /*if (it != null) {
+                            if (comprobarPosteriorOIgualARecepcion == null) {
                                 Toast.makeText(
                                     context,
                                     R.string.fecha_recepcion_primero,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            } else if (it < comprobarPosteriorOIgualARecepcion!!) {
+                                Toast.makeText(
+                                    context,
+                                    R.string.fecha_resolucion_anterior,
                                     Toast.LENGTH_SHORT
                                 ).show()
                             } else {
@@ -266,123 +251,160 @@ fun PantallaEditarAverias(
                                 fechaResolucion = convertMillisToDate(it)
                                 estado = true // Marca como reparado automáticamente
                             }
-                        }
-                    }
+                        }*/
 
-                    showDatePicker2 = false
-                }, onDismiss = {
-                    showDatePicker2 = false
-                })
+                        if (it != null) {
+                            if (comprobarPosteriorOIgualARecepcion == null) {
+                                Toast.makeText(
+                                    context,
+                                    R.string.fecha_resolucion_anterior,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            } else {
+                                val fechaRecepcionDate =
+                                    millisToLocalDate(comprobarPosteriorOIgualARecepcion!!)
+                                val fechaResolucionDate = millisToLocalDate(it)
+                                if (fechaResolucionDate.isBefore(fechaRecepcionDate)) {
+                                    Toast.makeText(
+                                        context,
+                                        R.string.fecha_recepcion_primero,
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                } else {
+                                    comprobarAnteriorOIgualAHoy = it
+                                    fechaResolucion = convertMillisToDate(it)
+                                    estado = true // Marca como reparado automáticamente
+                                }
+                            }
+                        }
+
+                        showDatePicker2 = false
+                    }, onDismiss = {
+                        showDatePicker2 = false
+                    })
+                }
             }
         }
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        //Boton para añadir Cliente
-        cliente?.let {
-            Text(
-                text = "${stringResource(R.string.cliente_seleccionado)}: ${cliente.nombre} ${cliente.apellido1}",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 28.dp),
-                fontWeight = FontWeight.Bold
-            )
-        } ?: Text(
-            text = stringResource(R.string.cliente_no_seleccionado),
+        Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 28.dp),
-            fontStyle = FontStyle.Italic
-        )
-        Button(onClick = {
+                .padding(16.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            //Boton para añadir Cliente
+            cliente?.let {
+                Text(
+                    text = "${stringResource(R.string.cliente_seleccionado)}: ${cliente.nombre} ${cliente.apellido1}",
+                    fontWeight = FontWeight.Bold
+                )
+            } ?: Text(
+                text = stringResource(R.string.cliente_no_seleccionado),
+                fontStyle = FontStyle.Italic
+            )
+
+            Button(onClick = {
 //                EMPLEADO SIN ROL (NI COD ROL)
-            val averiaEditada = Averia(
-                cod_averia = cod,
-                descripcion = descripcion,
-                precio = precio,
-                estado = estadoTexto,
-                fecha_recepcion = fechaRecepcion,
-                fecha_resolucion = fechaResolucion,
-                observaciones = observaciones,
-                tipo_averias = emptyList(),
-                averia_piezas = emptyList(),
-            )
-            viewModel.seleccionarProvisional(averiaEditada)
-            onSeleccionarCliente()
-        }) {
-            Text(text = stringResource(R.string.add_cliente))
+                val averiaEditada = Averia(
+                    cod_averia = cod,
+                    descripcion = descripcion,
+                    precio = precio,
+                    estado = estadoTexto,
+                    fecha_recepcion = fechaRecepcion,
+                    fecha_resolucion = fechaResolucion,
+                    observaciones = observaciones,
+                    tipo_averias = emptyList(),
+                    averia_piezas = emptyList(),
+                )
+                viewModel.seleccionarProvisional(averiaEditada)
+                onSeleccionarCliente()
+            }) {
+                Text(text = stringResource(R.string.add_cliente))
+            }
         }
 
         Spacer(modifier = Modifier.height(8.dp))
-//Boton para añadir Empleado
-        empleado?.let {
-            Text(
-                text = "${stringResource(R.string.empleado_seleccionado)}: ${empleado.nombre} ${empleado.apellido1}",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 28.dp),
-                fontWeight = FontWeight.Bold
-            )
-        } ?: Text(
-            text = stringResource(R.string.empleado_no_seleccionado),
+
+        Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 28.dp),
-            fontStyle = FontStyle.Italic
-        )
-        Button(onClick = {
+                .padding(16.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            //Boton para añadir Empleado
+            empleado?.let {
+                Text(
+                    text = "${stringResource(R.string.empleado_seleccionado)}: ${empleado.nombre} ${empleado.apellido1}",
+                    fontWeight = FontWeight.Bold
+                )
+            } ?: Text(
+                text = stringResource(R.string.empleado_no_seleccionado),
+                fontStyle = FontStyle.Italic
+            )
+
+            Button(onClick = {
 //                AVERIA SIN CLIENTE
-            val averiaEditada = Averia(
-                cod_averia = cod,
-                descripcion = descripcion,
-                precio = precio,
-                estado = estadoTexto,
-                fecha_recepcion = fechaRecepcion,
-                fecha_resolucion = fechaResolucion,
-                observaciones = observaciones,
-                tipo_averias = emptyList(),
-                averia_piezas = emptyList(),
-            )
-            viewModel.seleccionarProvisional(averiaEditada)
-            onSeleccionarEmpleado()
-        }) {
-            Text(text = stringResource(R.string.add_empleado))
+                val averiaEditada = Averia(
+                    cod_averia = cod,
+                    descripcion = descripcion,
+                    precio = precio,
+                    estado = estadoTexto,
+                    fecha_recepcion = fechaRecepcion,
+                    fecha_resolucion = fechaResolucion,
+                    observaciones = observaciones,
+                    tipo_averias = emptyList(),
+                    averia_piezas = emptyList(),
+                )
+                viewModel.seleccionarProvisional(averiaEditada)
+                onSeleccionarEmpleado()
+            }) {
+                Text(text = stringResource(R.string.add_empleado))
+            }
         }
 
+
         Spacer(modifier = Modifier.height(8.dp))
-        //Boton para añadir Vehiculo
-        vehiculo?.let {
-            Text(
-                text = "${stringResource(R.string.vehiculo_seleccionado)}: [${vehiculo.matricula}]${vehiculo.marca} ${vehiculo.modelo}",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 28.dp),
-                fontWeight = FontWeight.Bold
-            )
-        } ?: Text(
-            text = stringResource(R.string.vehiculo_no_seleccionado),
+
+        Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 28.dp),
-            fontStyle = FontStyle.Italic
-        )
-        Button(onClick = {
-//                AVERIA SIN VEHICULO
-            val averiaEditada = Averia(
-                cod_averia = cod,
-                descripcion = descripcion,
-                precio = precio,
-                estado = estadoTexto,
-                fecha_recepcion = fechaRecepcion,
-                fecha_resolucion = fechaResolucion,
-                observaciones = observaciones,
-                tipo_averias = emptyList(),
-                averia_piezas = emptyList(),
+                .padding(16.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            //Boton para añadir Vehiculo
+            vehiculo?.let {
+                Text(
+                    text = "${stringResource(R.string.vehiculo_seleccionado)}: ${vehiculo.matricula}", //${vehiculo.marca} ${vehiculo.modelo}",
+                    fontWeight = FontWeight.Bold
+                )
+            } ?: Text(
+                text = stringResource(R.string.vehiculo_no_seleccionado),
+                fontStyle = FontStyle.Italic
             )
-            viewModel.seleccionarProvisional(averiaEditada)
-            onSeleccionarVehiculo()
-        }) {
-            Text(text = stringResource(R.string.add_vehiculo))
+
+            Button(onClick = {
+//                AVERIA SIN VEHICULO
+                val averiaEditada = Averia(
+                    cod_averia = cod,
+                    descripcion = descripcion,
+                    precio = precio,
+                    estado = estadoTexto,
+                    fecha_recepcion = fechaRecepcion,
+                    fecha_resolucion = fechaResolucion,
+                    observaciones = observaciones,
+                    tipo_averias = emptyList(),
+                    averia_piezas = emptyList(),
+                )
+                viewModel.seleccionarProvisional(averiaEditada)
+                onSeleccionarVehiculo()
+            }) {
+                Text(text = stringResource(R.string.add_vehiculo))
+            }
         }
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -452,15 +474,15 @@ fun PantallaEditarAverias(
             }
         }
         Spacer(modifier = Modifier.height(8.dp))
-/*        Button(
-            onClick = {
-                abrirAlertDialog = true
-            }, colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Red, contentColor = Color.White
-            )
-        ) {
-            Text(text = stringResource(R.string.btn_borrar))
-        }*/
+        /*        Button(
+                    onClick = {
+                        abrirAlertDialog = true
+                    }, colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Red, contentColor = Color.White
+                    )
+                ) {
+                    Text(text = stringResource(R.string.btn_borrar))
+                }*/
         if (abrirAlertDialog) {
             AlertDialogAveriaConfirmar(
                 onDismissRequest = { abrirAlertDialog = false },

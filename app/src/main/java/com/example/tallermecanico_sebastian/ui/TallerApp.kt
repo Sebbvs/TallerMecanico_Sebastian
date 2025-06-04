@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AccountCircle
+import androidx.compose.material.icons.outlined.Build
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.Settings
@@ -67,6 +68,8 @@ import com.example.tallermecanico_sebastian.ui.pantallas.detalle.PantallaDetalle
 import com.example.tallermecanico_sebastian.ui.pantallas.detalle.PantallaDetalleRolPermiso
 import com.example.tallermecanico_sebastian.ui.pantallas.insertar.PantallaAnyadirPieza
 import com.example.tallermecanico_sebastian.ui.pantallas.listar.PantallaPiezas
+import com.example.tallermecanico_sebastian.ui.pantallas.listar.PantallaTipoaverias
+import com.example.tallermecanico_sebastian.ui.pantallas.listar.PantallaTipopiezas
 import com.example.tallermecanico_sebastian.ui.pantallas.modificar.PantallaEditarPiezas
 import com.example.tallermecanico_sebastian.ui.pantallas.modificar.PantallaMiPerfil
 import com.example.tallermecanico_sebastian.ui.pantallas.seleccionar.PantallaAveriaCliente
@@ -75,12 +78,14 @@ import com.example.tallermecanico_sebastian.ui.pantallas.seleccionar.PantallaAve
 import com.example.tallermecanico_sebastian.ui.pantallas.seleccionar.PantallaEmpleadoRol
 import com.example.tallermecanico_sebastian.ui.pantallas.seleccionar.PantallaPiezaTipopieza
 import com.example.tallermecanico_sebastian.ui.pantallas.seleccionar.PantallaVehiculoCliente
+import com.example.tallermecanico_sebastian.ui.theme.AzulPrincipal
 import com.example.tallermecanico_sebastian.ui.theme.Blanco
 import com.example.tallermecanico_sebastian.ui.viewmodel.AveriaViewModel
 import com.example.tallermecanico_sebastian.ui.viewmodel.ClienteViewModel
 import com.example.tallermecanico_sebastian.ui.viewmodel.EmpleadoViewModel
 import com.example.tallermecanico_sebastian.ui.viewmodel.PiezaViewModel
 import com.example.tallermecanico_sebastian.ui.viewmodel.RolViewModel
+import com.example.tallermecanico_sebastian.ui.viewmodel.TipoaveriaViewModel
 import com.example.tallermecanico_sebastian.ui.viewmodel.TipopiezaViewModel
 import com.example.tallermecanico_sebastian.ui.viewmodel.VehiculoViewModel
 
@@ -90,9 +95,13 @@ enum class Pantallas(@StringRes val titulo: Int) {
 
     //LISTAS
     Averias(titulo = R.string.pantalla_averias),
-    Coches(titulo = R.string.pantalla_coches), Clientes(titulo = R.string.pantalla_clientes),
+    Coches(titulo = R.string.pantalla_coches),
+    Clientes(titulo = R.string.pantalla_clientes),
     Empleados(titulo = R.string.pantalla_empleados),
-    Piezas(titulo = R.string.pantalla_piezas), Facturas(titulo = R.string.pantalla_facturas),
+    Piezas(titulo = R.string.pantalla_piezas),
+    Facturas(titulo = R.string.pantalla_facturas),
+    Tipopiezas(titulo = R.string.pantalla_tipopiezas),
+    Tipoaverias(titulo = R.string.pantalla_tipoaverias),
 
     //FILTRO MATRICULA
     BuscarMatricula(titulo = R.string.pantalla_buscar),
@@ -103,6 +112,8 @@ enum class Pantallas(@StringRes val titulo: Int) {
     EditarClientes(titulo = R.string.pantalla_editar_clientes),
     EditarEmpleados(titulo = R.string.pantalla_editar_empleados),
     EditarPiezas(titulo = R.string.pantalla_editar_piezas),
+    EditarTipopiezas(titulo = R.string.pantalla_editar_tipopiezas),
+    EditarTipoaverias(titulo = R.string.pantalla_editar_tipoaverias),
 
     //INSERTAR
     AnyadirAveria(titulo = R.string.pantalla_anyadir_averia),
@@ -110,6 +121,8 @@ enum class Pantallas(@StringRes val titulo: Int) {
     AnyadirCoche(titulo = R.string.pantalla_anyadir_coche),
     AnyadirEmpleado(titulo = R.string.pantalla_anyadir_empleado),
     AnyadirPieza(titulo = R.string.pantalla_anyadir_pieza),
+    AnyadirTipopieza(titulo = R.string.pantalla_anyadir_tipopieza),
+    AnyadirTipoaveria(titulo = R.string.pantalla_anyadir_tipoaveria),
 
     //MOSTRAR
     DetalleAveria(titulo = R.string.pantalla_detalle_averia),
@@ -130,8 +143,6 @@ enum class Pantallas(@StringRes val titulo: Int) {
     SeleccionarAveriaEmpleado(titulo = R.string.seleccionar_averia_empleado),
     SeleccionarAveriaVehiculo(titulo = R.string.seleccionar_averia_vehiculo),
     SeleccionarPiezaTipopieza(titulo = R.string.seleccionar_pieza_tipopieza),
-
-//    EditarFacturas(titulo = R.string.pantalla_editar_facturas),
 
 
 }
@@ -161,12 +172,12 @@ val listaRutas = listOf(
         R.drawable.pieza,
         R.drawable.pieza,
     ),
-    Ruta(
-        Pantallas.Facturas.titulo,
-        Pantallas.Facturas.name,
-        R.drawable.factura,
-        R.drawable.factura,
-    ),
+    /*    Ruta(
+            Pantallas.Facturas.titulo,
+            Pantallas.Facturas.name,
+            R.drawable.factura,
+            R.drawable.factura,
+        ),*/
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -180,6 +191,7 @@ fun TallerApp(
     viewModelPieza: PiezaViewModel = viewModel(factory = PiezaViewModel.Factory),
     viewModelVehiculo: VehiculoViewModel = viewModel(factory = VehiculoViewModel.Factory),
     viewModelTipopieza: TipopiezaViewModel = viewModel(factory = TipopiezaViewModel.Factory),
+    viewModelTipoaveria: TipoaveriaViewModel = viewModel(factory = TipoaveriaViewModel.Factory),
 ) {
     val pilaRetroceso by navController.currentBackStackEntryAsState()
 
@@ -196,6 +208,8 @@ fun TallerApp(
     val vehiculoUIState = viewModelVehiculo.vehiculoUIState
     val piezaUIState = viewModelPieza.piezaUIState
     val rolUIState = viewModelRol.rolUIState
+    val tipopiezaUIState = viewModelTipopieza.tipopiezaUIState
+    val tipoaveriaUIState = viewModelTipoaveria.tipoaveriaUIState
 
     var selectedItem by remember { mutableIntStateOf(0) }
 
@@ -266,9 +280,9 @@ fun TallerApp(
                     },
                     onAveriaEditar = {
                         viewModelAveria.seleccionarProvisional(it)
-                        viewModelAveria.seleccionarCliente(it.cliente!!)
-                        viewModelAveria.seleccionarEmpleado(it.empleado!!)
-                        viewModelAveria.seleccionarVehiculo(it.vehiculo!!)
+                        it.cliente?.let { it1 -> viewModelAveria.seleccionarCliente(it1) }
+                        it.empleado?.let { it1 -> viewModelAveria.seleccionarEmpleado(it1) }
+                        it.vehiculo?.let { it1 -> viewModelAveria.seleccionarVehiculo(it1) }
                         viewModelAveria.actualizarAveriaPulsado(it)
                         navController.navigate(Pantallas.EditarAverias.name)
                     },
@@ -357,6 +371,31 @@ fun TallerApp(
                     modifier = Modifier
                 )
             }
+            composable(route = Pantallas.Tipopiezas.name) {
+                PantallaTipopiezas(
+                    tipopiezaUIState = tipopiezaUIState,
+                    onTipopiezasObtenidos = { viewModelTipopieza.obtenerTipospieza() },
+                    onTipopiezaEditar = {
+                        viewModelTipopieza.actualizarTipopiezaPulsado(it)
+                        navController.navigate(Pantallas.EditarTipopiezas.name)
+                    },
+                    onTipopiezaInsertar = { navController.navigate(Pantallas.AnyadirTipopieza.name) },
+                    modifier = Modifier
+                )
+            }
+            composable(route = Pantallas.Tipoaverias.name) {
+                PantallaTipoaverias(
+                    tipoaveriaUIState = tipoaveriaUIState,
+                    onTipoaveriasObtenidos = { viewModelTipoaveria.obtenerTipoaveria() },
+                    onTipoaveriaEditar = {
+                        viewModelTipoaveria.actualizarTipoaveriaPulsado(it)
+                        navController.navigate(Pantallas.EditarTipoaverias.name)
+                    },
+                    onTipoaveriaInsertar = { navController.navigate(Pantallas.AnyadirTipoaveria.name) },
+                    modifier = Modifier
+                )
+            }
+
             //INSERTS
             composable(route = Pantallas.AnyadirAveria.name) {
                 PantallaAnyadirAveria(
@@ -470,11 +509,11 @@ fun TallerApp(
                         navController.popBackStack()
                     },
                     onGuardar = {
-                        viewModelAveria.actualizarAveria(it.cod_averia.toString(), it)
+                        it.cod_averia?.let { it1 -> viewModelAveria.actualizarAveria(it1, it) }
                         viewModelAveria.limpiarFormularioAveria()
                         navController.popBackStack()
                     },
-                    onBorrar = { id ->
+                    onBorrar = {
                         viewModelAveria.eliminarAveria(id)
                         navController.popBackStack()
                     },
@@ -493,11 +532,16 @@ fun TallerApp(
                         navController.popBackStack()
                     },
                     onGuardar = {
-                        viewModelVehiculo.actualizarVehiculo(it.cod_vehiculo.toString(), it)
+                        it.cod_vehiculo?.let { it1 ->
+                            viewModelVehiculo.actualizarVehiculo(
+                                it1,
+                                it
+                            )
+                        }
                         viewModelVehiculo.limpiarFormularioVehiculo()
                         navController.popBackStack()
                     },
-                    onBorrar = { id ->
+                    onBorrar = {
                         viewModelVehiculo.eliminarVehiculo(id)
                         navController.popBackStack()
                     },
@@ -509,9 +553,9 @@ fun TallerApp(
                 PantallaEditarClientes(cliente = viewModelCliente.clientePulsado, onCancelar = {
                     navController.popBackStack()
                 }, onGuardar = {
-                    viewModelCliente.actualizarCliente(it.cod_cliente.toString(), it)
+                    it.cod_cliente?.let { it1 -> viewModelCliente.actualizarCliente(it1, it) }
                     navController.popBackStack()
-                }, onBorrar = { id ->
+                }, onBorrar = {
                     viewModelCliente.eliminarCliente(id)
                     navController.popBackStack()
                 }, modifier = Modifier
@@ -526,11 +570,16 @@ fun TallerApp(
                         navController.popBackStack(Pantallas.Averias.name, inclusive = false)
                     },
                     onGuardar = {
-                        viewModelEmpleado.actualizarEmpleado(it.cod_empleado.toString(), it)
+                        it.cod_empleado?.let { it1 ->
+                            viewModelEmpleado.actualizarEmpleado(
+                                it1,
+                                it
+                            )
+                        }
                         viewModelEmpleado.limpiarFormularioEmpleado()
                         navController.popBackStack()
                     },
-                    onBorrar = { id ->
+                    onBorrar = {
                         viewModelEmpleado.eliminarEmpleado(id)
                         navController.popBackStack(Pantallas.Averias.name, inclusive = false)
                     },
@@ -547,11 +596,11 @@ fun TallerApp(
                         navController.popBackStack()
                     },
                     onGuardar = {
-                        viewModelPieza.actualizarPieza(it.cod_pieza.toString(), it)
+                        it.cod_pieza?.let { it1 -> viewModelPieza.actualizarPieza(it1, it) }
                         viewModelPieza.limpiarFormularioPieza()
                         navController.popBackStack()
                     },
-                    onBorrar = { id ->
+                    onBorrar = {
                         viewModelPieza.eliminarPieza(id)
                         navController.popBackStack()
                     },
@@ -566,7 +615,12 @@ fun TallerApp(
                         navController.popBackStack()
                     },
                     onCambiar = {
-                        viewModelEmpleado.actualizarEmpleado(it.cod_empleado.toString(), it)
+                        it.cod_empleado?.let { it1 ->
+                            viewModelEmpleado.actualizarEmpleado(
+                                it1,
+                                it
+                            )
+                        }
                         navController.popBackStack()
                     })
             }
@@ -579,7 +633,12 @@ fun TallerApp(
                         navController.popBackStack()
                     },
                     onGuardar = {
-                        viewModelEmpleado.actualizarEmpleado(it.cod_empleado.toString(), it)
+                        it.cod_empleado?.let { it1 ->
+                            viewModelEmpleado.actualizarEmpleado(
+                                it1,
+                                it
+                            )
+                        }
                         navController.popBackStack()
                     },
                     onCambiar = {
@@ -671,24 +730,6 @@ fun TallerApp(
                         navController.popBackStack()
                     })
             }
-
-//            TODO: PANTALLA FACTURAS.
-            composable(route = Pantallas.Facturas.name) {
-                PantallaAverias(
-                    averiaUIState = averiaUIState,
-                    onAveriasObtenidos = { viewModelAveria.obtenerAverias() },
-                    onAveriaClick = {
-                        viewModelAveria.actualizarAveriaPulsado(it)
-                        navController.navigate(Pantallas.DetalleAveria.name)
-                    },
-                    onAveriaEditar = {
-                        viewModelAveria.actualizarAveriaPulsado(it)
-                        navController.navigate(Pantallas.EditarAverias.name)
-                    },
-                    onAveriaInsertar = { navController.navigate(Pantallas.AnyadirAveria.name) },
-                    modifier = Modifier
-                )
-            }
         }
     }
 }
@@ -713,7 +754,8 @@ fun AppTopBar(
                 fontWeight = FontWeight.Bold
             )
         }, colors = TopAppBarDefaults.mediumTopAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer
+//            containerColor = MaterialTheme.colorScheme.primaryContainer
+            containerColor = AzulPrincipal
         ), actions = {
             if (pantallaActual == Pantallas.Averias || pantallaActual == Pantallas.Coches || pantallaActual == Pantallas.Clientes || pantallaActual == Pantallas.Piezas || pantallaActual == Pantallas.Facturas) {
                 IconButton(onClick = { mostrarMenu = true }) {
@@ -769,6 +811,36 @@ fun AppTopBar(
                             launchSingleTop = true
                         }
                     })
+                    if (viewModelEmpleado.empleadoLogin?.rol?.cod_rol == 3) {
+                        DropdownMenuItem(text = {
+                            Text(text = stringResource(id = R.string.texto_tipoaverias))
+                        }, leadingIcon = {
+                            Icon(
+                                imageVector = Icons.Outlined.Build, contentDescription = null
+                            )
+                        }, onClick = {
+                            mostrarMenu = false
+                            navController.navigate(Pantallas.Tipoaverias.name) {
+                                popUpTo(Pantallas.Averias.name) { inclusive = false }
+//                                launchSingleTop = true
+                            }
+                        })
+                    }
+                    if (viewModelEmpleado.empleadoLogin?.rol?.cod_rol == 3) {
+                        DropdownMenuItem(text = {
+                            Text(text = stringResource(id = R.string.texto_tipopiezas))
+                        }, leadingIcon = {
+                            Icon(
+                                imageVector = Icons.Outlined.Build, contentDescription = null
+                            )
+                        }, onClick = {
+                            mostrarMenu = false
+                            navController.navigate(Pantallas.Tipopiezas.name) {
+                                popUpTo(Pantallas.Averias.name) { inclusive = false }
+//                                launchSingleTop = true
+                            }
+                        })
+                    }
                 }
             } else if (pantallaActual == Pantallas.Empleados) {
                 IconButton(onClick = {

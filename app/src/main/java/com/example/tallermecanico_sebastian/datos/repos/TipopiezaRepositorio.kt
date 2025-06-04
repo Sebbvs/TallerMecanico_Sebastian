@@ -6,8 +6,8 @@ import com.example.tallermecanico_sebastian.modelo.Tipopieza
 interface TipopiezaRepositorio {
     suspend fun obtenerTipopieza(): List<Tipopieza>
     suspend fun insertarTipopieza(tipopieza: Tipopieza): Tipopieza
-    suspend fun actualizarTipopieza(id: String, tipopieza: Tipopieza): Tipopieza
-    suspend fun eliminarTipopieza(id: String): Tipopieza
+    suspend fun actualizarTipopieza(id: Int, tipopieza: Tipopieza): Tipopieza
+    suspend fun eliminarTipopieza(id: Int): Tipopieza
 }
 
 class ConexionTipopiezaRepositorio(
@@ -18,9 +18,9 @@ class ConexionTipopiezaRepositorio(
     override suspend fun insertarTipopieza(tipopieza: Tipopieza): Tipopieza =
         servicioApi.insertarTipopieza(tipopieza)
 
-    override suspend fun actualizarTipopieza(id: String, tipopieza: Tipopieza): Tipopieza =
+    override suspend fun actualizarTipopieza(id: Int, tipopieza: Tipopieza): Tipopieza =
         actualizarTipopieza(id, tipopieza)
 
-    override suspend fun eliminarTipopieza(id: String): Tipopieza = eliminarTipopieza(id)
+    override suspend fun eliminarTipopieza(id: Int): Tipopieza = eliminarTipopieza(id)
 
 }

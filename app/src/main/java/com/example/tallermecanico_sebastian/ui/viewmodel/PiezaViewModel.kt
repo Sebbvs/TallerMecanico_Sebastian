@@ -24,7 +24,7 @@ sealed interface PiezaUIState {
     data class ObtenerExito(val piezas: List<Pieza>) : PiezaUIState
     data class CrearExito(val pieza: Pieza) : PiezaUIState
     data class ActualizarExito(val pieza: Pieza) : PiezaUIState
-    data class EliminarExito(val id: String) : PiezaUIState
+    data class EliminarExito(val id: Int) : PiezaUIState
 
     object Error : PiezaUIState
     object Cargando : PiezaUIState
@@ -92,7 +92,7 @@ class PiezaViewModel(private val piezaRepositorio: PiezaRepositorio) : ViewModel
         }
     }
 
-    fun actualizarPieza(id: String, pieza: Pieza) {
+    fun actualizarPieza(id: Int, pieza: Pieza) {
         viewModelScope.launch {
             piezaUIState = PiezaUIState.Cargando
             piezaUIState = try {
@@ -113,7 +113,7 @@ class PiezaViewModel(private val piezaRepositorio: PiezaRepositorio) : ViewModel
         }
     }
 
-    fun eliminarPieza(id: String) {
+    fun eliminarPieza(id: Int) {
         viewModelScope.launch {
             piezaUIState = PiezaUIState.Cargando
             piezaUIState = try {

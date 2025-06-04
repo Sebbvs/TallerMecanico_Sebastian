@@ -8,8 +8,8 @@ interface EmpleadoRepositorio {
     suspend fun autenticarEmpleado(usuario: String, contrasenya: String): Empleado
     suspend fun obtenerEmpleados(): List<Empleado>
     suspend fun insertarEmpleado(empleado: Empleado): Empleado
-    suspend fun actualizarEmpleado(id: String, empleado: Empleado): Empleado
-    suspend fun eliminarEmpleado(id: String): Empleado
+    suspend fun actualizarEmpleado(id: Int, empleado: Empleado): Empleado
+    suspend fun eliminarEmpleado(id: Int): Empleado
 }
 
 class ConexionEmpleadoRepositorio(
@@ -25,8 +25,8 @@ class ConexionEmpleadoRepositorio(
     override suspend fun insertarEmpleado(empleado: Empleado): Empleado =
         servicioApi.insertarEmpleado(empleado)
 
-    override suspend fun actualizarEmpleado(id: String, empleado: Empleado): Empleado =
+    override suspend fun actualizarEmpleado(id: Int, empleado: Empleado): Empleado =
         servicioApi.actualizarEmpleado(id, empleado)
 
-    override suspend fun eliminarEmpleado(id: String): Empleado = servicioApi.eliminarEmpleado(id)
+    override suspend fun eliminarEmpleado(id: Int): Empleado = servicioApi.eliminarEmpleado(id)
 }

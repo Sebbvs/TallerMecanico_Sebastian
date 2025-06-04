@@ -9,6 +9,8 @@
     <string name="pantalla_clientes">Clientes</string>
     <string name="pantalla_empleados">Administrar empleados</string>
     <string name="pantalla_piezas">Piezas</string>
+    <string name="pantalla_tipopiezas">Tipos de pieza</string>
+    <string name="pantalla_tipoaverias">Tipos de avería</string>
     <string name="pantalla_facturas">Facturas</string>
     <string name="pantalla_buscar">Buscar matrícula</string>
 
@@ -17,6 +19,8 @@
     <string name="pantalla_editar_clientes">Editar clientes</string>
     <string name="pantalla_editar_empleados">Editar empleados</string>
     <string name="pantalla_editar_piezas">Editar piezas</string>
+    <string name="pantalla_editar_tipopiezas">Editar tipo de pieza</string>
+    <string name="pantalla_editar_tipoaverias">Editar tipo de avería</string>
     <string name="pantalla_editar_facturas">Editar facturas</string>
 
     <string name="pantalla_anyadir_averia">Nueva avería</string>
@@ -24,6 +28,8 @@
     <string name="pantalla_anyadir_coche">Nuevo vehículo</string>
     <string name="pantalla_anyadir_pieza">Nueva pieza</string>
     <string name="pantalla_anyadir_empleado">Nuevo empleado</string>
+    <string name="pantalla_anyadir_tipopieza">Nuevo tipo de pieza</string>
+    <string name="pantalla_anyadir_tipoaveria">Nuevo tipo de avería</string>
 
     <string name="pantalla_detalle_averia">Detalle avería</string>
     <string name="pantalla_detalle_cliente">Detalle cliente</string>
@@ -54,6 +60,8 @@
     <string name="log_out">Cerrar sesión</string>
     <string name="texto_miperfil">Mi perfil</string>
     <string name="administrar">Administrar</string>
+    <string name="texto_tipoaverias">Tipos de averías</string>
+    <string name="texto_tipopiezas">Tipos de piezas</string>
 
     <!--    PANTALLA INICIO-->
     <string name="error_de_conexion">Error de conexión…</string>
@@ -65,8 +73,8 @@
     <string name="averia_descripcion">Descripción</string>
     <string name="averia_precio">Precio</string>
     <string name="averia_estado">Estado</string>
-    <string name="averia_fecha_recepcion">Fecha de recepción</string>
-    <string name="averia_fecha_resolucion">Fecha de resolución</string>
+    <string name="averia_fecha_recepcion">Fecha recepción</string>
+    <string name="averia_fecha_resolucion">Fecha resolución</string>
     <string name="averia_observaciones">Observaciones</string>
     <string name="averia_empleado">Empleado</string>
     <string name="texto_cliente">Cliente</string>
@@ -124,7 +132,7 @@
 
     <!--    PANTALLA EDITAR PIEZAS-->
     <string name="editar_pieza_cantidad">Cantidad</string>
-    <string name="editar_pieza_tipopieza">Tipo</string>
+    <string name="texto_tipo">Tipo</string>
     <string name="dialogo_pieza_titulo">¡Cuidado! Estás a punto de borrar la pieza seleccionada</string>
     <string name="dialogo_pieza_texto">Esta es una acción permanente y no se puede deshacer. Si deseas borrar esta pieza, pulsa \"Confirmar\".</string>
     <string name="editar_pieza_mensaje_1">Pieza modificada correctamente</string>
@@ -141,22 +149,25 @@
     <string name="texto_rol">Rol</string>
     <string name="texto_buscador">Buscador de averías por matrícula</string>
     <string name="texto_tipo_averia">Tipo de avería</string>
-    <string name="cliente_seleccionado">Cliente seleccionado</string>
+    <string name="cliente_seleccionado">Cliente</string>
     <string name="cliente_no_seleccionado">Ningún cliente seleccionado</string>
-    <string name="rol_seleccionado">Rol seleccionado</string>
+    <string name="rol_seleccionado">Rol</string>
     <string name="rol_no_seleccionado">Ningún rol seleccionado</string>
-    <string name="empleado_seleccionado">Empleado seleccionado</string>
+    <string name="empleado_seleccionado">Empleado</string>
     <string name="empleado_no_seleccionado">Ningún empleado seleccionado</string>
-    <string name="vehiculo_seleccionado">Vehiculo seleccionado</string>
+    <string name="vehiculo_seleccionado">Vehiculo</string>
     <string name="vehiculo_no_seleccionado">Ningún vehiculo seleccionado</string>
-    <string name="tipopieza_seleccionado">Pieza seleccionada</string>
-    <string name="tipopieza_no_seleccionado">Ninguna pieza seleccionada</string>
+    <string name="tipopieza_seleccionado">Pieza</string>
+    <string name="tipopieza_no_seleccionado">Ningun tipo seleccionada</string>
     <string name="rol_cargo">Cargo</string>
     <string name="texto_permisos">Permisos</string>
     <string name="fecha_futura">La fecha de recepción no puede ser posterior a hoy</string>
     <string name="fecha_resolucion_anterior">Primero debes seleccionar una fecha de recepción</string>
     <string name="fecha_recepcion_primero">La fecha de resolución no puede ser anterior a la de recepción</string>
     <string name="matricula_no_valida">La matrícula no es válida</string>
+    <string name="tipoaveria_mensaje_3">Tipo de avería guardado correctamente</string>
+    <string name="editar_tipopieza_mensaje_1">Tipo de pieza modificado correctamente</string>
+    <string name="editar_tipoaveria_mensaje_1">Tipo de avería modificado correctamente</string>
     <!--    PANTALLAS ???-->
 
     <string name="btn_guardar">Guardar</string>
@@ -167,11 +178,11 @@
     <string name="atras">Atrás</string>
     <string name="home">Inicio</string>
     <string name="buscar">Buscar</string>
-    <string name="add_cliente">Seleccionar cliente</string>
-    <string name="add_rol">Seleccionar rol</string>
-    <string name="add_empleado">Seleccionar empleado</string>
-    <string name="add_vehiculo">Seleccionar vehiculo</string>
-    <string name="add_tipopieza">Seleccionar tipo</string>
+    <string name="add_cliente">+ cliente</string>
+    <string name="add_rol">+ rol</string>
+    <string name="add_empleado">+ empleado</string>
+    <string name="add_vehiculo">+ vehiculo</string>
+    <string name="add_tipopieza">+ tipo</string>
 
     <!--    FILTROS  Y VALIDACIONES-->
     <string name="filtro_chip_todo">Todas</string>
@@ -198,7 +209,7 @@
     <string name="cliente_obligatorio_1">¡El nombre es obligatorio!</string>
     <string name="cliente_obligatorio_2">¡El primer apellido es obligatorio!</string>
     <string name="cliente_obligatorio_3">¡El email es obligatorio!</string>
-    <string name="cliente_limite_1">¡El nombre es demasiado larga!</string>
+    <string name="cliente_limite_1">¡El nombre es demasiado largo!</string>
     <string name="cliente_limite_2">¡El primer apellido es demasiado largo!</string>
     <string name="cliente_limite_3">¡El segundo apellido es demasiado largo!</string>
     <string name="cliente_limite_4">¡El email es demasiado largo!</string>

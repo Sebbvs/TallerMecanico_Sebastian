@@ -22,7 +22,7 @@ sealed interface EmpleadoUIState {
     data class ObtenerExito(val empleados: List<Empleado>) : EmpleadoUIState
     data class CrearExito(val empleado: Empleado) : EmpleadoUIState
     data class ActualizarExito(val empleado: Empleado) : EmpleadoUIState
-    data class EliminarExito(val id: String) : EmpleadoUIState
+    data class EliminarExito(val id: Int) : EmpleadoUIState
 
     object Error : EmpleadoUIState
     object Cargando : EmpleadoUIState
@@ -131,7 +131,7 @@ class EmpleadoViewModel(private val empleadoRepositorio: EmpleadoRepositorio) : 
         }
     }
 
-    fun actualizarEmpleado(id: String, empleado: Empleado) {
+    fun actualizarEmpleado(id: Int, empleado: Empleado) {
         viewModelScope.launch {
             empleadoUIState = EmpleadoUIState.Cargando
             empleadoUIState = try {
@@ -152,7 +152,7 @@ class EmpleadoViewModel(private val empleadoRepositorio: EmpleadoRepositorio) : 
         }
     }
 
-    fun eliminarEmpleado(id: String) {
+    fun eliminarEmpleado(id: Int) {
         viewModelScope.launch {
             empleadoUIState = EmpleadoUIState.Cargando
             empleadoUIState = try {
