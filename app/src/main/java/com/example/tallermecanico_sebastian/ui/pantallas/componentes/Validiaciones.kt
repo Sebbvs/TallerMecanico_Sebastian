@@ -1,5 +1,7 @@
 package com.example.tallermecanico_sebastian.ui.pantallas.componentes
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -180,4 +182,30 @@ fun MatriculaTextField(
             .fillMaxWidth()
             .padding(horizontal = 16.dp),
     )
+}
+
+fun formatearDecimalValidado(texto: String, context: Context): String? {
+    val sinEspacios = texto.replace(" ", "")
+
+    // Validación con expresión regular: 1 a 5 dígitos enteros, opcionalmente con punto y hasta 2 decimales
+    val regex = Regex("""^\d{0,5}(\.\d{0,2})?$""")
+
+    if (!regex.matches(sinEspacios)) {
+        Toast.makeText(
+            context,
+            "El precio debe tener como máximo 5 cifras enteras y hasta 2 decimales",
+            Toast.LENGTH_SHORT
+        ).show()
+        return null
+    }
+
+    return try {
+        val numero = sinEspacios.toBigDecimal()
+
+        // Asegura que tenga exactamente dos decimales
+        "%.${2}f".format(numero)
+    } catch (e: NumberFormatException) {
+        Toast.makeText(context, "Número inválido", Toast.LENGTH_SHORT).show()
+        null
+    }
 }

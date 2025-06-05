@@ -55,7 +55,7 @@ fun PantallaMiPerfil(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .fillMaxSize()
-            .padding(20.dp)
+            .padding(10.dp)
     ) {
         Text(
             text = "${stringResource(R.string.mensaje_bienvenida)} ${empleado?.nombre ?: Empleado}! \n ${

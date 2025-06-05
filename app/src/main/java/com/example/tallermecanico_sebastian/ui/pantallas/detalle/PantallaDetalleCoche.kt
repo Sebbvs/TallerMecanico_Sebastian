@@ -42,7 +42,7 @@ fun PantallaDetalleCoche(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .fillMaxSize()
-            .padding(20.dp)
+            .padding(10.dp)
     ) {
         TextField(
             value = "${marca} ${modelo}",

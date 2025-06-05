@@ -31,6 +31,9 @@ class TipopiezaViewModel(private val tipopiezaRepositorio: TipopiezaRepositorio)
     var tipopiezaUIState: TipopiezaUIState by mutableStateOf(TipopiezaUIState.Cargando)
         private set
 
+    var listaPiezaTipopieza by mutableStateOf(listOf<Tipopieza>())
+        private set
+
     var tipopiezaPulsado: Tipopieza by mutableStateOf(
         Tipopieza(
         )
@@ -50,6 +53,7 @@ class TipopiezaViewModel(private val tipopiezaRepositorio: TipopiezaRepositorio)
             tipopiezaUIState = TipopiezaUIState.Cargando
             tipopiezaUIState = try {
                 val listaTipopieza = tipopiezaRepositorio.obtenerTipopieza()
+                listaPiezaTipopieza = listaTipopieza
                 TipopiezaUIState.ObtenerExito(listaTipopieza)
             } catch (e: IOException) {
                 Log.v("TipopiezaViewModel IO", "Error de Conexion obtenerTipospiezas", e)

@@ -48,14 +48,16 @@ fun PantallaAnyadirPieza(
     val piezaProvisional = viewModel.provisional
 
     var descripcion by remember { mutableStateOf(piezaProvisional?.descripcion ?: "") }
-    var cantidad by remember { mutableStateOf(piezaProvisional?.cantidad.toString()) }
+    var cantidad by remember {
+        mutableStateOf(piezaProvisional?.cantidad?.let { it.toString() } ?: "")
+    }
     val context = LocalContext.current
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .fillMaxSize()
-            .padding(20.dp)
+            .padding(10.dp)
     ) {
         TextField(
             value = descripcion,
@@ -71,7 +73,7 @@ fun PantallaAnyadirPieza(
 
         TextField(
             value = cantidad,
-            onValueChange = { if (it.length <= 10) cantidad = it },
+            onValueChange = { if (it.length <= 4) cantidad = it },
             label = { Text(text = stringResource(R.string.editar_pieza_cantidad) + " *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             modifier = Modifier
@@ -106,7 +108,7 @@ fun PantallaAnyadirPieza(
             viewModel.seleccionarProvisional(pieza)
             onSeleccionarTipopieza()
         }) {
-            Text(text = stringResource(R.string.add_tipopieza))
+            Text(text = stringResource(R.string.add_tipo))
         }
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -133,7 +135,7 @@ fun PantallaAnyadirPieza(
                     ).show()
                 } else if (descripcion.length > 250) {
                     Toast.makeText(context, R.string.averia_limite_1, Toast.LENGTH_SHORT).show()
-                } else if (cantidad.length > 11) {
+                } else if (cantidad.length > 4) {
                     Toast.makeText(context, R.string.pieza_limite_2, Toast.LENGTH_SHORT).show()
                 } else {
                     viewModel.seleccionarProvisional(

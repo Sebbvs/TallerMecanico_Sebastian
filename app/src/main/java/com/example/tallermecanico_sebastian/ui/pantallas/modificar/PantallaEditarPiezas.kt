@@ -66,7 +66,7 @@ fun PantallaEditarPiezas(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .fillMaxSize()
-            .padding(20.dp)
+            .padding(10.dp)
     ) {
 
         TextField(
@@ -119,7 +119,7 @@ fun PantallaEditarPiezas(
             viewModel.seleccionarProvisional(piezaEditada)
             onSeleccionarTipopieza()
         }) {
-            Text(text = stringResource(R.string.add_tipopieza))
+            Text(text = stringResource(R.string.add_tipo))
         }
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -142,7 +142,7 @@ fun PantallaEditarPiezas(
                     Toast.makeText(context, R.string.averia_limite_1, Toast.LENGTH_SHORT).show()
                 } else if (cantidad.length > 11) {
                     Toast.makeText(context, R.string.pieza_limite_2, Toast.LENGTH_SHORT).show()
-                } else if (tipopieza != null) {
+                } else if (tipopieza == null) {
                     Toast.makeText(context, R.string.pieza_obligatorio_3, Toast.LENGTH_SHORT).show()
                 } else {
                     viewModel.seleccionarProvisional(

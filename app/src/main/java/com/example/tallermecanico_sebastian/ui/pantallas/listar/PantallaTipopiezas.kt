@@ -15,6 +15,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FloatingActionButton
@@ -41,6 +42,7 @@ fun PantallaTipopiezas(
     onTipopiezasObtenidos: () -> Unit,
     onTipopiezaEditar: (Tipopieza) -> Unit,
     onTipopiezaInsertar: () -> Unit,
+    onAceptar: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     when (tipopiezaUIState) {
@@ -50,7 +52,8 @@ fun PantallaTipopiezas(
             lista = tipopiezaUIState.tipopieza,
             modifier = modifier.fillMaxWidth(),
             onTipopiezaEditar = onTipopiezaEditar,
-            onTipopiezaInsertar = onTipopiezaInsertar
+            onTipopiezaInsertar = onTipopiezaInsertar,
+            onAceptar = onAceptar
         )
 
 
@@ -65,70 +68,80 @@ fun PantallaExitoTipopieza(
     lista: List<Tipopieza>,
     modifier: Modifier,
     onTipopiezaEditar: (Tipopieza) -> Unit,
-    onTipopiezaInsertar: () -> Unit
+    onTipopiezaInsertar: () -> Unit,
+    onAceptar: () -> Unit
 ) {
-    LazyColumn(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(12.dp),
-        modifier = Modifier.padding(8.dp)
-    ) {
-        items(lista) { tipopieza ->
-            Card(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(3.dp)
-                    .border(
-                        width = 1.dp, color = AzulPrincipal, shape = RoundedCornerShape(16.dp)
-                    ),
-                shape = RoundedCornerShape(16.dp),
-                elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
-            ) {
-                Row(
+    Box(modifier = Modifier.fillMaxSize()) {
+
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(bottom = 72.dp), // deja espacio para el botón
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            items(lista) { tipopieza ->
+                Card(
                     modifier = Modifier
-                        .padding(16.dp)
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
+                        .fillMaxSize()
+                        .padding(3.dp)
+                        .border(
+                            width = 1.dp, color = AzulPrincipal, shape = RoundedCornerShape(16.dp)
+                        ),
+                    shape = RoundedCornerShape(16.dp),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
                 ) {
-                    Column {
-                        Text(
-                            text = "${stringResource(R.string.texto_tipo)}: ${tipopieza.nombre}",
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.Bold
-                        )
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.SpaceEvenly,
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                        }
-                    }
-                    OutlinedButton(
-                        onClick = {
-                            onTipopiezaEditar(tipopieza)
-                        },
+                    Row(
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Icon(
-                            imageVector = Icons.Filled.Create, contentDescription = "Editar"
-                        )
+                        Column {
+                            Text(
+                                text = "${tipopieza.nombre}",
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
+                        OutlinedButton(
+                            onClick = {
+                                onTipopiezaEditar(tipopieza)
+                            },
+                        ) {
+                            Icon(
+                                imageVector = Icons.Filled.Create, contentDescription = "Editar"
+                            )
+                        }
                     }
                 }
             }
         }
-    }
-
-    Box(
-        modifier.fillMaxSize()
-    ) {
-        FloatingActionButton(
+        Row(
             modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(16.dp),
-            onClick = { onTipopiezaInsertar() },
+                .align(Alignment.BottomCenter)
+                .padding(horizontal = 32.dp, vertical = 16.dp),
+            horizontalArrangement = Arrangement.Center
         ) {
-            Icon(Icons.Filled.Add, "Insertar")
+            Button(onClick = onAceptar) {
+                Text(stringResource(R.string.volver))
+            }
         }
-    }
 
+        Box(
+            modifier.fillMaxSize()
+        ) {
+            FloatingActionButton(
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(16.dp),
+                onClick = { onTipopiezaInsertar() },
+            ) {
+                Icon(Icons.Filled.Add, "Insertar")
+            }
+        }
+
+    }
 }

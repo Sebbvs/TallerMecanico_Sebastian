@@ -13,6 +13,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import coil.network.HttpException
 import com.example.tallermecanico_sebastian.TallerAplicacion
 import com.example.tallermecanico_sebastian.datos.repos.TipoaveriaRepositorio
+import com.example.tallermecanico_sebastian.modelo.Cliente
 import com.example.tallermecanico_sebastian.modelo.Tipoaveria
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -31,6 +32,9 @@ sealed interface TipoaveriaUIState {
 class TipoaveriaViewModel(private val tipoaveriaRepositorio: TipoaveriaRepositorio) :
     ViewModel() {
     var tipoaveriaUIState: TipoaveriaUIState by mutableStateOf(TipoaveriaUIState.Cargando)
+        private set
+
+    var listaAveriaTipoaveria by mutableStateOf(listOf<Tipoaveria>())
         private set
 
     var tipoaveriaPulsado: Tipoaveria by mutableStateOf(
@@ -52,6 +56,7 @@ class TipoaveriaViewModel(private val tipoaveriaRepositorio: TipoaveriaRepositor
             tipoaveriaUIState = TipoaveriaUIState.Cargando
             tipoaveriaUIState = try {
                 val listaTipoaveria = tipoaveriaRepositorio.obtenerTipoaveria()
+                listaAveriaTipoaveria = listaTipoaveria
                 TipoaveriaUIState.ObtenerExito(listaTipoaveria)
             } catch (e: IOException) {
                 Log.v("TipoaveriaViewModel IO", "Error de Conexion obtenerTipoaveria", e)

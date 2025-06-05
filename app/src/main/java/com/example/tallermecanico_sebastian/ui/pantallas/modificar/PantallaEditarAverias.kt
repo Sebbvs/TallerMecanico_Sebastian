@@ -38,6 +38,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
@@ -52,35 +53,39 @@ import com.example.tallermecanico_sebastian.ui.pantallas.componentes.DatePickerM
 import com.example.tallermecanico_sebastian.ui.pantallas.componentes.EstadoSwitch
 import com.example.tallermecanico_sebastian.ui.pantallas.componentes.convertMillisToDate
 import com.example.tallermecanico_sebastian.ui.pantallas.componentes.formatFechaParaMostrar
+import com.example.tallermecanico_sebastian.ui.pantallas.componentes.formatearDecimalValidado
 import com.example.tallermecanico_sebastian.ui.pantallas.componentes.millisToLocalDate
 import com.example.tallermecanico_sebastian.ui.viewmodel.AveriaUIState
 import com.example.tallermecanico_sebastian.ui.viewmodel.AveriaViewModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-//TODO Añadir seleccionables de averiapieza y tipoaveria (listas)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PantallaEditarAverias(
     viewModel: AveriaViewModel,
-    averia: Averia,
     onCancelar: () -> Unit,
-    onBorrar: (String) -> Unit,
     onGuardar: (Averia) -> Unit,
     onSeleccionarCliente: () -> Unit,
     onSeleccionarEmpleado: () -> Unit,
     onSeleccionarVehiculo: () -> Unit,
+    onSeleccionarTipoaverias: () -> Unit,
+    onSeleccionarAveriapiezas: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     // OBJETOS
     val cliente = viewModel.clienteSeleccionado
     val empleado = viewModel.empleadoSeleccionado
     val vehiculo = viewModel.vehiculoSeleccionado
+    val tipoaveria = viewModel.tipoaveriaSeleccionado
+    val averiapieza = viewModel.averiapiezaSeleccionado
     val averiaProvisional = viewModel.provisional
+
+    Log.v("AVERIACARGADA", "La averia que se carga es: $averiaProvisional")
 
     val cod by remember { mutableIntStateOf(averiaProvisional?.cod_averia ?: 0) }
     var descripcion by remember { mutableStateOf(averiaProvisional?.descripcion ?: "") }
-    val precio by remember { mutableStateOf(averiaProvisional?.precio ?: "") }
+    var precio by remember { mutableStateOf(averiaProvisional?.precio ?: "") }
     var fechaRecepcion by remember {
         mutableStateOf(
             averiaProvisional?.fecha_recepcion
@@ -98,7 +103,6 @@ fun PantallaEditarAverias(
     var showDatePicker1 by remember { mutableStateOf(false) }
     var showDatePicker2 by remember { mutableStateOf(false) }
 
-//    var comprobarPosteriorOIgualARecepcion by remember { mutableStateOf<Long?>(null) }
     var comprobarAnteriorOIgualAHoy by remember { mutableStateOf<Long?>(null) }
     var comprobarPosteriorOIgualARecepcion by remember {
         mutableStateOf(
@@ -113,16 +117,16 @@ fun PantallaEditarAverias(
         rememberDatePickerState(initialSelectedDateMillis = comprobarPosteriorOIgualARecepcion)
     val datePickerStateResolucion = rememberDatePickerState()
 
-    var estado by remember { mutableStateOf(averiaProvisional?.estado == "Reparar") }
-    val estadoTexto = if (estado) "Reparado" else "Sin reparar"
-
-    var abrirAlertDialog by remember { mutableStateOf(false) }
+    var estado by remember { mutableStateOf(averiaProvisional?.estado == "Reparado") }
+//    var estado = averiaProvisional?.estado == "Reparado"
+    Log.v("ESTADO EDITAR", "El estado es: ${averiaProvisional?.estado}")
+//    val estadoTexto = if (estado) "Reparado" else "Sin reparar"
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .fillMaxSize()
-            .padding(20.dp)
+            .padding(10.dp)
     ) {
         TextField(
             value = descripcion,
@@ -133,6 +137,44 @@ fun PantallaEditarAverias(
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
         )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Row(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            //Boton para añadir Tipoaveria
+            tipoaveria.let {
+                Text(
+                    text = "${tipoaveria.size} ${stringResource(R.string.tipoaveria_seleccionado)}", //${vehiculo.marca} ${vehiculo.modelo}",
+                    fontWeight = FontWeight.Bold
+                )
+            } ?: Text(
+                text = stringResource(R.string.tipoaveria_no_seleccionado),
+                fontStyle = FontStyle.Italic
+            )
+
+            Button(onClick = {
+//                AVERIA SIN Tipoaveria
+                val averiaEditada = Averia(
+                    cod_averia = cod,
+                    descripcion = descripcion,
+                    precio = precio,
+                    estado = if (estado) "Reparado" else "Sin reparar",
+                    fecha_recepcion = fechaRecepcion,
+                    fecha_resolucion = fechaResolucion,
+                    observaciones = observaciones,
+                )
+                viewModel.seleccionarProvisional(averiaEditada)
+                onSeleccionarTipoaverias()
+            }) {
+                Text(text = stringResource(R.string.add_tipo))
+            }
+        }
 
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -148,19 +190,24 @@ fun PantallaEditarAverias(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        EstadoSwitch(estado = estado, onEstadoChange = {
-            estado = it
-            if (!estado) {
-                fechaResolucion = ""
-                comprobarAnteriorOIgualAHoy = null
-            }
-        })
+        EstadoSwitch(
+            estado = estado,
+            onEstadoChange = { nuevoEstado ->
+                estado = nuevoEstado
+                viewModel.provisional = viewModel.provisional?.copy(
+                    estado = if (nuevoEstado) "Reparado" else "Sin reparar"
+                )
+//            estado = it
+                if (!nuevoEstado) {
+                    fechaResolucion = ""
+                    comprobarAnteriorOIgualAHoy = null
+                }
+            })
 
         Spacer(modifier = Modifier.height(8.dp))
 
         Row(
             modifier = Modifier
-                .padding(16.dp)
                 .fillMaxWidth()
                 .height(65.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -233,25 +280,6 @@ fun PantallaEditarAverias(
 
                 if (showDatePicker2) {
                     DatePickerModal(datePickerState = datePickerStateResolucion, onDateSelected = {
-                        /*if (it != null) {
-                            if (comprobarPosteriorOIgualARecepcion == null) {
-                                Toast.makeText(
-                                    context,
-                                    R.string.fecha_recepcion_primero,
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            } else if (it < comprobarPosteriorOIgualARecepcion!!) {
-                                Toast.makeText(
-                                    context,
-                                    R.string.fecha_resolucion_anterior,
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            } else {
-                                comprobarAnteriorOIgualAHoy = it
-                                fechaResolucion = convertMillisToDate(it)
-                                estado = true // Marca como reparado automáticamente
-                            }
-                        }*/
 
                         if (it != null) {
                             if (comprobarPosteriorOIgualARecepcion == null) {
@@ -261,19 +289,31 @@ fun PantallaEditarAverias(
                                     Toast.LENGTH_SHORT
                                 ).show()
                             } else {
-                                val fechaRecepcionDate =
-                                    millisToLocalDate(comprobarPosteriorOIgualARecepcion!!)
-                                val fechaResolucionDate = millisToLocalDate(it)
-                                if (fechaResolucionDate.isBefore(fechaRecepcionDate)) {
+                                val hoy = LocalDate.now().toEpochDay() * 24 * 60 * 60 * 1000
+                                if (it > hoy) {
+                                    fechaResolucion = LocalDate.now()
+                                        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+                                        .toString()
                                     Toast.makeText(
                                         context,
-                                        R.string.fecha_recepcion_primero,
+                                        context.getString(R.string.fecha_futura_2),
                                         Toast.LENGTH_SHORT
                                     ).show()
                                 } else {
-                                    comprobarAnteriorOIgualAHoy = it
-                                    fechaResolucion = convertMillisToDate(it)
-                                    estado = true // Marca como reparado automáticamente
+                                    val fechaRecepcionDate =
+                                        millisToLocalDate(comprobarPosteriorOIgualARecepcion!!)
+                                    val fechaResolucionDate = millisToLocalDate(it)
+                                    if (fechaResolucionDate.isBefore(fechaRecepcionDate)) {
+                                        Toast.makeText(
+                                            context,
+                                            R.string.fecha_recepcion_primero,
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    } else {
+                                        comprobarAnteriorOIgualAHoy = it
+                                        fechaResolucion = convertMillisToDate(it)
+                                        estado = true // Marca como reparado automáticamente
+                                    }
                                 }
                             }
                         }
@@ -312,12 +352,10 @@ fun PantallaEditarAverias(
                     cod_averia = cod,
                     descripcion = descripcion,
                     precio = precio,
-                    estado = estadoTexto,
+                    estado = if (estado) "Reparado" else "Sin reparar",
                     fecha_recepcion = fechaRecepcion,
                     fecha_resolucion = fechaResolucion,
                     observaciones = observaciones,
-                    tipo_averias = emptyList(),
-                    averia_piezas = emptyList(),
                 )
                 viewModel.seleccionarProvisional(averiaEditada)
                 onSeleccionarCliente()
@@ -352,12 +390,10 @@ fun PantallaEditarAverias(
                     cod_averia = cod,
                     descripcion = descripcion,
                     precio = precio,
-                    estado = estadoTexto,
+                    estado = if (estado) "Reparado" else "Sin reparar",
                     fecha_recepcion = fechaRecepcion,
                     fecha_resolucion = fechaResolucion,
                     observaciones = observaciones,
-                    tipo_averias = emptyList(),
-                    averia_piezas = emptyList(),
                 )
                 viewModel.seleccionarProvisional(averiaEditada)
                 onSeleccionarEmpleado()
@@ -393,12 +429,10 @@ fun PantallaEditarAverias(
                     cod_averia = cod,
                     descripcion = descripcion,
                     precio = precio,
-                    estado = estadoTexto,
+                    estado = if (estado) "Reparado" else "Sin reparar",
                     fecha_recepcion = fechaRecepcion,
                     fecha_resolucion = fechaResolucion,
                     observaciones = observaciones,
-                    tipo_averias = emptyList(),
-                    averia_piezas = emptyList(),
                 )
                 viewModel.seleccionarProvisional(averiaEditada)
                 onSeleccionarVehiculo()
@@ -406,6 +440,57 @@ fun PantallaEditarAverias(
                 Text(text = stringResource(R.string.add_vehiculo))
             }
         }
+
+        Row(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            //Boton para añadir Averiapieza
+            averiapieza.let { piezas ->
+                Text(
+                    text = "${piezas.size} ${stringResource(R.string.averiapieza_seleccionado)}", //${vehiculo.marca} ${vehiculo.modelo}",
+                    fontWeight = FontWeight.Bold
+                )
+            } ?: Text(
+                text = stringResource(R.string.averiapieza_no_seleccionado),
+                fontStyle = FontStyle.Italic
+            )
+
+            Button(onClick = {
+//                AVERIA SIN Averiapieza
+                val averiaEditada = Averia(
+                    cod_averia = cod,
+                    descripcion = descripcion,
+                    precio = precio,
+                    estado = if (estado) "Reparado" else "Sin reparar",
+                    fecha_recepcion = fechaRecepcion,
+                    fecha_resolucion = fechaResolucion,
+                    observaciones = observaciones,
+                )
+                viewModel.seleccionarProvisional(averiaEditada)
+                onSeleccionarAveriapiezas()
+            }) {
+                Text(text = stringResource(R.string.add_averiapieza))
+            }
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        TextField(
+            value = precio,
+            onValueChange = {
+                val valido = formatearDecimalValidado(it, context)
+                if (valido != null) precio = it
+            },
+            label = { Text(text = "€  " + stringResource(R.string.averia_precio) + " *") },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+        )
 
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -421,9 +506,9 @@ fun PantallaEditarAverias(
                 if (descripcion.isBlank()) {
                     Toast.makeText(context, R.string.averia_obligatorio_1, Toast.LENGTH_SHORT)
                         .show()
-                } else if (estadoTexto.isBlank()) {
-                    Toast.makeText(context, R.string.averia_obligatorio_2, Toast.LENGTH_SHORT)
-                        .show()
+                    /*} else if (estado) {
+                        Toast.makeText(context, R.string.averia_obligatorio_2, Toast.LENGTH_SHORT)
+                            .show()*/
                 } else if (fechaRecepcion.isBlank()) {
                     Toast.makeText(context, R.string.averia_obligatorio_3, Toast.LENGTH_SHORT)
                         .show()
@@ -443,22 +528,37 @@ fun PantallaEditarAverias(
                     Toast.makeText(context, R.string.averia_limite_4, Toast.LENGTH_SHORT).show()
                 } else if (vehiculo == null) {
                     Toast.makeText(context, R.string.averia_limite_5, Toast.LENGTH_SHORT).show()
+                    /*                } else if (tipoaveria.size == 0) {
+                                        Toast.makeText(context, R.string.averia_limite_7, Toast.LENGTH_SHORT).show()
+                                    } else if (averiapieza.size == 0) {
+                                        Toast.makeText(context, R.string.averia_limite_8, Toast.LENGTH_SHORT).show()
+                                    } else if (precio.isBlank()) {
+                                        Toast.makeText(context, R.string.averia_obligatorio_6, Toast.LENGTH_SHORT)
+                                            .show()*/
                 } else {
+                    val convertirPrecio = precio.replace(",", ".").toBigDecimalOrNull()
                     viewModel.seleccionarProvisional(
                         Averia(
                             cod_averia = cod,
                             descripcion = descripcion,
-                            precio = precio,
-                            estado = estadoTexto,
+                            precio = convertirPrecio.toString(),
+                            estado = if (estado) "Reparado" else "Sin reparar",
                             fecha_recepcion = fechaRecepcion,
                             fecha_resolucion = fechaResolucion,
                             observaciones = observaciones,
+                            empleado = null,
+                            cliente = null,
+                            vehiculo = null,
                             averia_piezas = emptyList(),
-                            tipo_averias = emptyList(),
+                            tipo_averias = emptyList()
                         )
                     )
                     val averiaEditada = viewModel.ensamblarAveria()
                     if (averiaEditada != null) {
+                        Log.v(
+                            "GUARADRAVERIAEDIT",
+                            "Averia que se intenta guardar es $averiaEditada"
+                        )
                         onGuardar(averiaEditada)
                         Toast.makeText(
                             context, R.string.editar_averia_mensaje_averia_1, Toast.LENGTH_SHORT
@@ -473,71 +573,5 @@ fun PantallaEditarAverias(
                 Text(text = stringResource(R.string.btn_guardar))
             }
         }
-        Spacer(modifier = Modifier.height(8.dp))
-        /*        Button(
-                    onClick = {
-                        abrirAlertDialog = true
-                    }, colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.Red, contentColor = Color.White
-                    )
-                ) {
-                    Text(text = stringResource(R.string.btn_borrar))
-                }*/
-        if (abrirAlertDialog) {
-            AlertDialogAveriaConfirmar(
-                onDismissRequest = { abrirAlertDialog = false },
-                onConfirmation = {
-                    abrirAlertDialog = false
-                    val averiaEditado = averia.copy(
-                        descripcion = descripcion,
-                        precio = precio,
-                        estado = estadoTexto,
-                        fecha_recepcion = fechaRecepcion,
-                        fecha_resolucion = fechaResolucion,
-                        observaciones = observaciones,
-                        tipo_averias = emptyList(),
-                        averia_piezas = emptyList(),
-                    )
-                    onBorrar(averiaEditado.cod_averia.toString())
-                    Toast.makeText(
-                        context, R.string.editar_averia_mensaje_averia_2, Toast.LENGTH_SHORT
-                    ).show()
-                },
-                dialogTitle = stringResource(R.string.dialogo_averia_titulo),
-                dialogText = stringResource(R.string.dialogo_averia_texto),
-                icon = Icons.Default.Warning
-            )
-        }
     }
-}
-
-@Composable
-fun AlertDialogAveriaConfirmar(
-    onDismissRequest: () -> Unit,
-    onConfirmation: () -> Unit,
-    dialogTitle: String,
-    dialogText: String,
-    icon: ImageVector,
-) {
-    AlertDialog(icon = {
-        Icon(icon, contentDescription = "Warning Icon")
-    }, title = {
-        Text(text = dialogTitle)
-    }, text = {
-        Text(text = dialogText)
-    }, onDismissRequest = {
-        onDismissRequest()
-    }, confirmButton = {
-        TextButton(onClick = {
-            onConfirmation()
-        }) {
-            Text(stringResource(R.string.dialogo_btn_confirmar))
-        }
-    }, dismissButton = {
-        TextButton(onClick = {
-            onDismissRequest()
-        }) {
-            Text(stringResource(R.string.cancelar))
-        }
-    })
 }

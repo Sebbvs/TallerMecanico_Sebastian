@@ -15,6 +15,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FloatingActionButton
@@ -41,6 +42,7 @@ fun PantallaTipoaverias(
     onTipoaveriasObtenidos: () -> Unit,
     onTipoaveriaEditar: (Tipoaveria) -> Unit,
     onTipoaveriaInsertar: () -> Unit,
+    onAceptar: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     when (tipoaveriaUIState) {
@@ -50,7 +52,8 @@ fun PantallaTipoaverias(
             lista = tipoaveriaUIState.tipoaveria,
             modifier = modifier.fillMaxWidth(),
             onTipoaveriaEditar = onTipoaveriaEditar,
-            onTipoaveriaInsertar = onTipoaveriaInsertar
+            onTipoaveriaInsertar = onTipoaveriaInsertar,
+            onAceptar = onAceptar
         )
 
 
@@ -65,64 +68,79 @@ fun PantallaExitoTipopaverias(
     lista: List<Tipoaveria>,
     modifier: Modifier,
     onTipoaveriaEditar: (Tipoaveria) -> Unit,
+    onAceptar: () -> Unit,
     onTipoaveriaInsertar: () -> Unit
 ) {
-    LazyColumn(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(12.dp),
-        modifier = Modifier.padding(8.dp)
-    ) {
-        items(lista) { tipoaveria ->
-            Card(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(3.dp)
-                    .border(
-                        width = 1.dp, color = AzulPrincipal, shape = RoundedCornerShape(16.dp)
-                    ),
-                shape = RoundedCornerShape(16.dp),
-                elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
-            ) {
-                Row(
+    Box(modifier = Modifier.fillMaxSize()) {
+
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(bottom = 72.dp), // deja espacio para el botón
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            items(lista) { tipoaveria ->
+                Card(
                     modifier = Modifier
-                        .padding(16.dp)
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
+                        .fillMaxSize()
+                        .padding(3.dp)
+                        .border(
+                            width = 1.dp, color = AzulPrincipal, shape = RoundedCornerShape(16.dp)
+                        ),
+                    shape = RoundedCornerShape(16.dp),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
                 ) {
-                    Column {
-                        Text(
-                            text = "${stringResource(R.string.texto_tipo)}: ${tipoaveria.nombre}",
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
-                    OutlinedButton(
-                        onClick = {
-                            onTipoaveriaEditar(tipoaveria)
-                        },
+                    Row(
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Icon(
-                            imageVector = Icons.Filled.Create, contentDescription = "Editar"
-                        )
+                        Column {
+                            Text(
+                                text = "${tipoaveria.nombre}",
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
+                        OutlinedButton(
+                            onClick = {
+                                onTipoaveriaEditar(tipoaveria)
+                            },
+                        ) {
+                            Icon(
+                                imageVector = Icons.Filled.Create, contentDescription = "Editar"
+                            )
+                        }
                     }
                 }
             }
         }
-    }
-
-    Box(
-        modifier.fillMaxSize()
-    ) {
-        FloatingActionButton(
+        Row(
             modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(16.dp),
-            onClick = { onTipoaveriaInsertar() },
+                .align(Alignment.BottomCenter)
+                .padding(horizontal = 32.dp, vertical = 16.dp),
+            horizontalArrangement = Arrangement.Center
         ) {
-            Icon(Icons.Filled.Add, "Insertar")
+            Button(onClick = onAceptar) {
+                Text(stringResource(R.string.volver))
+            }
+        }
+
+        Box(
+            modifier.fillMaxSize()
+        ) {
+            FloatingActionButton(
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(16.dp),
+                onClick = { onTipoaveriaInsertar() },
+            ) {
+                Icon(Icons.Filled.Add, "Insertar")
+            }
         }
     }
-
 }

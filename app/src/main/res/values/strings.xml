@@ -40,12 +40,14 @@
 
     <string name="pantalla_cambio_contrasenya">Cambiar contraseña</string>
 
-    <string name="seleccionar_vehiculo_cliente">[Vehículo] Seleccionar Cliente</string>
-    <string name="seleccionar_empleado_rol">[Empleado] Seleccionar Rol</string>
-    <string name="seleccionar_averia_cliente">[Avería] Seleccionar Cliente</string>
-    <string name="seleccionar_averia_empleado">[Avería] Seleccionar Empleado</string>
-    <string name="seleccionar_averia_vehiculo">[Avería] Seleccionar Vehiculo</string>
-    <string name="seleccionar_pieza_tipopieza">[Pieza] Seleccionar Tipo</string>
+    <string name="seleccionar_vehiculo_cliente">[Vehículo] Seleccionar cliente</string>
+    <string name="seleccionar_empleado_rol">[Empleado] Seleccionar rol</string>
+    <string name="seleccionar_averia_cliente">[Avería] Seleccionar cliente</string>
+    <string name="seleccionar_averia_empleado">[Avería] Seleccionar empleado</string>
+    <string name="seleccionar_averia_vehiculo">[Avería] Seleccionar vehiculo</string>
+    <string name="seleccionar_pieza_tipopieza">[Pieza] Seleccionar tipo</string>
+    <string name="seleccionar_averia_tipoaveria">[Averiía] Seleccionar tipo(s)</string>
+    <string name="seleccionar_averia_averiapieza">[Avería] Seleccionar pieza(s)</string>
 
     <!--    PANTALLA LOGIN-->
     <string name="acceso">Acceso</string>
@@ -159,15 +161,21 @@
     <string name="vehiculo_no_seleccionado">Ningún vehiculo seleccionado</string>
     <string name="tipopieza_seleccionado">Pieza</string>
     <string name="tipopieza_no_seleccionado">Ningun tipo seleccionada</string>
+    <string name="tipoaveria_seleccionado">tipo(s) seleccionado(s)</string>
+    <string name="tipoaveria_no_seleccionado">tipo seleccionado</string>
+    <string name="averiapieza_seleccionado">pieza(s) seleccionada(s)</string>
+    <string name="averiapieza_no_seleccionado">piezas seleccionadas</string>
     <string name="rol_cargo">Cargo</string>
     <string name="texto_permisos">Permisos</string>
     <string name="fecha_futura">La fecha de recepción no puede ser posterior a hoy</string>
+    <string name="fecha_futura_2">La fecha de resolución no puede ser posterior a hoy</string>
     <string name="fecha_resolucion_anterior">Primero debes seleccionar una fecha de recepción</string>
     <string name="fecha_recepcion_primero">La fecha de resolución no puede ser anterior a la de recepción</string>
     <string name="matricula_no_valida">La matrícula no es válida</string>
     <string name="tipoaveria_mensaje_3">Tipo de avería guardado correctamente</string>
     <string name="editar_tipopieza_mensaje_1">Tipo de pieza modificado correctamente</string>
     <string name="editar_tipoaveria_mensaje_1">Tipo de avería modificado correctamente</string>
+    <string name="texto_contador">Cantidad</string>
     <!--    PANTALLAS ???-->
 
     <string name="btn_guardar">Guardar</string>
@@ -182,7 +190,8 @@
     <string name="add_rol">+ rol</string>
     <string name="add_empleado">+ empleado</string>
     <string name="add_vehiculo">+ vehiculo</string>
-    <string name="add_tipopieza">+ tipo</string>
+    <string name="add_tipo">+ tipo</string>
+    <string name="add_averiapieza">+ pieza</string>
 
     <!--    FILTROS  Y VALIDACIONES-->
     <string name="filtro_chip_todo">Todas</string>
@@ -199,12 +208,15 @@
     <string name="averia_obligatorio_3">¡La fecha de recepción es obligatoria!</string>
     <string name="averia_obligatorio_4">¡Si el vehículo está reparado, debe tener una fecha de resolución!</string>
     <string name="averia_obligatorio_5">¡Si el vehículo tiene fecha de resolución, debe estar reparado!</string>
+    <string name="averia_obligatorio_6">¡El precio es obligatorio!</string>
     <string name="averia_limite_1">¡La descripción es demasiado larga!</string>
     <string name="averia_limite_2">¡El precio es demasiado!</string>
     <string name="averia_limite_3">¡No hay cliente seleccionado!</string>
     <string name="averia_limite_4">¡No hay empleado seleccionado!</string>
     <string name="averia_limite_5">¡No hay vehiculo seleccionado!</string>
     <string name="averia_limite_6">¡Falta completar un seleccionable!</string>
+    <string name="averia_limite_7">¡No se ha elegido ningun tipo!</string>
+    <string name="averia_limite_8">¡No se ha elegido ninguna pieza!</string>
 
     <string name="cliente_obligatorio_1">¡El nombre es obligatorio!</string>
     <string name="cliente_obligatorio_2">¡El primer apellido es obligatorio!</string>

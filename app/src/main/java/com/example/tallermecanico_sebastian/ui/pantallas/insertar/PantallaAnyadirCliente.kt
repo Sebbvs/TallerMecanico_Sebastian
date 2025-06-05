@@ -47,7 +47,7 @@ fun PantallaAnyadirCliente(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .fillMaxSize()
-            .padding(20.dp)
+            .padding(10.dp)
     ) {
         TextField(value = nombre,
             onValueChange = {

@@ -162,12 +162,12 @@ interface ServicioApi {
         @Body pieza: Pieza
     ): Pieza
 
-    @PUT("pieza/{id}")
+    @PUT("piezas/{id}")
     suspend fun actualizarPieza(
         @Path("id") id: Int, @Body pieza: Pieza
     ): Pieza
 
-    @DELETE("pieza/{id}")
+    @DELETE("piezas/{id}")
     suspend fun eliminarPieza(
         @Path("id") id: Int
     ): Pieza
@@ -221,27 +221,9 @@ interface ServicioApi {
     ): Tipoaveria
 
     //AVERIAPIEZA
-    @GET("averiapieza")
-    suspend fun obtenerAveriapieza(): List<Averiapieza>
-
-    @GET("averiapieza/{id}")
-    suspend fun obtenerAveriapiezaId(
-        @Path("id") id: Int
-    ): Averiapieza
-
     @POST("averiapieza")
     suspend fun insertarAveriapieza(
         @Body averiapieza: Averiapieza
-    ): Averiapieza
-
-    @PUT("averiapieza/{id}")
-    suspend fun actualizarAveriapieza(
-        @Path("id") id: Int, @Body averiapieza: Averiapieza
-    ): Averiapieza
-
-    @DELETE("averiapieza/{id}")
-    suspend fun eliminarAveriapieza(
-        @Path("id") id: Int
     ): Averiapieza
 
     //PERMISOS

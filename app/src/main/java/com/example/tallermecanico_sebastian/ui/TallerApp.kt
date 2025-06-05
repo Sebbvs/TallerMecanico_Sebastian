@@ -71,9 +71,13 @@ import com.example.tallermecanico_sebastian.ui.pantallas.listar.PantallaPiezas
 import com.example.tallermecanico_sebastian.ui.pantallas.listar.PantallaTipoaverias
 import com.example.tallermecanico_sebastian.ui.pantallas.listar.PantallaTipopiezas
 import com.example.tallermecanico_sebastian.ui.pantallas.modificar.PantallaEditarPiezas
+import com.example.tallermecanico_sebastian.ui.pantallas.modificar.PantallaEditarTipoaverias
+import com.example.tallermecanico_sebastian.ui.pantallas.modificar.PantallaEditarTipopiezas
 import com.example.tallermecanico_sebastian.ui.pantallas.modificar.PantallaMiPerfil
+import com.example.tallermecanico_sebastian.ui.pantallas.seleccionar.PantallaAveriaAveriapiezas
 import com.example.tallermecanico_sebastian.ui.pantallas.seleccionar.PantallaAveriaCliente
 import com.example.tallermecanico_sebastian.ui.pantallas.seleccionar.PantallaAveriaEmpleado
+import com.example.tallermecanico_sebastian.ui.pantallas.seleccionar.PantallaAveriaTipoaverias
 import com.example.tallermecanico_sebastian.ui.pantallas.seleccionar.PantallaAveriaVehiculo
 import com.example.tallermecanico_sebastian.ui.pantallas.seleccionar.PantallaEmpleadoRol
 import com.example.tallermecanico_sebastian.ui.pantallas.seleccionar.PantallaPiezaTipopieza
@@ -81,6 +85,7 @@ import com.example.tallermecanico_sebastian.ui.pantallas.seleccionar.PantallaVeh
 import com.example.tallermecanico_sebastian.ui.theme.AzulPrincipal
 import com.example.tallermecanico_sebastian.ui.theme.Blanco
 import com.example.tallermecanico_sebastian.ui.viewmodel.AveriaViewModel
+import com.example.tallermecanico_sebastian.ui.viewmodel.AveriapiezaViewModel
 import com.example.tallermecanico_sebastian.ui.viewmodel.ClienteViewModel
 import com.example.tallermecanico_sebastian.ui.viewmodel.EmpleadoViewModel
 import com.example.tallermecanico_sebastian.ui.viewmodel.PiezaViewModel
@@ -143,6 +148,8 @@ enum class Pantallas(@StringRes val titulo: Int) {
     SeleccionarAveriaEmpleado(titulo = R.string.seleccionar_averia_empleado),
     SeleccionarAveriaVehiculo(titulo = R.string.seleccionar_averia_vehiculo),
     SeleccionarPiezaTipopieza(titulo = R.string.seleccionar_pieza_tipopieza),
+    SeleccionarAveriaTipoaveria(titulo = R.string.seleccionar_averia_tipoaveria),
+    SeleccionarAveriaAveriapieza(titulo = R.string.seleccionar_averia_averiapieza),
 
 
 }
@@ -172,12 +179,6 @@ val listaRutas = listOf(
         R.drawable.pieza,
         R.drawable.pieza,
     ),
-    /*    Ruta(
-            Pantallas.Facturas.titulo,
-            Pantallas.Facturas.name,
-            R.drawable.factura,
-            R.drawable.factura,
-        ),*/
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -192,6 +193,7 @@ fun TallerApp(
     viewModelVehiculo: VehiculoViewModel = viewModel(factory = VehiculoViewModel.Factory),
     viewModelTipopieza: TipopiezaViewModel = viewModel(factory = TipopiezaViewModel.Factory),
     viewModelTipoaveria: TipoaveriaViewModel = viewModel(factory = TipoaveriaViewModel.Factory),
+    viewModelAveriapieza: AveriapiezaViewModel = viewModel(factory = AveriapiezaViewModel.Factory),
 ) {
     val pilaRetroceso by navController.currentBackStackEntryAsState()
 
@@ -216,8 +218,6 @@ fun TallerApp(
     Scaffold(topBar = {
         AppTopBar(
             pantallaActual = pantallaActual,
-//                puedeNavegarAtras = navController.previousBackStackEntry != null,
-//                onNavegarAtras = { navController.navigateUp() },
             navController = navController,
             scrollBehavior = scrollBehavior,
         )
@@ -380,6 +380,11 @@ fun TallerApp(
                         navController.navigate(Pantallas.EditarTipopiezas.name)
                     },
                     onTipopiezaInsertar = { navController.navigate(Pantallas.AnyadirTipopieza.name) },
+                    onAceptar = {
+                        navController.navigate(Pantallas.Averias.name) {
+                            popUpTo(Pantallas.Averias.name) { inclusive = false }
+                        }
+                    },
                     modifier = Modifier
                 )
             }
@@ -392,6 +397,11 @@ fun TallerApp(
                         navController.navigate(Pantallas.EditarTipoaverias.name)
                     },
                     onTipoaveriaInsertar = { navController.navigate(Pantallas.AnyadirTipoaveria.name) },
+                    onAceptar = {
+                        navController.navigate(Pantallas.Averias.name) {
+                            popUpTo(Pantallas.Averias.name) { inclusive = false }
+                        }
+                    },
                     modifier = Modifier
                 )
             }
@@ -503,7 +513,6 @@ fun TallerApp(
             composable(route = Pantallas.EditarAverias.name) {
                 PantallaEditarAverias(
                     viewModel = viewModelAveria,
-                    averia = viewModelAveria.averiaPulsado,
                     onCancelar = {
                         viewModelAveria.limpiarFormularioAveria()
                         navController.popBackStack()
@@ -513,13 +522,11 @@ fun TallerApp(
                         viewModelAveria.limpiarFormularioAveria()
                         navController.popBackStack()
                     },
-                    onBorrar = {
-                        viewModelAveria.eliminarAveria(id)
-                        navController.popBackStack()
-                    },
                     onSeleccionarCliente = { navController.navigate(Pantallas.SeleccionarAveriaCliente.name) },
                     onSeleccionarEmpleado = { navController.navigate(Pantallas.SeleccionarAveriaEmpleado.name) },
                     onSeleccionarVehiculo = { navController.navigate(Pantallas.SeleccionarAveriaVehiculo.name) },
+                    onSeleccionarTipoaverias = { navController.navigate(Pantallas.SeleccionarAveriaTipoaveria.name) },
+                    onSeleccionarAveriapiezas = { navController.navigate(Pantallas.SeleccionarAveriaAveriapieza.name) },
                     modifier = Modifier
                 )
             }
@@ -606,6 +613,36 @@ fun TallerApp(
                     },
                     onSeleccionarTipopieza = { navController.navigate(Pantallas.SeleccionarPiezaTipopieza.name) },
                     modifier = Modifier
+                )
+            }
+            composable(route = Pantallas.EditarTipoaverias.name) {
+                PantallaEditarTipoaverias(
+                    tipoaveria = viewModelTipoaveria.tipoaveriaPulsado, onCancelar = {
+                        navController.popBackStack()
+                    }, onGuardar = {
+                        it.cod_tipo_averia?.let { it1 ->
+                            viewModelTipoaveria.actualizarTipoaveria(
+                                it1,
+                                it
+                            )
+                        }
+                        navController.popBackStack()
+                    }, modifier = Modifier
+                )
+            }
+            composable(route = Pantallas.EditarTipopiezas.name) {
+                PantallaEditarTipopiezas(
+                    tipopieza = viewModelTipopieza.tipopiezaPulsado, onCancelar = {
+                        navController.popBackStack()
+                    }, onGuardar = {
+                        it.cod_tipo_pieza?.let { it1 ->
+                            viewModelTipopieza.actualizarTipopieza(
+                                it1,
+                                it
+                            )
+                        }
+                        navController.popBackStack()
+                    }, modifier = Modifier
                 )
             }
             //CAMBIO DE CONTRASENYA
@@ -718,6 +755,21 @@ fun TallerApp(
                 }
                 PantallaPiezaTipopieza(viewModelPieza = viewModelPieza,
                     viewModelTipopieza = viewModelTipopieza,
+                    onSeleccionar = {
+                        navController.popBackStack()
+                    })
+            }
+            composable(route = Pantallas.SeleccionarAveriaTipoaveria.name) {
+                PantallaAveriaTipoaverias(viewModelAveria = viewModelAveria,
+                    viewModelTipoaveria = viewModelTipoaveria,
+                    onSeleccionar = {
+                        navController.popBackStack()
+                    })
+            }
+            composable(route = Pantallas.SeleccionarAveriaAveriapieza.name) {
+                PantallaAveriaAveriapiezas(viewModelAveria = viewModelAveria,
+                    viewModelAveriapieza = viewModelAveriapieza,
+                    viewModelPieza = viewModelPieza,
                     onSeleccionar = {
                         navController.popBackStack()
                     })

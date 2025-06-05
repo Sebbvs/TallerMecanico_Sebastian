@@ -35,6 +35,9 @@ class PiezaViewModel(private val piezaRepositorio: PiezaRepositorio) : ViewModel
     var piezaUIState: PiezaUIState by mutableStateOf(PiezaUIState.Cargando)
         private set
 
+    var listaAveriaAveriapieza by mutableStateOf(listOf<Pieza>())
+        private set
+
     var piezaPulsado: Pieza by mutableStateOf(
         Pieza(
             0,
@@ -59,6 +62,7 @@ class PiezaViewModel(private val piezaRepositorio: PiezaRepositorio) : ViewModel
             piezaUIState = PiezaUIState.Cargando
             piezaUIState = try {
                 val listaPiezas = piezaRepositorio.obtenerPiezas()
+                listaAveriaAveriapieza = listaPiezas
                 PiezaUIState.ObtenerExito(listaPiezas)
             } catch (e: IOException) {
                 Log.v("PiezaViewModel IO", "Error de Conexion obtenerPiezas", e)
@@ -77,16 +81,16 @@ class PiezaViewModel(private val piezaRepositorio: PiezaRepositorio) : ViewModel
         viewModelScope.launch {
             piezaUIState = PiezaUIState.Cargando
             piezaUIState = try {
-                val piezaInsertado = piezaRepositorio.insertarPieza(pieza)
-                PiezaUIState.CrearExito(piezaInsertado)
+                val piezaObtenida = piezaRepositorio.insertarPieza(pieza)
+                PiezaUIState.CrearExito(piezaObtenida)
             } catch (e: IOException) {
-                Log.v("PiezaViewModel IO", "Error de Conexion insertarPieza", e)
+                Log.v("PiezaViewModel IO", "Error de Conexion obtenerPieza", e)
                 PiezaUIState.Error
             } catch (e: HttpException) {
-                Log.v("PiezaViewModel HTTP", "Error HTTP %{e.code()} insertarPieza", e)
+                Log.v("PiezaViewModel HTTP", "Error HTTP %{e.code()} obtenerPieza", e)
                 PiezaUIState.Error
             } catch (e: IOException) {
-                Log.v("PiezaViewModel E", "Error desconocido insertarPieza", e)
+                Log.v("PiezaViewModel E", "Error desconocido obtenerPieza", e)
                 PiezaUIState.Error
             }
         }

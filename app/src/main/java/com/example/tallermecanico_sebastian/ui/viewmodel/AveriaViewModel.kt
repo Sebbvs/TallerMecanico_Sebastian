@@ -2,6 +2,8 @@ package com.example.tallermecanico_sebastian.ui.viewmodel
 
 import android.util.Log
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
@@ -14,8 +16,11 @@ import coil.network.HttpException
 import com.example.tallermecanico_sebastian.TallerAplicacion
 import com.example.tallermecanico_sebastian.datos.repos.AveriaRepositorio
 import com.example.tallermecanico_sebastian.modelo.Averia
+import com.example.tallermecanico_sebastian.modelo.Averiapieza
 import com.example.tallermecanico_sebastian.modelo.Cliente
 import com.example.tallermecanico_sebastian.modelo.Empleado
+import com.example.tallermecanico_sebastian.modelo.Tipoaveria
+import com.example.tallermecanico_sebastian.modelo.Tipopieza
 import com.example.tallermecanico_sebastian.modelo.Vehiculo
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -187,21 +192,44 @@ class AveriaViewModel(private val averiaRepositorio: AveriaRepositorio) : ViewMo
 
     var empleadoSeleccionado by mutableStateOf<Empleado?>(null)
         private set
-    var clienteSeleccionado by mutableStateOf<Cliente?>(null)
-        private set
-    var vehiculoSeleccionado by mutableStateOf<Vehiculo?>(null)
-        private set
 
     fun seleccionarEmpleado(empleado: Empleado) {
         empleadoSeleccionado = empleado
     }
 
+    var clienteSeleccionado by mutableStateOf<Cliente?>(null)
+        private set
+
     fun seleccionarCliente(cliente: Cliente) {
         clienteSeleccionado = cliente
     }
 
+    var vehiculoSeleccionado by mutableStateOf<Vehiculo?>(null)
+        private set
+
     fun seleccionarVehiculo(vehiculo: Vehiculo) {
         vehiculoSeleccionado = vehiculo
+    }
+
+    var tipoaveriaSeleccionado = mutableStateListOf<Tipoaveria>()
+        private set
+
+    fun seleccionarTipoaveria(tipoaveria: Tipoaveria, seleccionado: Boolean) {
+        if (seleccionado) {
+            if (tipoaveria !in tipoaveriaSeleccionado) {
+                tipoaveriaSeleccionado.add(tipoaveria)
+            }
+        } else {
+            tipoaveriaSeleccionado.remove(tipoaveria)
+        }
+    }
+
+    var averiapiezaSeleccionado = mutableStateListOf<Averiapieza>()
+        private set
+
+    fun seleccionarAveriapiezas(lista: List<Averiapieza>) {
+        averiapiezaSeleccionado.clear()
+        averiapiezaSeleccionado.addAll(lista)
     }
 
     var provisional by mutableStateOf<Averia?>(null)
@@ -217,7 +245,9 @@ class AveriaViewModel(private val averiaRepositorio: AveriaRepositorio) : ViewMo
             cod_cliente = clienteSeleccionado?.cod_cliente,
             cliente = clienteSeleccionado,
             cod_vehiculo = vehiculoSeleccionado?.cod_vehiculo,
-            vehiculo = vehiculoSeleccionado
+            vehiculo = vehiculoSeleccionado,
+            tipo_averias = tipoaveriaSeleccionado.toList(),
+            averia_piezas = averiapiezaSeleccionado.toList()
         )
     }
 
@@ -225,6 +255,8 @@ class AveriaViewModel(private val averiaRepositorio: AveriaRepositorio) : ViewMo
         empleadoSeleccionado = null
         clienteSeleccionado = null
         vehiculoSeleccionado = null
+        tipoaveriaSeleccionado.clear()
+        averiapiezaSeleccionado.clear()
         provisional = null
     }
 }

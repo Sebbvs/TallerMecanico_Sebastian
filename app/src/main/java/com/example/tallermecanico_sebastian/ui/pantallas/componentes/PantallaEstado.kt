@@ -9,12 +9,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.tallermecanico_sebastian.R
 
-//            TODO tiposaveria | averiatipoaveria | averiapieza | tipospieza |
 @Composable
 fun PantallaCargando(modifier: Modifier = Modifier) {
     Image(
         modifier = modifier.size(200.dp),
-        painter = painterResource(R.drawable.cargando),
+        painter = painterResource(R.drawable.loading),
         contentDescription = stringResource(R.string.cargando)
     )
 }

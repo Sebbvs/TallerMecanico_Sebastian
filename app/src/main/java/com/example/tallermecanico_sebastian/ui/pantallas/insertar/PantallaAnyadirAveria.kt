@@ -63,7 +63,7 @@ fun PantallaAnyadirAveria(
     val averiaProvisional = viewModel.provisional
 
     var descripcion by remember { mutableStateOf(averiaProvisional?.descripcion ?: "") }
-    val precio by remember { mutableStateOf(averiaProvisional?.precio ?: "0.00") }
+    val precio by remember { mutableStateOf(averiaProvisional?.precio ?: "") }
     var fechaRecepcion by remember {
         mutableStateOf(
             averiaProvisional?.fecha_recepcion ?: LocalDate.now()
@@ -89,7 +89,7 @@ fun PantallaAnyadirAveria(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .fillMaxSize()
-            .padding(20.dp)
+            .padding(10.dp)
     ) {
         TextField(
             value = descripcion,
@@ -312,8 +312,10 @@ fun PantallaAnyadirAveria(
                         .show()
                 } else if (descripcion.length > 250) {
                     Toast.makeText(context, R.string.averia_limite_1, Toast.LENGTH_SHORT).show()
-                } else if (precio.length > 8) {
-                    Toast.makeText(context, R.string.averia_limite_2, Toast.LENGTH_SHORT).show()
+
+                /*} else if (precio.length > 8) {
+                    Toast.makeText(context, R.string.averia_limite_2, Toast.LENGTH_SHORT).show()*/
+
                 } else if (cliente == null) {
                     Toast.makeText(context, R.string.averia_limite_3, Toast.LENGTH_SHORT).show()
                 } else if (empleado == null) {

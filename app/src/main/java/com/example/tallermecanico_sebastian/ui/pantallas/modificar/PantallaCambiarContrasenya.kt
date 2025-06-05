@@ -51,7 +51,7 @@ fun PantallaCambiarContrasenya(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .fillMaxSize()
-            .padding(20.dp)
+            .padding(10.dp)
     ) {
         Text(text = stringResource(R.string.cambiar_contrasenya) + stringResource(R.string.prep_de) + " $nombre $apellido1")
         TextField(
