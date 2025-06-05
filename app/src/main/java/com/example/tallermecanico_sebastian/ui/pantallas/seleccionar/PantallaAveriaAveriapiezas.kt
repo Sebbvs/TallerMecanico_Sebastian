@@ -134,6 +134,7 @@ fun PantallaAveriaAveriapiezas(
                                 cantidad = cantidad
                             )
                         }
+                    //TODO INSERTAR PIEZA
                     viewModelAveria.seleccionarAveriapiezas(seleccionados)
                     onSeleccionar()
                 }

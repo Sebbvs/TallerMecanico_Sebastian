@@ -181,7 +181,6 @@ fun PantallaEditarClientes(
                 ) {
                     Text(text = stringResource(R.string.btn_borrar))
                 }*/
-
         if (abrirAlertDialog) {
             AlertDialogClienteConfirmar(
                 onDismissRequest = { abrirAlertDialog = false },
