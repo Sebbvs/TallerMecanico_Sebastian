@@ -4,9 +4,11 @@ import android.content.Context
 import com.example.tallermecanico_sebastian.conexion.ServicioApi
 import com.example.tallermecanico_sebastian.datos.repos.AveriaRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.AveriapiezaRepositorio
+import com.example.tallermecanico_sebastian.datos.repos.AveriatipoaveriaRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.ClienteRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.ConexionAveriaRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.ConexionAveriapiezaRepositorio
+import com.example.tallermecanico_sebastian.datos.repos.ConexionAveriatipoaveriaRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.ConexionClienteRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.ConexionEmpleadoRepositorio
 import com.example.tallermecanico_sebastian.datos.repos.ConexionPermisoRepositorio
@@ -40,6 +42,7 @@ interface ContenedorApp {
     val tipopiezaRepositorio: TipopiezaRepositorio
     val averiapiezaRepositorio: AveriapiezaRepositorio
     val tipoaveriaRepositorio: TipoaveriaRepositorio
+    val averiatipoaveriaRepositorio: AveriatipoaveriaRepositorio
 }
 
 class TallerContenedorApp : ContenedorApp {
@@ -97,5 +100,8 @@ class TallerContenedorApp : ContenedorApp {
     }
     override val tipoaveriaRepositorio: TipoaveriaRepositorio by lazy {
         ConexionTipoaveriaRepositorio(servicioRetrofit)
+    }
+    override val averiatipoaveriaRepositorio: AveriatipoaveriaRepositorio by lazy {
+        ConexionAveriatipoaveriaRepositorio(servicioRetrofit)
     }
 }

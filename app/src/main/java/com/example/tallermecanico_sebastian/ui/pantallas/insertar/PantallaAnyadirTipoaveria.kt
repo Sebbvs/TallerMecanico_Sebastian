@@ -87,5 +87,6 @@ fun PantallaAnyadirTipoaveria(
                 Text(stringResource(R.string.btn_guardar))
             }
         }
+        Spacer(modifier = Modifier.height(8.dp))
     }
 }

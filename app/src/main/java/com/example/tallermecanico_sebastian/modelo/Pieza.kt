@@ -14,5 +14,6 @@ data class Pieza(
     @SerialName(value = "cod_tipo")
     val cod_tipo: Int? = 0,
     @SerialName(value = "tipo_pieza")
-    val tipo_pieza: Tipopieza? = Tipopieza(),
+    val tipo_pieza: Tipopieza? = null,
+//    Tipopieza(),
 )

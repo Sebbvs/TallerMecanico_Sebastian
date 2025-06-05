@@ -313,8 +313,8 @@ fun PantallaAnyadirAveria(
                 } else if (descripcion.length > 250) {
                     Toast.makeText(context, R.string.averia_limite_1, Toast.LENGTH_SHORT).show()
 
-                /*} else if (precio.length > 8) {
-                    Toast.makeText(context, R.string.averia_limite_2, Toast.LENGTH_SHORT).show()*/
+                    /*} else if (precio.length > 8) {
+                        Toast.makeText(context, R.string.averia_limite_2, Toast.LENGTH_SHORT).show()*/
 
                 } else if (cliente == null) {
                     Toast.makeText(context, R.string.averia_limite_3, Toast.LENGTH_SHORT).show()
@@ -335,9 +335,9 @@ fun PantallaAnyadirAveria(
                             tipo_averias = listOf(),
                         )
                     )
-                    val averia = viewModel.ensamblarAveria()
-                    if (averia != null) {
-                        onInsertar(averia)
+                    val nuevaAveria = viewModel.ensamblarAveria()
+                    if (nuevaAveria != null) {
+                        onInsertar(nuevaAveria)
                         Toast.makeText(
                             context, R.string.editar_averia_mensaje_3, Toast.LENGTH_SHORT
                         ).show()
@@ -346,11 +346,11 @@ fun PantallaAnyadirAveria(
                             context, R.string.averia_limite_6, Toast.LENGTH_SHORT
                         ).show()
                     }
-                    Log.v("AVERIAINSERTAR", "LA AVERIA QUE SE INTENTA GUARDAR ES: $averia")
                 }
             }) {
                 Text(stringResource(R.string.btn_guardar))
             }
         }
+        Spacer(modifier = Modifier.height(8.dp))
     }
 }

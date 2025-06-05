@@ -123,9 +123,9 @@ fun PantallaEditarClientes(
         Spacer(modifier = Modifier.height(8.dp))
 
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxSize().padding(vertical = 16.dp),
             horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.Bottom
         ) {
             OutlinedButton(onClick = onCancelar) {
                 Text(stringResource(R.string.cancelar))
@@ -171,7 +171,6 @@ fun PantallaEditarClientes(
                 Text(text = stringResource(R.string.btn_guardar))
             }
         }
-        Spacer(modifier = Modifier.height(8.dp))
         /*        Button(
                     onClick = {
                         abrirAlertDialog = true

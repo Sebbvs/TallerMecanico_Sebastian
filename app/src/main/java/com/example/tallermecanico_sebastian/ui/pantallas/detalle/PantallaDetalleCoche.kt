@@ -121,9 +121,9 @@ fun PantallaDetalleCoche(
         Spacer(modifier = Modifier.height(8.dp))
 
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxSize().padding(vertical = 16.dp),
             horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.Bottom
         ) {
             Button(onClick = onAceptar) {
                 Text(stringResource(R.string.aceptar))

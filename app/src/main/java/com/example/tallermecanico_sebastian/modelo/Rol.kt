@@ -10,5 +10,6 @@ data class Rol(
     @SerialName(value = "nombre")
     val nombre: String? = "",
     @SerialName(value = "permisos")
-    val permisos: List<Permiso?> = emptyList()
+    val permisos: List<Permiso>? = null,
+//    emptyList()
 )

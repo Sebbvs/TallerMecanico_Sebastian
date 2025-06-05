@@ -130,7 +130,7 @@ fun PantallaAnyadirCoche(
             onValueChange = {
                 if (it.length <= 17) vin = it
             },
-            isError = vinInvalido,
+//            isError = vinInvalido,
             label = { Text(text = stringResource(R.string.texto_vin)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             supportingText = {
@@ -250,5 +250,6 @@ fun PantallaAnyadirCoche(
                 Text(stringResource(R.string.btn_guardar))
             }
         }
+        Spacer(modifier = Modifier.height(8.dp))
     }
 }

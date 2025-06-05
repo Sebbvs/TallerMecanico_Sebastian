@@ -13,34 +13,29 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.tallermecanico_sebastian.R
-import com.example.tallermecanico_sebastian.modelo.Averiapieza
-import com.example.tallermecanico_sebastian.modelo.Tipoaveria
+import com.example.tallermecanico_sebastian.modelo.Averiatipoaveria
 import com.example.tallermecanico_sebastian.ui.theme.AzulPrincipal
 import com.example.tallermecanico_sebastian.ui.viewmodel.AveriaViewModel
-import com.example.tallermecanico_sebastian.ui.viewmodel.AveriapiezaViewModel
+import com.example.tallermecanico_sebastian.ui.viewmodel.AveriatipoaveriaViewModel
 import com.example.tallermecanico_sebastian.ui.viewmodel.TipoaveriaViewModel
 
 @Composable
 fun PantallaAveriaTipoaverias(
     viewModelAveria: AveriaViewModel,
     viewModelTipoaveria: TipoaveriaViewModel,
+    viewModelAveriatipoaveria: AveriatipoaveriaViewModel,
+    onCancelar: () -> Unit,
     onSeleccionar: () -> Unit
 ) {
     val lista = viewModelTipoaveria.listaAveriaTipoaveria
@@ -93,8 +88,37 @@ fun PantallaAveriaTipoaverias(
             horizontalArrangement = Arrangement.Center
         ) {
             Button(onClick = {
-                onSeleccionar()
-            }) {
+                val codAveria = viewModelAveria.provisional?.cod_averia
+                if (codAveria != null) {
+                    val seleccionados = viewModelAveria.tipoaveriaSeleccionado.toList()
+
+                    if (seleccionados.isEmpty()) {
+                        onCancelar()
+                    } else {
+                        // BORRAR ANTERIORES (si es necesario esperar, usa corrutinas)
+                        viewModelAveria.provisional?.tipo_averias?.forEach { old ->
+                            old.pivot?.cod_tipo?.let { codTipo ->
+                                viewModelAveriatipoaveria.eliminarAveriatipoaveria(
+                                    codAveria,
+                                    codTipo
+                                )
+                            }
+                        }
+
+                        // INSERTAR RELACIONES NUEVAS LIMPIAS
+                        val nuevasRelaciones = seleccionados.map {
+                            Averiatipoaveria(cod_averia = codAveria, cod_tipo = it.cod_tipo_averia)
+                        }
+
+                        nuevasRelaciones.forEach { relacion ->
+                            viewModelAveriatipoaveria.insertarAveriatipoaveria(relacion)
+                        }
+
+                        onSeleccionar()
+                    }
+                }
+            })
+            {
                 Text(stringResource(R.string.aceptar))
             }
         }

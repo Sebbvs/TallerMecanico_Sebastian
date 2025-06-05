@@ -27,11 +27,15 @@ import com.example.tallermecanico_sebastian.modelo.Rol
 import com.example.tallermecanico_sebastian.ui.pantallas.componentes.PantallaCargando
 import com.example.tallermecanico_sebastian.ui.pantallas.componentes.PantallaError
 import com.example.tallermecanico_sebastian.ui.theme.AzulPrincipal
+import com.example.tallermecanico_sebastian.ui.viewmodel.PiezaUIState
 import com.example.tallermecanico_sebastian.ui.viewmodel.RolUIState
 
 @Composable
 fun PantallaDetalleRolPermiso(
-    rolUIState: RolUIState, onAceptar: () -> Unit, modifier: Modifier = Modifier
+    rolUIState: RolUIState,
+    onAceptar: () -> Unit,
+    onRolesObtenidos: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     when (rolUIState) {
         is RolUIState.Cargando -> PantallaCargando(modifier = modifier.fillMaxSize())
@@ -40,9 +44,9 @@ fun PantallaDetalleRolPermiso(
             lista = rolUIState.roles, modifier = modifier.fillMaxWidth(), onAceptar = onAceptar
         )
 
-        is RolUIState.ActualizarExito -> TODO()
-        is RolUIState.CrearExito -> TODO()
-        is RolUIState.EliminarExito -> TODO()
+        is RolUIState.ActualizarExito -> onRolesObtenidos()
+        is RolUIState.CrearExito -> onRolesObtenidos()
+        is RolUIState.EliminarExito -> onRolesObtenidos()
     }
 }
 
@@ -88,7 +92,7 @@ fun PantallaExitoRoles(
                             textAlign = TextAlign.Center
                         )
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            rol.permisos.forEach { permiso ->
+                            rol.permisos?.forEach { permiso ->
                                 Text(
                                     text = permiso?.descripcion ?: "",
                                     style = MaterialTheme.typography.bodyMedium,

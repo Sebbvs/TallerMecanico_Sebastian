@@ -89,7 +89,6 @@ class AveriaViewModel(private val averiaRepositorio: AveriaRepositorio) : ViewMo
         viewModelScope.launch {
             averiaUIState = AveriaUIState.Cargando
             averiaUIState = try {
-                Log.v("VIEWMODEL", averia.toString())
                 val averiaInsertado = averiaRepositorio.insertarAveria(averia)
 
                 AveriaUIState.CrearExito(averiaInsertado)
@@ -165,17 +164,24 @@ class AveriaViewModel(private val averiaRepositorio: AveriaRepositorio) : ViewMo
     var averiaEncontrada by mutableStateOf<Averia?>(null)
         private set
 
+    var averiasEncontradas: List<Averia> by mutableStateOf(emptyList())
+        private set
+
     private var listaAverias by mutableStateOf(listOf<Averia>())
 
     fun buscarPorMatricula(matricula: String) {
         val input = normalizarMatricula(matricula)
-        Log.v("BUSQUEDAMATRICULA", "Buscando matrícula: $input en ${listaAverias.size} averías")
+        Log.v("BUSQUEDA", "Averías totales: ${listaAverias.size}")
+        averiasEncontradas = listaAverias.filter {
+            val m = normalizarMatricula((it.vehiculo?.matricula ?: ""))
+            m == input
+        }
 
         averiaEncontrada = listaAverias.find {
             val m = normalizarMatricula(it.vehiculo?.matricula ?: "")
             m == input
         }
-        Log.v("BUSQUEDAMATRICULA", "Resultado: $averiaEncontrada")
+        Log.v("BUSQUEDA", "Encontradas: ${averiasEncontradas.size}")
     }
 
     fun cargarAverias(averias: List<Averia>) {
@@ -235,7 +241,14 @@ class AveriaViewModel(private val averiaRepositorio: AveriaRepositorio) : ViewMo
     var provisional by mutableStateOf<Averia?>(null)
 
     fun seleccionarProvisional(averia: Averia) {
-        provisional = averia
+        provisional = averia.copy(
+            tipo_averias = averia.tipo_averias?.toList(),
+            averia_piezas = averia.averia_piezas?.toList(),
+            // Puedes copiar también las referencias de cliente, empleado, vehículo si quieres evitar modificaciones externas:
+            empleado = averia.empleado?.copy() ?: Empleado(),
+            cliente = averia.cliente?.copy() ?: Cliente(),
+            vehiculo = averia.vehiculo?.copy() ?: Vehiculo(),
+        )
     }
 
     fun ensamblarAveria(): Averia? {

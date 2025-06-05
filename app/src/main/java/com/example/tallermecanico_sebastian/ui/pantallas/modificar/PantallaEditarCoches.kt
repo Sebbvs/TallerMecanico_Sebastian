@@ -37,6 +37,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.tallermecanico_sebastian.R
 import com.example.tallermecanico_sebastian.modelo.Vehiculo
@@ -141,9 +142,16 @@ fun PantallaEditarCoches(
         TextField(
             value = vin,
             onValueChange = { if (it.length < 17) vin = it },
-            isError = vinInvalido,
+//            isError = vinInvalido,
             label = { Text(text = stringResource(R.string.texto_vin)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+            supportingText = {
+                Text(
+                    text = "${vin.length} / 17",
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.End,
+                )
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
@@ -191,9 +199,11 @@ fun PantallaEditarCoches(
         Spacer(modifier = Modifier.height(8.dp))
 
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(vertical = 16.dp),
             horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.Bottom
         ) {
             OutlinedButton(onClick = onCancelar) {
                 Text(stringResource(R.string.cancelar))
@@ -232,7 +242,6 @@ fun PantallaEditarCoches(
                         )
                     )
                     val coche = viewModel.ensamblarVehiculo()
-                    Log.v("EDITARCOCHE", "Se esta intentando guardar el objeto: $coche")
                     if (coche != null) {
                         onGuardar(coche)
                         Toast.makeText(
@@ -248,16 +257,15 @@ fun PantallaEditarCoches(
                 Text(text = stringResource(R.string.btn_guardar))
             }
         }
-        Spacer(modifier = Modifier.height(20.dp))
-/*        Button(
-            onClick = {
-                abrirAlertDialog = true
-            }, colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Red, contentColor = Color.White
-            )
-        ) {
-            Text(text = stringResource(R.string.btn_borrar))
-        }*/
+        /*        Button(
+                    onClick = {
+                        abrirAlertDialog = true
+                    }, colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Red, contentColor = Color.White
+                    )
+                ) {
+                    Text(text = stringResource(R.string.btn_borrar))
+                }*/
 
         if (abrirAlertDialog) {
             AlertDialogVehiculoConfirmar(

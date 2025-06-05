@@ -26,11 +26,9 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -38,9 +36,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.focusModifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
@@ -55,7 +50,6 @@ import com.example.tallermecanico_sebastian.ui.pantallas.componentes.convertMill
 import com.example.tallermecanico_sebastian.ui.pantallas.componentes.formatFechaParaMostrar
 import com.example.tallermecanico_sebastian.ui.pantallas.componentes.formatearDecimalValidado
 import com.example.tallermecanico_sebastian.ui.pantallas.componentes.millisToLocalDate
-import com.example.tallermecanico_sebastian.ui.viewmodel.AveriaUIState
 import com.example.tallermecanico_sebastian.ui.viewmodel.AveriaViewModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -77,15 +71,15 @@ fun PantallaEditarAverias(
     val cliente = viewModel.clienteSeleccionado
     val empleado = viewModel.empleadoSeleccionado
     val vehiculo = viewModel.vehiculoSeleccionado
-    val tipoaveria = viewModel.tipoaveriaSeleccionado
-    val averiapieza = viewModel.averiapiezaSeleccionado
+    val tipoaveria = viewModel.tipoaveriaSeleccionado.toList()
+    val averiapieza = viewModel.averiapiezaSeleccionado.toList()
     val averiaProvisional = viewModel.provisional
 
-    Log.v("AVERIACARGADA", "La averia que se carga es: $averiaProvisional")
+    Log.v("AVERIA PARA EDITAR DATOS CARGADOS", "$averiaProvisional")
 
     val cod by remember { mutableIntStateOf(averiaProvisional?.cod_averia ?: 0) }
     var descripcion by remember { mutableStateOf(averiaProvisional?.descripcion ?: "") }
-    var precio by remember { mutableStateOf(averiaProvisional?.precio ?: "") }
+    var precio by remember { mutableStateOf(averiaProvisional?.precio ?: "0.00") }
     var fechaRecepcion by remember {
         mutableStateOf(
             averiaProvisional?.fecha_recepcion
@@ -118,9 +112,6 @@ fun PantallaEditarAverias(
     val datePickerStateResolucion = rememberDatePickerState()
 
     var estado by remember { mutableStateOf(averiaProvisional?.estado == "Reparado") }
-//    var estado = averiaProvisional?.estado == "Reparado"
-    Log.v("ESTADO EDITAR", "El estado es: ${averiaProvisional?.estado}")
-//    val estadoTexto = if (estado) "Reparado" else "Sin reparar"
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -485,19 +476,19 @@ fun PantallaEditarAverias(
                 val valido = formatearDecimalValidado(it, context)
                 if (valido != null) precio = it
             },
-            label = { Text(text = "€  " + stringResource(R.string.averia_precio) + " *") },
+            label = { Text(text = stringResource(R.string.averia_precio) + " *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxSize().padding(vertical = 16.dp),
             horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.Bottom
         ) {
             OutlinedButton(onClick = onCancelar) {
                 Text(stringResource(R.string.cancelar))
@@ -546,17 +537,17 @@ fun PantallaEditarAverias(
                             fecha_recepcion = fechaRecepcion,
                             fecha_resolucion = fechaResolucion,
                             observaciones = observaciones,
-                            empleado = null,
-                            cliente = null,
-                            vehiculo = null,
-                            averia_piezas = emptyList(),
-                            tipo_averias = emptyList()
+//                            empleado = null,
+//                            cliente = null,
+//                            vehiculo = null,
+//                            averia_piezas = emptyList(),
+//                            tipo_averias = emptyList()
                         )
                     )
                     val averiaEditada = viewModel.ensamblarAveria()
                     if (averiaEditada != null) {
                         Log.v(
-                            "GUARADRAVERIAEDIT",
+                            "EDITAR AVERIA",
                             "Averia que se intenta guardar es $averiaEditada"
                         )
                         onGuardar(averiaEditada)

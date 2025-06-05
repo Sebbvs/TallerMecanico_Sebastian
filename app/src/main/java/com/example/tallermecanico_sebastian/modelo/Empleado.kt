@@ -24,5 +24,6 @@ data class Empleado(
     @SerialName(value = "cod_rol")
     val cod_rol: Int? = 0,
     @SerialName(value = "rol")
-    val rol: Rol? = Rol(),
+    val rol: Rol? = null,
+//    Rol(),
 )

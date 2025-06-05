@@ -4,6 +4,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
@@ -62,14 +64,14 @@ fun PantallaBuscarPorMatricula(
         }
     }
 
-    /*    LaunchedEffect(averiaEncontrada) {
-            if (busquedaRealizada) {
-                if (averiaEncontrada == null) {
-                    Toast.makeText(context, "Matricula no encontrada", Toast.LENGTH_SHORT).show()
+    /*        LaunchedEffect(averiaEncontrada) {
+                if (busquedaRealizada) {
+                    if (averiaEncontrada == null) {
+                        Toast.makeText(context, "Matricula no encontrada", Toast.LENGTH_SHORT).show()
+                    }
+                    busquedaRealizada = true
                 }
-                busquedaRealizada = true
-            }
-        }*/
+            }*/
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -81,27 +83,13 @@ fun PantallaBuscarPorMatricula(
             matricula = busquedaMatricula,
             onMatriculaChange = { busquedaMatricula = it }
         )
-        /*        TextField(
-                    value = busquedaMatricula,
-                    onValueChange = {
-                        busquedaMatricula = it
-                    },
-                    singleLine = true,
-                    label = { Text(text = stringResource(R.string.texto_buscador)) },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-                    placeholder = { Text(text = "1589 LLW") },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp)
-                )*/
 
         Spacer(modifier = Modifier.width(8.dp))
 
         OutlinedButton(
             onClick = {
-                Log.v("BUSQUEDAMATRICULA", "Mensaje de botón BUSCAR")
                 viewModel.buscarPorMatricula(busquedaMatricula.text)
-                if (viewModel.averiaEncontrada == null) Toast.makeText(
+                if (viewModel.averiasEncontradas.isEmpty()) Toast.makeText(
                     context,
                     R.string.matricula_no_encontrada,
                     Toast.LENGTH_SHORT
@@ -115,90 +103,101 @@ fun PantallaBuscarPorMatricula(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        viewModel.averiaEncontrada?.let { averia ->
+        Box(modifier = Modifier.fillMaxSize()) {
+            if (viewModel.averiasEncontradas.isNotEmpty()) {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(bottom = 72.dp), // deja espacio para el botón
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    items(viewModel.averiasEncontradas.size) { index ->
+                        val averia = viewModel.averiasEncontradas[index]
+                        val cliente = averia.cliente
+                        val vehiculo = averia.vehiculo
+                        val borderColor = if (averia.estado.equals("Reparado")) Verde else Rojo
+                        val cardMod = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp)
+                            .border(
+                                width = 2.dp,
+                                color = borderColor, // <- COLOR PARA BORDE DE AVERÍAS MOSTRADAS
+                                shape = RoundedCornerShape(12.dp)
+                            )
 
-            val borderColor = if (averia.estado.equals("Reparado")) Verde else Rojo
-            val cardMod = Modifier
-                .fillMaxWidth()
-                .padding(8.dp)
-                .border(
-                    width = 2.dp,
-                    color = borderColor, // <- COLOR PARA BORDE DE AVERÍAS MOSTRADAS
-                    shape = RoundedCornerShape(12.dp)
-                )
+                        Card(
+                            modifier = cardMod,
+                            shape = RoundedCornerShape(12.dp),
+                            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+                        ) {
+                            Column(modifier = Modifier.padding(16.dp)) {
+                                Text(
+                                    text = stringResource(R.string.averia_descripcion) + ": " + averia.descripcion,
+                                    style = MaterialTheme.typography.bodyMedium
+                                )
+                                Text(
+                                    text = stringResource(R.string.averia_fecha_recepcion) + ": " + averia.fecha_recepcion,
+                                    style = MaterialTheme.typography.bodyMedium
+                                )
+                                Text(
+                                    text = stringResource(R.string.averia_fecha_resolucion) + ": " + averia.fecha_resolucion,
+                                    style = MaterialTheme.typography.bodyMedium
+                                )
 
-            Card(
-                modifier = cardMod,
-                shape = RoundedCornerShape(12.dp),
-                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
-            ) {
-                Column(modifier = Modifier.padding(16.dp)) {
-                    Text(
-                        text = stringResource(R.string.texto_tipo_averia) + ": " + "${averia.tipo_averias?.firstOrNull()?.nombre}",
-                        style = MaterialTheme.typography.titleMedium
-                    )
-                    Text(
-                        text = stringResource(R.string.averia_descripcion) + ": " + averia.descripcion,
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                    Text(
-                        text = stringResource(R.string.averia_fecha_recepcion) + ": " + averia.fecha_recepcion,
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                    Text(
-                        text = stringResource(R.string.averia_fecha_resolucion) + ": " + averia.fecha_resolucion,
-                        style = MaterialTheme.typography.bodyMedium
-                    )
+                                vehiculo?.let {
+                                    Spacer(modifier = Modifier.height(8.dp))
+                                    Text(
+                                        text = stringResource(R.string.texto_vehiculo),
+                                        style = MaterialTheme.typography.titleMedium
+                                    )
+                                    Text(
+                                        text = stringResource(R.string.texto_marca) + " " + stringResource(
+                                            R.string.prep_y
+                                        ) + " " + stringResource(
+                                            R.string.editar_coche_modelo
+                                        ) + ":  ${it.marca} ${it.modelo}",
+                                        style = MaterialTheme.typography.bodyMedium
+                                    )
+                                    Text(
+                                        text = stringResource(R.string.texto_matricula) + ": " + vehiculo.matricula,
+                                        style = MaterialTheme.typography.bodyMedium
+                                    )
 
-                    vehiculo?.let { vehiculo ->
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(
-                            text = stringResource(R.string.texto_vehiculo),
-                            style = MaterialTheme.typography.titleMedium
-                        )
-                        Text(
-                            text = stringResource(R.string.texto_marca) + " " + stringResource(R.string.prep_y) + " " + stringResource(
-                                R.string.editar_coche_modelo
-                            ) + ":  ${vehiculo.marca} ${vehiculo.modelo}",
-                            style = MaterialTheme.typography.bodyMedium
-                        )
-                        Text(
-                            text = stringResource(R.string.texto_matricula) + ": " + vehiculo.matricula,
-                            style = MaterialTheme.typography.bodyMedium
-                        )
+                                }
 
+                                cliente?.let {
+                                    Spacer(modifier = Modifier.height(8.dp))
+                                    Text(
+                                        text = stringResource(R.string.texto_cliente) + ": ",
+                                        style = MaterialTheme.typography.titleMedium
+                                    )
+                                    Text(
+                                        text = stringResource(R.string.texto_nombre) + ": ${it.nombre} ${it.apellido1} ${it.apellido2}",
+                                        style = MaterialTheme.typography.bodyMedium
+                                    )
+                                    Text(
+                                        text = stringResource(R.string.texto_email) + ": " + it.email,
+                                        style = MaterialTheme.typography.bodyMedium
+                                    )
+                                }
+
+                                Spacer(modifier = Modifier.height(8.dp))
+                            }
+                        }
                     }
-
-                    cliente?.let { cliente ->
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(
-                            text = stringResource(R.string.texto_cliente) + ": ",
-                            style = MaterialTheme.typography.titleMedium
-                        )
-                        Text(
-                            text = stringResource(R.string.texto_nombre) + ": ${cliente.nombre} ${cliente.apellido1} ${cliente.apellido2}",
-                            style = MaterialTheme.typography.bodyMedium
-                        )
-                        Text(
-                            text = stringResource(R.string.texto_email) + ": " + cliente.email,
-                            style = MaterialTheme.typography.bodyMedium
-                        )
-                    }
-
-                    Spacer(modifier = Modifier.height(8.dp))
                 }
-            }
-        }
-        Row(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.Bottom
-        ) {
-            Button(onClick = onAceptar) {
-                Text(stringResource(R.string.aceptar))
+                Row(
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .padding(horizontal = 32.dp, vertical = 16.dp),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Button(onClick = onAceptar) {
+                        Text(stringResource(R.string.aceptar))
+                    }
+                }
             }
         }
     }

@@ -53,8 +53,10 @@ fun PantallaDetalleAveria(
             .fillMaxSize()
             .padding(10.dp)
     ) {
-        LazyRow(
-            modifier = Modifier.fillMaxWidth()
+/*        LazyRow(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
         ) {
             items(averia.tipo_averias.orEmpty()) { tipo ->
                 TextField(
@@ -67,10 +69,9 @@ fun PantallaDetalleAveria(
                     ),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp)
                 )
             }
-        }
+        }*/
 
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -122,7 +123,7 @@ fun PantallaDetalleAveria(
         TextField(
             value = fechaFormatResolucion,
             onValueChange = { },
-            label = { Text(text = stringResource(R.string.averia_fecha_recepcion)) },
+            label = { Text(text = stringResource(R.string.averia_fecha_resolucion)) },
             readOnly = true,
             colors = TextFieldDefaults.colors(
                 disabledLabelColor = Color.Black, disabledTextColor = Color.Black
@@ -181,7 +182,7 @@ fun PantallaDetalleAveria(
         Spacer(modifier = Modifier.height(8.dp))
 
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxSize().padding(vertical = 16.dp),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.Bottom
         ) {

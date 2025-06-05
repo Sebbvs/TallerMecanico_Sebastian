@@ -154,13 +154,12 @@ fun PantallaMiPerfil(
         Spacer(modifier = Modifier.height(8.dp))
 
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp),
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
             OutlinedButton(onClick = {
                 onCancelar()
-                Log.v("NAV MIPERFIL", "INTENTANDO VOLVER ATRAS")
             }) {
                 Text(stringResource(R.string.volver))
             }
@@ -201,7 +200,6 @@ fun PantallaMiPerfil(
                             contrasenya = pass,
                         )
                         onGuardar(empleadoEditado)
-                        Log.v("NAV MIPERFIL", "INTENTANDO GUARDAR PERFIL")
                         Toast.makeText(
                             context, R.string.editar_mi_perfil_mensaje_1, Toast.LENGTH_SHORT
                         ).show()

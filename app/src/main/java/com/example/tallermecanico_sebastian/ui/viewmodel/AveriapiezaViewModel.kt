@@ -20,6 +20,7 @@ import java.io.IOException
 
 sealed interface AveriapiezaUIState {
     data class CrearExito(val averiapieza: Averiapieza) : AveriapiezaUIState
+    data class EliminarExito(val idA: Int, val idP: Int) : AveriapiezaUIState
 
     object Error : AveriapiezaUIState
     object Cargando : AveriapiezaUIState
@@ -46,6 +47,25 @@ class AveriapiezaViewModel(private val averiapiezaRepositorio: AveriapiezaReposi
                 AveriapiezaUIState.Error
             } catch (e: IOException) {
                 Log.v("AveriapiezaViewModel E", "Error desconocido insertarAveriapieza", e)
+                AveriapiezaUIState.Error
+            }
+        }
+    }
+
+    fun eliminarAveriapieza(idA: Int, idP: Int) {
+        viewModelScope.launch {
+            averiapiezaUIState = AveriapiezaUIState.Cargando
+            averiapiezaUIState = try {
+                averiapiezaRepositorio.eliminarAveriapieza(idA, idP)
+                AveriapiezaUIState.EliminarExito(idA, idP)
+            } catch (e: IOException) {
+                Log.v("AveriapiezaViewModel IO", "Error de Conexion eliminarAveriapieza", e)
+                AveriapiezaUIState.Error
+            } catch (e: HttpException) {
+                Log.v("AveriapiezaViewModel HTTP", "Error HTTP %{e.code()} eliminarAveriapieza", e)
+                AveriapiezaUIState.Error
+            } catch (e: IOException) {
+                Log.v("AveriapiezaViewModel E", "Error desconocido eliminarAveriapieza", e)
                 AveriapiezaUIState.Error
             }
         }

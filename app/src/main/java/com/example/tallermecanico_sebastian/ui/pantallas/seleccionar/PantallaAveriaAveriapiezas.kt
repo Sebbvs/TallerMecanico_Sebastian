@@ -20,7 +20,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.remember
@@ -123,7 +122,8 @@ fun PantallaAveriaAveriapiezas(
             horizontalArrangement = Arrangement.Center
         ) {
             Button(onClick = {
-                val codAveria = viewModelAveria.averiaPulsado.cod_averia
+//                val codAveria = viewModelAveria.averiaPulsado.cod_averia
+                val codAveria = viewModelAveria.provisional?.cod_averia
                 if (codAveria != null) {
                     val seleccionados = contadores
                         .filterValues { it > 0 }
@@ -134,7 +134,18 @@ fun PantallaAveriaAveriapiezas(
                                 cantidad = cantidad
                             )
                         }
-                    //TODO INSERTAR PIEZA
+                    //INSERTAR X -> BORRAR TODOS Y VOLVER A CREAR PIEZAS
+                    viewModelAveria.provisional?.averia_piezas?.forEach { old ->
+                        old.cod_pieza?.let {
+                            viewModelAveriapieza.eliminarAveriapieza(
+                                idA = codAveria,
+                                idP = it
+                            )
+                        }
+                    }
+                    for (averiapieza in seleccionados) {
+                        viewModelAveriapieza.insertarAveriapieza(averiapieza)
+                    }
                     viewModelAveria.seleccionarAveriapiezas(seleccionados)
                     onSeleccionar()
                 }

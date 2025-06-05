@@ -187,6 +187,10 @@ fun MatriculaTextField(
 fun formatearDecimalValidado(texto: String, context: Context): String? {
     val sinEspacios = texto.replace(" ", "")
 
+    if (sinEspacios.isBlank()) {
+        return "0.00"
+    }
+
     // Validación con expresión regular: 1 a 5 dígitos enteros, opcionalmente con punto y hasta 2 decimales
     val regex = Regex("""^\d{0,5}(\.\d{0,2})?$""")
 

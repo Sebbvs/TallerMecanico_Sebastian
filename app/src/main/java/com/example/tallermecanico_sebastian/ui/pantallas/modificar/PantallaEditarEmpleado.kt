@@ -181,7 +181,7 @@ fun PantallaEditarEmpleados(
         Spacer(modifier = Modifier.height(8.dp))
 
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp),
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -246,7 +246,6 @@ fun PantallaEditarEmpleados(
                 Text(text = stringResource(R.string.btn_guardar))
             }
         }
-        Spacer(modifier = Modifier.height(20.dp))
 /*        Button(
             onClick = {
                 abrirAlertDialog = true

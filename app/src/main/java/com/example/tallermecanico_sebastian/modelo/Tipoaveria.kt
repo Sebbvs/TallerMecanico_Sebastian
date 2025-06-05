@@ -10,4 +10,7 @@ data class Tipoaveria(
     @SerialName(value = "nombre")
     val nombre: String? = "",
 //    PIVOT?
+    @SerialName(value = "pivot")
+    val pivot: Averiatipoaveria? = null,
+//    Averiatipoaveria()
 )

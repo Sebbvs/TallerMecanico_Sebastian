@@ -60,6 +60,6 @@ val md_theme_dark_onError = Color(0xFF601410)
 val md_theme_dark_errorContainer = Color(0xFF8C1D18)
 val md_theme_dark_onErrorContainer = Color(0xFFF9DEDC)
 
-val seed = Color(0xFF6750A4) // Color base si quieres generar esquema dinámicamente
+val seed = Color(0xFF6750A4)
 
 

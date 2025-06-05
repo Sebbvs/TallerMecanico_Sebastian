@@ -4,6 +4,7 @@ import com.example.tallermecanico_sebastian.modelo.Empleado
 import com.example.tallermecanico_sebastian.modelo.Acceso
 import com.example.tallermecanico_sebastian.modelo.Averia
 import com.example.tallermecanico_sebastian.modelo.Averiapieza
+import com.example.tallermecanico_sebastian.modelo.Averiatipoaveria
 import com.example.tallermecanico_sebastian.modelo.Cliente
 import com.example.tallermecanico_sebastian.modelo.Permiso
 import com.example.tallermecanico_sebastian.modelo.Pieza
@@ -225,6 +226,24 @@ interface ServicioApi {
     suspend fun insertarAveriapieza(
         @Body averiapieza: Averiapieza
     ): Averiapieza
+
+    @DELETE("averiapieza/{idA}/{idP}")
+    suspend fun eliminarAveriapieza(
+        @Path("idA") idA: Int,
+        @Path("idP") idP: Int
+    ): Averiapieza
+
+    //AVERIAPIEZA
+    @POST("averiatipoaveria")
+    suspend fun insertarAveriatipoaveria(
+        @Body averiatipoaveria: Averiatipoaveria
+    ): Averiatipoaveria
+
+    @DELETE("averiatipoaveria/{idA}/{idT}")
+    suspend fun eliminarAveriatipoaveria(
+        @Path("idA") idA: Int,
+        @Path("idT") idT: Int
+    ): Averiatipoaveria
 
     //PERMISOS
     @GET("permisos")

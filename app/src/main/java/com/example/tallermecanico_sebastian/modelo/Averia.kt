@@ -26,13 +26,20 @@ data class Averia(
     @SerialName(value = "cod_vehiculo")
     val cod_vehiculo: Int? = 0,
     @SerialName(value = "empleado")
-    val empleado: Empleado? = Empleado(),
+    val empleado: Empleado? = null,
+//    Empleado(),
     @SerialName(value = "cliente")
-    val cliente: Cliente? = Cliente(),
+    val cliente: Cliente? = null,
+//    Cliente(),
     @SerialName(value = "vehiculo")
-    val vehiculo: Vehiculo? = Vehiculo(),
+    val vehiculo: Vehiculo? = null,
+//    Vehiculo(),
     @SerialName(value = "averia_piezas")
-    val averia_piezas: List<Averiapieza>? =listOf(),
+    val averia_piezas: List<Averiapieza>? =
+//        null,
+        listOf(),
     @SerialName(value = "tipo_averias")
-    val tipo_averias: List<Tipoaveria>? = listOf()
+    val tipo_averias: List<Tipoaveria>? =
+//        null,
+        listOf()
 )
