@@ -186,12 +186,12 @@
     <string name="atras">Atrás</string>
     <string name="home">Inicio</string>
     <string name="buscar">Buscar</string>
-    <string name="add_cliente">+ cliente</string>
-    <string name="add_rol">+ rol</string>
-    <string name="add_empleado">+ empleado</string>
-    <string name="add_vehiculo">+ vehiculo</string>
-    <string name="add_tipo">+ tipo</string>
-    <string name="add_averiapieza">+ pieza</string>
+    <string name="add_cliente">Cliente</string>
+    <string name="add_rol">Rol</string>
+    <string name="add_empleado">Empleado</string>
+    <string name="add_vehiculo">Vehiculo</string>
+    <string name="add_tipo">Tipo</string>
+    <string name="add_averiapieza">Pieza</string>
 
     <!--    FILTROS  Y VALIDACIONES-->
     <string name="filtro_chip_todo">Todas</string>

@@ -16,7 +16,6 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
@@ -88,7 +87,6 @@ import com.example.tallermecanico_sebastian.ui.theme.AzulPrincipal
 import com.example.tallermecanico_sebastian.ui.theme.Blanco
 import com.example.tallermecanico_sebastian.ui.viewmodel.AveriaViewModel
 import com.example.tallermecanico_sebastian.ui.viewmodel.AveriapiezaViewModel
-import com.example.tallermecanico_sebastian.ui.viewmodel.AveriatipoaveriaUIState
 import com.example.tallermecanico_sebastian.ui.viewmodel.AveriatipoaveriaViewModel
 import com.example.tallermecanico_sebastian.ui.viewmodel.ClienteViewModel
 import com.example.tallermecanico_sebastian.ui.viewmodel.EmpleadoViewModel
@@ -174,8 +172,8 @@ val listaRutas = listOf(
     Ruta(
         Pantallas.Clientes.titulo,
         Pantallas.Clientes.name,
-        R.drawable.cliente,
-        R.drawable.cliente,
+        R.drawable.cliente40,
+        R.drawable.cliente40,
     ),
     Ruta(
         Pantallas.Piezas.titulo,

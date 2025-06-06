@@ -1,6 +1,5 @@
 package com.example.tallermecanico_sebastian.ui.pantallas.insertar
 
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
@@ -31,6 +31,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -189,7 +190,7 @@ fun PantallaAnyadirAveria(
             )
 
             Button(onClick = {
-//                EMPLEADO SIN ROL (NI COD ROL)
+//                AVERIA SIN CLIENTE
                 val averia = Averia(
                     descripcion = descripcion,
                     precio = precio,
@@ -203,7 +204,11 @@ fun PantallaAnyadirAveria(
                 viewModel.seleccionarProvisional(averia)
                 onSeleccionarCliente()
             }) {
-                Text(text = stringResource(R.string.add_cliente))
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(painter = painterResource(R.drawable.cliente24), contentDescription = null)
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(text = stringResource(R.string.add_cliente))
+                }
             }
         }
 
@@ -229,7 +234,7 @@ fun PantallaAnyadirAveria(
             )
 
             Button(onClick = {
-//                AVERIA SIN CLIENTE
+//                AVERIA SIN EMPLEADO
                 val averia = Averia(
                     descripcion = descripcion,
                     precio = precio,
@@ -243,7 +248,11 @@ fun PantallaAnyadirAveria(
                 viewModel.seleccionarProvisional(averia)
                 onSeleccionarEmpleado()
             }) {
-                Text(text = stringResource(R.string.add_empleado))
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(painter = painterResource(R.drawable.empleado24), contentDescription = null)
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(text = stringResource(R.string.add_empleado))
+                }
             }
         }
 
@@ -282,7 +291,11 @@ fun PantallaAnyadirAveria(
                 viewModel.seleccionarProvisional(averia)
                 onSeleccionarVehiculo()
             }) {
-                Text(text = stringResource(R.string.add_vehiculo))
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(painter = painterResource(R.drawable.vehiculo24), contentDescription = null)
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(text = stringResource(R.string.add_vehiculo))
+                }
             }
         }
 

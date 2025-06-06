@@ -9,8 +9,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -22,17 +24,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.tallermecanico_sebastian.R
 import com.example.tallermecanico_sebastian.modelo.Pieza
-import com.example.tallermecanico_sebastian.modelo.Tipopieza
-import com.example.tallermecanico_sebastian.modelo.Vehiculo
-import com.example.tallermecanico_sebastian.ui.pantallas.componentes.normalizarMatricula
 import com.example.tallermecanico_sebastian.ui.viewmodel.PiezaViewModel
 
 @Composable
@@ -108,7 +107,11 @@ fun PantallaAnyadirPieza(
             viewModel.seleccionarProvisional(pieza)
             onSeleccionarTipopieza()
         }) {
-            Text(text = stringResource(R.string.add_tipo))
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(painter = painterResource(R.drawable.category24), contentDescription = null)
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(text = stringResource(R.string.add_tipo))
+            }
         }
 
         Spacer(modifier = Modifier.height(8.dp))

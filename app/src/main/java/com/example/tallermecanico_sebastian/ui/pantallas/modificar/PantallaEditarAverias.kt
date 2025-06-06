@@ -1,7 +1,6 @@
 package com.example.tallermecanico_sebastian.ui.pantallas.modificar
 
 import android.util.Log
-import android.widget.Space
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,10 +15,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.filled.Warning
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -37,6 +33,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -163,7 +160,10 @@ fun PantallaEditarAverias(
                 viewModel.seleccionarProvisional(averiaEditada)
                 onSeleccionarTipoaverias()
             }) {
-                Text(text = stringResource(R.string.add_tipo))
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(painter = painterResource(R.drawable.category24), contentDescription = null)
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(text = stringResource(R.string.add_tipo))}
             }
         }
 
@@ -351,7 +351,10 @@ fun PantallaEditarAverias(
                 viewModel.seleccionarProvisional(averiaEditada)
                 onSeleccionarCliente()
             }) {
-                Text(text = stringResource(R.string.add_cliente))
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(painter = painterResource(R.drawable.cliente24), contentDescription = null)
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(text = stringResource(R.string.add_cliente))}
             }
         }
 
@@ -389,7 +392,10 @@ fun PantallaEditarAverias(
                 viewModel.seleccionarProvisional(averiaEditada)
                 onSeleccionarEmpleado()
             }) {
-                Text(text = stringResource(R.string.add_empleado))
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(painter = painterResource(R.drawable.empleado24), contentDescription = null)
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(text = stringResource(R.string.add_empleado))}
             }
         }
 
@@ -428,7 +434,10 @@ fun PantallaEditarAverias(
                 viewModel.seleccionarProvisional(averiaEditada)
                 onSeleccionarVehiculo()
             }) {
-                Text(text = stringResource(R.string.add_vehiculo))
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(painter = painterResource(R.drawable.vehiculo24), contentDescription = null)
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(text = stringResource(R.string.add_vehiculo))}
             }
         }
 
@@ -464,7 +473,10 @@ fun PantallaEditarAverias(
                 viewModel.seleccionarProvisional(averiaEditada)
                 onSeleccionarAveriapiezas()
             }) {
-                Text(text = stringResource(R.string.add_averiapieza))
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(painter = painterResource(R.drawable.category24), contentDescription = null)
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(text = stringResource(R.string.add_averiapieza))}
             }
         }
 
