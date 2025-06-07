@@ -46,7 +46,7 @@
     <string name="seleccionar_averia_empleado">[Avería] Seleccionar empleado</string>
     <string name="seleccionar_averia_vehiculo">[Avería] Seleccionar vehiculo</string>
     <string name="seleccionar_pieza_tipopieza">[Pieza] Seleccionar tipo</string>
-    <string name="seleccionar_averia_tipoaveria">[Averiía] Seleccionar tipo(s)</string>
+    <string name="seleccionar_averia_tipoaveria">[Avería] Seleccionar tipo(s)</string>
     <string name="seleccionar_averia_averiapieza">[Avería] Seleccionar pieza(s)</string>
 
     <!--    PANTALLA LOGIN-->
