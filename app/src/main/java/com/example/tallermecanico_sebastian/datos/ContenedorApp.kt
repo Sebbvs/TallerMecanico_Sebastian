@@ -46,8 +46,8 @@ interface ContenedorApp {
 }
 
 class TallerContenedorApp : ContenedorApp {
-    //    private val baseUrl = "http://192.168.0.244:8000/api/"
     private val baseUrl = "http://192.168.1.106:8000/api/"
+    //    private val baseUrl = "http://192.168.0.244:8000/api/"
 //    private val baseUrl = "http://192.168.0.102:8000/api/"
 
     @OptIn(ExperimentalSerializationApi::class)

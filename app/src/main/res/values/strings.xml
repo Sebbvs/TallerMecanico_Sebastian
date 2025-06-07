@@ -64,6 +64,7 @@
     <string name="administrar">Administrar</string>
     <string name="texto_tipoaverias">Tipos de averías</string>
     <string name="texto_tipopiezas">Tipos de piezas</string>
+    <string name="texto_averia">Avería</string>
 
     <!--    PANTALLA INICIO-->
     <string name="error_de_conexion">Error de conexión…</string>

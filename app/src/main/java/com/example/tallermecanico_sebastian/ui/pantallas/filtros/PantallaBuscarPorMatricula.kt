@@ -134,6 +134,10 @@ fun PantallaBuscarPorMatricula(
                         ) {
                             Column(modifier = Modifier.padding(16.dp)) {
                                 Text(
+                                    text = stringResource(R.string.texto_averia),
+                                    style = MaterialTheme.typography.titleMedium
+                                )
+                                Text(
                                     text = stringResource(R.string.averia_descripcion) + ": " + averia.descripcion,
                                     style = MaterialTheme.typography.bodyMedium
                                 )
